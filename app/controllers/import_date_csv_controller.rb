@@ -9,7 +9,6 @@ class ImportDateCsvController < ApplicationController
       redirect(root_url, "Date CSV imported")
     else  
       redirect(root_url, "Please upload a valid CSV file")
-  
     end
   end
 end
