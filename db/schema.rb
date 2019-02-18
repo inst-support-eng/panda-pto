@@ -10,12 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2019_02_18_005815) do
+=======
+ActiveRecord::Schema.define(version: 2019_02_18_053834) do
+>>>>>>> a150e1b568eb01e58e150de67e386776b5cc0671
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+<<<<<<< HEAD
   create_table "import_date_csvs", force: :cascade do |t|
+=======
+  create_table "date_values", force: :cascade do |t|
+>>>>>>> a150e1b568eb01e58e150de67e386776b5cc0671
     t.date "date"
     t.float "base_value"
     t.datetime "created_at", null: false
