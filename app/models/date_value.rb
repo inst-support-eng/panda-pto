@@ -2,8 +2,6 @@ class DateValue < ApplicationRecord
   require 'csv'
   validates :date, :base_value, presence: true
 
-  has_many :date_value
-
   def self.import(file)
     # !TECHDEBT this should be wrapped in some error handling
     CSV.foreach(file.path, {encoding: "UTF-8", headers: true, header_converters: :symbol, converters: :all}) do |row|

@@ -30,12 +30,10 @@ $('document').ready(function () {
         gridTable.innerHTML = "";
 
         let newTr = document.createElement("tr");
-        newTr.className = "row";
         let currentTr = gridTable.appendChild(newTr);
 
         for (let i = 1; i < startDate.getDay(); i++) {
             let emptyDivCol = document.createElement("td");
-            emptyDivCol.className = "col empty-day";
             currentTr.appendChild(emptyDivCol);
         }
 
@@ -47,7 +45,6 @@ $('document').ready(function () {
                 currentTr = gridTable.appendChild(addNewRow());
             }
             let currentDay = document.createElement("td");
-            currentDay.className = "col";
             if (selectedDayBlock == null && i == currentDate.getDate() || selectedDate.toDateString() == new Date(currentDate.getFullYear(), currentDate.getMonth(), i).toDateString()) {
                 selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
 
@@ -69,7 +66,6 @@ $('document').ready(function () {
 
         for (let i = currentTr.getElementsByTagName("td").length; i < 7; i++) {
             let emptyDivCol = document.createElement("td");
-            emptyDivCol.className = "col empty-day";
             currentTr.appendChild(emptyDivCol);
         }
 
@@ -83,7 +79,6 @@ $('document').ready(function () {
 
         function addNewRow() {
             let node = document.createElement("tr");
-            node.className = "row";
             return node;
         }
     }
