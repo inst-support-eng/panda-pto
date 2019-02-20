@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_18_201029) do
+ActiveRecord::Schema.define(version: 2019_02_18_112823) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "calendars", force: :cascade do |t|
+    t.date "date"
+    t.float "base_value"
+    t.integer "signed_up_total"
+    t.text "signed_up_agents", default: [], array: true
+    t.float "current_price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "date_values", force: :cascade do |t|
     t.date "date"
@@ -25,11 +35,6 @@ ActiveRecord::Schema.define(version: 2019_02_18_201029) do
   create_table "import_date_csvs", force: :cascade do |t|
     t.date "date"
     t.float "base_value"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "request_dates", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
