@@ -1,0 +1,22 @@
+<div class="modal calendarModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div><!-- modal-header -->
+            <div class="modal-body">
+
+                <input type="text" class="validate">
+                <label>Reason</label>
+
+                Current Bank Total : <%= current_user.bank_value %>
+
+                <div>Total for Request: day_value * shift_hours </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button id="cancel" name="cancel" class="btn btn-default" value="1">Cancel</button>
+            </div> <!-- modal-body -->
+        </div> <!-- modal-conent -->
+    </div> <!-- modal-dialog -->
+</div> <!-- calendarModal -->
