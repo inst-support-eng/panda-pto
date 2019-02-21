@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'agents/index'
+  get 'agents/import'
   get 'date_values/index'
   get 'date_values/import'
   resources :date_values do
