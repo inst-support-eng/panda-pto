@@ -10,7 +10,7 @@ class Agent < ApplicationRecord
   def self.import(file)
     # !TECHDEBT this should be wrapped in some error handling
     CSV.foreach(file.path, {encoding: "UTF-8", headers: true, header_converters: :symbol, converters: :all}) do |row|
-      Agent.create! row.to_hash
+      Agent.create row.to_hash
     end
 
   end
