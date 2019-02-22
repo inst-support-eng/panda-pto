@@ -8,14 +8,10 @@
     </div> <!-- sidebar-events -->
     <div>
         All requests
-        <%= current_user.pto_requests.each do |request| %>
+        <% current_user.pto_requests.each do |request| %>
         <div>
             <%= request.reason %> <%= request.request_date %>
         </div>
         <% end %>
     </div>
 </div> <!-- sidebar-wrapper z-depth-2 side-nav fixed -->
-
-<!-- !BUG 
-    figure out why the entire array is rendering in the sidebar
--->
