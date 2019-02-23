@@ -41,10 +41,17 @@ $('document').ready(function () {
         lastDay = lastDay.getDate();
 
         for (let i = 1; i <= lastDay; i++) {
+            // console.log(currentDate.getFullYear() + "-" + currentDate.getMonth() + 1 + "-" + i)
             if (currentTr.getElementsByTagName("td").length >= 7) {
                 currentTr = gridTable.appendChild(addNewRow());
             }
             let currentDay = document.createElement("td");
+            currentDay.setAttribute("class", "calendar-date")
+            let dayId = i;
+            if (i < 10) { dayId = '0' + i }
+            let monthId = parseInt(currentDate.getMonth() + 1)
+            if (monthId < 10) { monthId = '0' + monthId }
+            currentDay.setAttribute("id", currentDate.getFullYear() + "-" + monthId + "-" + dayId)
             if (selectedDayBlock == null && i == currentDate.getDate() || selectedDate.toDateString() == new Date(currentDate.getFullYear(), currentDate.getMonth(), i).toDateString()) {
                 selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
 
@@ -159,87 +166,5 @@ $('document').ready(function () {
             let emptyFormMessage = document.getElementById("emptyFormTitle");
             emptyFormMessage.innerHTML = "No Requests for Today";
         }
-    }
-
-    gridTable.onclick = function (e) {
-
-        if (!e.target.classList.contains("col") || e.target.classList.contains("empty-day")) {
-            return;
-        }
-
-        if (selectedDayBlock) {
-            if (selectedDayBlock.classList.contains("blue") && selectedDayBlock.classList.contains("lighten-3")) {
-                selectedDayBlock.classList.remove("blue");
-                selectedDayBlock.classList.remove("lighten-3");
-            }
-        }
-        selectedDayBlock = e.target;
-        selectedDayBlock.classList.add("blue");
-        selectedDayBlock.classList.add("lighten-3");
-
-        selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), parseInt(e.target.innerHTML));
-
-        showEvents();
-
-        document.getElementById("eventDayName").innerHTML = selectedDate.toLocaleString("en-US", {
-            month: "long",
-            day: "numeric",
-            year: "numeric"
-        });
-
-    }
-
-    let changeFormButton = document.getElementById("changeFormButton");
-    let addForm = document.getElementById("addForm");
-    changeFormButton.onclick = function (e) {
-        addForm.style.top = 0;
-    }
-
-    let cancelAdd = document.getElementById("cancelAdd");
-    cancelAdd.onclick = function (e) {
-        addForm.style.top = "100%";
-        let inputs = addForm.getElementsByTagName("input");
-        for (let i = 0; i < inputs.length; i++) {
-            inputs[i].value = "";
-        }
-        let labels = addForm.getElementsByTagName("label");
-        for (let i = 0; i < labels.length; i++) {
-            console.log(labels[i]);
-            labels[i].className = "";
-        }
-    }
-
-    let addEventButton = document.getElementById("addEventButton");
-    addEventButton.onclick = function (e) {
-        let title = document.getElementById("eventTitleInput").value.trim();
-
-        if (!title) {
-            document.getElementById("eventTitleInput").value = "";
-            document.getElementById("eventDescInput").value = "";
-            let labels = addForm.getElementsByTagName("label");
-            for (let i = 0; i < labels.length; i++) {
-                console.log(labels[i]);
-                labels[i].className = "";
-            }
-            return;
-        }
-
-        addEvent(title);
-        showEvents();
-
-        if (!selectedDayBlock.querySelector(".day-mark")) {
-            console.log("work");
-            selectedDayBlock.appendChild(document.createElement("div")).className = "day-mark";
-        }
-
-        let inputs = addForm.getElementsByTagName("input");
-        for (let i = 0; i < inputs.length; i++) {
-            inputs[i].value = "";
-        }
-        let labels = addForm.getElementsByTagName("label");
-        for (let i = 0; i < labels.length; i++) {
-            labels[i].className = "";
-        }
-
     }
 })
