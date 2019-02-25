@@ -6,7 +6,20 @@ $('document').ready(function () {
     let selectedDayBlock = null;
     let globalEventObj = {};
 
-    let sidebar = document.getElementById("sidebar");
+    let calendarDates = []
+
+    function fetchDates() {
+        $.ajax({
+            url: '/calendars/fetch_dates',
+            type: 'GET',
+            success: function (data) {
+                console.log('test', data)
+                return calendarDates.push(data)
+            }
+        })
+    }
+
+    fetchDates()
 
     function createCalendar(date, side) {
         let currentDate = date;
@@ -41,7 +54,8 @@ $('document').ready(function () {
         lastDay = lastDay.getDate();
 
         for (let i = 1; i <= lastDay; i++) {
-            // console.log(currentDate.getFullYear() + "-" + currentDate.getMonth() + 1 + "-" + i)
+            // let reqDate = currentDate.getFullYear() + "-" + currentDate.getMonth() + 1 + "-" + i
+
             if (currentTr.getElementsByTagName("td").length >= 7) {
                 currentTr = gridTable.appendChild(addNewRow());
             }
@@ -51,7 +65,10 @@ $('document').ready(function () {
             if (i < 10) { dayId = '0' + i }
             let monthId = parseInt(currentDate.getMonth() + 1)
             if (monthId < 10) { monthId = '0' + monthId }
-            currentDay.setAttribute("id", currentDate.getFullYear() + "-" + monthId + "-" + dayId)
+
+            let reqDate = currentDate.getFullYear() + "-" + monthId + "-" + dayId
+
+            currentDay.setAttribute("id", reqDate)
             if (selectedDayBlock == null && i == currentDate.getDate() || selectedDate.toDateString() == new Date(currentDate.getFullYear(), currentDate.getMonth(), i).toDateString()) {
                 selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
 
@@ -67,7 +84,9 @@ $('document').ready(function () {
                     currentDay.classList.add("lighten-3");
                 }, 900);
             }
-            currentDay.innerHTML = i;
+
+            let displayInfo = i + '<br/>'
+            currentDay.innerHTML = displayInfo;
             currentTr.appendChild(currentDay);
         }
 
@@ -91,6 +110,7 @@ $('document').ready(function () {
     }
 
     createCalendar(currentDate);
+    console.log('createCalendar', calendarDates)
 
     let todayDayName = document.getElementById("todayDayName");
     todayDayName.innerHTML = "Today is " + currentDate.toLocaleString("en-US", {
