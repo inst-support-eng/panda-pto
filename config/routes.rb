@@ -7,7 +7,11 @@ Rails.application.routes.draw do
   	collection { post :import}
   end
 
+
+  get 'calendars/fetch_dates', to: 'calendars#fetch_dates'
+  
   resources :calendars
+
   resources :pto_requests
 
   # routes for date csv imports

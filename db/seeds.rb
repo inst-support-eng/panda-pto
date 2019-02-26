@@ -15,3 +15,4 @@ def seed_calendar
 end
 
 seed_users
+seed_calendar

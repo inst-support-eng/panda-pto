@@ -1,14 +1,16 @@
+// !TECHDEBT rewrite && comment this whole thing to be readable 
+
 $('document').ready(function () {
     let calendar = document.getElementById("calendar-table");
     let gridTable = document.getElementById("table-body");
     let currentDate = new Date();
     let selectedDate = currentDate;
     let selectedDayBlock = null;
-    let globalEventObj = {};
 
-    let sidebar = document.getElementById("sidebar");
+    async function createCalendar(date, side) {
 
-    function createCalendar(date, side) {
+        let calendarDates = await getDates()
+
         let currentDate = date;
         let startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
 
@@ -41,7 +43,6 @@ $('document').ready(function () {
         lastDay = lastDay.getDate();
 
         for (let i = 1; i <= lastDay; i++) {
-            // console.log(currentDate.getFullYear() + "-" + currentDate.getMonth() + 1 + "-" + i)
             if (currentTr.getElementsByTagName("td").length >= 7) {
                 currentTr = gridTable.appendChild(addNewRow());
             }
@@ -51,7 +52,17 @@ $('document').ready(function () {
             if (i < 10) { dayId = '0' + i }
             let monthId = parseInt(currentDate.getMonth() + 1)
             if (monthId < 10) { monthId = '0' + monthId }
-            currentDay.setAttribute("id", currentDate.getFullYear() + "-" + monthId + "-" + dayId)
+
+            let reqDate = currentDate.getFullYear() + "-" + monthId + "-" + dayId
+
+            let reqData = {}
+            calendarDates.forEach(el => {
+                if (el.date == reqDate) {
+                    return reqData = el
+                }
+            })
+
+            currentDay.setAttribute("id", reqDate)
             if (selectedDayBlock == null && i == currentDate.getDate() || selectedDate.toDateString() == new Date(currentDate.getFullYear(), currentDate.getMonth(), i).toDateString()) {
                 selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
 
@@ -67,7 +78,10 @@ $('document').ready(function () {
                     currentDay.classList.add("lighten-3");
                 }, 900);
             }
-            currentDay.innerHTML = i;
+
+            let displayInfo = i + "<br/> 1 : " + reqData.current_price
+
+            currentDay.innerHTML = displayInfo;
             currentTr.appendChild(currentDay);
         }
 
@@ -92,6 +106,7 @@ $('document').ready(function () {
 
     createCalendar(currentDate);
 
+
     let todayDayName = document.getElementById("todayDayName");
     todayDayName.innerHTML = "Today is " + currentDate.toLocaleString("en-US", {
         weekday: "long",
@@ -112,59 +127,5 @@ $('document').ready(function () {
     function changeMonthNext() {
         currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1);
         createCalendar(currentDate, "right");
-    }
-
-    function addEvent(title) {
-        if (!globalEventObj[selectedDate.toDateString()]) {
-            globalEventObj[selectedDate.toDateString()] = {};
-        }
-        globalEventObj[selectedDate.toDateString()][title] = title;
-    }
-
-    function showEvents() {
-        let sidebarEvents = document.getElementById("sidebarEvents");
-        let objWithDate = globalEventObj[selectedDate.toDateString()];
-
-        sidebarEvents.innerHTML = "";
-
-        if (objWithDate) {
-            let eventsCount = 0;
-            for (key in globalEventObj[selectedDate.toDateString()]) {
-                let eventContainer = document.createElement("div");
-                let eventHeader = document.createElement("div");
-                eventHeader.className = "eventCard-header";
-
-                let eventDescription = document.createElement("div");
-                eventDescription.className = "eventCard-description";
-
-                eventHeader.appendChild(document.createTextNode(key));
-                eventContainer.appendChild(eventHeader);
-
-                eventDescription.appendChild(document.createTextNode(objWithDate[key]));
-                eventContainer.appendChild(eventDescription);
-
-                let markWrapper = document.createElement("div");
-                markWrapper.className = "eventCard-mark-wrapper";
-                let mark = document.createElement("div");
-                mark.classList = "eventCard-mark";
-                markWrapper.appendChild(mark);
-                eventContainer.appendChild(markWrapper);
-
-                eventContainer.className = "eventCard";
-
-                sidebarEvents.appendChild(eventContainer);
-
-                eventsCount++;
-            }
-            let emptyFormMessage = document.getElementById("emptyFormTitle");
-            emptyFormMessage.innerHTML = `${eventsCount} events now`;
-        } else {
-            let emptyMessage = document.createElement("div");
-            emptyMessage.className = "empty-message";
-            emptyMessage.innerHTML = "Sorry, no events to selected date";
-            sidebarEvents.appendChild(emptyMessage);
-            let emptyFormMessage = document.getElementById("emptyFormTitle");
-            emptyFormMessage.innerHTML = "No Requests for Today";
-        }
     }
 })
