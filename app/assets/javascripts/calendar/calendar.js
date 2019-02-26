@@ -15,8 +15,6 @@ $('document').ready(function () {
 
         let calendarDates = await getDates()
 
-        console.log(calendarDates)
-
         let currentDate = date;
         let startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
 
@@ -61,9 +59,10 @@ $('document').ready(function () {
 
             let reqDate = currentDate.getFullYear() + "-" + monthId + "-" + dayId
 
-            let reqData = calendarDates.forEach(el => {
+            let reqData = {}
+            await calendarDates.forEach(el => {
                 if (el.date == reqDate) {
-                    console.log(el)
+                    return reqData = el
                 }
             })
 
@@ -84,7 +83,8 @@ $('document').ready(function () {
                 }, 900);
             }
 
-            let displayInfo = i + '<br/>'
+            let displayInfo = i + "<br/> 1 : " + reqData.current_price
+
             currentDay.innerHTML = displayInfo;
             currentTr.appendChild(currentDay);
         }
