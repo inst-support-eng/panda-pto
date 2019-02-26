@@ -19,11 +19,9 @@ class DateValue < ApplicationRecord
     # https://stackoverflow.com/questions/28089441/how-can-i-move-data-from-one-table-to-another-in-rails-migration
     # working \o/ ~ish
     DateValue.find_each do |x|
-      import = Calendar.find_or_create_by(
-        :date => x.date,
-        :base_value => x.base_value,
-      )
-      import.save!
+      # !TECHDEBT doesn't update :base_value on import when re-importing existing records
+      import = Calendar.where(:date => x.date).first_or_initialize.update_attribute(:base_value, x.base_value)
+      #import.save!
     end
 
   end
