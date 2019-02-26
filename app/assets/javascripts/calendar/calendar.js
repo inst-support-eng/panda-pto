@@ -1,3 +1,5 @@
+// !TECHDEBT rewrite && comment this whole thing to be readable 
+
 $('document').ready(function () {
     let calendar = document.getElementById("calendar-table");
     let gridTable = document.getElementById("table-body");
@@ -6,12 +8,6 @@ $('document').ready(function () {
     let selectedDayBlock = null;
 
     async function createCalendar(date, side) {
-
-        async function getDates() {
-            const response = await fetch('/calendars/fetch_dates')
-            return await response.json()
-
-        }
 
         let calendarDates = await getDates()
 
@@ -60,7 +56,7 @@ $('document').ready(function () {
             let reqDate = currentDate.getFullYear() + "-" + monthId + "-" + dayId
 
             let reqData = {}
-            await calendarDates.forEach(el => {
+            calendarDates.forEach(el => {
                 if (el.date == reqDate) {
                     return reqData = el
                 }
