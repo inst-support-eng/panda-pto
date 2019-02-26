@@ -1,0 +1,17 @@
+<div class="sidebar-wrapper z-depth-2 side-nav fixed" id="sidebar">
+    <div class="sidebar-title">
+        <h4>Requests</h4>
+        <h5 id="eventDayName">Date</h5>
+    </div> <!-- sidebar-title -->
+    <div class="sidebar-events" id="sidebarEvents">
+        <div class="empty-message">Sorry, no requests to selected date</div>
+    </div> <!-- sidebar-events -->
+    <div>
+        All requests
+        <% current_user.pto_requests.each do |request| %>
+        <div>
+            <%= request.reason %> <%= request.request_date %>
+        </div>
+        <% end %>
+    </div>
+</div> <!-- sidebar-wrapper z-depth-2 side-nav fixed -->

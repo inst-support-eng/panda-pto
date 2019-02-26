@@ -1,3 +1,6 @@
+<%= render 'pages/pages_path/calendar/modal' %>
+<%= render 'pages/pages_path/calendar/sidebar' %>
+
 <html>
 
     <head>
@@ -10,74 +13,30 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
 
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     </head>
 
     <body>
-
-
-
-        <div class="mobile-header z-depth-1">
-
-            <div class="row">
-                <div class="col-2">
-                    <a href="#" data-activates="sidebar" class="button-collapse" style="">
-                        <i class="material-icons">menu</i>
-                    </a>
-                </div>
-                <div>
-                    <h4>Requests</h4>
-                </div>
-            </div>
-
-        </div>
-
         <div class="main-wrapper">
-
-
-            <div class="sidebar-wrapper z-depth-2 side-nav fixed" id="sidebar">
-
-                <div class="sidebar-title">
-                    <h4>Requests</h4>
-                    <h5 id="eventDayName">Date</h5>
-                </div>
-                <div class="sidebar-events" id="sidebarEvents">
-                    <div class="empty-message">Sorry, no requests to selected date</div>
-                </div>
-                <div>
-                    All requests
-                    <!--<%= current_user %>-->
-                    <!-- not sure what this value will be yet -->
-                </div>
-
-            </div>
-
             <div class="content-wrapper grey lighten-3">
                 <div class="container">
-
                     <div class="calendar-wrapper z-depth-2">
-
                         <div class="header-background">
                             <div class="calendar-header">
-
                                 <a class="prev-button" id="prev">
                                     <i class="material-icons">keyboard_arrow_left</i>
                                 </a>
                                 <a class="next-button" id="next">
                                     <i class="material-icons">keyboard_arrow_right</i>
                                 </a>
-
                                 <div class="row header-title">
 
                                     <div class="header-text">
                                         <h3 id="month-name">February</h3>
                                         <h5 id="todayDayName">Today is Friday 7 Feb</h5>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
-
                         <div class="calendar-content">
                             <table id="calendar-table" class="calendar-cells">
                                 <thead>
@@ -95,54 +54,16 @@
                                 </tbody>
                             </table>
                         </div>
-
-                        <div class="calendar-footer">
-                            <div class="emptyForm" id="emptyForm">
-                                <h4 id="emptyFormTitle">No Requests</h4>
-                                <a class="addEvent" id="changeFormButton">Add new request</a>
-                            </div>
-                            <div class="addForm" id="addForm">
-                                <h4>New Request</h4>
-
-                                <div class="row">
-                                    <div class="input-field col s6">
-                                        <input id="eventTitleInput" type="text" class="validate">
-                                        <label for="eventTitleInput">Reason</label>
-                                    </div>
-                                    <div class="input-field col s6">
-                                        Current Bank Total : <%= current_user.bank_value %>
-                                    </div>
-                                </div>
-                                <div>Total for Request: day_value * shift_hours </div>
-
-                                <div class="addEventButtons">
-                                    <a class="waves-effect waves-light btn blue lighten-2" id="addEventButton">Add</a>
-                                    <a class="waves-effect waves-light btn grey lighten-2" id="cancelAdd">Cancel</a>
-                                </div>
-
-                            </div>
-                        </div>
-
                     </div>
-
                 </div>
             </div>
-
         </div>
-
-
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
             integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
             crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
             integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
             crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-
-        <script>
-            $(".button-collapse").sideNav();
-        </script>
-
     </body>
 
 </html>
