@@ -58,6 +58,9 @@ $('document').ready(function () {
             let reqData = {}
             calendarDates.forEach(el => {
                 if (el.date == reqDate) {
+                    if (el.current_price == null) {
+                        el.current_price = 1
+                    }
                     return reqData = el
                 }
             })
