@@ -8,6 +8,7 @@ class PtoRequestsController < ApplicationController
         @pto_request = PtoRequest.new
     end
 
+    # !TECHBEDT prevent past dates and duplicates from being entered in calendar by a user
     def create
         @pto_request = PtoRequest.new(post_params)
         @calendar = Calendar.find_by(:date => @pto_request.request_date)
@@ -35,6 +36,19 @@ class PtoRequestsController < ApplicationController
             flash[:notice] = "something went wrong"
             redirect_to root_path
         end
+    end
+
+    # !TECHBEDT prevent users from deleting past dates
+    def destroy
+        @pto_request = PtoRequest.find(params[:id])
+        @user = User.find_by(:id => @pto_request.user_id)
+
+        @user.bank_value += @pto_request.cost
+        @user.save
+
+        @pto_request.destroy
+
+        redirect_to '/', :flash => {:notice => "Your request has been deleted"}
     end
 
     private 
