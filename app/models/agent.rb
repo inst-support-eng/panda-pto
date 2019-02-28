@@ -13,5 +13,9 @@ class Agent < ApplicationRecord
       Agent.create row.to_hash
     end
 
+    Agent.find_each do |x|
+      import = User.where(:email => x.email).first_or_initialize.update_attribute(:name, x.name)
+    end
+
   end
 end
