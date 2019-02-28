@@ -20,6 +20,7 @@ class PtoRequestsController < ApplicationController
             return 
         end 
         if @pto_request.save
+            CreateHumanityRequestJob.perform_now(@user)
             redirect_to root_path
             update_request_info
             RequestsMailer.with(user: @user, pto_request: @pto_request).requests_email.deliver_now
