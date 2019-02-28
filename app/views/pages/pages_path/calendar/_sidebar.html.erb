@@ -1,3 +1,4 @@
+<%= flash[:notice] %>
 <div class="sidebar-wrapper z-depth-2 side-nav fixed" id="sidebar">
     <div class="sidebar-title">
         <h4>Requests</h4>
@@ -11,9 +12,11 @@
         <% current_user.pto_requests.each do |request| %>
         <div>
             <%= request.reason %> <%= request.request_date %> <%= request.cost %>
+            <% if request.request_date > Date.today %>
             <%= link_to "Delete", pto_request_path(request), data: {
                 :confirm => "Are you sure?"
             }, :method => :delete %>
+            <% end %>
         </div>
         <% end %>
     </div>
