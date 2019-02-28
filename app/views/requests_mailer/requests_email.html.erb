@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    </head>
+
+    <body>
+        <h1><%= @user.name %>, thank you for making a request via Panda-PTO. You requested
+            <%= @pto_request.request_date %> for _SHIFT_ and a total of <%= @pto_request.cost %> credits, making your
+            current credit total <%= @user.bank_value %>. This has been
+            approved if you have any questions or need to make changes please talk to your supervisor. </h1>
+    </body>
+
+</html>

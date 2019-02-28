@@ -16,6 +16,7 @@
                 <%= f.hidden_field :request_date, :value =>  "value_to_change"%>
                 <div class="bank-total">Current Bank Total : <%= current_user.bank_value %></div>
                 <div class="request-total">Total for Request: day_value * shift_hours </div>
+                <%= f.hidden_field :cost, :value => "value_to_change" %>
                 <%= f.submit 'create date_request', class: 'form-control' %><% end %>
             </div> <!-- modal-body -->
         </div> <!-- modal-conent -->
