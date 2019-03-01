@@ -9,6 +9,8 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.2]
       ## user information
       t.string :name, null: false, default: ""
       t.integer :bank_value, null: false, default: 0
+      t.integer :humanity_user_id
+      t.boolean :ten_hour_shift, default: false
       
       ## Recoverable
       t.string   :reset_password_token
