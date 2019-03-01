@@ -27,9 +27,11 @@ Rails.application.routes.draw do
     get 'login', to: 'devise/sessions#new'
   end
 
-  devise_scope :user do
-    get 'signup', to: 'devise/registrations#new'
-  end
+  # incase we ever want to allow self-registration
+  # ':registerable' would need to be added back to devise in models/user.rb
+  # devise_scope :user do
+  #   get 'signup', to: 'devise/registrations#new'
+  # end
   
   root to: 'pages#index'
 end
