@@ -13,5 +13,17 @@ class Agent < ApplicationRecord
       Agent.create row.to_hash
     end
 
+    # itterate over imported data
+    # !TECHDEBT adding in a status bar would be nice
+    Agent.find_each do |x|
+      # check if user already exists
+      # if not create user and send a password
+      User.where(:email => x.email).first_or_initialize do |block|
+        generated_password = Devise.friendly_token.first(8)
+        user = User.create!(:email => block.email, :password => generated_password, :name => x.name)
+        RegistrationMailer.with(user: user, password: generated_password).registration_email.deliver_later
+      end
+    end
+
   end
 end
