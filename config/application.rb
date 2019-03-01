@@ -15,6 +15,9 @@ module PandaPto
     # calls dotenv to load vars
     Dotenv::Railtie.load
 
+    #call classes from lib
+    config.autoload_paths += %W(#{config.root}/lib)
+
     #setup sidekiq
     config.active_job.queue_adapter = :sidekiq
  

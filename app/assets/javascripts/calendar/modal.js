@@ -17,18 +17,16 @@ $(document).on('turbolinks:load', function () {
             })
 
             // prevents old dates from being selectable
-            requestDate = new Date(e.target.id).toUTCString()
+            requestDate = new Date(e.target.id)
             currentDate = new Date()
             currentDate.setHours(0)
             currentDate.setMinutes(00)
             currentDate.setSeconds(00)
-            currentDate.toUTCString()
-            console.log(requestDate, currentDate)
+
             if (requestDate >= currentDate) {
                 $('.calendarModal').modal('show');
             }
 
-            $('.calendarModal').modal('show');
             let currentCost = current_price.current_price
             let closeButton = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button >'
 
