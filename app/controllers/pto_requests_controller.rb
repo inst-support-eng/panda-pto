@@ -19,6 +19,13 @@ class PtoRequestsController < ApplicationController
             flash[:notice] = "You already have a request for this date"
             return 
         end 
+
+        if @user.bank_value < @pto_request.cost
+            redirect_to '/'
+            flash[:notice] = "You do not have enough to make this request"
+            return 
+        end
+        
         if @pto_request.save
             redirect_to root_path
             update_request_info
@@ -33,7 +40,6 @@ class PtoRequestsController < ApplicationController
         @pto_request = PtoRequest.find(params[:id])
         @user = User.find_by(:id => @pto_request.user_id)
         @calendar = Calendar.find_by(:date => @pto_request.request_date)
-
         remove_request_info
         @pto_request.destroy
 
@@ -47,6 +53,11 @@ class PtoRequestsController < ApplicationController
 
     # update calednar && user with new request info
     def update_request_info
+        humanity_request_id = HumanityAPI.create_request(@pto_request, @user)
+        HumanityAPI.approve_request(humanity_request_id)
+        @pto_request.humanity_request_id = humanity_request_id 
+        @pto_request.save
+
         @calendar.signed_up_total == nil ? @calendar.signed_up_total = 1 : @calendar.signed_up_total += 1
         @calendar.signed_up_agents.push(current_user.name)
         
@@ -58,6 +69,8 @@ class PtoRequestsController < ApplicationController
 
     # remove needed info to update the calendar and user appropriately 
     def remove_request_info
+        HumanityAPI.delete_request(@pto_request.humanity_request_id)
+
         @calendar.signed_up_agents.delete(@user.name)
         @calendar.save
 

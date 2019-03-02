@@ -4,25 +4,38 @@ class HumanityAPI
     include HTTParty
     base_uri 'https://www.humanity.com'
 
-    def self.create_request
+    def self.create_request(request, user)
         access_token = get_token
         url = "#{base_uri}/api/v2/leaves?access_token=#{access_token}"
+        headers = { 'Content-Type' => 'application/x-www-form-urlencoded'}
         options = {
-            "employee" => 3475050
-            "leavetype" => 328495
-            "start_date" => 2017-12-01
-            "end_date" => 2017-12-02
-            "is_hourly" => false
-            "reason" => string
+            "employee" => "#{user.humanity_user_id}",
+            "leavetype" => "304060", # vaction PTO request id in humanity 
+            "start_date" => "#{request.request_date}",
+            "end_date" => "#{request.request_date}",
+            "reason" => "#{request.reason}"
         }
+
+        response = HumanityAPI.post(url, :headers => headers, :body => options)
+        response['data']['id']
     end
 
-    def self.approve_request
-        # status=1
+    def self.approve_request(request_id)
+        access_token = get_token
+        url = "#{base_uri}/api/v2/leaves/#{request_id}?access_token=#{access_token}"
+        headers = { 'Content-Type' => 'application/x-www-form-urlencoded'}
+        options = { 'status' => 1 }
+
+        response = HumanityAPI.put(url, :headers => headers, :body => options)
+        puts response
     end
 
-    def self.delete_request
-        # https://www.humanity.com/api/v2/leaves/2621938?access_token=xxxxxxx
+    def self.delete_request(request_id)
+        access_token = get_token
+        url = "#{base_uri}/api/v2/leaves/#{request_id}?access_token=#{access_token}"
+        
+        response = HumanityAPI.delete(url)
+        puts response
     end
 
     def self.get_employees
