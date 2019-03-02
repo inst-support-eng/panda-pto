@@ -82,7 +82,7 @@ $('document').ready(function () {
                 }, 900);
             }
 
-            let displayInfo = i + "<br/> 1 : " + reqData.current_price
+            let displayInfo = i + "<br/> 1:" + reqData.current_price
 
             currentDay.innerHTML = displayInfo;
             currentTr.appendChild(currentDay);
