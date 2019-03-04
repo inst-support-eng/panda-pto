@@ -4,7 +4,7 @@ class CreateCalendars < ActiveRecord::Migration[5.2]
       t.date :date
       t.float :base_value
       t.integer :signed_up_total
-      t.text :signed_up_agents
+      t.text :signed_up_agents, default: [], array: true
       t.float :current_price
 
       t.timestamps

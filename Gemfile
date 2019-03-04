@@ -17,6 +17,9 @@ gem 'sass-rails', '~> 5.0'
 # gem for http requests
 gem 'httparty'
 
+# get for sidekiq 
+gem 'sidekiq'
+
 # dotenv to deal with environment variables
 gem 'dotenv-rails', groups: [:development, :test]
 

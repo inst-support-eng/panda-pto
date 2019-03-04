@@ -1,5 +1,5 @@
 class RegistrationMailer < ApplicationMailer
-    default from: 'blink.rankin@gmail.com'
+    default from: 'thisisanemail420123@gmail.com'
 
     def registration_email
         @user = params[:user]

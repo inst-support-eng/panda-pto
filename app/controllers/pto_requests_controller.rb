@@ -8,31 +8,27 @@ class PtoRequestsController < ApplicationController
         @pto_request = PtoRequest.new
     end
 
-    # !TECHBEDT prevent past dates and duplicates from being entered in calendar by a user
+    # !TECHBEDT flash is not working
     def create
         @pto_request = PtoRequest.new(post_params)
-
-        # find calendar and user information by from request
         @calendar = Calendar.find_by(:date => @pto_request.request_date)
         @user = User.find_by(:id => @pto_request.user_id)
 
-        # check for calendar then update request and calendar
-        if @calendar != nil
-            @pto_request.signed_up_total = @calendar.signed_up_total
-        else 
-            @pto_request.signed_up_total == nil ? @pto_request.signed_up_total = 1 : @pto_request.signed_up_total += 1;
+        if @calendar.signed_up_agents.include?(@user.name)
+            redirect_to '/'
+            flash[:notice] = "You already have a request for this date"
+            return 
         end 
 
-        # check for user then update their bank_value
-        if @user != nil
-            @user.bank_value -= @pto_request.cost
-            @user.save
+        if @user.bank_value < @pto_request.cost
+            redirect_to '/'
+            flash[:notice] = "You do not have enough to make this request"
+            return 
         end
-
-        # save request and send email
+        
         if @pto_request.save
             redirect_to root_path
-            update_calendar
+            update_request_info
             RequestsMailer.with(user: @user, pto_request: @pto_request).requests_email.deliver_now
         else
             flash[:notice] = "something went wrong"
@@ -40,14 +36,11 @@ class PtoRequestsController < ApplicationController
         end
     end
 
-    # !TECHBEDT prevent users from deleting past dates
     def destroy
         @pto_request = PtoRequest.find(params[:id])
         @user = User.find_by(:id => @pto_request.user_id)
-
-        @user.bank_value += @pto_request.cost
-        @user.save
-
+        @calendar = Calendar.find_by(:date => @pto_request.request_date)
+        remove_request_info
         @pto_request.destroy
 
         redirect_to '/', :flash => {:notice => "Your request has been deleted"}
@@ -58,11 +51,30 @@ class PtoRequestsController < ApplicationController
         params.require(:pto_request).permit(:reason, :request_date, :cost).merge(user_id: current_user.id)
     end
 
-    # update calednar with new request info
-    def update_calendar
+    # update calednar && user with new request info
+    def update_request_info
+        humanity_request_id = HumanityAPI.create_request(@pto_request, @user)
+        HumanityAPI.approve_request(humanity_request_id)
+        @pto_request.humanity_request_id = humanity_request_id 
+        @pto_request.save
+
         @calendar.signed_up_total == nil ? @calendar.signed_up_total = 1 : @calendar.signed_up_total += 1
         @calendar.signed_up_agents.push(current_user.name)
         
         @calendar.save
+
+        @user.bank_value -= @pto_request.cost
+        @user.save
+    end
+
+    # remove needed info to update the calendar and user appropriately 
+    def remove_request_info
+        HumanityAPI.delete_request(@pto_request.humanity_request_id)
+
+        @calendar.signed_up_agents.delete(@user.name)
+        @calendar.save
+
+        @user.bank_value += @pto_request.cost
+        @user.save
     end
 end

@@ -16,15 +16,22 @@ $(document).on('turbolinks:load', function () {
                 }
             })
 
+            // prevents old dates from being selectable
+            requestDate = new Date(e.target.id)
+            currentDate = new Date()
+            currentDate.setHours(0)
+            currentDate.setMinutes(00)
+            currentDate.setSeconds(00)
+
+            if (requestDate >= currentDate) {
+                $('.calendarModal').modal('show');
+            }
+
             let currentCost = current_price.current_price
-            console.log(current_price)
             let closeButton = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button >'
 
             $('.modal-header').html("New Request for " + e.target.id + closeButton)
-            console.log(e.target.id)
-
             $('.request-total').html(`total: ${currentCost * 8}`)
-            $('.calendarModal').modal('show');
             $('#pto_request_request_date').attr("value", e.target.id)
             $('#pto_request_cost').attr("value", currentCost * 8)
             $('.btn-default').click(function () {
