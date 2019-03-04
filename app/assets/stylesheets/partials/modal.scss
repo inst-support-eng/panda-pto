@@ -1,0 +1,35 @@
+.modal-content {
+    h3 {
+      text-align: center;
+    }
+    p {
+      //margin: 50px 0;
+    }
+    .posted-by {
+      color: rgba(0, 0, 0, 0.5);
+    }
+}
+  
+.modal-content {
+    width: 100% !important;
+    height: 100% !important;
+
+    .loaded-data {
+      h3,
+      p {
+        overflow: hidden;
+      }
+      //padding: 0 10px;
+    }
+}
+  
+.modal-backdrop {
+    background-color: transparent;
+}
+
+.modal-dialog{
+    width:760px !important; 
+    height: 330px !important;
+    display:table
+}
+  
