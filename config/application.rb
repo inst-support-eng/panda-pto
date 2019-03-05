@@ -19,7 +19,7 @@ module PandaPto
     end
 
     #call classes from lib
-    config.autoload_paths += %W(#{config.root}/lib)
+    config.eager_load_paths << "#{Rails.root}/lib"
 
     #setup sidekiq
     config.active_job.queue_adapter = :sidekiq
