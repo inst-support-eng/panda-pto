@@ -84,7 +84,6 @@ $('document').ready(function () {
             }
             let displayCost = reqData.current_price * 8;
             if (currUser.ten_hour_shift) {
-
                 displayCost = reqData.current_price * 10;
             }
             let displayInfo = i + "<br/> " + displayCost

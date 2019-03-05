@@ -7,13 +7,6 @@ Rails.application.routes.draw do
   	collection { post :import}
   end
 
-  # routes for users 
-  get '/current', to: 'users#current'
-  
-  resources :users  do
-    put :update_shift
-  end
-
   # routes for calendar methods
   get 'calendars/fetch_dates', to: 'calendars#fetch_dates'
   resources :calendars
@@ -32,6 +25,14 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => {:registrations => "registrations"}
   devise_scope :user do 
     get 'login', to: 'devise/sessions#new'
+    get '/users/sign_out' => 'devise/sessions#destroy'
+  end
+
+  # routes for users 
+  get '/current', to: 'users#current'
+  
+  resources :users  do
+    put :update_shift
   end
   
   root to: 'pages#index'
