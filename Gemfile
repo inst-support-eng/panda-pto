@@ -54,6 +54,9 @@ gem 'jquery-rails', '~> 4.3', '>= 4.3.3'
 # add devise
 gem 'devise'
 
+# rails_12factor helps with heroku deploys 
+gem 'rails_12factor', group: [:production, :development]
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

@@ -13,7 +13,10 @@ module PandaPto
     config.action_controller.include_all_helpers = false
 
     # calls dotenv to load vars
-    Dotenv::Railtie.load
+    Bundler.require(*Rails.groups)
+    if ['development', 'test'].include? ENV['RAILS_ENV']
+      Dotenv::Railtie.load
+    end
 
     #call classes from lib
     config.autoload_paths += %W(#{config.root}/lib)
