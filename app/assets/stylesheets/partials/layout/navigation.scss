@@ -70,10 +70,14 @@ nav {
     border-bottom: solid 5px white;
   }
   
-  .dropdown-toggle,
-  .dropdown-menu {
+  .dropdown-toggle {
     background: $navbarColor !important;
     border: none;
+  }
+
+  // i dont know what color this should be to not look stupid
+  .dropdown-menu {
+    background: black;
   }
   
   .dropdown-menu a:hover {

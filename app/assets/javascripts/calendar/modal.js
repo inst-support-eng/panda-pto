@@ -5,6 +5,7 @@ $(document).on('turbolinks:load', function () {
     function renderModal() {
         $('body').on('click', '.calendar-date', async function (e) {
             const calendarDates = await getDates();
+            const currUser = await currentUser();
 
             let current_price = {}
             calendarDates.forEach(el => {
@@ -23,17 +24,20 @@ $(document).on('turbolinks:load', function () {
             currentDate.setMinutes(00)
             currentDate.setSeconds(00)
 
-            if (requestDate >= currentDate) {
+            if (requestDate > currentDate) {
                 $('.calendarModal').modal('show');
             }
 
-            let currentCost = current_price.current_price
+            let displayCost = current_price.current_price * 8;
+            if (currUser.ten_hour_shift) {
+                displayCost = current_price.current_price * 10;
+            }
             let closeButton = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button >'
 
             $('.modal-header').html("New Request for " + e.target.id + closeButton)
-            $('.request-total').html(`total: ${currentCost * 8}`)
+            $('.request-total').html(`total: ${displayCost}`)
             $('#pto_request_request_date').attr("value", e.target.id)
-            $('#pto_request_cost').attr("value", currentCost * 8)
+            $('#pto_request_cost').attr("value", displayCost)
             $('.btn-default').click(function () {
                 $('.calendarModal').modal('hide')
             })

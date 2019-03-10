@@ -7,11 +7,11 @@ Rails.application.routes.draw do
   	collection { post :import}
   end
 
-
+  # routes for calendar methods
   get 'calendars/fetch_dates', to: 'calendars#fetch_dates'
-  
   resources :calendars
 
+  # routes for pto_requests
   resources :pto_requests
 
   # routes for date csv imports
@@ -25,13 +25,16 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => {:registrations => "registrations"}
   devise_scope :user do 
     get 'login', to: 'devise/sessions#new'
+    get '/users/sign_out' => 'devise/sessions#destroy'
+    get 'forgot_password', to: 'devise/passwords#new'
   end
 
-  # incase we ever want to allow self-registration
-  # ':registerable' would need to be added back to devise in models/user.rb
-  # devise_scope :user do
-  #   get 'signup', to: 'devise/registrations#new'
-  # end
+  # routes for users 
+  get '/current', to: 'users#current'
+  
+  resources :users  do
+    put :update_shift
+  end
   
   root to: 'pages#index'
 end
