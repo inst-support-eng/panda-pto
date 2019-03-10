@@ -10,6 +10,7 @@ $('document').ready(function () {
     async function createCalendar(date, side) {
 
         let calendarDates = await getDates()
+        let currUser = await currentUser()
 
         let currentDate = date;
         let startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
@@ -81,8 +82,11 @@ $('document').ready(function () {
                     currentDay.classList.add("lighten-3");
                 }, 900);
             }
-
-            let displayInfo = i + "<br/> 1:" + reqData.current_price
+            let displayCost = reqData.current_price * 8;
+            if (currUser.ten_hour_shift) {
+                displayCost = reqData.current_price * 10;
+            }
+            let displayInfo = i + "<br/> " + displayCost
 
             currentDay.innerHTML = displayInfo;
             currentTr.appendChild(currentDay);
