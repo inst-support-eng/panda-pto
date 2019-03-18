@@ -1,16 +1,18 @@
 require 'rails_helper' 
 
 RSpec.describe PtoRequestsController, type: :controller do
-    describe "POST #create" do
-        
-        before(:each) do 
-            @user = FactoryBot.create(:user)
-        end
-        
+    before(:each) do 
+        @user = FactoryBot.create(:user)
+        @calendar = FactoryBot.create(:calendar)
+        sign_in :user, @user
+    end
+    describe "POST #create" do 
         it "should allow user with enough credits to request a day" do
             post :create, params: {:user_id => @user.id, :reason => "butts", :request_date => 10.days.from_now, :cost => 10}
             @user.reload 
+            @calendar.reload
             expect(@user.bank_value).to eq(140)
+            expect(@calendar.signed_up_agents).to include(@user.name)
         end 
 
         it "should allow a user to request a day that they have not already requests off" do
