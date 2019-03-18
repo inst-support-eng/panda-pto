@@ -21,7 +21,7 @@ class Agent < ApplicationRecord
       # check if user already exists
       # if not create user and send a password
       User.where(:email => x.email).first_or_initialize do |block|
-        generated_password = Devise.friendly_token.first(8)
+        generated_password = Devise.friendly_token.first(12)
         humanity_user_id = response.select { |res| res['email'] == x.email}
         
         user = User.create!(:email => block.email, :password => generated_password, :name => x.name, :humanity_user_id => humanity_user_id[0]['id'])
