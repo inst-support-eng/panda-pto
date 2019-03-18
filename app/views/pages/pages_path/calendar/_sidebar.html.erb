@@ -1,8 +1,7 @@
 <%= flash[:notice] %>
 <div class="sidebar-wrapper z-depth-2 side-nav fixed" id="sidebar">
     <div class="sidebar-title">
-        <h4>Requests</h4>
-        <h5 id="eventDayName">Date</h5>
+        <h4 id="eventDayName">Date</h4>
         <h5 id="bank-value">Bank Value: <%= current_user.bank_value %></h5>
         <div class="update-shift">
             <%= form_tag user_update_shift_path(current_user), method: :put do %>
@@ -10,8 +9,9 @@
             <% end %>
         </div>
     </div> <!-- sidebar-title -->
-    <div>
-        All requests
+    <hr>
+    <div class="all-requests">
+        <h4>All Requests:</h4>
         <% current_user.pto_requests.each do |request| %>
         <div>
             <%= request.reason %> <%= request.request_date %> <%= request.cost %>

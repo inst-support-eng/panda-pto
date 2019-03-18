@@ -55,8 +55,6 @@ ActiveRecord::Schema.define(version: 2019_02_21_213924) do
     t.string "encrypted_password", default: "", null: false
     t.string "name", default: "", null: false
     t.integer "bank_value", default: 0, null: false
-    t.integer "humanity_user_id"
-    t.boolean "ten_hour_shift", default: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
