@@ -97,4 +97,8 @@ RSpec.configure do |config|
     config.default_driver        = :selenium
   end
   Capybara.server = :puma 
+
+  RSpec.configure do |config|
+    config.include Devise::Test::ControllerHelpers, type: :controller
+  end
 end
