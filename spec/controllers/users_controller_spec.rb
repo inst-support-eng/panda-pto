@@ -15,7 +15,6 @@ RSpec.describe UsersController, type: :controller do
         end
         
         it "should update the users shift" do
-            puts @user.ten_hour_shift
             put :update_shift, params: {:user_id => @user.id}
             @user.reload
             
