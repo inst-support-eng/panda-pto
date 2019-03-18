@@ -8,10 +8,8 @@ class UsersController < ApplicationController
     end
 
     def update_shift
-        puts params
         @user = User.find(params[:user_id])
-        current_shift =  @user.ten_hour_shift
-        @user.ten_hour_shift = !current_shift
+        @user.ten_hour_shift = !@user.ten_hour_shift
         @user.save
 
         redirect_to '/'
