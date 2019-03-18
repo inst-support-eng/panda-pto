@@ -1,17 +1,13 @@
 <nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <div class="row">
-
-            <!-- Elements visible all the time -->
-            <div class="col-sm-7">
+    <div class="navbar-header">
+            <div class="nav-left navbar-sections">
                 <%= render 'layouts/navigation/header' %>
-            </div><!-- col-sm-7 -->
-
-            <!-- Elements collapses on smaller devices -->
-            <div class="col-sm-5">
+            </div>
+            <div class="nav-center navbar-sections">
+                <%= render 'layouts/navigation/center_nav' %>
+            </div>
+            <div class="nav-right navbar-sections">
                 <%= render 'layouts/navigation/collapsible_elements' %>
-            </div><!-- col-sm-5 -->
-
-        </div><!-- row -->
-    </div><!-- container -->
+            </div>
+    </div>
 </nav>
