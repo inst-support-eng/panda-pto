@@ -8,57 +8,42 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <link rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
-
-        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
-
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </head>
 
     <body>
-        <div class="main-wrapper">
-            <div class="content-wrapper grey lighten-3">
-                <div class="container">
+            <div class="main-wrapper split">
+                <div class="container content-wrapper">
                     <div class="calendar-wrapper z-depth-2">
-                        <div class="header-background">
-                            <div class="calendar-header">
-                                <a class="prev-button" id="prev">
-                                    <i class="material-icons">keyboard_arrow_left</i>
-                                </a>
-                                <a class="next-button" id="next">
-                                    <i class="material-icons">keyboard_arrow_right</i>
-                                </a>
-                                <div class="row header-title">
-
-                                    <div class="header-text">
-                                        <h3 id="month-name">February</h3>
-                                        <h5 id="todayDayName">Today is Friday 7 Feb</h5>
-                                    </div>
+                        <div class="calendar">
+                            <div class="cal-top-left"><a class="prev-button" id="prev"><i class="material-icons">◄</i></a></div>
+                            <div class="cal-top-right"><a class="next-button cal-top-right" id="next"><i class="material-icons">►</i></a></div>
+                            <div class="cal-top-center">
+                                <div class="header-text" id="month-name">
+                                    Month
                                 </div>
+                                <h5 hidden id="todayDayName">Today is</h5>
                             </div>
-                        </div>
-                        <div class="calendar-content">
-                            <table id="calendar-table" class="calendar-cells">
-                                <thead>
-                                    <tr>
-                                        <td>Mon</td>
-                                        <td>Tue</td>
-                                        <td>Wed</td>
-                                        <td>Thu</td>
-                                        <td>Fri</td>
-                                        <td>Sat</td>
-                                        <td>Sun</td>
-                                    </tr>
-                                </thead>
-                                <tbody id="table-body">
-                                </tbody>
-                            </table>
+                            <div class="calendar-content cal-bottom">
+                                <table id="calendar-table" class="calendar-cells">
+                                    <thead>
+                                        <tr>
+                                            <th>Mon</th>
+                                            <th>Tue</th>
+                                            <th>Wed</th>
+                                            <th>Thu</th>
+                                            <th>Fri</th>
+                                            <th>Sat</th>
+                                            <th>Sun</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-body">
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
             integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
             crossorigin="anonymous"></script>
