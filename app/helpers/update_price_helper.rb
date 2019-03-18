@@ -1,11 +1,16 @@
 module UpdatePriceHelper
 
-  def update_price(date, slots)
+  def update_price(date)
     value_map = { 0  => 0.5, 7  => 1, 13 => 1.5, 18 => 2, 22 => 2.5, 25 => 3, 27 => 3.5, 28 => 4, 29 => 5, 30 => 6, 31 => 7, 32 => 8, 33 => 9 }
     @calendar = Calendar.find_by(:date => date)
-    @calendar.base_value = slots
-    
-    case slots
+
+    if @calendar.signed_up_total == nil
+      @updated = @calendar.base_value
+    else
+      @updated = @calendar.base_value + @calendar.signed_up_total
+    end
+
+    case @updated
     when value_map.keys[0]..value_map.keys[1]
       @calendar.current_price = value_map.values[0]
     when value_map.keys[1]..value_map.keys[2]
@@ -37,4 +42,6 @@ module UpdatePriceHelper
     end
     @calendar.save
   end
-end
+
+
+  end 

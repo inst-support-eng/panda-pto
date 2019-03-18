@@ -65,6 +65,8 @@ class PtoRequestsController < ApplicationController
 
         @user.bank_value -= @pto_request.cost
         @user.save
+
+        helpers.update_price(@calendar.date)
     end
 
     # remove needed info to update the calendar and user appropriately 
