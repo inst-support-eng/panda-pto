@@ -5,8 +5,12 @@ class DateValuesController < ApplicationController
   def import
     if params[:file]
       DateValue.import(params[:file])
-      # likely want to build out more of an admin dashboard
-      # so the redirect process will be different !TECHDEBT
+
+      DateValue.find_each do |x|
+        @import = Calendar.where(:date => x.date).first_or_create
+        @import.base_value = x.base_value
+        helpers.update_price(x.date)
+      end
       redirect_to root_url, notice: "Date CSV imported"
     else  
       redirect_to(root_url, "Please upload a valid CSV file")
