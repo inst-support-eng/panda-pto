@@ -1,3 +1,28 @@
 // Place all the styles related to the admin controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+html, body {
+    height: 100%;
+  }
+  
+  .header { grid-area: header; }
+  .left { grid-area: left; }
+  .middle { grid-area: middle; }
+  .right { grid-area: right; }
+  .layout {
+    display: grid;
+    grid-template-areas:
+      'header header header header header header'
+      'left middle middle middle middle right';
+    grid-gap: 10px;
+    background-color: #2196F3;
+    padding: 10px;
+  }
+  
+  .layout > div {
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    padding: 20px 0;
+    font-size: 30px;
+  }
