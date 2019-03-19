@@ -85,6 +85,9 @@ $('document').ready(function () {
             let displayCost = `<div id="pto-cost">${reqData.current_price * 8} </div>`;
             if (currUser.ten_hour_shift) {
                 displayCost = `<div id="pto-cost">${reqData.current_price * 10}</div>`;
+            } 
+            if(isNaN(reqData.current_price)) {
+                displayCost = `<div id="pto-cost">??</div>`
             }
             let displayInfo = `<div id="pto-date">${i}</div>` + "<br/> " + displayCost
 
