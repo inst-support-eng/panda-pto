@@ -82,11 +82,11 @@ $('document').ready(function () {
                     currentDay.classList.add("lighten-3");
                 }, 900);
             }
-            let displayCost = `<div class= butts>${reqData.current_price * 8} </div>`;
+            let displayCost = `<div class="pto-cost">${reqData.current_price * 8} </div>`;
             if (currUser.ten_hour_shift) {
-                displayCost = `<div class= butts2>${reqData.current_price * 10}</div>`;
+                displayCost = `<div class="pto-cost">${reqData.current_price * 10}</div>`;
             }
-            let displayInfo = i + "<br/> " + displayCost
+            let displayInfo = `<div class="pto-date">${i}</div>` + "<br/> " + displayCost
 
             currentDay.innerHTML = displayInfo;
             currentTr.appendChild(currentDay);
