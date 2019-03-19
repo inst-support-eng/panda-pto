@@ -24,7 +24,7 @@ $(document).on('turbolinks:load', function () {
             currentDate.setMinutes(00)
             currentDate.setSeconds(00)
 
-            if (requestDate > currentDate) {
+            if (requestDate > currentDate && requestDate.getMonth()-currentDate.getMonth() <= 9 && !isNaN(current_price.current_price)) {
                 $('.calendarModal').modal('show');
             }
 
