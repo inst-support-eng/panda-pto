@@ -1,6 +1,6 @@
 // !TECHDEBT rewrite && comment this whole thing to be readable 
 
-$('document').ready(function () {
+ $(document).on('turbolinks:load', function () {
     let calendar = document.getElementById("calendar-table");
     let gridTable = document.getElementById("table-body");
     let currentDate = new Date();
@@ -138,4 +138,4 @@ $('document').ready(function () {
         currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1);
         createCalendar(currentDate, "right");
     }
-})
+});
