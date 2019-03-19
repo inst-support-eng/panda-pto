@@ -82,9 +82,9 @@
                     currentDay.classList.add("lighten-3");
                 }, 900);
             }
-            let displayCost = `<div id="pto-cost">${reqData.current_price * 8}pcs</div>`;
+            let displayCost = `<div id="pto-cost">total: ₢ ${reqData.current_price * 8}</div>`;
             if (currUser.ten_hour_shift) {
-                displayCost = `<div id="pto-cost">${reqData.current_price * 10}pcs</div>`;
+                displayCost = `<div id="pto-cost">total: ₢ ${reqData.current_price * 10}</div>`;
             } 
             if(isNaN(reqData.current_price)) {
                 displayCost = `<div id="pto-cost">??</div>`
