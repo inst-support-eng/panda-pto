@@ -24,13 +24,13 @@ Rails.application.routes.draw do
   
   devise_for :users, :controllers => {:registrations => "registrations"}
   devise_scope :user do 
-    get 'login', to: 'devise/sessions#new'
-    get '/users/sign_out' => 'devise/sessions#destroy'
-    get 'forgot_password', to: 'devise/passwords#new'
+    get 'login' => 'devise/sessions#new'
+    get 'users/sign_out' => 'devise/sessions#destroy'
+    get 'forgot_password' => 'devise/passwords#new'
   end
 
   # routes for users 
-  get '/current', to: 'users#current'
+  get 'current' => 'users#current'
   
   resources :users  do
     put :update_shift
