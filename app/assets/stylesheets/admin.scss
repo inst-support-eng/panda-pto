@@ -2,10 +2,14 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-html, body {
-    height: 100%;
-  }
-  
+    html, body {
+    background-color: white;
+    position: relative;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weigth: 400;
+    height:100%;
+    overflow: hidden;
+    }
   .header { grid-area: header; }
   .left { grid-area: left; }
   .middle { grid-area: middle; }
