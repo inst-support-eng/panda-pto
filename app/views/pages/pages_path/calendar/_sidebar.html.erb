@@ -3,11 +3,6 @@
     <div class="sidebar-title">
         <h4 id="eventDayName">Date</h4>
         <h5 id="bank-value">Bank Value: <%= current_user.bank_value %></h5>
-        <div class="update-shift">
-            <%= form_tag user_update_shift_path(current_user), method: :put do %>
-            <%= submit_tag '8/10 hour shift' %>
-            <% end %>
-        </div>
     </div> <!-- sidebar-title -->
     <hr>
     <div class="all-requests">

@@ -12,6 +12,6 @@ class UsersController < ApplicationController
         @user.ten_hour_shift = !@user.ten_hour_shift
         @user.save
 
-        redirect_to '/'
+        redirect_to edit_user_password_path
     end
 end
