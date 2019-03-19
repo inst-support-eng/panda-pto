@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  get 'admin/index'
+  resources :admin
   # routes for agent csv imports
   get 'agents/index'
   get 'agents/import'
