@@ -7,6 +7,6 @@ class RequestsMailer < ApplicationMailer
     def requests_email
         @user = params[:user]
         @pto_request = params[:pto_request]
-        mail(to: @user.email, subject: 'PTO Request')
+        mail(to: @user.email, cc: "mco@instructure.com", subject: 'PTO Request')
     end
 end
