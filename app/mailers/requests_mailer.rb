@@ -1,5 +1,5 @@
 class RequestsMailer < ApplicationMailer
-    default from: 'cmerchant@instructure.com'
+    default from: 'supportpanda@instructure.com'
 
     # email confirming request for pto was made 
     # see views/requests_email for email template
