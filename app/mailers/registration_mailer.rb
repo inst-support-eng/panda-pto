@@ -1,5 +1,5 @@
 class RegistrationMailer < ApplicationMailer
-    default from: 'thisisanemail420123@gmail.com'
+    default from: 'cmerchant@instructure.com'
 
     def registration_email
         @user = params[:user]
