@@ -22,9 +22,24 @@ RSpec.describe PtoRequestsController, type: :controller do
         end 
 
         it "should not allow a user to make a request if they do not have enough credits" do
+            post :create, params: {:user_id => @user.id, :reason => "also butts", :request_date => 10.days.from_now, :cost => 160}
+            @user.reload
+            @calendar.reload
+            expect(@calendar.signed_up_agents).to_not include(@user.name)
+            expect(@user.bank_value).to eq 150
         end
 
         it "should not allow a user to make a request if they already have the day off" do
+            @calendar.signed_up_agents.push(@user.name)
+            @calendar.save
+            @calendar.reload
+
+            post :create, params: {:user_id => @user.id, :reason => "also butts", :request_date => 10.days.from_now, :cost => 10}
+            @user.reload
+            @calendar.reload
+
+            expect(@calendar.signed_up_agents.count).to be 1
+            expect(@user.bank_value).to eq 150
         end
     end
 
