@@ -29,11 +29,13 @@ $(document).on('turbolinks:load', function () {
             currentDate.setMinutes(00)
             currentDate.setSeconds(00)
 
+            console.log(requestDate > currentDate)
+            
             if(requestDate.toDateString() == currentDate.toDateString()) {                
                 $('.dayOfModal').modal('show');
             }
 
-            if (requestDate.toDateString() > currentDate.toDateString() && requestDate.getMonth()-currentDate.getMonth() <= 9 && !isNaN(current_price.current_price)) {
+            if (requestDate > currentDate && requestDate.getMonth()-currentDate.getMonth() <= 9 && !isNaN(current_price.current_price)) {
                 $('.calendarModal').modal('show');
                 let closeButton = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button >'
                 let displayCost = current_price.current_price * 8;
