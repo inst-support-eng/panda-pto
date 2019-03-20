@@ -24,10 +24,10 @@ class Agent < ApplicationRecord
         generated_password = Devise.friendly_token.first(12)
         humanity_user_id = response.select { |res| res['email'] == x.email}
         
-        user = User.create!(:email => block.email, :password => generated_password, :name => x.name, :humanity_user_id => humanity_user_id[0]['id'])
+        user = User.create!(:email => block.email, :password => generated_password, :name => x.name, :bank_value => 90, :humanity_user_id => humanity_user_id[0]['id'])
         RegistrationMailer.with(user: user, password: generated_password).registration_email.deliver_now
       end
     end
 
   end
-end
+end 
