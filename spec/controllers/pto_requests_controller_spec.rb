@@ -6,6 +6,10 @@ RSpec.describe PtoRequestsController, type: :controller do
         @calendar = FactoryBot.create(:calendar)
         sign_in(@user, scope: :user)
     end
+    after(:all) do 
+        User.delete_all
+        Calendar.delete_all 
+    end
     describe "POST #create" do 
         it "should allow user with enough credits to request a day" do
             post :create, params: {:user_id => @user.id, :reason => "butts", :request_date => 10.days.from_now, :cost => 10}
@@ -44,6 +48,15 @@ RSpec.describe PtoRequestsController, type: :controller do
     end
 
     describe "DELETE #destroy" do
+        before(:each) do
+            @user = FactoryBot.create(:user)
+            @calendar = FactoryBot.create(:calendar)
+            sign_in(@user, scope: :user)
+        end
+        after(:all) do
+            User.delete_all
+            Calendar.delete_all
+        end
         it "should give credits back to the user for the cost of the day" do
         end
 

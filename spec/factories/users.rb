@@ -1,12 +1,12 @@
 FactoryBot.define do 
     factory :user do
-      id { 1 }
+      sequence(:id) { |n| n }
       name { "test" }
-      email { "test@test.com" }
+      sequence(:email) { |n| "test#{n}@test.com" }
       password { '123456' }
       password_confirmation { '123456' }
       bank_value { 150 }
-      humanity_user_id { 1 } 
+      sequence(:humanity_user_id) {|n| n } 
       ten_hour_shift { false }
     end
-  end
+end
