@@ -9,7 +9,6 @@ RSpec.describe UsersController, type: :controller do
     end
 
     describe "PUT #update_shift" do
-
         before(:each) do
            @user = FactoryBot.create(:user) 
         end
