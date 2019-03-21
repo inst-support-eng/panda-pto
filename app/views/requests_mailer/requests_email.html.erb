@@ -6,11 +6,18 @@
     </head>
 
     <body>
-        <h1><%= @user.name %>, thank you for making a request via Panda-PTO. You requested
-            <%= @pto_request.request_date %> for <% if @user.ten_hour_shift%> a 10 hour shift <% else %> an 8 hour shift
-            <% end %> and a total of <%= @pto_request.cost %> credits, making your
-            current credit total <%= @user.bank_value %>. This has been
-            approved if you have any questions or need to make changes please talk to your supervisor. </h1>
+        <p>Hello,</p> 
+
+        <p>This is to confirm that you’ve submitted PTO request. This will send an automatic email confirming the deduction of your PTO credits to the MCO and your supervisor. Your remaining credits are listed below.</p> 
+
+        <p>Agent: <%= @user.name %></p>
+        <p>Cost of request: <%= @pto_request.cost %></p>
+        <p>Date of request: <%= @pto_request.request_date %></p>
+        <p>Remaining balance: <%= @user.bank_value %></p>
+        
+        <p>If you have any questions or concerns, please contactyour supervisor.</p> 
+        <p>Thank you,
+        Panda Admin</p>
     </body>
 
 </html>
