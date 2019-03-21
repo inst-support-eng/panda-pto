@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :pto_request do
     reason { "disneyland"}
-    request_date { "2019-04-20" }
+    request_date { 10.days.from_now }
     cost { 69 }
     signed_up_total { 69 }
     user_id { @user.id }
