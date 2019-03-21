@@ -1,46 +1,128 @@
-<br><br><br><br>
-<h1>Utah PTO Mission Control</h1>
-<div>
-  <h3>Agents Off Today</h3>
-    <% if Calendar.first.nil? %> 
-    <div>no data to display</div>
-    <% else %>
-    <%= "The gangs all here!" if @offtoday.empty? %>
-    <% @offtoday.each do |agent| %>
-    <div>
-      <% agent %>
-      <% end %>
-    <div>
-    <% end %>
-</div>
 
-<div>
-  <h3>All Agents</h3>
-  <%if User.first.nil? %>
-  <div>no data to display</div>
-  <% else %>
-  <% @agents.each do |agent| %>
-  <div>
-    <%= agent.name %> <%= agent.bank_value %>
-    <% end %>
+<div class="layout">
+  <div class="left">
+  <button class="adminbutton" id="csv">Add Request</button>
+  <button class="adminbutton" id="values-csv">Upload Values</button>
+  <button class="adminbutton" id="users-csv">Upload Users</button>
   </div>
-  <% end %>
+  <div class="center">
+      <div id="searchbar">
+        <input type="text" id="search" onkeyup="filter()" placeholder="Filter by name.." title="Filter by name">
+      </div>
+    <div class="all-agents">
+        <table id="agent-table">
+          <tbody>
+            <thead>
+              <tr>
+                <th>Agent Name</th>
+                <th>PTO Points</th>
+              </tr>
+            </thead>
+              <% @agents.each do |agent| %>
+            <tr class="agent-row">
+              <td class="agent-name"><%= agent.name %></td>
+              <td class="agent-points"><% agent.bank_value %></td>
+            </tr>
+              <% end %>
+          </tbody>
+        </table>
+      </div>
+  </div>  
+  <div class="right">
+        <table id="agent-table">
+            <tbody>
+              <thead>
+                <tr>
+                  <th>Agents Off Today</th>
+                </tr>
+              </thead>
+              <% @offtoday.each do |agent| %>
+              <tr class="agent-row">
+                <td class="agent-name"><% agent %></td>
+              </tr>
+                <% end %>
+                <tr><td><%= "The gangs all here!" if @offtoday.empty? %></td></tr>
+            </tbody>
+          </table>
+    </div>
+    <div id="upload-users" class="admin-modal">
+      <div class="upload-users-content">
+          <div class="modal-header">Import Agents CSV
+              <div class="close2">&times;</div></div>
+              <%= form_tag import_agents_path, multipart: true do %>
+              <%= file_field_tag :file %>
+              <%= submit_tag "Import Agents CSV" %>
+              <% end %> 
+      </div>
+    </div>
 
+    <div id="upload-values" class="admin-modal">
+        <div class="upload-values-content">
+            <div class="modal-header">Import Date Value CSV
+                <div class="close">&times;</div></div>
+                <%= form_tag import_date_values_path, multipart: true do %>
+                <%= file_field_tag :file %>
+                <%= submit_tag "Import Value CSV" %>
+                <% end %> 
+        </div>
+      </div>
+
+    </div>
+  </div>
 </div>
 
-<div>
-  <h4> Import Date Value CSV </h4>
-    <%= form_tag import_date_values_path, multipart: true do %>
-    <%= file_field_tag :file %>
-    <%= submit_tag "Import Date CSV" %>
-    <% end %> 
-</div> 
+<script>
+    function filter() {
+        var input, filter, table, tr, td, i, ii;
+        input = document.getElementById("search");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("agent-table");
+        tr = table.querySelectorAll("tbody tr");
+        for (i = 0; i < tr.length; i++) {
+            var tds = tr[i].getElementsByTagName("td");
+            var found = false;
+            for (ii = 0; ii < tds.length && !found; ii++) {
+                if (tds[ii].textContent.toUpperCase().indexOf(filter) > -1) {
+                    found = true;
+                    break;
+                }
+            }
+            tr[i].style.display = found?"":"none";
+        }
+    }
+</script>
 
-<div>
-  <h4> Import Agents CSV</h4>
-    <%= form_tag import_agents_path, multipart: true do %>
-    <%= file_field_tag :file %>
-    <%= submit_tag "Import Agents CSV" %>
-    <% end %> 
-</div> 
+<script>
+var modal = document.getElementById('upload-users');
+var btn = document.getElementById("users-csv");
+var span = document.getElementsByClassName("close")[0];
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+span.onclick = function() {
+  modal.style.display = "none";
+}
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+  else if (event.target == modal2) {
+    modal2.style.display = "none";
+  }
+}
+var modal2 = document.getElementById('upload-values');
+var btn2 = document.getElementById("values-csv");
+var span2 = document.getElementsByClassName("close2")[0];
+btn2.onclick = function() {
+  modal2.style.display = "block";
+}
+span2.onclick = function() {
+  modal2.style.display = "none";
+}
+</script>
+
+
+
+
+
 
