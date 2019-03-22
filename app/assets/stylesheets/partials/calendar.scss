@@ -1,7 +1,7 @@
 body, html {
   position: relative;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 400;
+  font-weigth: 400;
   height:100%;
   overflow: hidden;
 }
@@ -39,10 +39,11 @@ h3, h4, h5 {
   color: #071a32;
   background-color: #f2f4f7;
   padding-bottom: 20px;
-  font-weight: 300;
+  font-weigth: 300;
   left: 0;
   width: 20%;
   height: 100%;
+  margin-top: 60px;
 }
 /* Control the right side */
 .main-wrapper {
@@ -167,7 +168,7 @@ h3, h4, h5 {
 
   .mobile-header h4 {
     margin: 0;
-    font-weight: 300;
+    font-weigth: 300;
   }
 
   @media (max-width:992px) {
@@ -286,15 +287,19 @@ h3, h4, h5 {
     overflow: hidden;
   }
 
-  .calendar-date {
-    height: 40px;
-    padding: 10px 60px 10px 60px;
+  td {
+    padding: 35px;
+    padding-left: 60px;
+    padding-right: 60px;
     text-align: center;
     border: 1px solid #f7f7f7;
     background-color: white;
   }
 
-  .calendar-date:hover {
+  td:hover {
+    padding: 35px;
+    text-align: center;
+    border: 1px solid #f7f7f7;
     background-color: #337ab7;
     color: white;
     cursor: pointer;
@@ -409,9 +414,4 @@ h3, h4, h5 {
 
   .form-control[type="submit"]:hover {
     background-color: #2c4565;
-  }
-
-  a[href="/users/password/new"] {
-    color: #071a32;
-    margin: 0px;
   }
