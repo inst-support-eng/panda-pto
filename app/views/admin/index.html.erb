@@ -36,10 +36,14 @@
                   <th>Agents Off Today</th>
                 </tr>
               </thead>
+              <% if @offtoday.is_a? String %>
+              <%= @offtoday %>
+              <% else %>
               <% @offtoday.each do |agent| %>
               <tr class="agent-row">
                 <td class="agent-name"><% agent %></td>
               </tr>
+                <% end %>
                 <% end %>
                 <tr><td><%= "The gangs all here!" if @offtoday.empty? %></td></tr>
             </tbody>
