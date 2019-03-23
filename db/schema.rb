@@ -18,6 +18,10 @@ ActiveRecord::Schema.define(version: 2019_02_21_213924) do
   create_table "agents", force: :cascade do |t|
     t.string "name"
     t.string "email"
+    t.string "team"
+    t.string "start_time"
+    t.string "end_time"
+    t.integer "work_days", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -57,6 +61,10 @@ ActiveRecord::Schema.define(version: 2019_02_21_213924) do
     t.integer "bank_value", default: 0, null: false
     t.integer "humanity_user_id"
     t.boolean "ten_hour_shift", default: false
+    t.string "team"
+    t.string "start_time"
+    t.string "end_time"
+    t.integer "work_days", default: [], array: true
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
