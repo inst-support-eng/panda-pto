@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 2019_02_21_213924) do
     t.string "team"
     t.string "start_time"
     t.string "end_time"
-    t.integer "work_days", default: [], array: true
+    t.string "work_days"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -3,19 +3,10 @@ class Agent < ApplicationRecord
   validates :name, :email, presence: true
   validates :email, uniqueness: true
   
-  def set_humanity_id(email)
-    humanity_user_id = response.select { |res| res['email'] == email}
-    if humanity_user_id.empty?
-        humanity_user_id = 0
-        # prevents a user without a humanity account from derailing an import
-    else
-        humanity_user_id = humanity_user_id[0]['id']
-    end
-  end 
   
   def self.import(file)
     # !TECHDEBT this should be wrapped in some error handling
-    CSV.foreach(file.path, {encoding: "UTF-8", headers: true, header_converters: :symbol, converters: :all}) do |row|
+    CSV.foreach(file.path, {encoding: "UTF-8", headers: true, header_converters: :symbol, converters: :all, force_quotes: true}) do |row|
       Agent.create row.to_hash
     end
     response = HumanityAPI.get_employees
@@ -31,19 +22,22 @@ class Agent < ApplicationRecord
           :password => generated_password, 
           :name => x.name, 
           :bank_value => 90, 
-          :humanity_user_id => set_humanity_id(x.email)
+          :humanity_user_id => HumanityAPI.set_humanity_id(x.email, response)
           # shouldn't need to set team / shift information yet
+          # but fr some reason it appears like we do?
+          # also need to figure out how to import arrays... maybe
         )
         RegistrationMailer.with(user: user, password: generated_password).registration_email.deliver_now
       end
     # Then itmes should always be updated on import go here
-    update_info = User.where(:email => x.email)
+    update_info = User.find_by email: x.email 
     update_info.team = x.team
     update_info.start_time = x.start_time
     update_info.end_time = x.end_time
-    udpate_info.work_days = x.work_days
+    update_info.work_days = x.work_days.split(",").map(&:to_i)
     # check if a user who doesn't have a humanity account has one now
-    update_info.humanity_user_id = set_humanity_id(x.email) if update_info.humanity_user_id == 0
+    update_info.humanity_user_id = HumanityAPI.set_humanity_id(x.email, response) if update_info.humanity_user_id == 0
+    update_info.save
 
     end
 
