@@ -6,8 +6,7 @@ class AdminController < ApplicationController
     else 
       @offtoday = today.signed_up_agents 
     end
-    
-    User.any? ? @agents = [] : @agents = User.all
+    User.any? ? @agents = User.all : @agents = []
   end
 end
 
