@@ -11,6 +11,7 @@ class PtoRequestsController < ApplicationController
     # !TECHBEDT flash is not working
     def create
         @pto_request = PtoRequest.new(post_params)
+        puts @pto_request.request_date 
         @calendar = Calendar.find_by(:date => @pto_request.request_date)
         @user = User.find_by(:id => @pto_request.user_id)
 
@@ -21,6 +22,7 @@ class PtoRequestsController < ApplicationController
         end 
 
         if @user.bank_value < @pto_request.cost
+
             redirect_to root_path
             flash[:notice] = "You do not have enough to make this request"
             return 
@@ -31,8 +33,7 @@ class PtoRequestsController < ApplicationController
             update_request_info
             RequestsMailer.with(user: @user, pto_request: @pto_request).requests_email.deliver_now
         else
-            flash[:notice] = "something went wrong"
-            redirect_to root_path
+            redirect_to root_path, notice: "something went wrong"
         end
     end
 
@@ -52,7 +53,7 @@ class PtoRequestsController < ApplicationController
 
     private 
     def post_params
-        params.permit(:reason, :request_date, :cost).merge(user_id: current_user.id)
+        params.require(:pto_request).permit(:reason, :request_date, :cost).merge(user_id: current_user.id)
     end
 
     # update calednar && user with new request info
@@ -69,6 +70,8 @@ class PtoRequestsController < ApplicationController
 
         @user.bank_value -= @pto_request.cost
         @user.save
+
+        helpers.update_price(@calendar.date)
     end
 
     # remove needed info to update the calendar and user appropriately 

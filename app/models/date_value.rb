@@ -11,17 +11,7 @@ class DateValue < ApplicationRecord
     grouped = all.group_by{|x| [x.date]}
     grouped.values.each do |duplicates|
       most_recent = duplicates.pop # pop keeps last item , shift would keep first
-      # delete all duplicates
-      duplicates.each{|double| double.destroy} # duplicates can now be destroyed
-    end
-      # push values to calendar table
-      # Calendar.create!(self.attribute.except("id", "created_at", "updated_at"))
-    # https://stackoverflow.com/questions/28089441/how-can-i-move-data-from-one-table-to-another-in-rails-migration
-    # working \o/ ~ish
-    DateValue.find_each do |x|
-      # !TECHDEBT doesn't update :base_value on import when re-importing existing records
-      import = Calendar.where(:date => x.date).first_or_initialize.update_attribute(:base_value, x.base_value)
-      #import.save!
+      duplicates.each{|double| double.destroy} 
     end
 
   end

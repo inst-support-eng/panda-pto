@@ -1,6 +1,6 @@
 // !TECHDEBT rewrite && comment this whole thing to be readable 
 
-$('document').ready(function () {
+ $(document).on('turbolinks:load', function () {
     let calendar = document.getElementById("calendar-table");
     let gridTable = document.getElementById("table-body");
     let currentDate = new Date();
@@ -82,11 +82,14 @@ $('document').ready(function () {
                     currentDay.classList.add("lighten-3");
                 }, 900);
             }
-            let displayCost = reqData.current_price * 8;
+            let displayCost = `<div id="pto-cost">total: ₢ ${reqData.current_price * 8}</div>`;
             if (currUser.ten_hour_shift) {
-                displayCost = reqData.current_price * 10;
+                displayCost = `<div id="pto-cost">total: ₢ ${reqData.current_price * 10}</div>`;
+            } 
+            if(isNaN(reqData.current_price)) {
+                displayCost = `<div id="pto-cost">??</div>`
             }
-            let displayInfo = i + "<br/> " + displayCost
+            let displayInfo = `<div id="pto-date">${i}</div>` + "<br/> " + displayCost
 
             currentDay.innerHTML = displayInfo;
             currentTr.appendChild(currentDay);
@@ -135,4 +138,4 @@ $('document').ready(function () {
         currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1);
         createCalendar(currentDate, "right");
     }
-})
+});

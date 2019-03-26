@@ -1,46 +1,53 @@
-nav {
-    .navbar-header {
-      width: 100%;
-      button,
-      .navbar-brand {
-        transition: opacity 0.15s;
-      }
-  
-      button {
-        margin-right: 0;
-      }
-  
-      button:hover,
-      .navbar-brand:hover {
-        opacity: 0.8;
-      }
+  .navbar {
+    background-color: #132f52;
+    height: 60px;
+    border-bottom: #132f52 solid 0.0625rem;
+    text-transform: uppercase; 
+    font-size: 1.5rem;
+    font-weight: 200;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    width: 100%;
     }
+
+  a {
+    text-decoration: none;
+    font-size: 2rem;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin-left: 10px;
+    vertical-align: middle;
+    color: white;
   }
-  
-  body {
-    margin-top: 50px;
+
+  a:hover {
+    color: #337ab7;
   }
+
+  .nav-left { grid-area: left; padding-left: 10px; padding-top: 6px;}
+  .nav-center { grid-area: center; text-align: center; vertical-align: middle; padding-top: 15px; line-height: 30px;}
+  .nav-right { grid-area: right; padding-right: 10px; }
   
-  .col-sm-5,
-  .col-sm-7 {
-    padding: 0;
-  }
-  
-  .navbar-default,
-  .navbar-toggle:focus,
-  .collapsed,
-  button.navbar-toggle {
-    background: $navbarColor !important;
+  .center-nav-buttons {
+    background-color: inherit;
     border: none;
-    a {
-      color: white !important;
+    text-transform: uppercase;
+    outline: none; 
+  }
+
+ .center-nav-buttons:hover {
+    color: #337ab7; 
+  }
+
+  .navbar-header {
+    width: 100%;
+    height: 60px;
+    display: grid;
+    grid-template-areas: 'left center right';
+  }
+
+  .navbar-sections {
+    color: white !important;
     }
-  }
-  
-  .pc-menu {
-    margin-right: 10px;
-  }
-  
+
   .mobile-menu {
     i {
       color: white;
@@ -52,41 +59,67 @@ nav {
       display: block;
       padding: 10px 0px 10px 25px !important;
     }
-    a:hover {
-      background: white !important;
-      color: black !important;
-      i {
-        color: black;
-      }
-    }
   }
-  
-  .icon-bar {
-    background-color: white !important;
+
+  .dropdown-menu  {
+    background-color: #132f52 !important;
+    border: 1px solid #132f52 !important;
+    position: absolute !important;
+    top: 100% !important;
+    right: 0 !important;
+    z-index: 1000 !important;
+    float: right !important;
+    min-width: 200px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 14px !important;
+    text-align: right !important;
+    border: 1px solid #ccc !important;
+    border: 1px solid rgba(0, 0, 0, 0.15) !important;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175) !important;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175) !important;
+    margin: 0px !important;
+    color: white !important;
   }
-  
-  .active a {
-    background: $navbarColor !important;
-    border-bottom: solid 5px white;
+
+    .dropdown-menu > li > a {
+    color: white !important;
+    font-weight: 200 !important;
+  }
+
+  .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus, {
+    display: block;
+    font-weight: 200 !important;
+    background-color: #132f52 !important;
+    color: #337ab7 !important;
   }
   
   .dropdown-toggle {
-    background: $navbarColor !important;
-    border: none;
+  height: 60px;
+  color: white !important;
   }
 
-  // i dont know what color this should be to not look stupid
-  .dropdown-menu {
-    background: black;
-  }
-  
-  .dropdown-menu a:hover {
-    color: black !important;
-    background: white !important;
+  .dropdown-toggle:hover {
+  color: #337ab7 !important;
   }
 
-  .bank-value {
-    color: white;
-    text-align: center;
+
+  .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+    background-color: #132f52 !important; 
+    color: #337ab7 !important;
   }
-  
+
+  .navbar-collapse, .navbar-nav > li > a {
+    color: white !important;
+    line-height: 30px;
+   }
+
+  .navbar-nav > li > a:hover {
+    color: #2c4565;
+   }
+
+
+
+
+
