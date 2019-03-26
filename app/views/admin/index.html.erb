@@ -33,19 +33,23 @@
             <tbody>
               <thead>
                 <tr>
-                  <th>Agents Off Today</th>
+                  <th>Agents working today</th>
                 </tr>
               </thead>
               <% if @offtoday.is_a? String %>
               <%= @offtoday %>
               <% else %>
-              <% @offtoday.each do |agent| %>
-              <tr class="agent-row">
-                <td class="agent-name"><% agent %></td>
-              </tr>
-                <% end %>
-                <% end %>
-                <tr><td><%= "The gangs all here!" if @offtoday.empty? %></td></tr>
+              <% @scheduled.each do |agent| %>
+                <div class="<%= agent.start_time %>">
+                  <div class="<%= agent.end_time %>"> 
+                  <%= agent.name %>
+                </div>
+              </div>
+              <% end %>
+              <% end %>
+              <!-- i broke your table, but I got the data here :D -->
+
+              <div >
             </tbody>
           </table>
     </div>
