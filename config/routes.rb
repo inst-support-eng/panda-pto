@@ -33,9 +33,11 @@ Rails.application.routes.draw do
 
   # routes for users 
   get 'current' => 'users#current'
+  get 'users/:id' => 'users#show', as: :show_user
   
   resources :users  do
     put :update_shift
+    post :send_password_reset
   end
   
   root to: 'pages#index'

@@ -14,4 +14,10 @@ class UsersController < ApplicationController
 
         redirect_to edit_user_password_path
     end
+
+    def send_password_reset
+        @user = User.find(params[:user_id])
+        @user.send_reset_password_instructions
+        redirect_to show_user_path(@user)
+    end
 end
