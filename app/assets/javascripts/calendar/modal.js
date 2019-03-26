@@ -28,7 +28,7 @@ $(document).on('turbolinks:load', function () {
             currentDate.setHours(0)
             currentDate.setMinutes(00)
             currentDate.setSeconds(00)
-
+            // #!TECHDEBT, jump off a bridge.
             if ((requestDate.toDateString() == currentDate.toDateString()||requestDate > currentDate) && requestDate.getMonth()-currentDate.getMonth() <= 9 && !isNaN(current_price.current_price)) {
                 $('.calendarModal').modal('show');
                 let closeButton = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button >'
