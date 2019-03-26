@@ -3,8 +3,11 @@ class AdminController < ApplicationController
     today = Calendar.find_by(:date => Date.today) 
     if today.nil? 
       @offtoday = "You may exist outside of spacetime presently. Today does not exist inside the application, please contact the nearest adult." 
-    else 
-      @offtoday = today.signed_up_agents 
+    else
+      @day = Date.today.wday
+      @scheduled = User.where('work_days @> ARRAY[?]::integer[]', Date.today.wday)
+      @offtoday = today.signed_up_agents
+      
     end
     User.any? ? @agents = User.all : @agents = []
   end

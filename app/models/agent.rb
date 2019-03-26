@@ -11,9 +11,6 @@ class Agent < ApplicationRecord
     end
     response = HumanityAPI.get_employees
     Agent.find_each do |x|
-      # this block is for all code that should only execute when first creating the user? 
-      # https://stackoverflow.com/questions/21190339/rails-first-or-initialize-by-one-value-but-add-more-values-if-created
-      # It will execute block for new record only.
       User.where(:email => x.email).first_or_initialize do |block|
         generated_password = Devise.friendly_token.first(12)
   
@@ -23,9 +20,6 @@ class Agent < ApplicationRecord
           :name => x.name, 
           :bank_value => 90, 
           :humanity_user_id => HumanityAPI.set_humanity_id(x.email, response)
-          # shouldn't need to set team / shift information yet
-          # but fr some reason it appears like we do?
-          # also need to figure out how to import arrays... maybe
         )
         RegistrationMailer.with(user: user, password: generated_password).registration_email.deliver_now
       end
