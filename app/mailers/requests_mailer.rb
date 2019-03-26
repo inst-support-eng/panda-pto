@@ -9,4 +9,10 @@ class RequestsMailer < ApplicationMailer
         @pto_request = params[:pto_request]
         mail(to: @user.email, cc: "mco@instructure.com", subject: 'PTO Request')
     end
+
+    def delete_request_email
+        @user = params[:user]
+        @pto_request = params[:pto_request]
+        mail(to: @user.email, cc: "mco@instructure.com", subject: 'Deleted PTO Request')
+    end     
 end
