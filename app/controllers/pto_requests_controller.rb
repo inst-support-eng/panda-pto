@@ -15,13 +15,13 @@ class PtoRequestsController < ApplicationController
         @user = User.find_by(:id => @pto_request.user_id)
 
         if @calendar.signed_up_agents.include?(@user.name)
-            redirect_to '/'
+            redirect_to root_path
             flash[:notice] = "You already have a request for this date"
             return 
         end 
 
         if @user.bank_value < @pto_request.cost
-            redirect_to '/'
+            redirect_to root_path
             flash[:notice] = "You do not have enough to make this request"
             return 
         end
@@ -40,10 +40,14 @@ class PtoRequestsController < ApplicationController
         @pto_request = PtoRequest.find(params[:id])
         @user = User.find_by(:id => @pto_request.user_id)
         @calendar = Calendar.find_by(:date => @pto_request.request_date)
-        remove_request_info
-        @pto_request.destroy
 
-        redirect_to '/', :flash => {:notice => "Your request has been deleted"}
+        if @pto_request.destroy
+            remove_request_info
+            redirect_to root_path, flash[:notice] = "Your request was deleted"
+            RequestsMailer.with(user: @user, pto_request: @pto_request).delete_request_email.deliver_now
+        else
+            redirect_to root_path, flash[:notice] = "Somthing went wrong"
+        end
     end
 
     private 
