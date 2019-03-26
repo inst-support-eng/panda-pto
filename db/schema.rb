@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2019_02_21_213924) do
     t.string "start_time"
     t.string "end_time"
     t.string "work_days"
+    t.string "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -65,6 +66,7 @@ ActiveRecord::Schema.define(version: 2019_02_21_213924) do
     t.string "start_time"
     t.string "end_time"
     t.integer "work_days", default: [], array: true
+    t.string "position"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
