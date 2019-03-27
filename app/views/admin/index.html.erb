@@ -36,7 +36,7 @@
         <% @scheduled.each do |agent| %>
           <div class="start-<%= Time.parse(agent.start_time).in_time_zone("Mountain Time (US & Canada)").to_s[11..15] %>">
           <% if agent.pto_requests.where(request_date: Date.today).empty? %>
-            <%= agent.name %>
+            <span class="<%= agent.position %>"><%= agent.name %></span>
           <% else %>
             <span class="offtoday"><%= agent.name %></span>
           <% end %>
