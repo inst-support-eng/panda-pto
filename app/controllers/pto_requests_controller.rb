@@ -45,9 +45,9 @@ class PtoRequestsController < ApplicationController
         if @pto_request.destroy
             remove_request_info
             RequestsMailer.with(user: @user, pto_request: @pto_request).delete_request_email.deliver_now
-            redirect_to root_path, flash[:notice] = "Your request was deleted"
+            redirect_to root_path, notice: "Your request was deleted"
         else
-            redirect_to root_path, flash[:notice] = "Somthing went wrong"
+            redirect_to root_path, notice: "Somthing went wrong"
         end
 
     end
