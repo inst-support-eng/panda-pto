@@ -21,7 +21,7 @@
               <% @agents.each do |agent| %>
             <tr class="agent-row">
               <td class="agent-name"><%= link_to "#{agent.name}", show_user_path(agent) %></td>
-              <td class="agent-points"><% agent.bank_value %></td>
+              <td class="agent-points"><%= agent.bank_value %></td>
             </tr>
               <% end %>
           </tbody>
