@@ -11,7 +11,6 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.2]
       t.integer :bank_value, null: false, default: 0
       t.integer :humanity_user_id
       t.boolean :ten_hour_shift, default: false
-      t.integer :work_days, array: true, default: []
       ## Recoverable
       t.string   :reset_password_token
       t.datetime :reset_password_sent_at
