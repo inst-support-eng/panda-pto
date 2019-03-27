@@ -14,5 +14,17 @@ class RequestsMailer < ApplicationMailer
         @user = params[:user]
         @pto_request = params[:pto_request]
         mail(to: @user.email, cc: "mco@instructure.com", subject: 'Deleted PTO Request')
-    end     
+    end    
+    
+    def day_of_request_email
+        @user = params[:user]
+        @pto_request = params[:pto_request]
+        mail(to: @user.email, cc: "mco@instructure.com", subject: `Day of request for #{@user.name}`)
+    end
+
+    def two_day_out_request
+        @user = params[:user]
+        @pto_request = params[:pto_request]
+        mail(to: @user.email, cc: "mco@instructure.com", subject: `Short notice request for #{@user.name}`)
+    end
 end

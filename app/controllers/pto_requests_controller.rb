@@ -11,27 +11,33 @@ class PtoRequestsController < ApplicationController
     # !TECHBEDT flash is not working
     def create
         @pto_request = PtoRequest.new(post_params)
-        puts @pto_request.request_date 
         @calendar = Calendar.find_by(:date => @pto_request.request_date)
         @user = User.find_by(:id => @pto_request.user_id)
 
         if @calendar.signed_up_agents.include?(@user.name)
-            redirect_to root_path
-            flash[:notice] = "You already have a request for this date"
+            redirect_to root_path, notice: "You already have a request for this date"
             return 
         end 
 
         if @user.bank_value < @pto_request.cost
-
-            redirect_to root_path
-            flash[:notice] = "You do not have enough to make this request"
+            redirect_to root_path, notice: "You do not have enough to make this request"
             return 
         end
         
         if @pto_request.save
             redirect_to root_path
             update_request_info
-            RequestsMailer.with(user: @user, pto_request: @pto_request).requests_email.deliver_now
+
+            case @pto_request.request_date
+            when Date.today
+                puts 'today'
+                # RequestsMailer.with(user: @user, pto_request: @pto_request).day_of_request_email.deliver_now  
+            when Date.today ... 2.days.from_now
+                puts '48 hours'
+                # RequestsMailer.with(user: @user, pto_request: @pto_request).two_day_out_request.deliver_now
+            else 
+                RequestsMailer.with(user: @user, pto_request: @pto_request).requests_email.deliver_now
+            end
         else
             redirect_to root_path, notice: "something went wrong"
         end

@@ -28,14 +28,8 @@ $(document).on('turbolinks:load', function () {
             currentDate.setHours(0)
             currentDate.setMinutes(00)
             currentDate.setSeconds(00)
-
-            console.log(requestDate > currentDate)
-            
-            if(requestDate.toDateString() == currentDate.toDateString()) {                
-                $('.dayOfModal').modal('show');
-            }
-
-            if (requestDate > currentDate && requestDate.getMonth()-currentDate.getMonth() <= 9 && !isNaN(current_price.current_price)) {
+            // #!TECHDEBT, jump off a bridge.
+            if ((requestDate.toDateString() == currentDate.toDateString()||requestDate > currentDate) && requestDate.getMonth()-currentDate.getMonth() <= 9 && !isNaN(current_price.current_price)) {
                 $('.calendarModal').modal('show');
                 let closeButton = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button >'
                 let displayCost = current_price.current_price * 8;
@@ -43,7 +37,12 @@ $(document).on('turbolinks:load', function () {
                     displayCost = current_price.current_price * 10;
                 }
 
-                $('.modal-header').html("New Request for " + e.target.id + closeButton)
+                if(requestDate.toDateString() == currentDate.toDateString()) {
+                    $('.modal-header').html(`New Request for ${e.target.id}, <div><h2>Requests made within 48 hours. Please also reach out to your MCO and Supervisor</h2></div>` + closeButton)
+                } else {
+                    $('.modal-header').html("New Request for " + e.target.id + closeButton)
+                }
+
                 $('.request-total').html(`total: ${displayCost}`)
                 $('#pto_request_request_date').attr("value", e.target.id)
                 $('#pto_request_cost').attr("value", displayCost)
