@@ -3,9 +3,9 @@
 <div>Email : <%= @user.email %></div>
 <div>Current Bank Value : <%= @user.bank_value %></div>
 <div>Ten hours shift : <%= @user.ten_hour_shift %></div>
-<div>Team : <%= user.team %></div>
+<div>Team : <%= @user.team %></div>
 <div>Start Time : <%= @user.start_time %></div>
-<div>End Time : <%= @user.end_tiem %></div>
+<div>End Time : <%= @user.end_time %></div>
 <div>Position : <%= @user.position %></div>
 <div>Admin : <%= @user.admin %></div>
 
@@ -13,15 +13,19 @@
 <h1>Requests for today</h1>
 <% @user.pto_requests.each do |request| %>
     <% if request.request_date == Date.today %>
-    <%= request.reason %> <%= request.request_date %> <%= request.cost %>
+    <div>
+    <%= request.reason %> <%= request.request_date %> <%= request.cost %> <%= request.excused %> <%= request.admin_note %> <% if request.excused == false %><%= button_to "Excuse Request", excuse_pto_request_path(request) %> <% end %>
+    </div>
     <% end %>
 <% end %>
 </div>
 
 <h1>Past requests</h1>
 <% @user.pto_requests.each do |request| %>
-    <% if request.request_date > Date.today %>
-    <%= request.reason %> <%= request.request_date %> <%= request.cost %>
+    <% if request.request_date < Date.today %>
+    <div>
+    <%= request.reason %> <%= request.request_date %> <%= request.cost %> <%= request.excused %> <%= request.admin_note %> <% if request.excused == false %><%= button_to "Excuse Request", excuse_pto_request_path(request) %> <% end %>
+    </div>
     <% end %>
 <% end %>
 </div>
@@ -29,11 +33,13 @@
 <div>
 <h1>Upcoming requests</h1>
 <% @user.pto_requests.each do |request| %>
-    <% if request.request_date < Date.today %>
-    <%= request.reason %> <%= request.request_date %> <%= request.cost %>
+    <% if request.request_date > Date.today %>
+    <div>
+    <%= request.reason %> <%= request.request_date %> <%= request.cost %> <%= request.excused %> <%= request.admin_note %> <% if request.excused == false %><%= button_to "Excuse Request", excuse_pto_request_path(request) %> <% end %>
+    </div>
     <% end %>
 <% end %>
 </div>
-
+<div>
 <%= button_to "Send user Password reset", user_send_password_reset_path(@user) %>
-
+</div>

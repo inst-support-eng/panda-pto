@@ -51,6 +51,24 @@ class PtoRequestsController < ApplicationController
         end
     end
 
+    def excuse_request
+        @pto_request = PtoRequest.find(params[:id])
+
+        if @pto_request == true
+            redirect_to show_user_path(@user), notice: "the request is already excused"
+        end
+        @user = User.find_by(:id => @pto_request.user_id)
+
+        @pto_request.excused = true
+        @pto_request.admin_note = "excused by #{current_user.name}"
+
+        @user.bank_value += @pto_request.cost
+        @pto_request.save
+        @user.save
+
+        redirect_to show_user_path(@user)
+    end
+    
     private 
     def post_params
         params.require(:pto_request).permit(:reason, :request_date, :cost).merge(user_id: current_user.id)

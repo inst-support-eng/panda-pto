@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   resources :calendars
 
   # routes for pto_requests
+  post "pto_requests/:id/excuse_request" => 'pto_requests#excuse_request', as: :excuse_pto_request
   resources :pto_requests
 
   # routes for date csv imports
