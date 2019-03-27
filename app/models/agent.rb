@@ -20,7 +20,8 @@ class Agent < ApplicationRecord
           :name => x.name, 
           :bank_value => 90, 
           :humanity_user_id => HumanityAPI.set_humanity_id(x.email, response),
-          :position => x.position.upcase
+          :position => x.position.upcase!,
+          :admin => x.admin
         )
         RegistrationMailer.with(user: user, password: generated_password).registration_email.deliver_now
       end
