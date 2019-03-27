@@ -44,11 +44,12 @@ class PtoRequestsController < ApplicationController
 
         if @pto_request.destroy
             remove_request_info
-            redirect_to root_path, flash[:notice] = "Your request was deleted"
             RequestsMailer.with(user: @user, pto_request: @pto_request).delete_request_email.deliver_now
+            redirect_to root_path, flash[:notice] = "Your request was deleted"
         else
             redirect_to root_path, flash[:notice] = "Somthing went wrong"
         end
+
     end
 
     def excuse_request
@@ -68,7 +69,7 @@ class PtoRequestsController < ApplicationController
 
         redirect_to show_user_path(@user)
     end
-    
+
     private 
     def post_params
         params.require(:pto_request).permit(:reason, :request_date, :cost).merge(user_id: current_user.id)
