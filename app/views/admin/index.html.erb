@@ -5,7 +5,7 @@
   <button class="adminbutton" id="values-csv">Upload Values</button>
   <button class="adminbutton" id="users-csv">Upload Users</button>
   </div>
-  <div class="center">
+  <div class="right">
       <div id="searchbar">
         <input type="text" id="search" onkeyup="filter()" placeholder="Filter by name.." title="Filter by name">
       </div>
@@ -28,35 +28,25 @@
         </table>
       </div>
   </div>  
-  <div class="right">
-        <table id="agent-table">
-            <tbody>
-              <thead>
-                <tr>
-                  <th>Agents working today</th>
-                </tr>
-              </thead>
-              <% if @offtoday.is_a? String %>
-              <%= @offtoday %>
-              <% else %>
-              <% @scheduled.each do |agent| %>
-                <div class="<%= agent.start_time %>">
-                  <div class="<%= agent.end_time %>"> 
-                  <% if agent.pto_requests.where(request_date: Date.today).empty?  %>
-                  <%= agent.name %>
-                  <% else %>
-                  <span class="offtoday"><%= agent.name %></span>
-                  <% end %>
-                </div>
-              </div>
-              <% end %>
-              <% end %>
-              <!-- i broke your table, but I got the data here :D -->
+  <div class="center">
+    <h4>Agents working today</h4>
+      <% if @offtoday.is_a? String %>
+        <div class="errormessage"><%= @offtoday %></div>
+      <% else %>
+        <% @scheduled.each do |agent| %>
+          <div class="start-<%= Time.parse(agent.start_time).in_time_zone("Mountain Time (US & Canada)").to_s[11..15] %>">
+          <% if agent.pto_requests.where(request_date: Date.today).empty? %>
+            <%= agent.name %>
+          <% else %>
+            <span class="offtoday"><%= agent.name %></span>
+          <% end %>
+          </div>
+          <div class="end-<%= Time.parse(agent.end_time).in_time_zone("Mountain Time (US & Canada)").to_s[11..15] %>"></div>
+      <% end %>
+      <% end %>
+  </div>
 
-              <div >
-            </tbody>
-          </table>
-    </div>
+</div>
     <div id="upload-users" class="admin-modal">
       <div class="upload-users-content">
           <div class="modal-header">Import Agents CSV
@@ -132,9 +122,4 @@ span2.onclick = function() {
   modal2.style.display = "none";
 }
 </script>
-
-
-
-
-
 

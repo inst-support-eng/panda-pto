@@ -19,7 +19,8 @@ class Agent < ApplicationRecord
           :password => generated_password, 
           :name => x.name, 
           :bank_value => 90, 
-          :humanity_user_id => HumanityAPI.set_humanity_id(x.email, response)
+          :humanity_user_id => HumanityAPI.set_humanity_id(x.email, response),
+          :position => x.position
         )
         RegistrationMailer.with(user: user, password: generated_password).registration_email.deliver_now
       end
@@ -29,6 +30,7 @@ class Agent < ApplicationRecord
     update_info.start_time = x.start_time
     update_info.end_time = x.end_time
     update_info.work_days = x.work_days.split(",").map(&:to_i)
+    update_info.position = x.position
     # check if a user who doesn't have a humanity account has one now
     update_info.humanity_user_id = HumanityAPI.set_humanity_id(x.email, response) if update_info.humanity_user_id == 0
     update_info.save
