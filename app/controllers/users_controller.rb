@@ -24,6 +24,7 @@ class UsersController < ApplicationController
     def update_admin
         @user.admin = !@user.admin
         @user.save
+        redirect_to show_user_path(@user) 
     end
     
     def send_password_reset

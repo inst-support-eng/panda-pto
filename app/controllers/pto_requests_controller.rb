@@ -78,7 +78,7 @@ class PtoRequestsController < ApplicationController
 
     private 
     def post_params
-        params.require(:pto_request).permit(:reason, :request_date, :cost).merge(user_id: current_user.id)
+        params.require(:pto_request).permit(:reason, :request_date, :cost, :user_id)
     end
 
     # update calednar && user with new request info
