@@ -1,6 +1,13 @@
 class UsersController < ApplicationController
     def show
-        @user = User.find(params[:id])
+        if current_user.nil?
+            redirect_to login_path
+        elsif current_user.admin?
+            @user = User.find(params[:id])
+        else
+            flash[:notice] = "You do not have access to this resource"
+            redirect_to root_path
+        end
     end
 
     def current
