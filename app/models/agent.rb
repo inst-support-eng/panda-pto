@@ -7,7 +7,9 @@ class Agent < ApplicationRecord
   def self.import(file)
     # !TECHDEBT this should be wrapped in some error handling
     CSV.foreach(file.path, {encoding: "UTF-8", headers: true, header_converters: :symbol, converters: :all, force_quotes: true}) do |row|
-      Agent.create row.to_hash
+      entry = find_by(:email => row[:email]) || new
+      entry.update row.to_hash
+      entry.save
     end
     response = HumanityAPI.get_employees
     Agent.find_each do |x|
@@ -27,7 +29,7 @@ class Agent < ApplicationRecord
         RegistrationMailer.with(user: user, password: generated_password).registration_email.deliver_now
       end
     # Then itmes should always be updated on import go here
-    update_info = User.find_by email: x.email 
+    update_info = User.find_by email: x.email
     update_info.team = x.team
     update_info.start_time = x.start_time
     update_info.end_time = x.end_time
