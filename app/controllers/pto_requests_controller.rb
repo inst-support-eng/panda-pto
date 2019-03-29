@@ -105,7 +105,9 @@ class PtoRequestsController < ApplicationController
         HumanityAPI.delete_request(@pto_request.humanity_request_id)
 
         @calendar.signed_up_agents.delete(@user.name)
+        @calendar.signed_up_total -= 1
         @calendar.save
+        helpers.update_price(@calendar.date)
 
         @user.bank_value += @pto_request.cost
         @user.save
