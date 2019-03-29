@@ -18,7 +18,7 @@ class Agent < ApplicationRecord
           :email => block.email, 
           :password => generated_password, 
           :name => x.name, 
-          :bank_value => 90, 
+          :bank_value => 180, 
           :humanity_user_id => HumanityAPI.set_humanity_id(x.email, response),
           :position => x.position.upcase!,
           :admin => x.admin,
