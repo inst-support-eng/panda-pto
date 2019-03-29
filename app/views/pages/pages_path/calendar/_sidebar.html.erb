@@ -6,11 +6,11 @@
     </div> <!-- sidebar-title -->
     <hr>
     <div class="all-requests">
-        <h4>All Requests:</h4>
+        <h4>Upcoming Requests:</h4>
         <% current_user.pto_requests.each do |request| %>
         <div>
-            <%= request.reason %> <%= request.request_date %> <%= request.cost %>
             <% if request.request_date > Date.today %>
+            <%= request.reason %> <%= request.request_date %> <%= request.cost %>
             <%= link_to "Delete", pto_request_path(request), data: {
                 :confirm => "Are you sure?"
             }, :method => :delete %>

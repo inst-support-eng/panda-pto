@@ -8,6 +8,7 @@
             </div><!-- modal-header -->
             <div class="modal-body">
                 <%= bootstrap_form_for(PtoRequest.new) do |f| %>
+                <%= f.hidden_field :user_id, :value => current_user.id %>
                 <%= f.text_field :reason, 
                     maxlength: 1000, 
                     placeholder: 'reason',

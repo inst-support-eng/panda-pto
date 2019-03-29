@@ -11,8 +11,8 @@ class PtoRequestsController < ApplicationController
     # !TECHBEDT flash is not working
     def create
         @pto_request = PtoRequest.new(post_params)
-        @calendar = Calendar.find_by(:date => @pto_request.request_date)
         @user = User.find_by(:id => @pto_request.user_id)
+        @calendar = Calendar.find_by(:date => @pto_request.request_date)
 
         if @calendar.signed_up_agents.include?(@user.name)
             redirect_to root_path, notice: "You already have a request for this date"
@@ -78,7 +78,7 @@ class PtoRequestsController < ApplicationController
 
     private 
     def post_params
-        params.require(:pto_request).permit(:reason, :request_date, :cost).merge(user_id: current_user.id)
+        params.require(:pto_request).permit(:reason, :request_date, :cost, :user_id)
     end
 
     # update calednar && user with new request info
@@ -86,6 +86,7 @@ class PtoRequestsController < ApplicationController
         humanity_request_id = HumanityAPI.create_request(@pto_request, @user)
         HumanityAPI.approve_request(humanity_request_id)
         @pto_request.humanity_request_id = humanity_request_id 
+        @pto_request.excused = false
         @pto_request.save
 
         @calendar.signed_up_total == nil ? @calendar.signed_up_total = 1 : @calendar.signed_up_total += 1
