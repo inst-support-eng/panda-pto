@@ -27,16 +27,10 @@ class PtoRequestsController < ApplicationController
         if @pto_request.save
             redirect_to root_path
             update_request_info
-
-            case @pto_request.request_date
-            when Date.today
-                puts 'today'
-                # RequestsMailer.with(user: @user, pto_request: @pto_request).day_of_request_email.deliver_now  
-            when Date.today ... 2.days.from_now
-                puts '48 hours'
-                # RequestsMailer.with(user: @user, pto_request: @pto_request).two_day_out_request.deliver_now
-            else 
+            if(current_user.id == @pto_request.id)
                 RequestsMailer.with(user: @user, pto_request: @pto_request).requests_email.deliver_now
+            else 
+                RequestsMailer.with(agent: @user, pto_request: @pto_request, supervisor: current_user).admin_request_email.deliver_now
             end
         else
             redirect_to root_path, notice: "something went wrong"
@@ -65,15 +59,17 @@ class PtoRequestsController < ApplicationController
             redirect_to show_user_path(@user), notice: "the request is already excused"
         end
         @user = User.find_by(:id => @pto_request.user_id)
+        @user.bank_value += @pto_request.cost
 
         @pto_request.excused = true
         @pto_request.admin_note = "excused by #{current_user.name}"
 
-        @user.bank_value += @pto_request.cost
+        @pto_request.cost = 0
         @pto_request.save
         @user.save
 
         redirect_to show_user_path(@user)
+        RequestsMailer.with(user: @user, pto_request: @pto_request, supervisor: current_user).excuse_request_email.deliver_now
     end
 
     private 

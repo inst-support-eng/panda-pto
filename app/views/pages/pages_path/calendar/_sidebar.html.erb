@@ -10,7 +10,7 @@
         <% current_user.pto_requests.each do |request| %>
         <div>
             <% if request.request_date > Date.today %>
-            <%= request.reason %> <%= request.request_date %> <%= request.cost %>
+            <%= request.reason.truncate(10) %> <%= request.request_date %> <%= request.cost %>
             <%= link_to "Delete", pto_request_path(request), data: {
                 :confirm => "Are you sure?"
             }, :method => :delete %>

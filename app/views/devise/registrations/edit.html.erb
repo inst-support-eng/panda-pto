@@ -1,6 +1,6 @@
 <h2><%= current_user.name %> Profile</h2>
 
-<div>Current Bank Value : current_user.bank_value</div>
+<div>Current Bank Value : <%= current_user.bank_value %></div>
 <div>Shift Length : <% if current_user.ten_hour_shift %> ten hour shift <% else %> eight hour shift <% end %></div>
 <div>Team : <%= current_user.team %></div>
 <div>Work Days : <%= current_user.work_days %></div>

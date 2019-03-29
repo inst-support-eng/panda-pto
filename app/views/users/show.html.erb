@@ -41,48 +41,39 @@
     <% end %>
 <% end %>
 </div>
-<button class="adminbutton" id="add-request-btn">Add Request</button>
+<button class="add-resquest-btn" id="add-request-btn">Add Request</button>
 <%= button_to "Update Admin Privileges", user_update_admin_path(@user) %>
 <div>
 <%= button_to "Send user Password reset", user_send_password_reset_path(@user) %>
 </div>
 
-
-<div class="admin-modal" id="add-request">
-  <div class="add-request-modal">
-    <div class="modal-header">Add Request for <%= @user.name %> 
-      <div class="close2">&times;</div>
-    </div> <!-- modal-header -->
-      <%= bootstrap_form_for(PtoRequest.new) do |f| %>
-        <%= f.hidden_field :user_id, :value => @user.id %>
-        <%= f.text_field :reason, 
-            maxlength: 1000, 
-            placeholder: 'reason',
-            class: 'form-control', 
-            required: 'true' %>
-          <%= f.date_field :request_date %>
-          <%= f.number_field :cost %>
-          <%= f.submit 'create request', class: 'form-control' %>
-      <% end %>
-  </div> <!-- add-request-modal -->
-</div> <!-- add-request --> 
+<div class="modal"  id="add-request" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div><!-- modal-header -->
+            <div class="modal-body">
+            <%= bootstrap_form_for(PtoRequest.new) do |f| %>
+                <%= f.hidden_field :user_id, :value => @user.id %>
+                <%= f.text_field :reason, 
+                    maxlength: 1000, 
+                    placeholder: 'reason',
+                    class: 'form-control', 
+                    required: 'true' %>
+                  <%= f.date_field :request_date %>
+                  <%= f.number_field :cost %>
+                  <%= f.submit 'create request', class: 'form-control' %>
+              <% end %>
+            </div> <!-- modal-body -->
+        </div> <!-- modal-conent -->
+    </div> <!-- modal-dialog -->
+</div> <!-- add-request -->
 
 <script>
-var modal = document.getElementById('add-request');
-var btn = document.getElementById("add-request-btn");
-var span = document.getElementsByClassName("close")[0];
-btn.onclick = function() {
-  modal.style.display = "block";
-}
-span.onclick = function() {
-  modal.style.display = "none";
-}
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-  else if (event.target == modal2) {
-    modal2.style.display = "none";
-  }
-}
+  $('body').on('click', '#add-request-btn', async function () {
+    $('#add-request').modal('show')
+  })
 </script>
