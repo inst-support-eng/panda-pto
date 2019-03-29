@@ -2,7 +2,7 @@
 
 $(document).on('turbolinks:load', function () {
     // when a post is clicked show a modal
-    function renderModal() {
+    renderModal = () => {
         $('body').on('click', '.calendar-date', async function (e) {
             const calendarDates = await getDates();
             const currUser = await currentUser();
@@ -55,5 +55,6 @@ $(document).on('turbolinks:load', function () {
         })
     }
 
-    renderModal()
+    renderModal() 
+
 })

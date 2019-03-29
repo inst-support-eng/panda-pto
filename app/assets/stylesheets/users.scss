@@ -1,0 +1,43 @@
+/*---- Page Layout ----*/
+
+html, body {
+    background-color: white;
+    position: relative;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    height:100%;
+    overflow: hidden;
+    top: 0px;
+  }
+  
+  body {
+    top: 60px;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-areas:
+      'left center center center center center center center right right';
+    height: 100%;
+  }
+
+  /* -- Buttons --- */
+
+    .add-resquest-btn {
+    background-color: #132f52;
+    border-radius: 5px;
+    border: 1px solid #132f52;
+    color: white;
+    height: 40px;
+    display: block;
+    width: 90%;
+    margin: 10px 20px 0px 10px;
+    box-shadow: 2px 2px #485366;
+    font-size: 24px;
+    font-weight: 200;
+    outline: none;
+  }
+
+  .add-resquest-btn:hover {
+    color: #337ab7;
+  }
