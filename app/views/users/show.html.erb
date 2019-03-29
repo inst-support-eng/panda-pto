@@ -75,7 +75,7 @@
 
 <div class="update-shift">
 <p>Youre shift is currently set to show cost for a <% if current_user.ten_hour_shift %> ten hour shift <% else %> eight hour shift <% end %> to change this, toggle it with the button bellow </p>
-<%= form_tag user_update_shift_path(current_user), method: :put do %>
+<%= form_tag user_update_shift_path(@user), method: :put do %>
   <%= submit_tag '8/10 hour shift' %>
 <% end %>
 </div>
