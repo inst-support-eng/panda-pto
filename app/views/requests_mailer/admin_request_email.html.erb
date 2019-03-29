@@ -9,12 +9,13 @@
     <body>
         <p>Hello,</p> 
 
-        <p>This is to confirm that you’ve deleted a PTO request. This will send an automatic email confirming your PTO credits to the MCO and your supervisor. Your credits are listed below.</p> 
+        <p>This email is to confirm that a PTO deduction has been made on your behalf. Your remaining credits are listed below.</p> 
 
-        <p>Agent: <%= @user.name %></p>
+        <p>Agent: <%= @agent.name %></p>
         <p>Cost of request: <%= @pto_request.cost %></p>
-        <p>Date of request: <%= @pto_request.request_date %></p>
-        <p>Remaining balance: <%= @user.bank_value %></p>
+        <p>Date that was deducted: <%= @pto_request.request_date %></p>
+        <p>Remaining balances: <%= @agent.bank_value %></p>
+        <p>Balance deducted by: <%= @supervisor.name %></p>
         
         <p>If you have any questions or concerns, please contact your supervisor.</p> 
         <p>Thank you,

@@ -1,4 +1,5 @@
 class AdminController < ApplicationController
+  
   def index
     today = Calendar.find_by(:date => Date.today) 
     if today.nil? 
