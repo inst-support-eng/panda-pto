@@ -65,11 +65,12 @@ class PtoRequestsController < ApplicationController
             redirect_to show_user_path(@user), notice: "the request is already excused"
         end
         @user = User.find_by(:id => @pto_request.user_id)
+        @user.bank_value += @pto_request.cost
 
         @pto_request.excused = true
         @pto_request.admin_note = "excused by #{current_user.name}"
 
-        @user.bank_value += @pto_request.cost
+        @pto_request.cost = 0
         @pto_request.save
         @user.save
 
