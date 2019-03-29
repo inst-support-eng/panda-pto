@@ -1,43 +1,65 @@
-<<<<<<< HEAD
-.edit-user-body {
- margin: 20px;
- color: orange;
-}
+/*---- Page Layout ----*/
+
+.layout-edit-user {
+    display: grid;
+    grid-template-areas:
+      'eleft eright eright eright eright eright eright eright eright eright';
+    height: 100%;
+    background-color: orange;
+    width: 100%;
+  }
+
+  .left-edit-user { 
+    grid-area: eleft; 
+    height: 100%; 
+    background-color: $sidebar; 
+    padding-top: 15px; 
+    width: auto;
+    min-width: 200px;
+    box-shadow: 1px 1px #7178864f;
+  }
+
+  .right-edit-user { 
+    grid-area: eright;
+    background-color: white;
+    width: auto;
+    height: 100%;
+    border: 1px solid #485366;
+    padding: 20px;
+  }
+
+  .edit-user-buttons {
+    background-color: $header;
+    border-radius: 5px;
+    border: 1px solid #132f52;
+    color: $text;
+    height: 40px;
+    display: block;
+    width: 90%;
+    margin: 10px 20px 0px 10px;
+    box-shadow: 2px 2px #485366;
+    font-size: 24px;
+    font-weight: 200;
+    outline: none;
+  }
+
+  .edit-user-buttons:hover {
+    color: $hovertext;
+  }
+
+
 
 .new-password {
-
 }
 
 .confirm-password {
-
 }
 
 .user-password-reset {
 
 }
-=======
-/*---- Page Layout ----*/
 
-html, body {
-    background-color: white;
-    position: relative;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: 400;
-    height:100%;
-    overflow: hidden;
-    top: 0px;
-  }
-  
-  body {
-    top: 60px;
-  }
 
-  .layout {
-    display: grid;
-    grid-template-areas:
-      'left center center center center center center center right right';
-    height: 100%;
-  }
 
   /* -- Buttons --- */
 
@@ -57,6 +79,5 @@ html, body {
   }
 
   .add-resquest-btn:hover {
-    color: #337ab7;
+    color: $text;
   }
->>>>>>> 40a04bde8a1aa8b42903dfab1a8bd5b0964f5c6f
