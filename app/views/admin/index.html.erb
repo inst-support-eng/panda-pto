@@ -4,6 +4,12 @@
 <!--  <button class="adminbutton" id="csv">Add Request</button>  -->
   <button class="adminbutton" id="values-csv">Upload Values</button>
   <button class="adminbutton" id="users-csv">Upload Users</button>
+  <button class="adminbutton" id="pto-csv">Import Requests</button>
+  <%= form_tag import_request_pto_requests_path, multipart: true do %>
+    <%= file_field_tag :file %>
+    <%= submit_tag "Import PTO requests" %>
+    <% end %> 
+
   </div>
   <div class="right">
       <div id="searchbar">

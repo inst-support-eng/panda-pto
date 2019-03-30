@@ -1,4 +1,13 @@
-class PtoRequestsController < ApplicationController 
+class PtoRequestsController < ApplicationController
+
+    def import_request
+        if params[:file]
+            PtoRequest.import(params[:file])
+            redirect_to root_url, notice: "Past requests imported!"
+        else
+            redirect_to root_url, notice: "Weep Womp. Please upload a valid CSV file"
+        end
+    end
 
     def show
         @pto_request = pto_request.find(params[:id])

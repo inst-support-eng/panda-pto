@@ -35,8 +35,10 @@ Rails.application.routes.draw do
 
   # routes for pto_requests
   post "pto_requests/:id/excuse_request" => 'pto_requests#excuse_request', as: :excuse_pto_request
-  
-  resources :pto_requests 
+  get 'pto_requests/import'
+  resources :pto_requests do
+    collection { post :import_request}
+  end
   
   # routes for users 
   get 'current' => 'users#current'
@@ -48,6 +50,5 @@ Rails.application.routes.draw do
     post :send_password_reset
     post :add_request_for_user
   end
-  
   root to: 'pages#index'
 end
