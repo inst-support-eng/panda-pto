@@ -5,14 +5,14 @@
 
   </div>
   <div class="right-edit-user">
-      <div>Profile: <%= current_user.name %></div>
-      <div>Current Bank Value : <%= current_user.bank_value %></div>
-      <div>Shift Length : <% if current_user.ten_hour_shift %> ten hour shift <% else %> eight hour shift <% end %></div>
-      <div>Team : <%= current_user.team %></div>
-      <div>Work Days : <%= current_user.work_days %></div>
-      <div>Start Time : <%= current_user.start_time %></div>
-      <div>End Time : <%= current_user.end_time %></div>
-      <div>Position : <%= current_user.position %></div>
+      <div><%= current_user.name %></div>
+      <div>Current PTO Balence: <%= current_user.bank_value %></div>
+      <div>Team: <%= current_user.team %></div>
+      <!-- we should add in sup here as well -->
+      <div>Shift: <%= @shift_start %> – <%= @shift_end %></div>
+      <div>Work Days: <%= @workdays.chop.chop %></div>
+      <div>Shift Length: <% if current_user.ten_hour_shift %> Ten hours <% else %> Eight hours <% end %></div>
+      <div>Role: <%= current_user.position %></div>
       <div>Upcoming Requests</div>
 
       <% current_user.pto_requests.each do |request| %>
