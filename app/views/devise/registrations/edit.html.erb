@@ -1,78 +1,74 @@
-<h2><%= current_user.name %> Profile</h2>
+<div class="layout-edit-user">
+  <div class="left-edit-user">
+      <button class="edit-user-buttons" id="Reset Password">Reset Password</button>
+      <button class="edit-user-buttons" id="Back"><%= link_to "Back", :back %></button>
 
-<div>Current Bank Value : <%= current_user.bank_value %></div>
-<div>Shift Length : <% if current_user.ten_hour_shift %> ten hour shift <% else %> eight hour shift <% end %></div>
-<div>Team : <%= current_user.team %></div>
-<div>Work Days : <%= current_user.work_days %></div>
-<div>Start Time : <%= current_user.start_time %></div>
-<div>End Time : <%= current_user.end_time %></div>
-<div>Position : <%= current_user.position %></div>
+  </div>
+  <div class="right-edit-user">
+      <div>Profile: <%= current_user.name %></div>
+      <div>Current Bank Value : <%= current_user.bank_value %></div>
+      <div>Shift Length : <% if current_user.ten_hour_shift %> ten hour shift <% else %> eight hour shift <% end %></div>
+      <div>Team : <%= current_user.team %></div>
+      <div>Work Days : <%= current_user.work_days %></div>
+      <div>Start Time : <%= current_user.start_time %></div>
+      <div>End Time : <%= current_user.end_time %></div>
+      <div>Position : <%= current_user.position %></div>
+      <div>Upcoming Requests</div>
 
+      <% current_user.pto_requests.each do |request| %>
+        <div>
+            <% if request.request_date > Date.today %>
+            <%= request.reason %> <%= request.request_date %> <%= request.cost %>
+            <%= link_to "Delete", pto_request_path(request), data: {
+                :confirm => "Are you sure?"
+            }, :method => :delete %>
+            <% end %>
+        </div>
+      <% end %>  
 
-<div>Upcoming Requests</div>
-<% current_user.pto_requests.each do |request| %>
-  <div>
-      <% if request.request_date > Date.today %>
+      <div>Past Requests</div>
+      <div>
+      <% current_user.pto_requests.each do |request| %>
+      <% if request.request_date <= Date.today %>
       <%= request.reason %> <%= request.request_date %> <%= request.cost %>
-      <%= link_to "Delete", pto_request_path(request), data: {
-          :confirm => "Are you sure?"
-      }, :method => :delete %>
+      <% end %>
+      <% end %>
+      </div>
+
+      <p><b>Update Password</b></p>
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+
+        <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+          <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+        <% end %>
+
+        <div class="field">
+          <%= f.hidden_field :email, :value => current_user.email %>
+        </div>
+
+        <div class="field">
+        <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+        <%= f.password_field :current_password, autocomplete: "current-password" %>
+        </div>
+
+        <div class="field">
+        <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+        <%= f.password_field :password, autocomplete: "new-password" %>
+        <% if @minimum_password_length %>
+          <br />
+          <em><%= @minimum_password_length %> characters minimum</em>
+        <% end %>
+        </div>
+
+        <div class="field">
+          <%= f.label :password_confirmation %><br />
+          <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+        </div>
+
+        <div class="actions">
+          <%= f.submit "Update" %>
+        </div>
       <% end %>
   </div>
-<% end %>  
-
-<div>Past Requests</div>
-<div>
-<% current_user.pto_requests.each do |request| %>
-<% if request.request_date <= Date.today %>
-<%= request.reason %> <%= request.request_date %> <%= request.cost %>
-<% end %>
-<% end %>
 </div>
-
-
-<div class="update-shift">
-<p>Youre shift is currently set to show cost for a <% if current_user.ten_hour_shift %> ten hour shift <% else %> eight hour shift <% end %> to change this, toggle it with the button bellow </p>
-<%= form_tag user_update_shift_path(current_user), method: :put do %>
-  <%= submit_tag '8/10 hour shift' %>
-<% end %>
-</div>
-
-
-<p><b>Update Password</b></p>
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
-
-  <div class="field">
-    <%= f.hidden_field :email, :value => current_user.email %>
-  </div>
-
-  <div class="field">
-  <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-  <%= f.password_field :current_password, autocomplete: "current-password" %>
-  </div>
-
-  <div class="field">
-  <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-  <%= f.password_field :password, autocomplete: "new-password" %>
-  <% if @minimum_password_length %>
-    <br />
-    <em><%= @minimum_password_length %> characters minimum</em>
-  <% end %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
-<% end %>
-
-<%= link_to "Back", :back %>

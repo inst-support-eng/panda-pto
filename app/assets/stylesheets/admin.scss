@@ -5,7 +5,7 @@
 /*---- Page Layout ----*/
 
   html, body {
-    background-color: white;
+    background-color: $background;
     position: relative;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 400;
@@ -30,17 +30,18 @@
   .left { 
     grid-area: left; 
     height: 100%; 
-    background-color: #f2f4f7; 
+    background-color: $sidebar; 
     padding-top: 15px; 
-    width: 100%;
+    width: 15vw;
+    min-width: 252px;
     box-shadow: 1px 1px #7178864f;
   }
 
   .adminbutton {
-    background-color: #132f52;
+    background-color: $header;
     border-radius: 5px;
     border: 1px solid #132f52;
-    color: white;
+    color: $text;
     height: 40px;
     display: block;
     width: 90%;
@@ -52,12 +53,25 @@
   }
 
   .adminbutton:hover {
-    color: #337ab7;
+    color: $hovertext;
   }
 
-/*---- Center ----*/
+/*---- Right ----*/
+
+  .right { 
+    grid-area: right;
+    background-color: white;
+    width: 350px;
+    min-width: 350px;
+    height: 100%;
+    border: 1px solid #485366;
+    border-radius: 3px;
+    padding: 20px;
+    margin: 20px;
+  }
+
   input[title="Filter by name"] {
-    width: 100%;
+    width: 300px;
     font-size: 16px;
     padding: 12px 20px 12px 40px;
     border: 1px solid #485366;
@@ -73,14 +87,6 @@
     border-radius: 3px;
     height: 100%;
     padding: 10px;
-  }
-
-  .center { 
-    grid-area: center; 
-    background-color: white;
-    width: 95%;
-    margin: 20px;
-    height: 100%;
   }
 
   table {
@@ -101,19 +107,6 @@
   .agent-row {
     margin-left: 10px;
     border: 1px solid #7178864f;
-  }
-
-/*---- Right ----*/
-
-  .right { 
-    grid-area: right;
-    background-color: white;
-    width: 95%;
-    margin-top: 20px;
-    height: 100%;
-    border: 1px solid #485366;
-    border-radius: 3px;
-    padding: 20px;
   }
 
 /*---- Modals ----*/
@@ -159,7 +152,7 @@
 }
 
 input[type="submit"] {
-  background-color: #132f52;
+  background-color: $header;
   color: white;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 200;
@@ -174,3 +167,83 @@ input[type="submit"] {
 input[type="file"] {
   margin-left: 20px;
 }
+
+/*---- Center ----*/
+
+.center { 
+  grid-area: center; 
+  background-color: white;
+  height: 100%;
+  overflow-x: scroll;
+  border: 1px solid #485366;
+  border-radius: 3px;
+  padding: -1px;
+  margin: 20px 0px 0px 20px;
+  text-align: center;
+}
+
+
+/*------ Who is off ------*/
+.working-grid {
+  display: grid;
+  grid-template-areas:
+    '00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23';
+  height: 100%;
+  grid-template-columns: 50px;
+}
+
+.off-header {
+  padding: 3px;
+  border: 1px solid black;
+  width: 50px;
+}
+
+.start-00	 { grid-area: 00; background-color: $header; }
+.start-01	 { grid-area: 01; background-color: $header; }
+.start-02	 { grid-area: 02; background-color: $header; }
+.start-03	 { grid-area: 03; background-color: $header; }
+.start-04	 { grid-area: 04; background-color: $header; }
+.start-05	 { grid-area: 05; background-color: $header; }
+.start-06	 { grid-area: 06; background-color: $header; }
+.start-07	 { grid-area: 07; background-color: $header; }
+.start-08	 { grid-area: 08; background-color: $header; }
+.start-09	 { grid-area: 09; background-color: $header; }
+.start-10	 { grid-area: 10; background-color: $header; }
+.start-11	 { grid-area: 11; background-color: $header; }
+.start-12	 { grid-area: 12; background-color: $header; }
+.start-13	 { grid-area: 13; background-color: $header; }
+.start-14	 { grid-area: 14; background-color: $header; }
+.start-15	 { grid-area: 15; background-color: $header; }
+.start-16	 { grid-area: 16; background-color: $header; }
+.start-17	 { grid-area: 17; background-color: $header; }
+.start-18	 { grid-area: 18; background-color: $header; }
+.start-19	 { grid-area: 19; background-color: $header; }
+.start-20	 { grid-area: 20; background-color: $header; }
+.start-21	 { grid-area: 21; background-color: $header; }
+.start-22	 { grid-area: 22; background-color: $header; }
+.start-23	 { grid-area: 23; background-color: $header; }
+		
+.end-00	 { grid-area: 00; background-color: $header; }
+.end-01	 { grid-area: 01; background-color: $header; }
+.end-02	 { grid-area: 02; background-color: $header; }
+.end-03	 { grid-area: 03; background-color: $header; }
+.end-04	 { grid-area: 04; background-color: $header; }
+.end-05	 { grid-area: 05; background-color: $header; }
+.end-06	 { grid-area: 06; background-color: $header; }
+.end-07	 { grid-area: 07; background-color: $header; }
+.end-08	 { grid-area: 08; background-color: $header; }
+.end-09	 { grid-area: 09; background-color: $header; }
+.end-10	 { grid-area: 10; background-color: $header; }
+.end-11	 { grid-area: 11; background-color: $header; }
+.end-12	 { grid-area: 12; background-color: $header; }
+.end-13	 { grid-area: 13; background-color: $header; }
+.end-14	 { grid-area: 14; background-color: $header; }
+.end-15	 { grid-area: 15; background-color: $header; }
+.end-16	 { grid-area: 16; background-color: $header; }
+.end-17	 { grid-area: 17; background-color: $header; }
+.end-18	 { grid-area: 18; background-color: $header; }
+.end-19	 { grid-area: 19; background-color: $header; }
+.end-20	 { grid-area: 20; background-color: $header; }
+.end-21	 { grid-area: 21; background-color: $header; }
+.end-22	 { grid-area: 22; background-color: $header; }
+.end-23	 { grid-area: 23; background-color: $header; }

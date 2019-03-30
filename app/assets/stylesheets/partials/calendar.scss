@@ -7,7 +7,12 @@ body, html {
 }
 
 h3, h4, h5 {
-  /*color: #e7e7e7;*/
+  font-size: 1.25em;
+  font-weight: 300 !important;
+}
+
+h5 {
+  font-size: 1.25em;
   font-weight: 300 !important;
 }
 
@@ -36,8 +41,8 @@ h3, h4, h5 {
 
 /* Control the left side */
 .sidebar-wrapper {
-  color: #071a32;
-  background-color: #f2f4f7;
+  color: $text;
+  background-color: $sidebar;
   padding-bottom: 20px;
   font-weight: 300;
   left: 0;
@@ -149,16 +154,16 @@ h3, h4, h5 {
     position: fixed;
     z-index: 99;
     width: 100%;
-    background-color: #5a649c !important;
+    background-color: $header !important;
   }
 
   .mobile-header a i {
-    color: #fff;
+    color: $text;
     font-size: 38px;
   }
 
   .mobile-header h4 {
-    color: #fff;
+    color: $text;
   }
 
   .mobile-header .row {
@@ -257,7 +262,7 @@ h3, h4, h5 {
 
   .prev-button {
     cursor: pointer;
-    color: #132f52;
+    color: $header;
     float: left;
     margin-left: 30%;
   }
@@ -268,7 +273,7 @@ h3, h4, h5 {
 
   .next-button {
     cursor: pointer;
-    color: #132f52;
+    color: $header;
     float: right;
     margin-right: 30%;
   }
@@ -278,7 +283,7 @@ h3, h4, h5 {
   }
 
   a.prev-button:hover, a.next-button:hover {
-    color: #2c4565 !important;
+    color: $sidebar !important;
   }
 
   .calendar-content {
@@ -376,8 +381,8 @@ h3, h4, h5 {
 
 /*----------------- Modal -----------------------*/
   .modal-header {
-    background-color: #132f52;
-    color: white;
+    background-color: $header;
+    color: $text;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 200;
     font-size: 2rem;
@@ -388,7 +393,7 @@ h3, h4, h5 {
   }
 
   button.close {
-    color: white !important;
+    color: $text !important;
     opacity: 1;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 100;
@@ -396,8 +401,8 @@ h3, h4, h5 {
   }
 
   .form-control[type="submit"] {
-    background-color: #132f52;
-    color: white;
+    background-color: $header;
+    color: $text;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 200;
     font-size: 2rem;
@@ -408,10 +413,10 @@ h3, h4, h5 {
   }
 
   .form-control[type="submit"]:hover {
-    background-color: #2c4565;
+    background-color: $sidebar;
   }
 
   a[href="/users/password/new"] {
-    color: #071a32;
+    color: $header;
     margin: 0px;
   }

@@ -1,4 +1,5 @@
 <!-- this will include more once we update the users tables -->
+<div>
 <div>Name : <%= @user.name %></div>
 <div>Email : <%= @user.email %></div>
 <div>Current Bank Value : <%= @user.bank_value %></div>
@@ -71,6 +72,13 @@
         </div> <!-- modal-conent -->
     </div> <!-- modal-dialog -->
 </div> <!-- add-request -->
+
+<div class="update-shift">
+<p>Youre shift is currently set to show cost for a <% if current_user.ten_hour_shift %> ten hour shift <% else %> eight hour shift <% end %> to change this, toggle it with the button bellow </p>
+<%= form_tag user_update_shift_path(@user), method: :put do %>
+  <%= submit_tag '8/10 hour shift' %>
+<% end %>
+</div>
 
 <script>
   $('body').on('click', '#add-request-btn', async function () {

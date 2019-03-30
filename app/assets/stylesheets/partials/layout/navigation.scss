@@ -1,5 +1,5 @@
   .navbar {
-    background-color: #132f52;
+    background-color: $header;
     height: 60px;
     border-bottom: #132f52 solid 0.0625rem;
     text-transform: uppercase; 
@@ -15,11 +15,11 @@
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     margin-left: 10px;
     vertical-align: middle;
-    color: white;
+    color: $text;
   }
 
   a:hover {
-    color: #337ab7;
+    color: $hovertext;
   }
 
   .nav-left { grid-area: left; padding-left: 10px; padding-top: 6px;}
@@ -34,7 +34,7 @@
   }
 
  .center-nav-buttons:hover {
-    color: #337ab7; 
+    color: $hovertext; 
   }
 
   .navbar-header {
@@ -45,12 +45,12 @@
   }
 
   .navbar-sections {
-    color: white !important;
+    color: $text !important;
     }
 
   .mobile-menu {
     i {
-      color: white;
+      color: $text;
     }
     ul {
       padding: 0px;
@@ -62,8 +62,8 @@
   }
 
   .dropdown-menu  {
-    background-color: #132f52 !important;
-    border: 1px solid #132f52 !important;
+    background-color: $header !important;
+    border: 1px solid $sidebar !important;
     position: absolute !important;
     top: 100% !important;
     right: 0 !important;
@@ -80,43 +80,43 @@
     -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175) !important;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175) !important;
     margin: 0px !important;
-    color: white !important;
+    color: $text !important;
   }
 
     .dropdown-menu > li > a {
-    color: white !important;
+    color: $text !important;
     font-weight: 200 !important;
   }
 
   .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus, {
     display: block;
     font-weight: 200 !important;
-    background-color: #132f52 !important;
-    color: #337ab7 !important;
+    background-color: $header !important;
+    color: $hovertext !important;
   }
   
   .dropdown-toggle {
   height: 60px;
-  color: white !important;
+  color: $text !important;
   }
 
   .dropdown-toggle:hover {
-  color: #337ab7 !important;
+  color: $hovertext !important;
   }
 
 
   .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
-    background-color: #132f52 !important; 
-    color: #337ab7 !important;
+    background-color: $header !important; 
+    color: $text !important;
   }
 
   .navbar-collapse, .navbar-nav > li > a {
-    color: white !important;
+    color: $text !important;
     line-height: 30px;
    }
 
   .navbar-nav > li > a:hover {
-    color: #2c4565;
+    color: $hovertext;
    }
 
 
