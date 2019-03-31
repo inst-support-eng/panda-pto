@@ -1,20 +1,25 @@
 <div class="layout-edit-user">
   <div class="left-edit-user">
-      <button class="edit-user-buttons" id="Reset Password">Reset Password</button>
+      <button class="edit-user-buttons" id="reset-password-button">Reset Password</button>
       <button class="edit-user-buttons" id="Back"><%= link_to "Back", :back %></button>
-
   </div>
-  <div class="right-edit-user">
-      <div>Profile: <%= current_user.name %></div>
-      <div>Current Bank Value : <%= current_user.bank_value %></div>
-      <div>Shift Length : <% if current_user.ten_hour_shift %> ten hour shift <% else %> eight hour shift <% end %></div>
-      <div>Team : <%= current_user.team %></div>
-      <div>Work Days : <%= current_user.work_days %></div>
-      <div>Start Time : <%= current_user.start_time %></div>
-      <div>End Time : <%= current_user.end_time %></div>
-      <div>Position : <%= current_user.position %></div>
-      <div>Upcoming Requests</div>
 
+  <div class="right-edit-user users-right">
+    <div class="content-left">
+      <h1>User Profile</h1>
+      <table class="profile-container content-left">
+        <tr><td>Profile:</td><td><%= current_user.name %></td></tr>
+        <tr><td>Position:</td><td><%= current_user.position %></td></tr>
+        <tr><td>Current Bank Value:</td><td><%= current_user.bank_value %></td></tr>
+        <tr><td>Shift Length:</td><td><% if current_user.ten_hour_shift %> 10 hour shift <% else %> 8 hour shift <% end %></td></tr>
+        <tr><td>Work Days:</td><td><%= current_user.work_days %></td></tr>
+        <tr><td>Start Time:</td><td><%= current_user.start_time %></td></tr>
+        <tr><td>End Time:</td><td><%= current_user.end_time %></td></tr>
+        <tr><td>Team:</td><td><%= current_user.team %></td></tr>
+      </table>
+    </div>
+    <div class="upcoming-requests-tab content-middle">
+      <h1>Upcoming Requests</h1>
       <% current_user.pto_requests.each do |request| %>
         <div>
             <% if request.request_date > Date.today %>
@@ -25,50 +30,76 @@
             <% end %>
         </div>
       <% end %>  
+    </div>
 
-      <div>Past Requests</div>
-      <div>
-      <% current_user.pto_requests.each do |request| %>
-      <% if request.request_date <= Date.today %>
-      <%= request.reason %> <%= request.request_date %> <%= request.cost %>
-      <% end %>
-      <% end %>
-      </div>
-
-      <p><b>Update Password</b></p>
-      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-        <%= render "devise/shared/error_messages", resource: resource %>
-
-        <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-          <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+    <div class="past-requests-tab content-right">
+      <h1>Past Requests</h1>
+        <div>
+        <% current_user.pto_requests.each do |request| %>
+        <% if request.request_date <= Date.today %>
+        <%= request.reason %> <%= request.request_date %> <%= request.cost %>
         <% end %>
-
-        <div class="field">
-          <%= f.hidden_field :email, :value => current_user.email %>
-        </div>
-
-        <div class="field">
-        <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-        <%= f.password_field :current_password, autocomplete: "current-password" %>
-        </div>
-
-        <div class="field">
-        <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-        <%= f.password_field :password, autocomplete: "new-password" %>
-        <% if @minimum_password_length %>
-          <br />
-          <em><%= @minimum_password_length %> characters minimum</em>
         <% end %>
         </div>
+    </div>
+  </div>
+      <div id="update-password" class="password-modal">
+          <div class="update-password-content">
+              <div class="modal-header">Update Password
+                <div class="close2">x</div></div>
+                <div class="password-form">
+                <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+                <%= render "devise/shared/error_messages", resource: resource %>
 
-        <div class="field">
-          <%= f.label :password_confirmation %><br />
-          <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-        </div>
+                <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+                  <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+                <% end %>
 
-        <div class="actions">
-          <%= f.submit "Update" %>
-        </div>
-      <% end %>
+                <div class="field">
+                  <%= f.hidden_field :email, :value => current_user.email %>
+                </div>
+
+                <div class="field">
+                <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+                <%= f.password_field :current_password, autocomplete: "current-password" %>
+                </div>
+                <br>
+                <div class="field">
+                <%= f.label :password %> <em><%= @minimum_password_length %> characters minimum</em>
+                <br>
+                <%= f.password_field :password, autocomplete: "new-password" %>
+                <% if @minimum_password_length %>
+                <% end %>
+                </div>
+                <br>
+                <div class="field">
+                  <%= f.label :password_confirmation %><br />
+                  <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+                </div>
+                <br>
+                <div class="actions">
+                  <%= f.submit "Update" %>
+                </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
   </div>
 </div>
+
+<script>
+    var modal = document.getElementById('update-password');
+    var btn = document.getElementById("reset-password-button");
+    var span = document.getElementsByClassName("close2")[0];
+    btn.onclick = function() {
+      modal.style.display = "block";
+    }
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+</script>

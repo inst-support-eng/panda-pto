@@ -4,20 +4,6 @@
 
 /*---- Page Layout ----*/
 
-  html, body {
-    background-color: $background;
-    position: relative;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: 400;
-    height:100%;
-    overflow: hidden;
-    top: 0px;
-  }
-  
-  body {
-    top: 60px;
-  }
-
   .layout {
     display: grid;
     grid-template-areas:
@@ -76,37 +62,49 @@
     padding: 12px 20px 12px 40px;
     border: 1px solid #485366;
     color: #485366;
-    margin-bottom: 20px;
     outline: none;
     background-color: #f2f4f7;
     border-radius: 3px;
   }
 
   .all-agents {
-    border: 1px solid #485366;
-    border-radius: 3px;
     height: 100%;
-    padding: 10px;
   }
 
-  table {
+  #agent-table {
+    width: 300px;
+  }
+
+  .agent-table > td, .agent-table> tr, .agent-table> th {
+    padding: 5px;
+    height: 20px;
     width: 100%;
   }
 
-  td, tr {
-    padding: 5px;
-    padding-left: 20px;
-    height: 20px;
-  }
-
   .agent-row:hover {
-    background-color: #337ab7;
-    color: white;
+    background-color: $sidebar;
+    color: $text !important;
   }
 
   .agent-row {
-    margin-left: 10px;
-    border: 1px solid #7178864f;
+    margin-left: 3px;
+    border-bottom: 1px solid $sidebar;
+    color: $text;
+  }
+
+  .agent-name > a {
+    margin: auto;
+    display: block;
+    width: 100%;
+    padding-left: 10px;
+  }
+
+  .agent-name > a:hover, .agent-points > a:hover {
+    color: $text !important;
+  }
+
+  .agent-points {
+    text-align: center;
   }
 
 /*---- Modals ----*/
@@ -127,7 +125,6 @@
 
 .modal-header {
  vertical-align: baseline;
- margin-bottom: 20px;
 }
 
 .upload-users-content, .upload-values-content {
@@ -135,115 +132,127 @@
   border: 1px solid #888;
   width: 40%;
   margin: auto;
-  height: 200px;
 }
 
-.close, .close2 {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover, .close:focus, .close2:hover, .close2:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-input[type="submit"] {
+form > input[type="submit"] {
   background-color: $header;
-  color: white;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  border-radius: 5px;
+  border: 1px solid #132f52;
+  color: $text;
+  height: 40px;
+  display: block;
+  width: 100%;
+  font-size: 24px;
   font-weight: 200;
-  font-size: 2rem;
-  width: 200px;
-  height: 50px;
-  float: right;
-  margin-top: 20px;
-  margin-right: 20px;
+  outline: none;
+  margin-top: 10px;
+  line-height: 1;
+}
+
+form > input[type="submit"]:hover {
+  color: $hovertext;
 }
 
 input[type="file"] {
-  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+form[enctype="multipart/form-data"] {
+  padding: 20px;
 }
 
 /*---- Center ----*/
 
 .center { 
   grid-area: center; 
-  background-color: white;
+  background-color: $sidebar;
   height: 100%;
-  overflow-x: scroll;
   border: 1px solid #485366;
   border-radius: 3px;
-  padding: -1px;
   margin: 20px 0px 0px 20px;
   text-align: center;
+  overflow-x: hidden;
+  color: $text;
+  font-size: 1.15em;
 }
 
+.center-content {
+  overflow-x: scroll;
+  height: 95%;
+  background-color: white;
+  color: $header;
+  width: 100%;
+}
 
 /*------ Who is off ------*/
 .working-grid {
   display: grid;
   grid-template-areas:
-    '00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23';
-  height: 100%;
-  grid-template-columns: 50px;
+  'start00 start01 start02 start03 start04 start05 start06 start07 start08 start09 start10 start11 start12 start13 start14 start15 start16 start17 start18 start19 start20 start21 start22 start23';
+  height: 20px;
+  grid-template-columns: 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px;
+  overflow-x: visible;
+  color: $text;
+  width: 100%;
 }
 
 .off-header {
   padding: 3px;
-  border: 1px solid black;
-  width: 50px;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  min-width: 50px;
 }
 
-.start-00	 { grid-area: 00; background-color: $header; }
-.start-01	 { grid-area: 01; background-color: $header; }
-.start-02	 { grid-area: 02; background-color: $header; }
-.start-03	 { grid-area: 03; background-color: $header; }
-.start-04	 { grid-area: 04; background-color: $header; }
-.start-05	 { grid-area: 05; background-color: $header; }
-.start-06	 { grid-area: 06; background-color: $header; }
-.start-07	 { grid-area: 07; background-color: $header; }
-.start-08	 { grid-area: 08; background-color: $header; }
-.start-09	 { grid-area: 09; background-color: $header; }
-.start-10	 { grid-area: 10; background-color: $header; }
-.start-11	 { grid-area: 11; background-color: $header; }
-.start-12	 { grid-area: 12; background-color: $header; }
-.start-13	 { grid-area: 13; background-color: $header; }
-.start-14	 { grid-area: 14; background-color: $header; }
-.start-15	 { grid-area: 15; background-color: $header; }
-.start-16	 { grid-area: 16; background-color: $header; }
-.start-17	 { grid-area: 17; background-color: $header; }
-.start-18	 { grid-area: 18; background-color: $header; }
-.start-19	 { grid-area: 19; background-color: $header; }
-.start-20	 { grid-area: 20; background-color: $header; }
-.start-21	 { grid-area: 21; background-color: $header; }
-.start-22	 { grid-area: 22; background-color: $header; }
-.start-23	 { grid-area: 23; background-color: $header; }
+.grid-overflow {
+  overflow-x: visible;
+}
+
+.start-0000  { grid-area: start00; background-color: $header; }
+.start-0100  { grid-area: start01; background-color: $header; }
+.start-0200  { grid-area: start02; background-color: $header; }
+.start-0300  { grid-area: start03; background-color: $header; }
+.start-0400  { grid-area: start04; background-color: $header; }
+.start-0500  { grid-area: start05; background-color: $header; }
+.start-0600  { grid-area: start06; background-color: $header; }
+.start-0700  { grid-area: start07; background-color: $header; }
+.start-0800  { grid-area: start08; background-color: $header; }
+.start-0900  { grid-area: start09; background-color: $header; }
+.start-1000  { grid-area: start10; background-color: $header; }
+.start-1100  { grid-area: start11; background-color: $header; }
+.start-1200  { grid-area: start12; background-color: $header; }
+.start-1300  { grid-area: start13; background-color: $header; }
+.start-1400  { grid-area: start14; background-color: $header; }
+.start-1500  { grid-area: start15; background-color: $header; }
+.start-1600  { grid-area: start16; background-color: $header; }
+.start-1700  { grid-area: start17; background-color: $header; }
+.start-1800  { grid-area: start18; background-color: $header; }
+.start-1900  { grid-area: start19; background-color: $header; }
+.start-2000  { grid-area: start20; background-color: $header; }
+.start-2100  { grid-area: start21; background-color: $header; }
+.start-2200  { grid-area: start22; background-color: $header; }
+.start-2300  { grid-area: start23; background-color: $header; }
 		
-.end-00	 { grid-area: 00; background-color: $header; }
-.end-01	 { grid-area: 01; background-color: $header; }
-.end-02	 { grid-area: 02; background-color: $header; }
-.end-03	 { grid-area: 03; background-color: $header; }
-.end-04	 { grid-area: 04; background-color: $header; }
-.end-05	 { grid-area: 05; background-color: $header; }
-.end-06	 { grid-area: 06; background-color: $header; }
-.end-07	 { grid-area: 07; background-color: $header; }
-.end-08	 { grid-area: 08; background-color: $header; }
-.end-09	 { grid-area: 09; background-color: $header; }
-.end-10	 { grid-area: 10; background-color: $header; }
-.end-11	 { grid-area: 11; background-color: $header; }
-.end-12	 { grid-area: 12; background-color: $header; }
-.end-13	 { grid-area: 13; background-color: $header; }
-.end-14	 { grid-area: 14; background-color: $header; }
-.end-15	 { grid-area: 15; background-color: $header; }
-.end-16	 { grid-area: 16; background-color: $header; }
-.end-17	 { grid-area: 17; background-color: $header; }
-.end-18	 { grid-area: 18; background-color: $header; }
-.end-19	 { grid-area: 19; background-color: $header; }
-.end-20	 { grid-area: 20; background-color: $header; }
-.end-21	 { grid-area: 21; background-color: $header; }
-.end-22	 { grid-area: 22; background-color: $header; }
-.end-23	 { grid-area: 23; background-color: $header; }
+.end-0000  { grid-area: start00; background-color: $header; }
+.end-0100  { grid-area: start01; background-color: $header; }
+.end-0200  { grid-area: start02; background-color: $header; }
+.end-0300  { grid-area: start03; background-color: $header; }
+.end-0400  { grid-area: start04; background-color: $header; }
+.end-0500  { grid-area: start05; background-color: $header; }
+.end-0600  { grid-area: start06; background-color: $header; }
+.end-0700  { grid-area: start07; background-color: $header; }
+.end-0800  { grid-area: start08; background-color: $header; }
+.end-0900  { grid-area: start09; background-color: $header; }
+.end-1000  { grid-area: start10; background-color: $header; }
+.end-1100  { grid-area: start11; background-color: $header; }
+.end-1200  { grid-area: start12; background-color: $header; }
+.end-1300  { grid-area: start13; background-color: $header; }
+.end-1400  { grid-area: start14; background-color: $header; }
+.end-1500  { grid-area: start15; background-color: $header; }
+.end-1600  { grid-area: start16; background-color: $header; }
+.end-1700  { grid-area: start17; background-color: $header; }
+.end-1800  { grid-area: start18; background-color: $header; }
+.end-1900  { grid-area: start19; background-color: $header; }
+.end-2000  { grid-area: start20; background-color: $header; }
+.end-2100  { grid-area: start21; background-color: $header; }
+.end-2200  { grid-area: start22; background-color: $header; }
+.end-2300  { grid-area: start23; background-color: $header; }

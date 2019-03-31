@@ -29,8 +29,8 @@
   </div>  
   <div class="center">
     <h4>Agents working today</h4>
+    <div class="center-content">
     <table>
-      <thead>
         <tr>
           <td class="off-header">1A</td>
           <td class="off-header">2A</td>
@@ -57,32 +57,28 @@
           <td class="off-header">11P</td>
           <td class="off-header">12A</td>
         </tr>
-      </thead>
-      <tbody class="working-grid">
+      </table>
         <% if @offtoday.is_a? String %>
           <div class="errormessage"><%= @offtoday %></div>
         <% else %>
           <% @scheduled.each do |agent| %>
-
-              <div class="start-<%= Time.parse(agent.start_time).in_time_zone("Mountain Time (US & Canada)").to_s[11..15] %>">
+              <div class="working-grid">
               <% if agent.pto_requests.where(request_date: Date.today).empty? %>
-              <tr><div class="<%= agent.position %>"><%= agent.name %></div>
+              <div class="grid-overflow <%= agent.position %> start-<%= Time.parse(agent.start_time).in_time_zone("Mountain Time (US & Canada)").to_s[11..15] %>"><%= agent.name %></div>
               <% else %>
                 <div class="offtoday"><%= agent.name %></div>
               <% end %>
-              </div>
-              <div class="end-<%= Time.parse(agent.end_time).in_time_zone("Mountain Time (US & Canada)").to_s[11..15] %>"></div></tr>
+              <div class="end-<%= Time.parse(agent.end_time).in_time_zone("Mountain Time (US & Canada)").to_s[11..15] %>"></div></div>
             <% end %>
         <% end %>
-      </tbody>
-    </table>
+    </div>
   </div>
-
 </div>
+
     <div id="upload-users" class="admin-modal">
       <div class="upload-users-content">
           <div class="modal-header">Import Agents CSV
-              <div class="close2">&times;</div></div>
+              <div class="close2">x</div></div>
               <%= form_tag import_agents_path, multipart: true do %>
               <%= file_field_tag :file %>
               <%= submit_tag "Import Agents CSV" %>
@@ -93,7 +89,7 @@
     <div id="upload-values" class="admin-modal">
         <div class="upload-values-content">
             <div class="modal-header">Import Date Value CSV
-                <div class="close">&times;</div></div>
+                <div class="close2">x</div></div>
                 <%= form_tag import_date_values_path, multipart: true do %>
                 <%= file_field_tag :file %>
                 <%= submit_tag "Import Value CSV" %>
@@ -127,31 +123,31 @@
 </script>
 
 <script>
-var modal = document.getElementById('upload-users');
-var btn = document.getElementById("users-csv");
-var span = document.getElementsByClassName("close")[0];
-btn.onclick = function() {
-  modal.style.display = "block";
-}
-span.onclick = function() {
-  modal.style.display = "none";
-}
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
+  var modal = document.getElementById('upload-users');
+  var modal2 = document.getElementById('upload-values');
+  var btn = document.getElementById("users-csv");
+  var btn2 = document.getElementById("values-csv");
+  var span = document.getElementsByClassName("close2")[0];
+  var span2 = document.getElementsByClassName("close2")[1];
+  btn.onclick = function() {
+    modal.style.display = "block";
   }
-  else if (event.target == modal2) {
+  btn2.onclick = function() {
+    modal2.style.display = "block";
+  }
+  span.onclick = function() {
+    modal.style.display = "none"
+  }
+  span2.onclick = function() {
     modal2.style.display = "none";
   }
-}
-var modal2 = document.getElementById('upload-values');
-var btn2 = document.getElementById("values-csv");
-var span2 = document.getElementsByClassName("close2")[0];
-btn2.onclick = function() {
-  modal2.style.display = "block";
-}
-span2.onclick = function() {
-  modal2.style.display = "none";
-}
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+    else if (event.target == modal2) {
+      modal2.style.display = "none";
+    }
+  }
 </script>
 

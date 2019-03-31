@@ -1,21 +1,3 @@
-body, html {
-  position: relative;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 400;
-  height:100%;
-  overflow: hidden;
-}
-
-h3, h4, h5 {
-  font-size: 1.25em;
-  font-weight: 300 !important;
-}
-
-h5 {
-  font-size: 1.25em;
-  font-weight: 300 !important;
-}
-
 .row {
   margin-top: 90px;
 }
@@ -240,7 +222,7 @@ h5 {
 
 
   .cal-top-left { grid-area: left; }
-  .cal-top-center { grid-area: center; width: 580px; }
+  .cal-top-center { grid-area: center; width: 400px; margin: auto; }
   .cal-top-right { grid-area: right; }
   .cal-bottom { grid-area: bottom; }
 
@@ -263,8 +245,8 @@ h5 {
   .prev-button {
     cursor: pointer;
     color: $header;
-    float: left;
-    margin-left: 30%;
+    float: right;
+    margin-right: 20%;
   }
 
   .prev-button i { 
@@ -274,8 +256,8 @@ h5 {
   .next-button {
     cursor: pointer;
     color: $header;
-    float: right;
-    margin-right: 30%;
+    float: left;
+    margin-left: 20%;
   }
 
   .next-button i { 
@@ -306,7 +288,7 @@ h5 {
   }
 
   .past-day {
-    background-color: #f2f4f7 !important;
+    background-color: $sidebar !important;
     cursor: not-allowed;
   }
 
@@ -379,44 +361,20 @@ h5 {
     color: white;
   }
 
-/*----------------- Modal -----------------------*/
-  .modal-header {
-    background-color: $header;
-    color: $text;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: 200;
-    font-size: 2rem;
-  }
 
-  .modal-dialog {
-    top: 30%;
-  }
+/* -------------- Shared Links ---------------- */
 
-  button.close {
-    color: $text !important;
-    opacity: 1;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: 100;
-    font-size: 2rem;
-  }
+.shared-links {
+  position: fixed;
+  bottom: 10px;
+  left: 10px; 
+}
 
-  .form-control[type="submit"] {
-    background-color: $header;
-    color: $text;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: 200;
-    font-size: 2rem;
-    width: 200px;
-    height: 50px;
-    float: right;
-    margin-top: 75px;
-  }
+.shared-links > a {
+  margin: 0px 10px 0px 0px;
+  color: $header;
+}
 
-  .form-control[type="submit"]:hover {
-    background-color: $sidebar;
-  }
-
-  a[href="/users/password/new"] {
-    color: $header;
-    margin: 0px;
-  }
+.shared-links > a:hover {
+  color: $text;
+}
