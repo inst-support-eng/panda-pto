@@ -192,8 +192,8 @@ form[enctype="multipart/form-data"] {
   height: 20px;
   grid-template-columns: 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px;
   overflow-x: visible;
-  color: $text;
   width: 100%;
+  margin-bottom: 9px;
 }
 
 .off-header {
@@ -204,55 +204,83 @@ form[enctype="multipart/form-data"] {
 }
 
 .grid-overflow {
-  overflow-x: visible;
+  white-space: nowrap;
+  padding: 3px 5px 3px 5px;
 }
 
-.start-0000  { grid-area: start00; background-color: $header; }
-.start-0100  { grid-area: start01; background-color: $header; }
-.start-0200  { grid-area: start02; background-color: $header; }
-.start-0300  { grid-area: start03; background-color: $header; }
-.start-0400  { grid-area: start04; background-color: $header; }
-.start-0500  { grid-area: start05; background-color: $header; }
-.start-0600  { grid-area: start06; background-color: $header; }
-.start-0700  { grid-area: start07; background-color: $header; }
-.start-0800  { grid-area: start08; background-color: $header; }
-.start-0900  { grid-area: start09; background-color: $header; }
-.start-1000  { grid-area: start10; background-color: $header; }
-.start-1100  { grid-area: start11; background-color: $header; }
-.start-1200  { grid-area: start12; background-color: $header; }
-.start-1300  { grid-area: start13; background-color: $header; }
-.start-1400  { grid-area: start14; background-color: $header; }
-.start-1500  { grid-area: start15; background-color: $header; }
-.start-1600  { grid-area: start16; background-color: $header; }
-.start-1700  { grid-area: start17; background-color: $header; }
-.start-1800  { grid-area: start18; background-color: $header; }
-.start-1900  { grid-area: start19; background-color: $header; }
-.start-2000  { grid-area: start20; background-color: $header; }
-.start-2100  { grid-area: start21; background-color: $header; }
-.start-2200  { grid-area: start22; background-color: $header; }
-.start-2300  { grid-area: start23; background-color: $header; }
-		
-.end-0000  { grid-area: start00; background-color: $header; }
-.end-0100  { grid-area: start01; background-color: $header; }
-.end-0200  { grid-area: start02; background-color: $header; }
-.end-0300  { grid-area: start03; background-color: $header; }
-.end-0400  { grid-area: start04; background-color: $header; }
-.end-0500  { grid-area: start05; background-color: $header; }
-.end-0600  { grid-area: start06; background-color: $header; }
-.end-0700  { grid-area: start07; background-color: $header; }
-.end-0800  { grid-area: start08; background-color: $header; }
-.end-0900  { grid-area: start09; background-color: $header; }
-.end-1000  { grid-area: start10; background-color: $header; }
-.end-1100  { grid-area: start11; background-color: $header; }
-.end-1200  { grid-area: start12; background-color: $header; }
-.end-1300  { grid-area: start13; background-color: $header; }
-.end-1400  { grid-area: start14; background-color: $header; }
-.end-1500  { grid-area: start15; background-color: $header; }
-.end-1600  { grid-area: start16; background-color: $header; }
-.end-1700  { grid-area: start17; background-color: $header; }
-.end-1800  { grid-area: start18; background-color: $header; }
-.end-1900  { grid-area: start19; background-color: $header; }
-.end-2000  { grid-area: start20; background-color: $header; }
-.end-2100  { grid-area: start21; background-color: $header; }
-.end-2200  { grid-area: start22; background-color: $header; }
-.end-2300  { grid-area: start23; background-color: $header; }
+.yeet {
+  background-color: rgb(204, 77, 255);
+  color: $header;
+}
+
+.red {
+  background-color: #bd1111;
+  color: $header;
+}
+
+.blue {
+  background-color: #00028a;
+  color: white;
+}
+
+.orange {
+  background-color: #cf7207;
+  color: $header;
+}
+
+.white {
+  background-color: #e5e2e2;
+  border: 1px solid $header;
+  color: $header;
+}
+
+.green {
+  background-color: #08680c;
+  color: $header;
+}
+
+.teal {
+  background-color: #27b0b4;
+  color: $header;
+}
+
+.Charcoal {
+  background-color: #323332;
+  color: white;
+}
+
+.purple {
+  background-color: #3c088f;
+  color: white;
+}
+
+.purple {
+  background-color: #690b0b;
+  color: white;
+}
+
+
+.start-0000  { grid-area: start00; }
+.start-0100  { grid-area: start01; }
+.start-0200  { grid-area: start02; }
+.start-0300  { grid-area: start03; }
+.start-0400  { grid-area: start04; }
+.start-0500  { grid-area: start05; }
+.start-0600  { grid-area: start06; }
+.start-0700  { grid-area: start07; }
+.start-0800  { grid-area: start08; }
+.start-0900  { grid-area: start09; }
+.start-1000  { grid-area: start10; }
+.start-1100  { grid-area: start11; }
+.start-1200  { grid-area: start12; }
+.start-1300  { grid-area: start13; }
+.start-1400  { grid-area: start14; }
+.start-1500  { grid-area: start15; }
+.start-1600  { grid-area: start16; }
+.start-1700  { grid-area: start17; }
+.start-1800  { grid-area: start18; }
+.start-1900  { grid-area: start19; }
+.start-2000  { grid-area: start20; }
+.start-2100  { grid-area: start21; }
+.start-2200  { grid-area: start22; }
+.start-2300  { grid-area: start23; }

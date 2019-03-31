@@ -33,6 +33,7 @@
     grid-template-areas:
       'content-left content-middle content-right';
     display: grid;
+    grid-template-columns: auto auto auto;
   }
 
   .content-left {
@@ -66,7 +67,11 @@
   }
 
   .profile-container {
-    width: 300px;
+    width: auto;
+  }
+
+  .profile-container > tbody > tr > td {
+    padding: 5px;
   }
 
   .edit-user-buttons > a {

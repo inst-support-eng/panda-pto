@@ -15,20 +15,22 @@
   </div>
 
     <div class="right-edit-user users-right">
-        <table class="profile-container content-left">
-            <tr><td>Profile:</td><td><%= current_user.name %></td></tr>
-            <tr><td>Position:</td><td><%= current_user.position %></td></tr>
-            <tr><td>Admin:</td><td><%= @user.admin %></td>
-            <tr><td>Current Bank Value:</td><td><%= current_user.bank_value %></td></tr>
-            <tr><td>Shift Length:</td><td><% if current_user.ten_hour_shift %> 10 hour shift <% else %> 8 hour shift <% end %></td></tr>
-            <tr><td>Work Days:</td><td><%= current_user.work_days %></td></tr>
-            <tr><td>Start Time:</td><td><%= current_user.start_time %></td></tr>
-            <tr><td>End Time:</td><td><%= current_user.end_time %></td></tr>
-            <tr><td>Team:</td><td><%= current_user.team %></td></tr>
-        </table>
+        <div class="content-left">
+            <h1>Agent Profile</h1>
+            <table class="profile-container">
+                <tr><td>Profile:</td><td><%= @user.name %></td></tr>
+                <tr><td>Position:</td><td><%= @user.position %></td></tr>
+                <tr><td>Admin:</td><td><%= @user.admin %></td>
+                <tr><td>Current Bank Value:</td><td><%= @user.bank_value %></td></tr>
+                <tr><td>Shift Length:</td><td><% if @user.ten_hour_shift %> 10 hour shift <% else %> 8 hour shift <% end %></td></tr>
+                <tr><td>Work Days:</td><td><%= @user.work_days %></td></tr>
+                <tr><td>Start Time:</td><td><%= @user.start_time %></td></tr>
+                <tr><td>End Time:</td><td><%= @user.end_time %></td></tr>
+                <tr><td>Team:</td><td><%= @user.team %></td></tr>
+            </table>
+        </div>
 
         <div class="upcoming-requests-tab content-middle">
-
             <div>
                 <h1>Requests for today</h1>
                 <% @user.pto_requests.each do |request| %>
@@ -39,7 +41,6 @@
                     <% end %>
                 <% end %>
             </div>
-
             <div>
             <h1>Upcoming requests</h1>
             <% @user.pto_requests.each do |request| %>
@@ -50,7 +51,6 @@
                 <% end %>
             <% end %>
             </div> 
-
         </div>
 
         <div class="past-requests-tab content-right">
@@ -110,7 +110,6 @@
       }
     }
 </script>
-
 
 <script>
   $('body').on('click', '#add-request-btn', async function () {
