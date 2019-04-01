@@ -8,11 +8,17 @@ class PtoRequest < ApplicationRecord
       date = Calendar.find_by(:date => row[:date])
       price = row[:shift].to_i
       
+      next if agent.nil?
+      next if date.nil?
+      next if price.nil?
+      next if date.signed_up_agents.include?(agent.name)
+
       PtoRequest.create(
         :request_date => date.date.to_s,
         :cost => price,
         :user_id => agent.id,
-        :reason => "imported PTO request"
+        :reason => "Auto imported PTO request. I was pulled from Humanity, please contact your supervisor if I don't belong here.",
+        :excused => false
       )
       
       date.signed_up_total == nil ? date.signed_up_total = 1 : date.signed_up_total += 1
@@ -21,6 +27,7 @@ class PtoRequest < ApplicationRecord
       
       agent.bank_value -= price
       agent.save
+      
 
     end
   end
