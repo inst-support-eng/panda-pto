@@ -11,7 +11,7 @@ module UpdatePriceHelper
       @updated = @calendar.base_value + @calendar.signed_up_total
     end
 
-    if date.wday == 0 || 6
+    if @calendar.date.wday == 0 || @calendar.date.wday == 6
       # weekend scaling
       case @updated
       when weekend_scale.keys[0]..weekend_scale.keys[1]
