@@ -300,6 +300,7 @@ DEPENDENCIES
   rails (~> 5.2.2)
   rails-controller-testing
   rails_12factor
+  redis (~> 4.0)
   rspec-rails (~> 3.6)
   sass-rails (~> 5.0)
   selenium-webdriver

@@ -26,7 +26,7 @@ class Agent < ApplicationRecord
           :admin => x.admin,
           :team => x.team
         )
-        RegistrationMailer.with(user: user, password: generated_password).registration_email.deliver_now
+        RegistrationMailer.with(user: user, password: generated_password).registration_email.deliver_later(wait: 30.minutes)
       end
     # Then itmes should always be updated on import go here
     update_info = User.find_by email: x.email
