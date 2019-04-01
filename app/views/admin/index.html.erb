@@ -107,7 +107,7 @@
         </div>
               <%= form_tag import_request_pto_requests_path, multipart: true do %>
               <%= file_field_tag :file %>
-              <%= submit_tag "Import PTO requests" %>
+              <%= submit_tag "Import PTO requests CSV" %>
               <% end %> 
       </div>
     </div>
@@ -140,7 +140,7 @@
 <script>
   var modal = document.getElementById('upload-users');
   var modal2 = document.getElementById('upload-values');
-  var modal3 = document.getElementById('upload-values');
+  var modal3 = document.getElementById('upload-requests');
   var btn = document.getElementById("users-csv");
   var btn2 = document.getElementById("values-csv");
   var btn3 = document.getElementById("pto-csv");
