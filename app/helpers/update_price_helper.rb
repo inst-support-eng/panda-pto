@@ -11,32 +11,32 @@ module UpdatePriceHelper
       @updated = @calendar.base_value + @calendar.signed_up_total
     end
 
-    if date.wday == 0 || 6
+    if @calendar.date.wday == 0 || @calendar.date.wday == 6
       # weekend scaling
       case @updated
-      when weekend_scale.keys[0]..weekend_scale.keys[1]
+      when weekend_scale.keys[0]..(weekend_scale.keys[1] - 1)
         @calendar.current_price = weekend_scale.values[0]
-      when weekend_scale.keys[1]..weekend_scale.keys[2]
+      when weekend_scale.keys[1]..(weekend_scale.keys[2] - 1)
+        @calendar.current_price = weekend_scale.values[1]
+      when weekend_scale.keys[2]..(weekend_scale.keys[3] - 1)
         @calendar.current_price = weekend_scale.values[2]
-      when weekend_scale.keys[2]..weekend_scale.keys[3]
-        @calendar.current_price = weekend_scale.values[2]
-      when weekend_scale.keys[3]..weekend_scale.keys[4]
+      when weekend_scale.keys[3]..(weekend_scale.keys[4] - 1)
         @calendar.current_price = weekend_scale.values[3]
-      when weekend_scale.keys[4]..weekend_scale.keys[5]
+      when weekend_scale.keys[4]..(weekend_scale.keys[5] - 1)
         @calendar.current_price = weekend_scale.values[4]
-      when weekend_scale.keys[5]..weekend_scale.keys[6]
+      when weekend_scale.keys[5]..(weekend_scale.keys[6] - 1)
         @calendar.current_price = weekend_scale.values[5]
-      when weekend_scale.keys[6]..weekend_scale.keys[7]
+      when weekend_scale.keys[6]..(weekend_scale.keys[7] - 1)
         @calendar.current_price = weekend_scale.values[6]
-      when weekend_scale.keys[7]..weekend_scale.keys[8]
+      when weekend_scale.keys[7]..(weekend_scale.keys[8] - 1)
         @calendar.current_price = weekend_scale.values[7]
-      when weekend_scale.keys[8]..weekend_scale.keys[9]
+      when weekend_scale.keys[8]..(weekend_scale.keys[9] - 1)
         @calendar.current_price = weekend_scale.values[8]
-      when weekend_scale.keys[9]..weekend_scale.keys[10]
+      when weekend_scale.keys[9]..(weekend_scale.keys[10] - 1)
         @calendar.current_price = weekend_scale.values[9]
-      when weekend_scale.keys[10]..weekend_scale.keys[11]
+      when weekend_scale.keys[10]..(weekend_scale.keys[11] - 1)
         @calendar.current_price = weekend_scale.values[10]
-      when weekend_scale.keys[11]..weekend_scale.keys[12]
+      when weekend_scale.keys[11]..(weekend_scale.keys[12] - 1)
         @calendar.current_price = weekend_scale.values[11]
       when weekend_scale.keys[12]..1000
         @calendar.current_price = weekend_scale.values[12]
@@ -46,29 +46,29 @@ module UpdatePriceHelper
     else
       # weekday scaling
       case @updated
-      when scale.keys[0]..scale.keys[1]
+      when scale.keys[0]..(scale.keys[1] - 1)
         @calendar.current_price = scale.values[0]
-      when scale.keys[1]..scale.keys[2]
+      when scale.keys[1]..(scale.keys[2] - 1)
+        @calendar.current_price = scale.values[1]
+      when scale.keys[2]..(scale.keys[3] - 1)
         @calendar.current_price = scale.values[2]
-      when scale.keys[2]..scale.keys[3]
-        @calendar.current_price = scale.values[2]
-      when scale.keys[3]..scale.keys[4]
+      when scale.keys[3]..(scale.keys[4] - 1)
         @calendar.current_price = scale.values[3]
-      when scale.keys[4]..scale.keys[5]
+      when scale.keys[4]..(scale.keys[5] - 1)
         @calendar.current_price = scale.values[4]
-      when scale.keys[5]..scale.keys[6]
+      when scale.keys[5]..(scale.keys[6] - 1)
         @calendar.current_price = scale.values[5]
-      when scale.keys[6]..scale.keys[7]
+      when scale.keys[6]..(scale.keys[7] - 1)
         @calendar.current_price = scale.values[6]
-      when scale.keys[7]..scale.keys[8]
+      when scale.keys[7]..(scale.keys[8] - 1)
         @calendar.current_price = scale.values[7]
-      when scale.keys[8]..scale.keys[9]
+      when scale.keys[8]..(scale.keys[9] - 1)
         @calendar.current_price = scale.values[8]
-      when scale.keys[9]..scale.keys[10]
+      when scale.keys[9]..(scale.keys[10] - 1)
         @calendar.current_price = scale.values[9]
-      when scale.keys[10]..scale.keys[11]
+      when scale.keys[10]..(scale.keys[11] - 1)
         @calendar.current_price = scale.values[10]
-      when scale.keys[11]..scale.keys[12]
+      when scale.keys[11]..(scale.keys[12] - 1)
         @calendar.current_price = scale.values[11]
       when scale.keys[12]..1000
         @calendar.current_price = scale.values[12]

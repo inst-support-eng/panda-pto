@@ -7,7 +7,7 @@
         </div>
 
         <div>
-            <%= form_tag user_update_shift_path(current_user), method: :put do %>
+            <%= form_tag user_update_shift_path(@user), method: :put do %>
             <%= submit_tag '8/10 hour shift' %>
             <% end %>
         </div>
