@@ -5,6 +5,12 @@ class UsersController < ApplicationController
             redirect_to login_path
         elsif current_user.admin?
             @user = User.find(params[:id])
+            @workdays = ""
+            @user.work_days.each do |day|
+                @workdays << "#{Date::DAYNAMES[day]}, "
+            end
+            @shift_start = Time.parse(@user.start_time).in_time_zone("Mountain Time (US & Canada)").strftime("%I:%M %p")
+            @shift_end = Time.parse(@user.end_time).in_time_zone("Mountain Time (US & Canada)").strftime("%I:%M %p")    
         else
             redirect_to root_path, notice: "You do not have access to this resource"
         end
