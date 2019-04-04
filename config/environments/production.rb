@@ -93,7 +93,14 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # mailer setup
+<<<<<<< HEAD
   config.action_mailer.default_url_options = { :host => 'https://pandashboard.herokuapp.com' }
+=======
+  config.action_mailer.default_url_options = { 
+    :host => 'pandashboard.herokuapp.com'
+    :protocol => 'https'
+   }
+>>>>>>> dc4e0103f857aa0ab2aebcb38fff87a29bd2baeb
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_deliveries = true 
   ActionMailer::Base.delivery_method = :smtp
