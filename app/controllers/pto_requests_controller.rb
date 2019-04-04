@@ -36,7 +36,7 @@ class PtoRequestsController < ApplicationController
         if @pto_request.save
             redirect_to root_path
             update_request_info
-            if(current_user.id == @pto_request.id)
+            if(current_user.id == @pto_request.user_id)
                 RequestsMailer.with(user: @user, pto_request: @pto_request).requests_email.deliver_now
             else 
                 RequestsMailer.with(agent: @user, pto_request: @pto_request, supervisor: current_user).admin_request_email.deliver_now
