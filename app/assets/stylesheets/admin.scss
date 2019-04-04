@@ -4,20 +4,6 @@
 
 /*---- Page Layout ----*/
 
-  html, body {
-    background-color: white;
-    position: relative;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: 400;
-    height:100%;
-    overflow: hidden;
-    top: 0px;
-  }
-  
-  body {
-    top: 60px;
-  }
-
   .layout {
     display: grid;
     grid-template-areas:
@@ -30,17 +16,18 @@
   .left { 
     grid-area: left; 
     height: 100%; 
-    background-color: #f2f4f7; 
+    background-color: $sidebar; 
     padding-top: 15px; 
-    width: 100%;
+    width: 15vw;
+    min-width: 252px;
     box-shadow: 1px 1px #7178864f;
   }
 
   .adminbutton {
-    background-color: #132f52;
+    background-color: $header;
     border-radius: 5px;
     border: 1px solid #132f52;
-    color: white;
+    color: $text;
     height: 40px;
     display: block;
     width: 90%;
@@ -52,55 +39,7 @@
   }
 
   .adminbutton:hover {
-    color: #337ab7;
-  }
-
-/*---- Center ----*/
-  input[title="Filter by name"] {
-    width: 100%;
-    font-size: 16px;
-    padding: 12px 20px 12px 40px;
-    border: 1px solid #485366;
-    color: #485366;
-    margin-bottom: 20px;
-    outline: none;
-    background-color: #f2f4f7;
-    border-radius: 3px;
-  }
-
-  .all-agents {
-    border: 1px solid #485366;
-    border-radius: 3px;
-    height: 100%;
-    padding: 10px;
-  }
-
-  .center { 
-    grid-area: center; 
-    background-color: white;
-    width: 95%;
-    margin: 20px;
-    height: 100%;
-  }
-
-  table {
-    width: 100%;
-  }
-
-  td, tr {
-    padding: 5px;
-    padding-left: 20px;
-    height: 20px;
-  }
-
-  .agent-row:hover {
-    background-color: #337ab7;
-    color: white;
-  }
-
-  .agent-row {
-    margin-left: 10px;
-    border: 1px solid #7178864f;
+    color: $hovertext;
   }
 
 /*---- Right ----*/
@@ -108,12 +47,64 @@
   .right { 
     grid-area: right;
     background-color: white;
-    width: 95%;
-    margin-top: 20px;
+    width: 350px;
+    min-width: 350px;
     height: 100%;
     border: 1px solid #485366;
     border-radius: 3px;
     padding: 20px;
+    margin: 20px;
+  }
+
+  input[title="Filter by name"] {
+    width: 300px;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #485366;
+    color: #485366;
+    outline: none;
+    background-color: #f2f4f7;
+    border-radius: 3px;
+  }
+
+  .all-agents {
+    height: 100%;
+  }
+
+  #agent-table {
+    width: 300px;
+  }
+
+  .agent-table > td, .agent-table> tr, .agent-table> th {
+    padding: 5px;
+    height: 20px;
+    width: 100%;
+  }
+
+  .agent-row:hover {
+    background-color: $sidebar;
+    color: $text !important;
+  }
+
+  .agent-row {
+    margin-left: 3px;
+    border-bottom: 1px solid $sidebar;
+    color: $text;
+  }
+
+  .agent-name > a {
+    margin: auto;
+    display: block;
+    width: 100%;
+    padding-left: 10px;
+  }
+
+  .agent-name > a:hover, .agent-points > a:hover {
+    color: $text !important;
+  }
+
+  .agent-points {
+    text-align: center;
   }
 
 /*---- Modals ----*/
@@ -134,7 +125,6 @@
 
 .modal-header {
  vertical-align: baseline;
- margin-bottom: 20px;
 }
 
 .upload-users-content, .upload-values-content {
@@ -142,35 +132,155 @@
   border: 1px solid #888;
   width: 40%;
   margin: auto;
-  height: 200px;
 }
 
-.close, .close2 {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover, .close:focus, .close2:hover, .close2:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-input[type="submit"] {
-  background-color: #132f52;
-  color: white;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+form > input[type="submit"] {
+  background-color: $header;
+  border-radius: 5px;
+  border: 1px solid #132f52;
+  color: $text;
+  height: 40px;
+  display: block;
+  width: 100%;
+  font-size: 24px;
   font-weight: 200;
-  font-size: 2rem;
-  width: 200px;
-  height: 50px;
-  float: right;
-  margin-top: 20px;
-  margin-right: 20px;
+  outline: none;
+  margin-top: 10px;
+  line-height: 1;
+}
+
+form > input[type="submit"]:hover {
+  color: $hovertext;
 }
 
 input[type="file"] {
-  margin-left: 20px;
+  margin-bottom: 20px;
 }
+
+form[enctype="multipart/form-data"] {
+  padding: 20px;
+}
+
+/*---- Center ----*/
+
+.center { 
+  grid-area: center; 
+  background-color: $sidebar;
+  height: 100%;
+  border: 1px solid #485366;
+  border-radius: 3px;
+  margin: 20px 0px 0px 20px;
+  text-align: center;
+  overflow-x: hidden;
+  color: $text;
+  font-size: 1.15em;
+}
+
+.center-content {
+  overflow-x: scroll;
+  height: 95%;
+  background-color: white;
+  color: $header;
+  width: 100%;
+}
+
+/*------ Who is off ------*/
+.working-grid {
+  display: grid;
+  grid-template-areas:
+  'start00 start01 start02 start03 start04 start05 start06 start07 start08 start09 start10 start11 start12 start13 start14 start15 start16 start17 start18 start19 start20 start21 start22 start23';
+  height: 20px;
+  grid-template-columns: 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px;
+  overflow-x: visible;
+  width: 100%;
+  margin-bottom: 9px;
+}
+
+.off-header {
+  padding: 3px;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  min-width: 50px;
+}
+
+.grid-overflow {
+  white-space: nowrap;
+  padding: 3px 5px 3px 5px;
+}
+
+.yeet {
+  background-color: rgb(204, 77, 255);
+  color: $header;
+}
+
+.red {
+  background-color: #bd1111;
+  color: $header;
+}
+
+.blue {
+  background-color: #00028a;
+  color: white;
+}
+
+.orange {
+  background-color: #cf7207;
+  color: $header;
+}
+
+.white {
+  background-color: #e5e2e2;
+  border: 1px solid $header;
+  color: $header;
+}
+
+.green {
+  background-color: #08680c;
+  color: $header;
+}
+
+.teal {
+  background-color: #27b0b4;
+  color: $header;
+}
+
+.Charcoal {
+  background-color: #323332;
+  color: white;
+}
+
+.purple {
+  background-color: #3c088f;
+  color: white;
+}
+
+.purple {
+  background-color: #690b0b;
+  color: white;
+}
+
+
+.start-0000  { grid-area: start00; }
+.start-0100  { grid-area: start01; }
+.start-0200  { grid-area: start02; }
+.start-0300  { grid-area: start03; }
+.start-0400  { grid-area: start04; }
+.start-0500  { grid-area: start05; }
+.start-0600  { grid-area: start06; }
+.start-0700  { grid-area: start07; }
+.start-0800  { grid-area: start08; }
+.start-0900  { grid-area: start09; }
+.start-1000  { grid-area: start10; }
+.start-1100  { grid-area: start11; }
+.start-1200  { grid-area: start12; }
+.start-1300  { grid-area: start13; }
+.start-1400  { grid-area: start14; }
+.start-1500  { grid-area: start15; }
+.start-1600  { grid-area: start16; }
+.start-1700  { grid-area: start17; }
+.start-1800  { grid-area: start18; }
+.start-1900  { grid-area: start19; }
+.start-2000  { grid-area: start20; }
+.start-2100  { grid-area: start21; }
+.start-2200  { grid-area: start22; }
+.start-2300  { grid-area: start23; }

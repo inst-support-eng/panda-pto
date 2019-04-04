@@ -8,6 +8,7 @@
             </div><!-- modal-header -->
             <div class="modal-body">
                 <%= bootstrap_form_for(PtoRequest.new) do |f| %>
+                <%= f.hidden_field :user_id, :value => current_user.id %>
                 <%= f.text_field :reason, 
                     maxlength: 1000, 
                     placeholder: 'reason',
@@ -17,7 +18,7 @@
                 <div class="bank-total">Current Bank Total : <%= current_user.bank_value %></div>
                 <div class="request-total">Total for Request: day_value * shift_hours </div>
                 <%= f.hidden_field :cost, :value => "value_to_change" %>
-                <%= f.submit 'create date_request', class: 'form-control' %><% end %>
+                <%= f.submit 'create request', class: 'form-control' %><% end %>
             </div> <!-- modal-body -->
         </div> <!-- modal-conent -->
     </div> <!-- modal-dialog -->

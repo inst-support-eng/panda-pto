@@ -1,0 +1,100 @@
+<div class="layout-edit-user">
+  <div class="left-edit-user">
+        <button class="edit-user-buttons" id="add-request-btn">Add Request</button>
+        <%= button_to "Toggle Admin", user_update_admin_path(@user), {class:"edit-user-buttons"} %>
+        <div>
+            <%= button_to "Password Reset", user_send_password_reset_path(@user), {class:"edit-user-buttons"} %>
+        </div>
+
+        <div>
+            <%= form_tag user_update_shift_path(@user), method: :put do %>
+            <%= submit_tag '8/10 hour shift' %>
+            <% end %>
+        </div>
+        <button class="edit-user-buttons" id="Back" onclick="history.back(-1)">Go Back</button>
+  </div>
+
+    <div class="right-edit-user users-right">
+        <div class="content-left">
+            <h1>Agent Profile</h1>
+            <table class="profile-container">
+                <tr><td>Name:</td><td><%= @user.name %></td></tr>
+                <tr><td>Email:</td><td><%= @user.email %></td></tr>
+                <tr><td>Position:</td><td><%= @user.position %></td></tr>
+                <tr><td>Admin:</td><td><%= @user.admin %></td>
+                <tr><td>Current Bank Value:</td><td><%= @user.bank_value %></td></tr>
+                <tr><td>Shift Length:</td><td><% if @user.ten_hour_shift %> 10 hour shift <% else %> 8 hour shift <% end %></td></tr>
+                <tr><td>Work Days:</td><td><%= @workdays.chop.chop %></td></tr>                <tr><td>Shift:</td><td><%= @shift_start %> – <%= @shift_end %></td></tr>
+                <tr><td>Team:</td><td><%= @user.team %></td></tr>
+            </table>
+        </div>
+
+        <div class="upcoming-requests-tab content-middle">
+            <div>
+                <h1>Requests for today</h1>
+                <% @user.pto_requests.each do |request| %>
+                    <% if request.request_date == Date.today %>
+                    <div>
+                    <%= request.reason %> <%= request.request_date %> <%= request.cost %> <%= request.excused %> <%= request.admin_note %> <% if request.excused == false %><%= button_to "Excuse Request", excuse_pto_request_path(request) %> <% end %>
+                    </div>
+                    <% end %>
+                <% end %>
+            </div>
+            <div>
+            <h1>Upcoming requests</h1>
+            <% @user.pto_requests.each do |request| %>
+                <% if request.request_date > Date.today %>
+                <div>
+                <%= request.reason %> <%= request.request_date %> <%= request.cost %> <%= request.excused %> <%= request.admin_note %> <% if request.excused == false %><%= button_to "Excuse Request", excuse_pto_request_path(request) %> <% end %>
+                </div>
+                <% end %>
+            <% end %>
+            </div> 
+        </div>
+
+        <div class="past-requests-tab content-right">
+            <div>
+            <h1>Past requests</h1>
+            <% @user.pto_requests.each do |request| %>
+                <% if request.request_date < Date.today %>
+                <div>
+                <%= request.reason %> <%= request.request_date %> <%= request.cost %> <%= request.excused %> <%= request.admin_note %> <% if request.excused == false %><%= button_to "Excuse Request", excuse_pto_request_path(request) %> <% end %>
+                </div>
+                <% end %>
+            <% end %>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal"  id="add-request" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div><!-- modal-header -->
+                    <div class="modal-body">
+                    <%= bootstrap_form_for(PtoRequest.new) do |f| %>
+                        <%= f.hidden_field :user_id, :value => @user.id %>
+                        <%= f.text_field :reason, 
+                            maxlength: 1000, 
+                            placeholder: 'reason',
+                            class: 'form-control', 
+                            required: 'true' %>
+                        <%= f.date_field :request_date %>
+                        <%= f.number_field :cost %>
+                        <%= f.submit 'create request', class: 'form-control' %>
+                    <% end %>
+                    </div> <!-- modal-body -->
+            </div> <!-- modal-conent -->
+        </div> <!-- modal-dialog -->
+    </div> <!-- add-request -->
+
+</div>
+
+<script>
+  $('body').on('click', '#add-request-btn', async function () {
+    $('#add-request').modal('show')
+  })
+</script>

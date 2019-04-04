@@ -2,36 +2,43 @@ class Agent < ApplicationRecord
   require 'csv'
   validates :name, :email, presence: true
   validates :email, uniqueness: true
-  # ^validating for email uniquiness is *good* but it can create a scenerio where 
-  # upating an existing agents name is difficult
-  # but i think halding that the same way we are handling date imports is heavy-handed
-  # i think the best solution would be adding a manual interface in the admin dashboard !TECHDEBT
-
+  
+  
   def self.import(file)
     # !TECHDEBT this should be wrapped in some error handling
-    CSV.foreach(file.path, {encoding: "UTF-8", headers: true, header_converters: :symbol, converters: :all}) do |row|
-      Agent.create row.to_hash
+    CSV.foreach(file.path, {encoding: "UTF-8", headers: true, header_converters: :symbol, converters: :all, force_quotes: true}) do |row|
+      entry = find_by(:email => row[:email]) || new
+      entry.update row.to_hash
+      entry.save
     end
-
     response = HumanityAPI.get_employees
-
-    # itterate over imported data
-    # !TECHDEBT adding in a status bar would be nice
     Agent.find_each do |x|
-      # check if user already exists
-      # if not create user and send a password
       User.where(:email => x.email).first_or_initialize do |block|
         generated_password = Devise.friendly_token.first(12)
-        humanity_user_id = response.select { |res| res['email'] == x.email}
-        if humanity_user_id.empty?
-          humanity_user_id = 0
-        else
-          humanity_user_id = humanity_user_id[0]['id']
-        end
-        
-        user = User.create!(:email => block.email, :password => generated_password, :name => x.name, :bank_value => 90, :humanity_user_id => humanity_user_id)
+  
+        user = User.create!(
+          :email => block.email, 
+          :password => generated_password, 
+          :name => x.name, 
+          :bank_value => 180, 
+          :humanity_user_id => HumanityAPI.set_humanity_id(x.email, response),
+          :position => x.position.upcase!,
+          :admin => x.admin,
+          :team => x.team
+        )
         RegistrationMailer.with(user: user, password: generated_password).registration_email.deliver_now
       end
+    # Then itmes should always be updated on import go here
+    update_info = User.find_by email: x.email
+    update_info.team = x.team
+    update_info.start_time = x.start_time
+    update_info.end_time = x.end_time
+    update_info.work_days = x.work_days.split(",").map(&:to_i) unless x.work_days.nil?
+    update_info.position = x.position
+    # check if a user who doesn't have a humanity account has one now
+    update_info.humanity_user_id = HumanityAPI.set_humanity_id(x.email, response) if update_info.humanity_user_id == 0
+    update_info.save
+
     end
 
   end

@@ -63,4 +63,15 @@ class HumanityAPI
     access_token = response.parsed_response['access_token']
     access_token
   end
+
+  def self.set_humanity_id(email, response)
+    humanity_user_id = response.select { |res| res['email'] == email}
+    if humanity_user_id.empty?
+        humanity_user_id = 0
+        # prevents a user without a humanity account from derailing an import
+    else
+        humanity_user_id = humanity_user_id[0]['id']
+    end
+  end 
+  
 end

@@ -2,19 +2,33 @@
     box-sizing: border-box;
   }
   
+  body, html {
+    position: relative;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    height:100%;
+    overflow: hidden;
+  }
+
   html {
     font-size: 62.5%;
   }
   
   body {
-    background: $backgroundColor;
+    background: white;
     font-size: 14px;
     font-size: 1.4rem;
+    top: 60px;
   }
   
   h1 {
     font-size: 24px;
     font-size: 2.4rem;
+  }
+
+  h3, h4, h5 {
+    font-size: 1.25em;
+    font-weight: 300 !important;
   }
   
   i {

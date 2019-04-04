@@ -2,7 +2,7 @@
 
 $(document).on('turbolinks:load', function () {
     // when a post is clicked show a modal
-    function renderModal() {
+    renderModal = () => {
         $('body').on('click', '.calendar-date', async function (e) {
             const calendarDates = await getDates();
             const currUser = await currentUser();
@@ -28,11 +28,9 @@ $(document).on('turbolinks:load', function () {
             currentDate.setHours(0)
             currentDate.setMinutes(00)
             currentDate.setSeconds(00)
-
-            console.log(requestDate > currentDate)
-            
-            if(requestDate.toDateString() == currentDate.toDateString()) {                
-                $('.dayOfModal').modal('show');
+            // #!TECHDEBT, jump off a bridge.
+            if(requestDate.toDateString() == currentDate.toDateString()) {
+                $('.dayOfModal').modal('show')
             }
 
             if (requestDate > currentDate && requestDate.getMonth()-currentDate.getMonth() <= 9 && !isNaN(current_price.current_price)) {
@@ -44,6 +42,7 @@ $(document).on('turbolinks:load', function () {
                 }
 
                 $('.modal-header').html("New Request for " + e.target.id + closeButton)
+                
                 $('.request-total').html(`total: ${displayCost}`)
                 $('#pto_request_request_date').attr("value", e.target.id)
                 $('#pto_request_cost').attr("value", displayCost)
@@ -56,5 +55,6 @@ $(document).on('turbolinks:load', function () {
         })
     }
 
-    renderModal()
+    renderModal() 
+
 })
