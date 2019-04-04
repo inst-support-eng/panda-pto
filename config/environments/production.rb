@@ -94,7 +94,7 @@ Rails.application.configure do
 
   # mailer setup
   config.action_mailer.default_url_options = { 
-    :host => 'panda-pto-test.herokuapp.com'
+    :host => 'pandashboard.herokuapp.com'
     :protocol => 'https'
    }
   config.action_mailer.raise_delivery_errors = true
