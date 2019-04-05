@@ -1,4 +1,5 @@
 class CalendarsController < ApplicationController
+    before_action :login_required
     def show
         @calendar = Calendar.find(params[:id])
     end
