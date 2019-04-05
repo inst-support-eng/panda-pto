@@ -82,7 +82,8 @@ $(document).on('turbolinks:load', () => {
 
                     // color todays date
                     if (date == today.getDate() && year == today.getFullYear() && month == today.getMonth()) {
-                        cell.classList.add("bg-info");
+                        cell.classList.add("blue");
+                        cell.classList.add("lighten-3");
                     }
 
                     let displayInfo = `<div id="pto-date">${date}</div><br/>${displayCost}`
