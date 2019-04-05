@@ -1,7 +1,6 @@
 // !TECHDEBT rewrite && comment this whole thing to be readable 
 
  $(document).on('turbolinks:load', function () {
-    let calendar = document.getElementById("calendar-table");
     let gridTable = document.getElementById("table-body");
     let currentDate = new Date();
     let selectedDate = currentDate;
@@ -32,31 +31,38 @@
 
         gridTable.innerHTML = "";
 
-        let newTr = document.createElement("tr");
-        let currentTr = gridTable.appendChild(newTr);
+        let newRow = document.createElement("tr");
+        let currentRow = gridTable.appendChild(newRow);
 
         for (let i = 1; i < startDate.getDay(); i++) {
             let emptyDivCol = document.createElement("td");
-            currentTr.appendChild(emptyDivCol);
+            currentRow.appendChild(emptyDivCol);
         }
 
         let lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
         lastDay = lastDay.getDate();
 
-        for (let i = 1; i <= lastDay; i++) {
-            if (currentTr.getElementsByTagName("td").length >= 7) {
-                currentTr = gridTable.appendChild(addNewRow());
+        let addNewRow =() => {
+            let row = document.createElement("tr");
+            return row;
+        }
+         
+        for (let i = 0; i <= lastDay; i++) {
+            if (currentRow.getElementsByTagName("td").length >= 7) {
+                currentRow = gridTable.appendChild(addNewRow());
             }
             let currentDay = document.createElement("td");
             currentDay.setAttribute("class", "calendar-date")
-            let dayId = i;
-            if (i < 10) { dayId = '0' + i }
+            console.log(currentDay)
+            let dayId = i+1;
+            if (dayId < 10) { dayId = '0' + i }
             let monthId = parseInt(currentDate.getMonth() + 1)
             if (monthId < 10) { monthId = '0' + monthId }
 
-            let reqDate = currentDate.getFullYear() + "-" + monthId + "-" + dayId
+            let reqDate = `${currentDate.getFullYear()}-${monthId}-${dayId}`
 
             let reqData = {}
+            
             calendarDates.forEach(el => {
                 if (el.date == reqDate) {
                     if (el.current_price == null) {
@@ -82,22 +88,26 @@
                     currentDay.classList.add("lighten-3");
                 }, 900);
             }
+
+            // display 8 / 10 hour costs for day
             let displayCost = `<div id="pto-cost">total: ₢ ${reqData.current_price * 8}</div>`;
             if (currUser.ten_hour_shift) {
                 displayCost = `<div id="pto-cost">total: ₢ ${reqData.current_price * 10}</div>`;
             } 
+
+            // check if day has current_price
             if(isNaN(reqData.current_price)) {
                 displayCost = `<div id="pto-cost">??</div>`
             }
-            let displayInfo = `<div id="pto-date">${i}</div>` + "<br/> " + displayCost
+            let displayInfo = `<div id="pto-date">${i}</div><br/>${displayCost}`
 
             currentDay.innerHTML = displayInfo;
-            currentTr.appendChild(currentDay);
+            currentRow.appendChild(currentDay);
         }
 
-        for (let i = currentTr.getElementsByTagName("td").length; i < 7; i++) {
+        for (let j = currentRow.getElementsByTagName("td").length; j < 7; j++) {
             let emptyDivCol = document.createElement("td");
-            currentTr.appendChild(emptyDivCol);
+            currentRow.appendChild(emptyDivCol);
         }
 
         setTimeout(() => {
@@ -107,35 +117,22 @@
                 gridTable.className = "animated fadeInRight";
             }
         }, 270);
-
-        function addNewRow() {
-            let node = document.createElement("tr");
-            return node;
-        }
     }
 
     createCalendar(currentDate);
 
-
-    let todayDayName = document.getElementById("todayDayName");
-    todayDayName.innerHTML = "Today is " + currentDate.toLocaleString("en-US", {
-        weekday: "long",
-        day: "numeric",
-        month: "short"
-    });
-
     let prevButton = document.getElementById("prev");
     let nextButton = document.getElementById("next");
 
-    prevButton.onclick = changeMonthPrev;
-    nextButton.onclick = changeMonthNext;
-
-    function changeMonthPrev() {
+    let changeMonthPrev = () => {
         currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1);
         createCalendar(currentDate, "left");
     }
-    function changeMonthNext() {
+    let changeMonthNext = () => {
         currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1);
         createCalendar(currentDate, "right");
     }
+
+    prevButton.onclick = changeMonthPrev;
+    nextButton.onclick = changeMonthNext;
 });
