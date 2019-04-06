@@ -93,7 +93,7 @@
         <div class="modal-header">Import Date Value CSV
           <div class="close2">x</div>
         </div>
-              <%= form_tag import_date_values_path, multipart: true do %>
+              <%= form_tag import_calendars_path, multipart: true do %>
               <%= file_field_tag :file %>
               <%= submit_tag "Import Value CSV" %>
               <% end %> 
