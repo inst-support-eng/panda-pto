@@ -10,21 +10,26 @@
       <div id="searchbar">
         <input type="text" id="search" onkeyup="filter()" placeholder="Filter by name.." title="Filter by name">
       </div>
+    <div class="agent-header">     
+    <table>       
+      <thead>
+        <tr>
+          <th>Agent Name</th>
+          <th>PTO Points</th>
+        </tr>
+      </thead>
+    </table> 
+    </div>
     <div class="all-agents">
         <table id="agent-table">
           <tbody>
-            <thead>
-              <tr>
-                <th>Agent Name</th>
-                <th>PTO Points</th>
-              </tr>
-            </thead>
               <% @agents.each do |agent| %>
             <tr class="agent-row">
               <td class="agent-name"><%= link_to "#{agent.name}", show_user_path(agent) %></td>
               <td class="agent-points"><%= agent.bank_value %></td>
             </tr>
               <% end %>
+            </div>
           </tbody>
         </table>
       </div>
@@ -34,10 +39,6 @@
     <div class="center-content">
     <table>
         <tr>
-          <td class="off-header">1A</td>
-          <td class="off-header">2A</td>
-          <td class="off-header">3A</td>
-          <td class="off-header">4A</td>
           <td class="off-header">5A</td>
           <td class="off-header">6A</td>
           <td class="off-header">7A</td>
@@ -58,17 +59,18 @@
           <td class="off-header">10P</td>
           <td class="off-header">11P</td>
           <td class="off-header">12A</td>
+          <td class="off-header">1A</td>
         </tr>
       </table>
         <% if @offtoday.is_a? String %>
-          <div class="errormessage"><%= @offtoday %></div>
+          <div class="errormessage"></div><%= @offtoday %></div>
         <% else %>
           <% @scheduled.each do |agent| %>
               <div class="working-grid">
               <% if agent.pto_requests.where(request_date: Date.today).empty? %>
               <div class="grid-overflow <%= agent.position %> <%= agent.team %> start-<%= Time.parse(agent.start_time).in_time_zone("Mountain Time (US & Canada)").to_s[11..15].tr(':','') %>"><%= agent.name %></div></div>
               <% else %>
-              <div class="offtoday"><%= agent.name %></div>
+              <div class="offtoday grid-overflow <%= agent.position %> start-<%= Time.parse(agent.start_time).in_time_zone("Mountain Time (US & Canada)").to_s[11..15].tr(':','') %>"><%= agent.name %> - OFF</div></div>
               <% end %>
             <% end %>
         <% end %>

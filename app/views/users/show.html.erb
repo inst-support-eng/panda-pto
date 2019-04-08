@@ -15,53 +15,67 @@
   </div>
 
     <div class="right-edit-user users-right">
-        <div class="content-left">
-            <h1>Agent Profile</h1>
+        <div class="content-top">
+            <h2>Agent Profile</h2>
             <table class="profile-container">
-                <tr><td>Name:</td><td><%= @user.name %></td></tr>
-                <tr><td>Email:</td><td><%= @user.email %></td></tr>
-                <tr><td>Position:</td><td><%= @user.position %></td></tr>
-                <tr><td>Admin:</td><td><%= @user.admin %></td>
-                <tr><td>Current Bank Value:</td><td><%= @user.bank_value %></td></tr>
-                <tr><td>Shift Length:</td><td><% if @user.ten_hour_shift %> 10 hour shift <% else %> 8 hour shift <% end %></td></tr>
-                <tr><td>Work Days:</td><td><%= @workdays.chop.chop %></td></tr>                <tr><td>Shift:</td><td><%= @shift_start %> – <%= @shift_end %></td></tr>
-                <tr><td>Team:</td><td><%= @user.team %></td></tr>
+                <tr><td>Name:</td><td><%= @user.name %></td><td>Email:</td><td><%= @user.email %></td></tr>
+                <tr><td>Position:</td><td><%= @user.position %></td><td>Team:</td><td><%= @user.team %></td></tr>
+                <tr><td>Current Bank Value:</td><td><%= @user.bank_value %></td><td>Admin:</td><td><%= @user.admin %></td></tr>
+                <tr><td>Shift:</td><td><%= @shift_start %> – <%= @shift_end %></td><td>Shift Length:</td><td><% if @user.ten_hour_shift %> 10 hour shift <% else %> 8 hour shift <% end %></td></tr>
+                <tr><td>Work Days:</td><td><%= @workdays.chop.chop %></td></tr>
             </table>
         </div>
-
-        <div class="upcoming-requests-tab content-middle">
-            <div>
-                <h1>Requests for today</h1>
-                <% @user.pto_requests.each do |request| %>
-                    <% if request.request_date == Date.today %>
-                    <div>
-                    <%= request.reason %> <%= request.request_date %> <%= request.cost %> <%= request.excused %> <%= request.admin_note %> <% if request.excused == false %><%= button_to "Excuse Request", excuse_pto_request_path(request) %> <% end %>
-                    </div>
+        <div class="content-bottom">
+            <div class="upcoming-requests-tab">
+                    <h2>Requests for Today</h2>
+                    <table class="requests">
+                        <% @user.pto_requests.each do |request| %>
+                        <% if request.request_date == Date.today %>
+                        <tr>
+                        <td><b>Date:</b> <%= request.request_date %></td>
+                        <td><b>Value:</b> <%= request.cost %></td>
+                        <td><b>Reason:</b> <%= request.reason %></td>
+                        <td><b>Excused:</b> <%= request.excused %> <%= request.admin_note %></td>
+                        <td><% if request.excused == false %><%= button_to "Excuse Request", excuse_pto_request_path(request) %></td>
+                        <% end %>
+                        </tr>
+                        <% end %>
                     <% end %>
-                <% end %>
+                    </table>
             </div>
-            <div>
-            <h1>Upcoming requests</h1>
-            <% @user.pto_requests.each do |request| %>
-                <% if request.request_date > Date.today %>
-                <div>
-                <%= request.reason %> <%= request.request_date %> <%= request.cost %> <%= request.excused %> <%= request.admin_note %> <% if request.excused == false %><%= button_to "Excuse Request", excuse_pto_request_path(request) %> <% end %>
-                </div>
-                <% end %>
-            <% end %>
+            <div class="upcoming-requests-tab">
+                    <h2>Upcoming Requests</h2>
+                    <table class="requests">
+                        <% @user.pto_requests.each do |request| %>
+                        <% if request.request_date > Date.today %>
+                        <tr>
+                        <td><b>Date:</b> <%= request.request_date %></td>
+                        <td><b>Value:</b> <%= request.cost %></td>
+                        <td><b>Reason:</b> <%= request.reason %></td>
+                        <td><b>Excused:</b> <%= request.excused %> <%= request.admin_note %></td>
+                        <td><% if request.excused == false %><%= button_to "Excuse Request", excuse_pto_request_path(request) %></td>
+                        <% end %>
+                        </tr>
+                        <% end %>
+                    <% end %>
+                    </table>
             </div> 
-        </div>
-
-        <div class="past-requests-tab content-right">
-            <div>
-            <h1>Past requests</h1>
-            <% @user.pto_requests.each do |request| %>
-                <% if request.request_date < Date.today %>
-                <div>
-                <%= request.reason %> <%= request.request_date %> <%= request.cost %> <%= request.excused %> <%= request.admin_note %> <% if request.excused == false %><%= button_to "Excuse Request", excuse_pto_request_path(request) %> <% end %>
-                </div>
-                <% end %>
-            <% end %>
+            <div class="past-requests-tab">
+                    <h2>Past Requests</h2>
+                    <table class="requests">
+                        <% @user.pto_requests.each do |request| %>
+                        <% if request.request_date < Date.today %>
+                        <tr>
+                        <td><b>Date:</b> <%= request.request_date %></td>
+                        <td><b>Value:</b> <%= request.cost %></td>
+                        <td><b>Reason:</b> <%= request.reason %></td>
+                        <td><b>Excused:</b> <%= request.excused %> <%= request.admin_note %></td>
+                        <td><% if request.excused == false %><%= button_to "Excuse Request", excuse_pto_request_path(request) %></td>
+                        <% end %>
+                        </tr>
+                        <% end %>
+                        <% end %>
+                    </table>
             </div>
         </div>
     </div>
