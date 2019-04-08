@@ -197,7 +197,8 @@
 /*----------------- Side Bar --------------------*/
   .sidebar-title {
     position: relative;
-    padding: 30px 6% 50px 12%;
+    padding: 20px;
+    font-size: 1.25em;
   }
 
   .sidebar-title h4 {
@@ -206,16 +207,21 @@
 
   .sidebar-events {
     overflow-x: hidden;
-    overflow-y: hidden;
-    margin-bottom: 70px;
+    overflow-y: scroll;
   }
 
   .all-requests {
-    padding: 0px 6% 50px 12%;
+    padding: 20px;
+    font-size: 1.25em;
   }
 
-  .sidebar-title h4 {
-    margin-top: 0;
+  .all-requests > table {
+    width: 100%;
+  }
+
+  hr {
+    margin: 0px;
+    border: 1px solid $text;
   }
 
 /*----------------- Callendar Content -----------*/

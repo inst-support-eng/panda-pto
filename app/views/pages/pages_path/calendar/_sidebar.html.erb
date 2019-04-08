@@ -1,21 +1,23 @@
 <%= flash[:notice] %>
 <div class="sidebar-wrapper z-depth-2 side-nav fixed" id="sidebar">
     <div class="sidebar-title">
-        <h4 id="eventDayName">Date</h4>
+        <h4 id="eventDayName">Date: <%= Date.today %></h4>
         <h5 id="bank-value">Bank Value: ₢ <%= current_user.bank_value %></h5>
     </div> <!-- sidebar-title -->
     <hr>
     <div class="all-requests">
         <h4>Upcoming Requests:</h4>
+        <table>
         <% current_user.pto_requests.each do |request| %>
-        <div>
+        <tr>
             <% if request.request_date > Date.today %>
-            <%= request.reason.truncate(10) %> <%= request.request_date %> <%= request.cost %>
-            <%= link_to "Delete", pto_request_path(request), data: {
+            <td><%= request.request_date %></td><td><%= request.reason.truncate(10) %></td><td><%= request.cost %></td>
+            <td><%= link_to "Delete", pto_request_path(request), data: {
                 :confirm => "Are you sure?"
-            }, :method => :delete %>
+            }, :method => :delete %><td>
             <% end %>
-        </div>
+        </tr>
         <% end %>
+        </table>
     </div>
 </div> <!-- sidebar-wrapper z-depth-2 side-nav fixed -->
