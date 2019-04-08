@@ -5,42 +5,53 @@
   </div>
  
   <div class="right-edit-user users-right">
-    <div class="content-left">
-      <h1>User Profile</h1>
+    <div class="content-top">
+      <h2><%= current_user.name %></h2>
       <table class="profile-container">
-        <tr><td>Name:</td><td><%= current_user.name %></td></tr>
+        <tr><td>Current Bank Value:</td><td>₢ <%= current_user.bank_value %></td></tr>
         <tr><td>Position:</td><td><%= current_user.position %></td></tr>
         <tr><td>Team:</td><td><%= current_user.team %></td></tr>
-        <tr><td>Current Bank Value:</td><td>₢ <%= current_user.bank_value %></td></tr>
-        <tr><td>Work Days:</td><td><%= @workdays.chop.chop %></td></tr>
-        <tr><td>Shift:</td><td><%= @shift_start %> – <%= @shift_end %></td></tr>
         <tr><td>Shift Length:</td><td><% if current_user.ten_hour_shift %> 10 hour shift <% else %> 8 hour shift <% end %></td></tr>
-      </table>
+        <tr><td>Shift:</td><td><%= @shift_start %> – <%= @shift_end %></td></tr>
+        <tr><td>Work Days:</td><td><%= @workdays.chop.chop %></td></tr>
+        </table>
     </div>
-    <div class="upcoming-requests-tab content-middle">
-      <h1>Upcoming Requests</h1>
-      <% current_user.pto_requests.each do |request| %>
-        <div>
-            <% if request.request_date > Date.today %>
-            <%= request.reason %> <%= request.request_date %> <%= request.cost %>
-            <%= link_to "Delete", pto_request_path(request), data: {
-                :confirm => "Are you sure?"
-            }, :method => :delete %>
-            <% end %>
-        </div>
-      <% end %>  
-    </div>
-
-    <div class="past-requests-tab content-right">
-      <h1>Past Requests</h1>
-        <div>
-        <% current_user.pto_requests.each do |request| %>
-        <% if request.request_date <= Date.today %>
-        <%= request.reason %> <%= request.request_date %> <%= request.cost %>
-        <% end %>
-        <% end %>
-        </div>
-    </div>
+    <div class="content-bottom">
+      <div class="upcoming-requests-tab">
+        <h2>Upcoming Requests</h2>
+        <div class="upcoming-body">
+          <table class="requests">
+            <% current_user.pto_requests.each do |request| %>
+              <% if request.request_date > Date.today %>
+              <tr>
+              <td><b>Date:</b> <%= request.request_date %></td>
+              <td><b>Cost:</b> <%= request.cost %></td>
+              <td><b>Reason:</b> <%= request.reason %></td>  
+              <td><%= link_to "Delete", pto_request_path(request), data: {
+                  :confirm => "Are you sure?"
+              }, :method => :delete %></td>
+              <% end %>
+              </tr>
+            <% end %> 
+          </table>
+        </div> 
+      </div>
+      <div class="past-requests-tab">
+        <h2>Past Requests</h2>
+        <div class="upcoming-body">
+            <table class="requests">
+              <% current_user.pto_requests.each do |request| %>
+              <% if request.request_date <= Date.today %>
+              <tr>
+              <td><b>Date:</b> <%= request.request_date %></td>
+              <td><b>Cost:</b> <%= request.cost %></td>
+              <td><b>Reason:</b> <%= request.reason %></td>
+              </tr>
+              <% end %>
+              <% end %>
+            </table>
+          </div>
+      </div>
   </div>
       <div id="update-password" class="password-modal">
           <div class="update-password-content">

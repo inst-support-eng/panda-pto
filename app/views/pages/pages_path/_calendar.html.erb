@@ -18,38 +18,73 @@
                             <div class="cal-top-left"><a class="prev-button" id="prev"><i class="material-icons">◄</i></a></div>
                             <div class="cal-top-right"><a class="next-button cal-top-right" id="next"><i class="material-icons">►</i></a></div>
                             <div class="cal-top-center">
-                                <div class="header-text" id="month-name">
-                                    Month
-                                </div>
-                                <h5 hidden id="todayDayName">Today is</h5>
+                                <table class="month-nav">
+                                    <tr>
+                                        <td>
+                                            <form>
+                                            <label for="month"></label>
+                                            <select class="select-dropdown" name="month" id="month">
+                                                <option value=0>January</option>
+                                                <option value=1>February</option>
+                                                <option value=2>March</option>
+                                                <option value=3>April</option>
+                                                <option value=4>May</option>
+                                                <option value=5>June</option>
+                                                <option value=6>July</option>
+                                                <option value=7>August</option>
+                                                <option value=8>September</option>
+                                                <option value=9>October</option>
+                                                <option value=10>November</option>
+                                                <option value=11>December</option>
+                                            </select>
+                                            </td>
+                                            <td>
+                                            <label for="year"></label>
+                                            <select class="select-dropdown" name="year" id="year" >
+                                                <option value=2019>2019</option>
+                                                <option value=2020>2020</option>
+                                                <option value=2021>2021</option>
+                                                <option value=2022>2022</option>
+                                                <option value=2023>2023</option>
+                                                <option value=2024>2024</option>
+                                                <option value=2025>2025</option>
+                                                <option value=2026>2026</option>
+                                                <option value=2027>2027</option>
+                                                <option value=2028>2028</option>
+                                                <option value=2029>2029</option>
+                                                <option value=2030>2030</option>
+                                            </select>
+                                            </form>
+                                        </td>
+                                        <td class="jump-button">
+                                            <button name="jump" id="jump">Go</button>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                             <div class="calendar-content cal-bottom">
                                 <table id="calendar-table" class="calendar-cells">
                                     <thead>
                                         <tr>
+                                            <th>Sun</th>
                                             <th>Mon</th>
                                             <th>Tue</th>
                                             <th>Wed</th>
                                             <th>Thu</th>
                                             <th>Fri</th>
                                             <th>Sat</th>
-                                            <th>Sun</th>
                                         </tr>
                                     </thead>
                                     <tbody id="table-body">
                                     </tbody>
                                 </table>
+                                <div hidden id="month-name">
+                                    Month
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
-            integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
-            crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
-            integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
-            crossorigin="anonymous"></script>
     </body>
-
 </html>

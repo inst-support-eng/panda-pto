@@ -1,141 +1,135 @@
-// !TECHDEBT rewrite && comment this whole thing to be readable 
+$(document).on('turbolinks:load', () => {
+    let today = new Date();
+    let currentMonth = today.getMonth();
+    let currentYear = today.getFullYear();
 
- $(document).on('turbolinks:load', function () {
-    let calendar = document.getElementById("calendar-table");
-    let gridTable = document.getElementById("table-body");
-    let currentDate = new Date();
-    let selectedDate = currentDate;
-    let selectedDayBlock = null;
+    let selectYear = document.getElementById("year");
+    let selectMonth = document.getElementById("month");
 
-    async function createCalendar(date, side) {
+    let monthAndYear = document.getElementById("month-name");
+
+    let months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    let createCalendar = async (year, month) => {
 
         let calendarDates = await getDates()
         let currUser = await currentUser()
 
-        let currentDate = date;
-        let startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+        let firstDay = new Date(year, month).getDay();
 
-        let monthTitle = document.getElementById("month-name");
-        let monthName = currentDate.toLocaleString("en-US", {
-            month: "long"
-        });
-        let yearNum = currentDate.toLocaleString("en-US", {
-            year: "numeric"
-        });
-        monthTitle.innerHTML = `${monthName} ${yearNum}`;
+        let tbl = document.getElementById("table-body");
+        tbl.innerHTML = "";
 
-        if (side == "left") {
-            gridTable.className = "animated fadeOutRight";
-        } else {
-            gridTable.className = "animated fadeOutLeft";
-        }
+        monthAndYear.innerHTML = `${months[month]} ${year}`;
+        selectYear.value = year;
+        selectMonth.value = month;
 
-        gridTable.innerHTML = "";
+        //create all the cells
+        let date = 1;
+        for (let i = 0; i < 6; i++) {
+            // create row
+            let row = document.createElement("tr")
 
-        let newTr = document.createElement("tr");
-        let currentTr = gridTable.appendChild(newTr);
-
-        for (let i = 1; i < startDate.getDay(); i++) {
-            let emptyDivCol = document.createElement("td");
-            currentTr.appendChild(emptyDivCol);
-        }
-
-        let lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
-        lastDay = lastDay.getDate();
-
-        for (let i = 1; i <= lastDay; i++) {
-            if (currentTr.getElementsByTagName("td").length >= 7) {
-                currentTr = gridTable.appendChild(addNewRow());
-            }
-            let currentDay = document.createElement("td");
-            currentDay.setAttribute("class", "calendar-date")
-            let dayId = i;
-            if (i < 10) { dayId = '0' + i }
-            let monthId = parseInt(currentDate.getMonth() + 1)
-            if (monthId < 10) { monthId = '0' + monthId }
-
-            let reqDate = currentDate.getFullYear() + "-" + monthId + "-" + dayId
-
-            let reqData = {}
-            calendarDates.forEach(el => {
-                if (el.date == reqDate) {
-                    if (el.current_price == null) {
-                        el.current_price = 1
-                    }
-                    return reqData = el
+            // create ind cells
+            for (let j = 0; j < 7; j++) {
+                if (i === 0 && j < firstDay) {
+                    cell = document.createElement("td");
+                    cellText = document.createTextNode("");
+                    cell.appendChild(cellText);
+                    row.appendChild(cell)
+                } else if (date > getDaysInMonth(year, month)) {
+                    break
                 }
-            })
+                else {
+                    cell = document.createElement("td");
+                    cellText = document.createTextNode(date);
 
-            currentDay.setAttribute("id", reqDate)
-            if (selectedDayBlock == null && i == currentDate.getDate() || selectedDate.toDateString() == new Date(currentDate.getFullYear(), currentDate.getMonth(), i).toDateString()) {
-                selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
+                    cell.append(cellText);
+                    cell.setAttribute("class", "calendar-date")
 
-                document.getElementById("eventDayName").innerHTML = selectedDate.toLocaleString("en-US", {
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric"
-                });
+                    let dayId = date;
+                    let monthId = month+1;
+                    
+                    if (dayId < 10) { dayId = `0${date}` } 
 
-                selectedDayBlock = currentDay;
-                setTimeout(() => {
-                    currentDay.classList.add("blue");
-                    currentDay.classList.add("lighten-3");
-                }, 900);
+                    if (monthId < 10) { monthId = `0${monthId}` }
+
+                    let reqDate = `${year}-${monthId}-${dayId}`
+
+                    let reqData = {}
+
+                    calendarDates.forEach(el => {
+                        
+                        if (el.date == reqDate) {
+                            if (el.current_price == null) {
+                                el.current_price = 1
+                            }
+                            return reqData = el
+                        }
+                    })
+
+                    cell.setAttribute("id", reqDate)
+
+                    // display 8 / 10 hour costs for day
+                    let displayCost = `<div id="pto-cost">total: ₢ ${reqData.current_price * 8}</div>`;
+                    if (currUser.ten_hour_shift) {
+                        displayCost = `<div id="pto-cost">total: ₢ ${reqData.current_price * 10}</div>`;
+                    }
+
+                    // check if day has current_price
+                    if (isNaN(reqData.current_price)) {
+                        displayCost = `<div id="pto-cost">??</div>`
+                    }
+
+                    // color todays date
+                    if (date == today.getDate() && year == today.getFullYear() && month == today.getMonth()) {
+                        cell.classList.add("blue");
+                        cell.classList.add("lighten-3");
+                    }
+
+                    let displayInfo = `<div id="pto-date">${date}</div><br/>${displayCost}`
+                    cell.innerHTML = displayInfo;
+
+                    row.appendChild(cell);
+
+                    date++;
+
+                }
             }
-            let displayCost = `<div id="pto-cost">total: ₢ ${reqData.current_price * 8}</div>`;
-            if (currUser.ten_hour_shift) {
-                displayCost = `<div id="pto-cost">total: ₢ ${reqData.current_price * 10}</div>`;
-            } 
-            if(isNaN(reqData.current_price)) {
-                displayCost = `<div id="pto-cost">??</div>`
-            }
-            let displayInfo = `<div id="pto-date">${i}</div>` + "<br/> " + displayCost
-
-            currentDay.innerHTML = displayInfo;
-            currentTr.appendChild(currentDay);
-        }
-
-        for (let i = currentTr.getElementsByTagName("td").length; i < 7; i++) {
-            let emptyDivCol = document.createElement("td");
-            currentTr.appendChild(emptyDivCol);
-        }
-
-        setTimeout(() => {
-            if (side == "left") {
-                gridTable.className = "animated fadeInLeft";
-            } else {
-                gridTable.className = "animated fadeInRight";
-            }
-        }, 270);
-
-        function addNewRow() {
-            let node = document.createElement("tr");
-            return node;
+            tbl.appendChild(row)
         }
     }
 
-    createCalendar(currentDate);
+    // get last day of month
+    let getDaysInMonth = (year, month) => {
+        return 32 - new Date(year, month, 32).getDate();
+    }
 
+    let next = () => {
+        currentYear = (currentMonth === 11) ? currentYear + 1 : currentYear;
+        currentMonth = (currentMonth + 1) % 12;
+        createCalendar(currentYear, currentMonth);
+    }
 
-    let todayDayName = document.getElementById("todayDayName");
-    todayDayName.innerHTML = "Today is " + currentDate.toLocaleString("en-US", {
-        weekday: "long",
-        day: "numeric",
-        month: "short"
-    });
+    let previous = () => {
+        currentYear = (currentMonth === 0) ? currentYear - 1 : currentYear;
+        currentMonth = (currentMonth === 0) ? 11 : currentMonth - 1;
+        createCalendar(currentYear, currentMonth);
+
+    }
+
+    let jump = () => {
+        currentYear = parseInt(selectYear.value);
+        currentMonth = parseInt(selectMonth.value);
+        createCalendar(currentYear, currentMonth)
+    }
 
     let prevButton = document.getElementById("prev");
     let nextButton = document.getElementById("next");
+    let jumpButton = document.getElementById("jump");
 
-    prevButton.onclick = changeMonthPrev;
-    nextButton.onclick = changeMonthNext;
+    prevButton.onclick = previous;
+    nextButton.onclick = next;
+    jumpButton.onclick = jump;
 
-    function changeMonthPrev() {
-        currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1);
-        createCalendar(currentDate, "left");
-    }
-    function changeMonthNext() {
-        currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1);
-        createCalendar(currentDate, "right");
-    }
-});
+    createCalendar(currentYear, currentMonth);
+})

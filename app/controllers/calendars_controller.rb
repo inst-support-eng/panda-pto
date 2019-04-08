@@ -4,6 +4,22 @@ class CalendarsController < ApplicationController
         @calendar = Calendar.find(params[:id])
     end
 
+    def import
+        if params[:file]
+            Calendar.import(params[:file])
+            # this is really dumb, the update_price helper needs to
+            # be moved to make it avaible in the model, quick fix for now
+            # ... and maybe update the helper to accept a Calendar object
+            # instead of a date !TECHDEBT
+            Calendar.find_each do |x|
+                helpers.update_price(x.date)
+            end
+            redirect_to root_url, notice: "Calendar CSV imported"
+        else
+            redirect_to root_url, notice: "Please upload a valid CSV file"
+        end
+    end
+
     def fetch_dates
         render json: Calendar.all
     end
