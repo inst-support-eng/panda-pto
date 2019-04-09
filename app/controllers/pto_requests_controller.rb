@@ -115,7 +115,7 @@ class PtoRequestsController < ApplicationController
         @pto_request.save
 
         @calendar.signed_up_total == nil ? @calendar.signed_up_total = 1 : @calendar.signed_up_total += 1
-        @calendar.signed_up_agents.push(current_user.name)
+        @calendar.signed_up_agents.push(@user.name)
         
         @calendar.save
 
