@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   # admin-only routes
   authenticate :user, -> (u) { u.admin? } do
     get 'admin/index'
+    get 'admin/coverage'
     resources :admin
     # routes for agent csv imports
     get 'agents/index'
