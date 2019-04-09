@@ -21,6 +21,6 @@ class CalendarsController < ApplicationController
     end
 
     def fetch_dates
-        render json: Calendar.all
+        render :json => Calendar.all.to_json(:except => [:signed_up_agents])
     end
 end
