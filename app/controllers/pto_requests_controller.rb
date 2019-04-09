@@ -41,11 +41,14 @@ class PtoRequestsController < ApplicationController
         end
         
         if @pto_request.save
-            redirect_to root_path
             update_request_info
             if(current_user.id == @pto_request.user_id)
+                redirect_to root_path
                 RequestsMailer.with(user: @user, pto_request: @pto_request).requests_email.deliver_now
             else 
+                @pto_request.reason = @pto_request.reason + " by #{current_user.name}"
+                @pto_request.save
+                redirect_to show_user_path(@user)
                 RequestsMailer.with(agent: @user, pto_request: @pto_request, supervisor: current_user).admin_request_email.deliver_now
             end
         else
