@@ -31,5 +31,25 @@ class PtoRequest < ApplicationRecord
 
     end
   end
-    
+
+  def self.to_csv()
+    data = ['name', 'email', 'request_date', 'cost', 'signed_up_total', 'excused', 'created_at'] 
+    CSV.generate(headers: true) do |csv|
+      csv << data
+
+      all.each do |pto|
+        csv << data.map{ |attr| pto.send(attr) }
+      end
+      
+    end
+  end
+
+  def name
+    self.user.name
+  end
+  
+  def email
+    self.user.email
+  end
+
 end

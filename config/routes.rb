@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     resources :agents do
       collection { post :import}
     end
-
+    get 'pto_requests/export'
     # routes for date csv imports
     get 'date_values/index'
     get 'date_values/import'

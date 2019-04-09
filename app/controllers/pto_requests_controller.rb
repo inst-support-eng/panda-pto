@@ -1,5 +1,12 @@
 class PtoRequestsController < ApplicationController
 
+    def export
+        @export_pto = PtoRequest.all
+        respond_to do |format|
+            format.csv { send_data @export_pto.to_csv }
+        end
+    end
+
     def import_request
         if params[:file]
             PtoRequest.import(params[:file])
