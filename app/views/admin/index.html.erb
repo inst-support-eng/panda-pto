@@ -5,6 +5,7 @@
   <button class="adminbutton" id="values-csv">Upload Values</button>
   <button class="adminbutton" id="users-csv">Upload Users</button>
   <button class="adminbutton" id="pto-csv">Import Requests</button>
+  <%= link_to "Export PTO", pto_requests_export_path(format: :csv), class: 'adminlink', method: :get %>
   </div>
   <div class="right">
       <div id="searchbar">
@@ -14,8 +15,8 @@
     <table>       
       <thead>
         <tr>
-          <th>Agent Name</th>
-          <th>PTO Points</th>
+          <th><%= sortable "name", "Agent Name" %></th>
+          <th><%= sortable "bank_value", "PTO Points"%></th>
         </tr>
       </thead>
     </table> 

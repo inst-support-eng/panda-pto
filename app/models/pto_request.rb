@@ -31,5 +31,33 @@ class PtoRequest < ApplicationRecord
 
     end
   end
-    
+
+  def self.to_csv()
+    data = ['name', 'email', 'request_date', 'cost', 'signed_up_total', 'excused', 'same_day', 'created_at'] 
+    CSV.generate(headers: true) do |csv|
+      csv << data
+
+      all.each do |pto|
+        csv << data.map{ |attr| pto.send(attr) }
+      end
+      
+    end
+  end
+
+  def name
+    self.user.name
+  end
+  
+  def email
+    self.user.email
+  end
+  
+  def same_day
+    if self.request_date.to_s == self.created_at.in_time_zone("Mountain Time (US & Canada)").to_s[0,10]
+      return TRUE
+    else
+      return FALSE
+    end
+  end
+
 end

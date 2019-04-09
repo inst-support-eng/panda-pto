@@ -1,11 +1,28 @@
 class PtoRequestsController < ApplicationController
 
+    def export
+        @export_pto = PtoRequest.all
+        respond_to do |format|
+            format.csv { send_data @export_pto.to_csv }
+        end
+    end
+
     def import_request
         if params[:file]
             PtoRequest.import(params[:file])
             redirect_to root_url, notice: "Past requests imported!"
         else
             redirect_to root_url, notice: "Weep Womp. Please upload a valid CSV file"
+        end
+    end
+
+    def export_user_request
+        @user = User.find(params[:id])
+
+        @user_requests = @user.pto_requests
+
+        respond_to do |format|
+            format.csv { send_data @user_requests.to_csv}
         end
     end
 

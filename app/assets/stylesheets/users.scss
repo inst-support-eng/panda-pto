@@ -76,6 +76,26 @@
     color: $hovertext;
   }
 
+  .edit-user-links {
+    background-color: $header;
+    border-radius: 5px;
+    border: 1px solid #132f52;
+    color: $text;
+    height: 40px;
+    display: block;
+    width: 100%;
+    font-size: 24px;
+    font-weight: 200;
+    outline: none;
+    margin-top: 10px;
+    margin-left: 0px;
+    text-align: center;
+  }
+
+  .edit-user-buttons:hover {
+    color: $hovertext;
+  }
+
   .profile-container {
     width: auto;
     margin-top: 10px;
