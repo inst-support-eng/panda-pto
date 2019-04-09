@@ -5,7 +5,7 @@
   <button class="adminbutton" id="values-csv">Upload Values</button>
   <button class="adminbutton" id="users-csv">Upload Users</button>
   <button class="adminbutton" id="pto-csv">Import Requests</button>
-  <%= button_to "Export PTO", pto_requests_export_path(format: :csv), class: 'adminbutton', method: :get %>
+  <%= link_to "Export PTO", pto_requests_export_path(format: :csv), class: 'adminlink', method: :get %>
   </div>
   <div class="right">
       <div id="searchbar">
