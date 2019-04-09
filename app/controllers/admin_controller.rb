@@ -15,7 +15,7 @@ class AdminController < ApplicationController
   def coverage
     error_message = <<-error
     Please pass a valid ISO-8601 date (YYY-MM-DD) as a 'date' querey string parameter 🥺\n
-    "PlEaSe pAsS A VaLiD IsO-8601 dAtE (yYy-mM-Dd) As a 'DaTe' QuErEy sTrInG PaRaMeTeR" 🔥
+    "PlEaSe pAsS A VaLiD IsO-8601 dAtE (yYyy-mM-Dd) As a 'DaTe' QuErEy sTrInG PaRaMeTeR" 🔥
     error
 
     date = Calendar.find_by(:date => params[:date].to_s)
