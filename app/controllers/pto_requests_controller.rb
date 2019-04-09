@@ -16,6 +16,16 @@ class PtoRequestsController < ApplicationController
         end
     end
 
+    def export_user_request
+        @user = User.find(params[:id])
+
+        @user_requests = @user.pto_requests
+
+        respond_to do |format|
+            format.csv { send_data @user_requests.to_csv}
+        end
+    end
+
     def show
         @pto_request = pto_request.find(params[:id])
     end

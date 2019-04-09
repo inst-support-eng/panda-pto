@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       collection { post :import}
     end
     get 'pto_requests/export'
+    get 'pto_requests/export_user_request/:id' => 'pto_requests#export_user_request', as: 'export_user_request'
     # routes for date csv imports
     get 'date_values/index'
     get 'date_values/import'
@@ -38,7 +39,7 @@ Rails.application.routes.draw do
   # routes for refactored date csv imports
   resources :calendars do
     collection { post :import}
-end
+  end
   # routes for pto_requests
   post "pto_requests/:id/excuse_request" => 'pto_requests#excuse_request', as: :excuse_pto_request
   get 'pto_requests/import'
