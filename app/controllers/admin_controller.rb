@@ -1,5 +1,5 @@
 class AdminController < ApplicationController
-
+  helper_method :sort_col, :sort_dir
   def index
     today = Calendar.find_by(:date => Date.today) 
     if today.nil? 
@@ -9,7 +9,7 @@ class AdminController < ApplicationController
       @scheduled = User.where('work_days @> ARRAY[?]::integer[]', Date.today.wday).order(:start_time)
       @offtoday = today.signed_up_agents
     end
-    User.any? ? @agents = User.all : @agents = []
+    User.any? ? @agents = User.order("#{sort_col} #{sort_dir}") : @agents = []
   end
 
   def coverage
@@ -33,4 +33,15 @@ class AdminController < ApplicationController
     }
   end
 
+  private 
+
+  def sort_col
+    User.column_names.include?(params[:sort]) ? params[:sort] : "name"
+  end
+
+  def sort_dir
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+  end
+
 end
+
