@@ -12,8 +12,6 @@ Rails.application.routes.draw do
       collection { post :import}
     end
 
-    # add feedback route !TECHDEBT
-    match "/feedback" => redirect("https://docs.google.com/forms/d/e/1FAIpQLSdxkcvYhkhql5-39tJZE7ERjSOtw2eEfq9j-KynRV08luSAJw/viewform"), :via => [:get], :as => :feedback
     get 'pto_requests/export'
     get 'pto_requests/export_user_request/:id' => 'pto_requests#export_user_request', as: 'export_user_request'
     # routes for date csv imports
@@ -49,6 +47,10 @@ Rails.application.routes.draw do
   resources :pto_requests do
     collection { post :import_request}
   end
+  
+  # add feedback route !TECHDEBT
+  match "/feedback" => redirect("https://docs.google.com/forms/d/e/1FAIpQLSdxkcvYhkhql5-39tJZE7ERjSOtw2eEfq9j-KynRV08luSAJw/viewform"), :via => [:get], :as => :feedback
+
   
   # routes for users 
   get 'current' => 'users#current'
