@@ -20,6 +20,17 @@ class CalendarsController < ApplicationController
         end
     end
 
+    # this will be overriden by csv uploads if the file has the overriden date in it
+    def update_base_price
+        @calendar = Calendar.find_by(:date => params[:date][:date])
+        puts @calendar.date
+        @calendar.base_value = params[:cost][:cost]
+
+        @calendar.save
+        helpers.update_price(@calendar.date)
+        redirect_to admin_index_path
+    end
+
     def fetch_dates
         render :json => Calendar.all.to_json(:except => [:signed_up_agents])
     end

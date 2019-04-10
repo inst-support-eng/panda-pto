@@ -22,8 +22,6 @@ Rails.application.routes.draw do
     resources :date_values do
       collection { post :import}
     end
-
-    post 'calendars/import', to: 'calendars#import'
   end
   # note: this redirects to 'users/sign_in', not '/login'
   # same thing, just not using the alias
@@ -38,6 +36,8 @@ Rails.application.routes.draw do
 
   # routes for calendar methods
   get 'calendars/fetch_dates', to: 'calendars#fetch_dates'
+  post 'calendars/import', to: 'calendars#import'
+  post 'calendars/update_base_price' => 'calendars#update_base_price', as: 'update_base_price'
 
   # routes for refactored date csv imports
   resources :calendars do
