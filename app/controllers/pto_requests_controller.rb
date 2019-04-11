@@ -1,5 +1,5 @@
 class PtoRequestsController < ApplicationController
-
+    before_action :login_required
     def export
         @export_pto = PtoRequest.all
         respond_to do |format|

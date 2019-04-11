@@ -1,4 +1,6 @@
 class SupController < ApplicationController
+  before_action :login_required
+  
   def index
   end
 
