@@ -21,8 +21,8 @@ class SupController < ApplicationController
 
     render json: {
       date: date.date,
-      L1_total_off: agents_off.count,
-      L1_total_on: agents_scheduled.count - agents_off.count,
+      l1_total_off: agents_off.count,
+      l1_total_on: agents_scheduled.count - agents_off.count,
       agents_off: agents_off,
       agents_scheduled: agents_scheduled
     }
