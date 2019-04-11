@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
   
+  # !TECHDEBT need to create new role-specific routing
+  # sup routes
+  get 'sup/index'
+  get 'sup/coverage'
+  resources :sup
+
   # admin-only routes
   authenticate :user, -> (u) { u.admin? } do
     get 'admin/index'
