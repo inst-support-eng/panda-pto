@@ -81,7 +81,7 @@ $(document).on('turbolinks:load', () => {
                     }
 
                     // grey out old dates 
-                    if (date < today.getDate() && year <= today.getFullYear() && month <= today.getMonth()) {
+                    if ((year <= today.getFullYear() && month < today.getMonth()) || (date < today.getDate() && year <= today.getFullYear() && month <= today.getMonth())) {
                         cell.classList.add('grey')
                         cell.classList.add('lighten-3')
                     }
@@ -130,13 +130,13 @@ $(document).on('turbolinks:load', () => {
     }
 
     $('#prev').click(() => {
-        previous;
+        previous();
     })
     $('#next').click(() => {
-        next;
+        next();
     })
     $('#jump').click(() => { 
-        jump;
+        jump();
     })
 
     createCalendar(currentYear, currentMonth);

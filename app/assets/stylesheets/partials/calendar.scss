@@ -318,9 +318,8 @@
     cursor: pointer;
   }
 
-  .empty-day:hover {
-    cursor: default !important;
-    background-color: #fff !important;
+  .grey:hover {
+    cursor: not-allowed !important;
   }
 
   #table-body .row .col {
