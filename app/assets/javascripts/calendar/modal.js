@@ -1,5 +1,3 @@
-// !TECHDEBT rewrite this jibberish
-
 $(document).on('turbolinks:load', function () {
     // when a post is clicked show a modal
     renderModal = () => {
@@ -28,7 +26,7 @@ $(document).on('turbolinks:load', function () {
             currentDate.setHours(0)
             currentDate.setMinutes(00)
             currentDate.setSeconds(00)
-            // #!TECHDEBT, jump off a bridge.
+ 
             if(requestDate.toDateString() == currentDate.toDateString()) {
                 $('.dayOfModal').modal('show')
             }
