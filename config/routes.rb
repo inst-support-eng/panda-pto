@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   get 'admin/coverage' => 'sup#coverage'
 
   # admin-only routes
-  authenticate :user, -> (u) { u.admin? } do
+  authenticate :user, -> (u) { u.admin? || u.position == "Sup"} do
     get 'admin/index'
     resources :admin
     # routes for agent csv imports
