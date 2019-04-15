@@ -80,6 +80,12 @@ $(document).on('turbolinks:load', () => {
                         displayCost = `<div id="pto-cost">??</div>`
                     }
 
+                    // grey out old dates 
+                    if (date < today.getDate() && year <= today.getFullYear() && month <= today.getMonth()) {
+                        cell.classList.add('grey')
+                        cell.classList.add('lighten-3')
+                    }
+
                     // color todays date
                     if (date == today.getDate() && year == today.getFullYear() && month == today.getMonth()) {
                         cell.classList.add("blue");
