@@ -97,20 +97,3 @@
           </div>
   </div>
 </div>
-
-<script>
-    var modal = document.getElementById('update-password');
-    var btn = document.getElementById("reset-password-button");
-    var span = document.getElementsByClassName("close2")[0];
-    btn.onclick = function() {
-      modal.style.display = "block";
-    }
-    span.onclick = function() {
-      modal.style.display = "none";
-    }
-    window.onclick = function(event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    }
-</script>

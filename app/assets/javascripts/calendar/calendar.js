@@ -129,13 +129,15 @@ $(document).on('turbolinks:load', () => {
         createCalendar(currentYear, currentMonth)
     }
 
-    let prevButton = document.getElementById("prev");
-    let nextButton = document.getElementById("next");
-    let jumpButton = document.getElementById("jump");
-
-    prevButton.onclick = previous;
-    nextButton.onclick = next;
-    jumpButton.onclick = jump;
+    $('#prev').click(() => {
+        previous;
+    })
+    $('#next').click(() => {
+        next;
+    })
+    $('#jump').click(() => { 
+        jump;
+    })
 
     createCalendar(currentYear, currentMonth);
 })

@@ -1,6 +1,6 @@
 $(document).on('turbolinks:load', function () {
     // when a post is clicked show a modal
-    renderModal = () => {
+    let renderModal = () => {
         $('body').on('click', '.calendar-date', async function (e) {
             const calendarDates = await getDates();
             const currUser = await currentUser();
@@ -46,7 +46,7 @@ $(document).on('turbolinks:load', function () {
                 $('#pto_request_cost').attr("value", displayCost)
             }
   
-            $('.btn-default').click(function () {
+            $('.btn-default').click(() => {
                 $('.calendarModal').modal('hide')
                 $('.dayOfModal').modal('hide')
             })
