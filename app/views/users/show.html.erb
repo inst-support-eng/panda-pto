@@ -4,7 +4,9 @@
         <div>
         <%= link_to "User PTO Requests", export_user_request_path(:id => @user, :format => :csv , :method => :get), {class:"edit-user-links"} %>
         </div>
+        <% if current_user.admin? %>
         <%= button_to "Toggle Admin", user_update_admin_path(@user), {class:"edit-user-buttons"} %>
+        <% end %>
         <div>
             <%= button_to "Password Reset", user_send_password_reset_path(@user), {class:"edit-user-buttons"} %>
         </div>

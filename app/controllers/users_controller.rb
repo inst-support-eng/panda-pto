@@ -3,7 +3,7 @@ class UsersController < ApplicationController
     def show
         if current_user.nil?
             redirect_to login_path
-        elsif current_user.admin?
+        elsif current_user.admin? || current_user.position == "Sup"
             @user = User.find(params[:id])
             @workdays = ""
             @user.work_days.each do |day|
