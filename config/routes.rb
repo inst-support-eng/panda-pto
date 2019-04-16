@@ -68,6 +68,7 @@ Rails.application.routes.draw do
     post :update_admin
     post :send_password_reset
     post :add_request_for_user
+    delete :destroy
   end
   root to: 'pages#index'
 end

@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-    before_action :find_user, only: %i[update_shift update_admin send_password_reset]
+    before_action :find_user, only: %i[destroy update_shift update_admin send_password_reset]
     def show
         if current_user.nil?
             redirect_to login_path
@@ -15,6 +15,18 @@ class UsersController < ApplicationController
             redirect_to root_path, notice: "You do not have access to this resource"
         end
     end
+
+    def destroy
+        @user.pto_requests.each do |request|
+            request.destroy
+        end
+
+        if @user.destroy 
+            redirect_to admin_index_path
+        else 
+            redirect_to show_user_path(@user), notice: "something went wrong"
+        end
+    end 
 
     def current
         render json: current_user
