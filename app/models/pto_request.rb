@@ -33,7 +33,9 @@ class PtoRequest < ApplicationRecord
   end
 
   def self.to_csv()
+
     data = ['name', 'email', 'request_date', 'cost', 'shoulda_payed', 'reason', 'signed_up_total', 'excused', 'same_day', 'created_at'] 
+
     CSV.generate(headers: true) do |csv|
       csv << data
 
@@ -137,7 +139,6 @@ class PtoRequest < ApplicationRecord
     end
     
     
-
     if self.user.ten_hour_shift?
       shoulda_payed = shoulda_payed * 10
     else

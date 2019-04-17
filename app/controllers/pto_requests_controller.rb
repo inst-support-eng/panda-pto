@@ -56,7 +56,7 @@ class PtoRequestsController < ApplicationController
                 redirect_to root_path
                 RequestsMailer.with(user: @user, pto_request: @pto_request).requests_email.deliver_now
             else 
-                @pto_request.reason = @pto_request.reason + " by #{current_user.name}"
+                @pto_request.reason = @pto_request.reason + " requested by #{current_user.name}"
                 @pto_request.save
                 redirect_to show_user_path(@user)
                 RequestsMailer.with(agent: @user, pto_request: @pto_request, supervisor: current_user).admin_request_email.deliver_now
@@ -85,7 +85,7 @@ class PtoRequestsController < ApplicationController
         @pto_request = PtoRequest.find(params[:id])
 
         if @pto_request == true
-            redirect_to show_user_path(@user), notice: "the request is already excused"
+            redirect_to show_user_path(@user), notice: "This request is already excused"
         end
         @user = User.find_by(:id => @pto_request.user_id)
         @user.bank_value += @pto_request.cost
@@ -115,7 +115,7 @@ class PtoRequestsController < ApplicationController
         @pto_request.save
 
         @calendar.signed_up_total == nil ? @calendar.signed_up_total = 1 : @calendar.signed_up_total += 1
-        @calendar.signed_up_agents.push(current_user.name)
+        @calendar.signed_up_agents.push(@user.name)
         
         @calendar.save
 
