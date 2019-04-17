@@ -1,14 +1,14 @@
 
 <div class="layout">
-  <% if current_user.admin? %>
   <div class="left">
+  <% if current_user.admin? %>
   <button class="adminbutton" id="values-csv">Upload Values</button>
   <button class="adminbutton" id="users-csv">Upload Users</button>
   <button class="adminbutton" id="pto-csv">Import Requests</button>
-  <%= link_to "Export PTO", pto_requests_export_path(format: :csv), class: 'adminlink', method: :get %>
   <button class="adminbutton" id="adjust-calendar-cost-btn">Adjust Date Costs</button>
-  </div>
   <% end %>
+  <%= link_to "Export PTO", pto_requests_export_path(format: :csv), class: 'adminlink', method: :get %>
+  </div>
   <div class="right">
       <div id="searchbar">
         <input type="text" id="search" onkeyup="filter()" placeholder="Filter by name.." title="Filter by name">
