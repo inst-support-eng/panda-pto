@@ -11,8 +11,10 @@
   </head>
 
   <body>
-    <%= flash[:notice] %>
     <%= render 'layouts/navigation' %>
+    <% flash.each do |key, value|%>
+    <div class="flash-notice <% key %>"><%= value %></div>
+    <% end %>
     <%= yield %>
   </body>
 

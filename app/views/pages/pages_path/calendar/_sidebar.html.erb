@@ -1,7 +1,6 @@
-<%= flash[:notice] %>
 <div class="sidebar-wrapper z-depth-2 side-nav fixed" id="sidebar">
     <div class="sidebar-title">
-        <h4 id="eventDayName">Date: <%= Date.today %></h4>
+        <h4 id="eventDayName">Date: <%= Time.now.in_time_zone("Mountain Time (US & Canada)").to_s[0,10] %></h4>
         <h5 id="bank-value">Bank Value: ₢ <%= current_user.bank_value %></h5>
     </div> <!-- sidebar-title -->
     <hr>

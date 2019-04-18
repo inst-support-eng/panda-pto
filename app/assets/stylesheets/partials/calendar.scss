@@ -318,9 +318,8 @@
     cursor: pointer;
   }
 
-  .empty-day:hover {
-    cursor: default !important;
-    background-color: #fff !important;
+  .grey:hover {
+    cursor: not-allowed !important;
   }
 
   #table-body .row .col {
@@ -364,6 +363,11 @@
 
   .blue {
     background-color: #132f52;
+    color: white;
+  }
+
+  .grey {
+    background-color: rgb(119, 119, 119);
     color: white;
   }
 

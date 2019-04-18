@@ -1,9 +1,16 @@
 Rails.application.routes.draw do
   
+  # !TECHDEBT need to create new role-specific routing
+  # sup routes
+  get 'sup/index'
+  get 'sup/coverage'
+  resources :sup
+  # legacy redirect lolololol
+  get 'admin/coverage' => 'sup#coverage'
+
   # admin-only routes
-  authenticate :user, -> (u) { u.admin? } do
+  authenticate :user, -> (u) { u.admin? || u.position == "Sup"} do
     get 'admin/index'
-    get 'admin/coverage'
     resources :admin
     # routes for agent csv imports
     get 'agents/index'
@@ -12,8 +19,6 @@ Rails.application.routes.draw do
       collection { post :import}
     end
 
-    # add feedback route !TECHDEBT
-    match "/feedback" => redirect("https://docs.google.com/forms/d/e/1FAIpQLSdxkcvYhkhql5-39tJZE7ERjSOtw2eEfq9j-KynRV08luSAJw/viewform"), :via => [:get], :as => :feedback
     get 'pto_requests/export'
     get 'pto_requests/export_user_request/:id' => 'pto_requests#export_user_request', as: 'export_user_request'
     # routes for date csv imports
@@ -22,8 +27,6 @@ Rails.application.routes.draw do
     resources :date_values do
       collection { post :import}
     end
-
-    post 'calendars/import', to: 'calendars#import'
   end
   # note: this redirects to 'users/sign_in', not '/login'
   # same thing, just not using the alias
@@ -38,6 +41,8 @@ Rails.application.routes.draw do
 
   # routes for calendar methods
   get 'calendars/fetch_dates', to: 'calendars#fetch_dates'
+  post 'calendars/import', to: 'calendars#import'
+  post 'calendars/update_base_price' => 'calendars#update_base_price', as: 'update_base_price'
 
   # routes for refactored date csv imports
   resources :calendars do
@@ -50,6 +55,10 @@ Rails.application.routes.draw do
     collection { post :import_request}
   end
   
+  # add feedback route !TECHDEBT
+  match "/feedback" => redirect("https://docs.google.com/forms/d/e/1FAIpQLSdxkcvYhkhql5-39tJZE7ERjSOtw2eEfq9j-KynRV08luSAJw/viewform"), :via => [:get], :as => :feedback
+
+  
   # routes for users 
   get 'current' => 'users#current'
   get 'users/:id' => 'users#show', as: :show_user
@@ -59,6 +68,7 @@ Rails.application.routes.draw do
     post :update_admin
     post :send_password_reset
     post :add_request_for_user
+    delete :destroy
   end
   root to: 'pages#index'
 end

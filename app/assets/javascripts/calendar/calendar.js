@@ -80,6 +80,12 @@ $(document).on('turbolinks:load', () => {
                         displayCost = `<div id="pto-cost">??</div>`
                     }
 
+                    // grey out old dates 
+                    if ((year <= today.getFullYear() && month < today.getMonth()) || (date < today.getDate() && year <= today.getFullYear() && month <= today.getMonth())) {
+                        cell.classList.add('grey')
+                        cell.classList.add('lighten-3')
+                    }
+
                     // color todays date
                     if (date == today.getDate() && year == today.getFullYear() && month == today.getMonth()) {
                         cell.classList.add("blue");
@@ -123,13 +129,15 @@ $(document).on('turbolinks:load', () => {
         createCalendar(currentYear, currentMonth)
     }
 
-    let prevButton = document.getElementById("prev");
-    let nextButton = document.getElementById("next");
-    let jumpButton = document.getElementById("jump");
-
-    prevButton.onclick = previous;
-    nextButton.onclick = next;
-    jumpButton.onclick = jump;
+    $('#prev').click(() => {
+        previous();
+    })
+    $('#next').click(() => {
+        next();
+    })
+    $('#jump').click(() => { 
+        jump();
+    })
 
     createCalendar(currentYear, currentMonth);
 })

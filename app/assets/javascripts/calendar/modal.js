@@ -1,9 +1,7 @@
-// !TECHDEBT rewrite this jibberish
-
-$(document).on('turbolinks:load', function () {
+$(document).on('turbolinks:load', () => {
     // when a post is clicked show a modal
-    renderModal = () => {
-        $('body').on('click', '.calendar-date', async function (e) {
+    let renderModal = () => {
+        $('body').on('click', '.calendar-date', async (e) => {
             const calendarDates = await getDates();
             const currUser = await currentUser();
 
@@ -28,7 +26,7 @@ $(document).on('turbolinks:load', function () {
             currentDate.setHours(0)
             currentDate.setMinutes(00)
             currentDate.setSeconds(00)
-            // #!TECHDEBT, jump off a bridge.
+ 
             if(requestDate.toDateString() == currentDate.toDateString()) {
                 $('.dayOfModal').modal('show')
             }
@@ -48,7 +46,7 @@ $(document).on('turbolinks:load', function () {
                 $('#pto_request_cost').attr("value", displayCost)
             }
   
-            $('.btn-default').click(function () {
+            $('.btn-default').click(() => {
                 $('.calendarModal').modal('hide')
                 $('.dayOfModal').modal('hide')
             })

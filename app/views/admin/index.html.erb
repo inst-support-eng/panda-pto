@@ -1,10 +1,12 @@
 
 <div class="layout">
   <div class="left">
-<!--  <button class="adminbutton" id="csv">Add Request</button>  -->
+  <% if current_user.admin? %>
   <button class="adminbutton" id="values-csv">Upload Values</button>
   <button class="adminbutton" id="users-csv">Upload Users</button>
   <button class="adminbutton" id="pto-csv">Import Requests</button>
+  <button class="adminbutton" id="adjust-calendar-cost-btn">Adjust Date Costs</button>
+  <% end %>
   <%= link_to "Export PTO", pto_requests_export_path(format: :csv), class: 'adminlink', method: :get %>
   </div>
   <div class="right">
@@ -79,42 +81,55 @@
   </div>
 </div>
 
-    <div id="upload-users" class="admin-modal">
-      <div class="upload-users-content">
-        <div class="modal-header">Import Agents CSV
-          <div class="close2">x</div>
-        </div>
-              <%= form_tag import_agents_path, multipart: true do %>
-              <%= file_field_tag :file %>
-              <%= submit_tag "Import Agents CSV" %>
-              <% end %> 
-      </div>
+<div id="upload-users" class="admin-modal">
+  <div class="upload-users-content">
+    <div class="modal-header">Import Agents CSV
+      <div class="close2">x</div>
     </div>
-
-    <div id="upload-values" class="admin-modal">
-      <div class="upload-values-content">
-        <div class="modal-header">Import Date Value CSV
-          <div class="close2">x</div>
-        </div>
-              <%= form_tag import_calendars_path, multipart: true do %>
-              <%= file_field_tag :file %>
-              <%= submit_tag "Import Value CSV" %>
-              <% end %> 
-      </div>
+      <%= form_tag import_agents_path, multipart: true do %>
+      <%= file_field_tag :file %>
+      <%= submit_tag "Import Agents CSV" %>
+      <% end %> 
     </div>
+  </div>
+</div>
 
-    <div id="upload-requests" class="admin-modal">
-      <div class="upload-values-content">
-        <div class="modal-header">Import PTO Requests CSV
-          <div class="close2">x</div>
-        </div>
-              <%= form_tag import_request_pto_requests_path, multipart: true do %>
-              <%= file_field_tag :file %>
-              <%= submit_tag "Import PTO requests CSV" %>
-              <% end %> 
-      </div>
+<div id="upload-values" class="admin-modal">
+  <div class="upload-values-content">
+    <div class="modal-header">Import Date Value CSV
+      <div class="close2">x</div>
     </div>
+      <%= form_tag import_calendars_path, multipart: true do %>
+      <%= file_field_tag :file %>
+      <%= submit_tag "Import Value CSV" %>
+      <% end %> 
+    </div>
+  </div>
+</div>
 
+<div id="upload-requests" class="admin-modal">
+  <div class="upload-values-content">
+    <div class="modal-header">Import PTO Requests CSV
+      <div class="close2">x</div>
+    </div>
+      <%= form_tag import_request_pto_requests_path, multipart: true do %>
+      <%= file_field_tag :file %>
+      <%= submit_tag "Import PTO requests CSV" %>
+      <% end %> 
+    </div>
+  </div>
+</div>
+
+<div id="adjust-calendar-cost" class="admin-modal">
+  <div class="adjust-calendar-cost-content">
+    <div class="modal-header">Adjust Calendar Date Costs
+      <div class="close2">x</div>
+    </div>
+      <%= form_tag update_base_price_path, multipart: true do %>
+      <%= date_field :date, :date, class: 'form-control' %>
+      <%= number_field :cost, :cost, class: 'form-control' %>
+      <%= submit_tag 'update request', class: 'form-control' %>
+      <% end %> 
     </div>
   </div>
 </div>
@@ -139,45 +154,3 @@
         }
     }
 </script>
-
-<script>
-  var modal = document.getElementById('upload-users');
-  var modal2 = document.getElementById('upload-values');
-  var modal3 = document.getElementById('upload-requests');
-  var btn = document.getElementById("users-csv");
-  var btn2 = document.getElementById("values-csv");
-  var btn3 = document.getElementById("pto-csv");
-  var span = document.getElementsByClassName("close2")[0];
-  var span2 = document.getElementsByClassName("close2")[1];
-  var span3 = document.getElementsByClassName("close2")[2];
-  btn.onclick = function() {
-    modal.style.display = "block";
-  }
-  btn2.onclick = function() {
-    modal2.style.display = "block";
-  }
-  btn3.onclick = function() {
-    modal3.style.display = "block";
-  }
-  span.onclick = function() {
-    modal.style.display = "none"
-  }
-  span2.onclick = function() {
-    modal2.style.display = "none";
-  }
-  span3.onclick = function() {
-    modal3.style.display = "none";
-  }
-  window.onclick = function(event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-    else if (event.target == modal2) {
-      modal2.style.display = "none";
-    }
-    else if (event.target == modal3) {
-      modal3.style.display = "none";
-    }
-  }
-</script>
-
