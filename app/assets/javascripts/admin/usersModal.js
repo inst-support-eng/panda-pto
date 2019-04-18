@@ -1,5 +1,5 @@
 $(document).on('turbolinks:load', () => {
-    let usersModal = () => {
+    usersModal = () => {
 
         let modal = document.getElementById('add-request');
 
