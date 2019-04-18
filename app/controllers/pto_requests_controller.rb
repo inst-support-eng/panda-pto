@@ -34,11 +34,22 @@ class PtoRequestsController < ApplicationController
         @pto_request = PtoRequest.new
     end
 
-    # !TECHBEDT flash is not working
     def create
         @pto_request = PtoRequest.new(post_params)
         @user = User.find_by(:id => @pto_request.user_id)
-        @calendar = Calendar.find_by(:date => @pto_request.request_date)
+        
+        case @user.position
+        when 'L1'
+            @calendar = Calendar.find_by(:date => @pto_request.request_date)
+        when 'L2'
+            @calendar = CalendarL2.find_by(:date => @pto_request.request_date)
+        when 'L3'
+            @calendar = CalendarL3.find_by(:date => @pto_request.request_date)
+        when 'Sup'
+            @calendar = CalendarSup.find_by(:date => @pto_request.request_date)
+        else 
+            @calendar = Calendar.find_by(:date => @pto_request.request_date)
+        end
 
         if @calendar.signed_up_agents.include?(@user.name)
             redirect_to root_path, notice: "You already have a request for this date"
@@ -69,7 +80,19 @@ class PtoRequestsController < ApplicationController
     def destroy
         @pto_request = PtoRequest.find(params[:id])
         @user = User.find_by(:id => @pto_request.user_id)
-        @calendar = Calendar.find_by(:date => @pto_request.request_date)
+        
+        case @user.position
+        when 'L1'
+            @calendar = Calendar.find_by(:date => @pto_request.request_date)
+        when 'L2'
+            @calendar = CalendarL2.find_by(:date => @pto_request.request_date)
+        when 'L3'
+            @calendar = CalendarL3.find_by(:date => @pto_request.request_date)
+        when 'Sup'
+            @calendar = CalendarSup.find_by(:date => @pto_request.request_date)
+        else 
+            @calendar = Calendar.find_by(:date => @pto_request.request_date)
+        end
 
         if @pto_request.destroy
             remove_request_info

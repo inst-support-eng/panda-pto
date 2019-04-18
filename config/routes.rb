@@ -40,9 +40,13 @@ Rails.application.routes.draw do
   end
 
   # routes for calendar methods
-  get 'calendars/fetch_dates', to: 'calendars#fetch_dates'
-  post 'calendars/import', to: 'calendars#import'
+  post 'calendars/import' => 'calendars#import'
   post 'calendars/update_base_price' => 'calendars#update_base_price', as: 'update_base_price'
+
+  get 'calendars/fetch_dates' => 'calendars#fetch_dates'
+  get 'calendars/l2_fetch_dates' => 'calendar_l2s#fetch_dates'
+  get 'calendars/l3_fetch_dates' => 'calendar_l3s#fetch_dates'
+  get 'calendars/sups_fetch_dates' => 'calendar_sups#fetch_dates'
 
   # routes for refactored date csv imports
   resources :calendars do

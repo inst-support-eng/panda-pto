@@ -14,6 +14,26 @@ $(document).on('turbolinks:load', () => {
         let calendarDates = await getDates()
         let currUser = await currentUser()
 
+        console.log(currUser.position)
+
+        switch(currUser.position) {
+            case "L1": 
+                calendarDates = await getDates();
+                break;
+            case "L2":
+                calendarDates = await getL2Dates();
+                break;
+            case "L3":
+                calendarDates = await getL3Dates();
+                break;
+            case "Sup":
+                calendarDates =  await getSupDates();
+                break;
+            default: 
+                calendarDates = await getDates();
+                break;           
+        }
+
         let firstDay = new Date(year, month).getDay();
 
         let tbl = document.getElementById("table-body");
