@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_27_165135) do
+ActiveRecord::Schema.define(version: 2019_04_17_233903) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,36 @@ ActiveRecord::Schema.define(version: 2019_03_27_165135) do
     t.string "end_time"
     t.string "work_days"
     t.boolean "admin"
+  end
+
+  create_table "calendar_l2s", force: :cascade do |t|
+    t.date "date"
+    t.float "base_value"
+    t.integer "signed_up_total"
+    t.text "signed_up_agents", default: [], array: true
+    t.float "current_price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "calendar_l3s", force: :cascade do |t|
+    t.date "date"
+    t.float "base_value"
+    t.integer "signed_up_total"
+    t.text "signed_up_agents", default: [], array: true
+    t.float "current_price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "calendar_sups", force: :cascade do |t|
+    t.date "date"
+    t.float "base_value"
+    t.integer "signed_up_total"
+    t.text "signed_up_agents", default: [], array: true
+    t.float "current_price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "calendars", force: :cascade do |t|
@@ -56,6 +86,7 @@ ActiveRecord::Schema.define(version: 2019_03_27_165135) do
     t.datetime "updated_at", null: false
     t.string "admin_note"
     t.boolean "excused"
+    t.string "position"
   end
 
   create_table "users", force: :cascade do |t|
