@@ -16,27 +16,27 @@ class RequestsMailer < ApplicationMailer
     
     def admin_request_email
         @supervisor = params[:supervisor]
-        mail(to: @agent.email, cc: "mco@instructure.com", subject: `Admin request for #{@agent.name}`)
+        mail(to: @user.email, cc: "mco@instructure.com", subject: `Admin request for #{@user.name}`)
     end
 
     def excuse_request_email
         @supervisor = params[:supervisor]
-        mail(to: @agent.email, cc: "mco@instructure.com", subject: `Excused request for #{@agent.name}`)
+        mail(to: @user.email, cc: "mco@instructure.com", subject: `Excused request for #{@user.name}`)
     end
 
     def sick_make_up_email
-        mail(to: @agent.email, cc: "mco@instrucure.com", subject: `Sick day for #{@agent.name}`)
+        mail(to: @user.email, cc: "mco@instrucure.com", subject: `Sick day for #{@user.name}`)
     end
 
     def zero_credit_email
-        @agent = params[:user]
+        @user = params[:user]
         @pto_request = parmas[:pto_request]
-        mail(to: @agent.email, cc:"mco@instructure.com", subject: `PTO Credits Have reached Zero`)
+        mail(to: @user.email, cc:"mco@instructure.com", subject: `PTO Credits Have reached Zero`)
     end
 
     ## TALK TO TDYE / LBURNETT 
     def missed_holiday_email
-        mail(to: @agent.email, cc:"mco@instructure.com", subject: `Missed Holiday for `)
+        mail(to: @user.email, cc:"mco@instructure.com", subject: `Missed Holiday for `)
     end
 
     def no_call_show_email
@@ -44,13 +44,13 @@ class RequestsMailer < ApplicationMailer
     end
 
     def eight_credits_email
-        @agent = params[:user]
-        mail(to: @agent.email, cc:"mco@instructure.com", subject: `#{user.bank_value} PTO Credits Remain `)
+        @user = params[:user]
+        mail(to: @user.email, cc:"mco@instructure.com", subject: `#{user.bank_value} PTO Credits Remain `)
     end
 
     def credits_vested_email
-        @agent = params[:user]
-        mail(to: @agent.email, subject: "PTO Credits have been added to your account")
+        @user = params[:user]
+        mail(to: @user.email, subject: "PTO Credits have been added to your account")
     end
 
     def make_up_day_email

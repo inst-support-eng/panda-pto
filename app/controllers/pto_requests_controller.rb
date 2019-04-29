@@ -69,7 +69,7 @@ class PtoRequestsController < ApplicationController
                 @pto_request.reason = @pto_request.reason + " requested by #{current_user.name}"
                 @pto_request.save
                 redirect_to show_user_path(@user)
-                RequestsMailer.with(agent: @user, pto_request: @pto_request, supervisor: current_user).admin_request_email.deliver_now
+                RequestsMailer.with(user: @user, pto_request: @pto_request, supervisor: current_user).admin_request_email.deliver_now
             end
         else
             redirect_to root_path, notice: "something went wrong"
