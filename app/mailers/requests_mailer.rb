@@ -1,9 +1,7 @@
 class RequestsMailer < ApplicationMailer
     default from: 'supportpanda@instructure.com'
 
-    before_action :get_params only: %i[requests_email delete_request_email admin_request_email 
-            excuse_request_email sick_make_up_email zero_credit_email missed_holiday_email 
-            no_call_show_email]
+    before_action :get_params, only: %i[requests_email delete_request_email admin_request_email excuse_request_email sick_make_up_email zero_credit_email missed_holiday_email no_call_show_email]
 
     # email confirming request for pto was made 
     # see views/requests_email for email template

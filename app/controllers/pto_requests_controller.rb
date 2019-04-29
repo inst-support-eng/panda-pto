@@ -18,7 +18,6 @@ class PtoRequestsController < ApplicationController
 
     def export_user_request
         @user = User.find(params[:id])
-
         @user_requests = @user.pto_requests
 
         respond_to do |format|
