@@ -11,9 +11,9 @@
 
         <p>This email is to confirm that a PTO adjustment has been made on your behalf. Your remaining credits are listed below.</p> 
 
-        <p>Agent: <%= @agent.name %></p>
+        <p>Agent: <%= @user.name %></p>
         <p>Date that was adjusted <%= @pto_request.request_date %></p>
-        <p>Remaining balances: <%= @agent.bank_value %></p>
+        <p>Remaining balances: <%= @user.bank_value %></p>
         <p>Balance adjusted by: <%= @supervisor.name %></p>
         
         <p>If you have any questions or concerns, please contact your supervisor.</p> 

@@ -1,0 +1,15 @@
+Hello <%= @user.name%>,
+
+This is a courtesy email to let you know you have less than 8 PTO credits in your account.  
+
+To take a full day off, either sick or vacation, you will need to either wait until you are allotted more PTO credits (the beginning of every quarter), arrange a shift swap for the time not covered by your credits, or makeup the time not covered by your credits.
+
+After your credits are used, you won’t be approved for any PTO and you’ll need to makeup any days missed until you have been allotted more credits.
+
+Agent: <%= @user.name %>
+Remaining balances: <%= @user.bank_value %>
+
+If you have any questions or concerns, please contact your supervisor. 
+
+Thank you, 
+Panda Admin
