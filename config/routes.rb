@@ -70,6 +70,7 @@ Rails.application.routes.draw do
   resources :users  do
     put :update_shift
     post :update_admin
+    post :update_pip
     post :send_password_reset
     post :add_request_for_user
     delete :destroy

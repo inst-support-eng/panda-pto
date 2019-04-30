@@ -56,5 +56,5 @@ $(document).on('turbolinks:load', () => {
 
     }
 
-    updateCoverage();
+//    updateCoverage();
 })

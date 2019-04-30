@@ -37,6 +37,10 @@ class PtoRequestsController < ApplicationController
         @pto_request = PtoRequest.new(post_params)
         @user = User.find_by(:id => @pto_request.user_id)
         
+        if @user.on_pip == true
+            redirect_to root_path, notice: "You're PTO is currently restricted, please talk to your supervisor"
+        end
+
         case @user.position
         when 'L1'
             @calendar = Calendar.find_by(:date => @pto_request.request_date)
