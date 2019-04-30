@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-    before_action :find_user, only: %i[destroy update_shift update_admin send_password_reset]
+    before_action :find_user, only: %i[destroy update_shift update_admin update_pip send_password_reset]
     def show
         if current_user.nil?
             redirect_to login_path
@@ -41,6 +41,12 @@ class UsersController < ApplicationController
 
     def update_admin
         @user.admin = !@user.admin
+        @user.save
+        redirect_to show_user_path(@user) 
+    end
+
+    def update_pip
+        @user.on_pip = !@user.on_pip
         @user.save
         redirect_to show_user_path(@user) 
     end

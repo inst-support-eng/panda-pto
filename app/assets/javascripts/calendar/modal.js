@@ -28,27 +28,36 @@ $(document).on('turbolinks:load', () => {
             currentDate.setSeconds(00)
 
             if (requestDate.toDateString() == currentDate.toDateString()) {
-                $('.dayOfModal').modal('show')
+                if (currUser.on_pip == true) {
+                    $('.pipModal').modal('show')
+                } else {
+                    $('.dayOfModal').modal('show')
+                }
             }
 
             if (requestDate > currentDate && requestDate.getMonth() - currentDate.getMonth() <= 9 && !isNaN(current_price.current_price)) {
-                $('.calendarModal').modal('show');
-                let closeButton = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button >'
-                let displayCost = current_price.current_price * 8;
-                if (currUser.ten_hour_shift) {
-                    displayCost = current_price.current_price * 10;
+                if (currUser.on_pip == true) {
+                    $('.pipModal').modal('show')
+                } else {
+                    $('.calendarModal').modal('show');
+                    let closeButton = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button >'
+                    let displayCost = current_price.current_price * 8;
+                    if (currUser.ten_hour_shift) {
+                        displayCost = current_price.current_price * 10;
+                    }
+
+                    $('.modal-header').html("New Request for " + e.target.id + closeButton)
+
+                    $('.request-total').html(`total: ${displayCost}`)
+                    $('#pto_request_request_date').attr("value", e.target.id)
+                    $('#pto_request_cost').attr("value", displayCost)
                 }
-
-                $('.modal-header').html("New Request for " + e.target.id + closeButton)
-
-                $('.request-total').html(`total: ${displayCost}`)
-                $('#pto_request_request_date').attr("value", e.target.id)
-                $('#pto_request_cost').attr("value", displayCost)
             }
 
             $('.btn-default').click(() => {
                 $('.calendarModal').modal('hide')
                 $('.dayOfModal').modal('hide')
+                $('.pipModal').modal('hide')
             })
         })
     }
