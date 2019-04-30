@@ -1,12 +1,7 @@
 Rails.application.routes.draw do
   
-  # !TECHDEBT need to create new role-specific routing
-  # sup routes
-  get 'sup/index'
-  get 'sup/coverage'
-  resources :sup
-  # legacy redirect lolololol
-  get 'admin/coverage' => 'sup#coverage'
+  # !TECHDEBT need to create new role-specific routing  
+  get 'admin/coverage'
 
   # admin-only routes
   authenticate :user, -> (u) { u.admin? || u.position == "Sup"} do
