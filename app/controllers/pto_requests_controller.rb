@@ -39,7 +39,7 @@ class PtoRequestsController < ApplicationController
         
         if @user.on_pip == true
             redirect_to root_path, notice: "You're PTO is currently restricted, please talk to your supervisor"
-        end
+        end    
 
         case @user.position
         when 'L1'
@@ -65,6 +65,11 @@ class PtoRequestsController < ApplicationController
         end
         
         if @pto_request.save
+            if @pto_request.reason == 'no call / no show'
+                add_no_call_show
+                return
+            end 
+            
             update_request_info
             if(current_user.id == @pto_request.user_id)
                 redirect_to root_path
@@ -98,6 +103,11 @@ class PtoRequestsController < ApplicationController
         end
 
         if @pto_request.destroy
+            if @pto_request.reason == 'no call / no show'
+                sub_no_call_show
+                return
+            end
+
             remove_request_info
             RequestsMailer.with(user: @user, pto_request: @pto_request).delete_request_email.deliver_now
             redirect_to root_path, notice: "Your request was deleted"
@@ -122,6 +132,11 @@ class PtoRequestsController < ApplicationController
         @pto_request.cost = 0
         @pto_request.save
         @user.save
+
+        if @pto_request.reason == 'no call / no show'
+            sub_no_call_show
+            return
+        end
 
         redirect_to show_user_path(@user)
         RequestsMailer.with(user: @user, pto_request: @pto_request, supervisor: current_user).excuse_request_email.deliver_now
@@ -162,5 +177,39 @@ class PtoRequestsController < ApplicationController
 
         @user.bank_value += @pto_request.cost
         @user.save
+    end
+
+    def add_no_call_show
+        humanity_request_id = HumanityAPI.create_request(@pto_request, @user)
+        HumanityAPI.approve_request(humanity_request_id)
+        @pto_request.humanity_request_id = humanity_request_id 
+        @pto_request.excused = false
+        @pto_request.save
+
+        if @user.no_call_show == nil
+            print 'yeet'
+            @user.no_call_show == 0 
+        else
+            print 'what'
+            @user.no_call_show += 1;
+        end
+        @user.save
+        
+        redirect_to show_user_path(@user)
+        #RequestsMailer.with(user: @user, pto_request: @pto_request).no_call_show.deliver_now
+    end
+
+    def sub_no_call_show
+        HumanityAPI.delete_request(@pto_request.humanity_request_id)
+        @pto_request.save
+
+        if @user.no_call_show == nil
+            @user.no_call_show == 0 
+        else
+            @user.no_call_show -= 1;
+        end
+        @user.save
+        
+        redirect_to show_user_path(@user)
     end
 end
