@@ -36,9 +36,13 @@ class PtoRequestsController < ApplicationController
     def create
         @pto_request = PtoRequest.new(post_params)
         @user = User.find_by(:id => @pto_request.user_id)
+
+        if @pto_request.reason == 'no call / no show'
+            return add_no_call_show
+        end 
         
         if @user.on_pip == true
-            redirect_to root_path, notice: "You're PTO is currently restricted, please talk to your supervisor"
+            return redirect_to root_path, notice: "You're PTO is currently restricted, please talk to your supervisor"
         end    
 
         case @user.position
@@ -55,33 +59,27 @@ class PtoRequestsController < ApplicationController
         end
 
         if @calendar.signed_up_agents.include?(@user.name)
-            redirect_to root_path, notice: "You already have a request for this date"
-            return 
+            return redirect_to root_path, notice: "You already have a request for this date"
         end 
 
         if @user.bank_value < @pto_request.cost
-            redirect_to root_path, notice: "You do not have enough to make this request"
-            return 
+            return  redirect_to root_path, notice: "You do not have enough to make this request"
         end
         
         if @pto_request.save
-            if @pto_request.reason == 'no call / no show'
-                add_no_call_show
-                return
-            end 
-            
+
             update_request_info
-            if(current_user.id == @pto_request.user_id)
-                redirect_to root_path
+            if(current_user.id == @pto_request.user_id)    
                 RequestsMailer.with(user: @user, pto_request: @pto_request).requests_email.deliver_now
+                return redirect_to root_path
             else 
                 @pto_request.reason = @pto_request.reason + " requested by #{current_user.name}"
                 @pto_request.save
-                redirect_to show_user_path(@user)
                 RequestsMailer.with(user: @user, pto_request: @pto_request, supervisor: current_user).admin_request_email.deliver_now
+                return redirect_to show_user_path(@user)
             end
         else
-            redirect_to root_path, notice: "something went wrong"
+            return redirect_to root_path, notice: "something went wrong"
         end
     end
 
@@ -104,15 +102,14 @@ class PtoRequestsController < ApplicationController
 
         if @pto_request.destroy
             if @pto_request.reason == 'no call / no show'
-                sub_no_call_show
-                return
+                return sub_no_call_show
             end
 
             remove_request_info
             RequestsMailer.with(user: @user, pto_request: @pto_request).delete_request_email.deliver_now
-            redirect_to root_path, notice: "Your request was deleted"
+            return redirect_to root_path, notice: "Your request was deleted"
         else
-            redirect_to root_path, notice: "Somthing went wrong"
+            return redirect_to root_path, notice: "Somthing went wrong"
         end
 
     end
@@ -121,8 +118,9 @@ class PtoRequestsController < ApplicationController
         @pto_request = PtoRequest.find(params[:id])
 
         if @pto_request == true
-            redirect_to show_user_path(@user), notice: "This request is already excused"
+            return redirect_to show_user_path(@user), notice: "This request is already excused"
         end
+
         @user = User.find_by(:id => @pto_request.user_id)
         @user.bank_value += @pto_request.cost
 
@@ -134,12 +132,11 @@ class PtoRequestsController < ApplicationController
         @user.save
 
         if @pto_request.reason == 'no call / no show'
-            sub_no_call_show
-            return
+            return sub_no_call_show
         end
 
-        redirect_to show_user_path(@user)
         RequestsMailer.with(user: @user, pto_request: @pto_request, supervisor: current_user).excuse_request_email.deliver_now
+        return redirect_to show_user_path(@user)
     end
 
     private 
@@ -155,7 +152,7 @@ class PtoRequestsController < ApplicationController
         @pto_request.excused = false
         @pto_request.save
 
-        @calendar.signed_up_total == nil ? @calendar.signed_up_total = 1 : @calendar.signed_up_total += 1
+        @calendar.signed_up_total.nil? ? @calendar.signed_up_total = 1 : @calendar.signed_up_total += 1
         @calendar.signed_up_agents.push(@user.name)
         
         @calendar.save
@@ -186,28 +183,19 @@ class PtoRequestsController < ApplicationController
         @pto_request.excused = false
         @pto_request.save
 
-        if @user.no_call_show == nil
-            print 'yeet'
-            @user.no_call_show == 0 
-        else
-            print 'what'
-            @user.no_call_show += 1;
-        end
+        @user.no_call_show.nil? ? @user.no_call_show = 1 : @user.no_call_show += 1;
         @user.save
         
         redirect_to show_user_path(@user)
-        #RequestsMailer.with(user: @user, pto_request: @pto_request).no_call_show.deliver_now
+        RequestsMailer.with(user: @user, pto_request: @pto_request).no_call_show_email.deliver_now
     end
 
     def sub_no_call_show
         HumanityAPI.delete_request(@pto_request.humanity_request_id)
         @pto_request.save
 
-        if @user.no_call_show == nil
-            @user.no_call_show == 0 
-        else
-            @user.no_call_show -= 1;
-        end
+        @user.no_call_show.nil? ? @user.no_call_show = 0 : @user.no_call_show -= 1
+        @user.no_call_show <= 0 ? @user.no_call_show = 0 : @user.no_call_show = @user.no_call_show
         @user.save
         
         redirect_to show_user_path(@user)

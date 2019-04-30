@@ -40,12 +40,12 @@ class RequestsMailer < ApplicationMailer
     end
 
     def no_call_show_email
-
+        mail(to: @user.email, cc:"fleet-command@instructure.com", subject: `No Call/ No Show for #{@pto_request.request_date}`)
     end
 
     def eight_credits_email
         @user = params[:user]
-        mail(to: @user.email, cc:"mco@instructure.com", subject: `#{user.bank_value} PTO Credits Remain `)
+        mail(to: @user.email, cc:"mco@instructure.com", subject: `#{@user.bank_value} PTO Credits Remain `)
     end
 
     def credits_vested_email
