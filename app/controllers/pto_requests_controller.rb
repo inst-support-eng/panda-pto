@@ -29,7 +29,7 @@ class PtoRequestsController < ApplicationController
         @pto_request = pto_request.find(params[:id])
     end
 
-    def new  
+    def new
         @pto_request = PtoRequest.new
     end
 
@@ -39,6 +39,10 @@ class PtoRequestsController < ApplicationController
 
         if @pto_request.reason == 'no call / no show'
             return add_no_call_show
+        end 
+
+        if @pto_request.reason == 'make up / sick day'
+            return add_make_up_day
         end 
         
         if @user.on_pip == true
@@ -105,6 +109,10 @@ class PtoRequestsController < ApplicationController
                 return sub_no_call_show
             end
 
+            if @pto_request.reason == 'make up / sick day'
+                return sub_make_up_day
+            end 
+
             remove_request_info
             RequestsMailer.with(user: @user, pto_request: @pto_request).delete_request_email.deliver_now
             return redirect_to root_path, notice: "Your request was deleted"
@@ -134,6 +142,10 @@ class PtoRequestsController < ApplicationController
         if @pto_request.reason == 'no call / no show'
             return sub_no_call_show
         end
+
+        if @pto_request.reason == 'make up / sick day'
+            return sub_make_up_day
+        end 
 
         RequestsMailer.with(user: @user, pto_request: @pto_request, supervisor: current_user).excuse_request_email.deliver_now
         return redirect_to show_user_path(@user)
