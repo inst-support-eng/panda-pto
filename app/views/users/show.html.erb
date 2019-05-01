@@ -10,8 +10,10 @@
         <div>
             <%= button_to "8/10 hour shift", user_update_shift_path(@user), method: :put %>
         </div>
+        <button class="edit-user-buttons" id="add-no-call-show-btn">Add No Show</button>
         <% if current_user.admin? %>
         <%= button_to "Toggle Admin", user_update_admin_path(@user), {class:"edit-user-buttons"} %>
+        <%= button_to "Toggle Pip", user_update_pip_path(@user), {class:"edit-user-buttons"} %>
         <%= button_to "Delete User", user_destroy_path(@user), data: {
                 :confirm => "Are you sure?"
              }, :method => :delete %>
@@ -28,6 +30,8 @@
                 <tr><td>Current Bank Value:</td><td><%= @user.bank_value %></td><td>Admin:</td><td><%= @user.admin %></td></tr>
                 <tr><td>Shift:</td><td><%= @shift_start %> – <%= @shift_end %></td><td>Shift Length:</td><td><% if @user.ten_hour_shift %> 10 hour shift <% else %> 8 hour shift <% end %></td></tr>
                 <tr><td>Work Days:</td><td><%= @workdays.chop.chop %></td></tr>
+                <tr><td>Restricted PTO : </td><td><%= @user.on_pip%></td></tr>
+                <tr><td>No Call/ No Shows : </td><td><%= @user.no_call_show%></td></tr>
             </table>
         </div>
         <div class="content-bottom">
@@ -41,6 +45,8 @@
                         <td><b>Value:</b> <%= request.cost %></td>
                         <td><b>Reason:</b> <%= request.reason %></td>
                         <td><b>Excused:</b> <%= request.excused %> <%= request.admin_note %></td>
+                        <td><%= link_to "Delete", pto_request_path(request), {:data => {
+                :confirm => "Are you sure?"}, :method => :delete , :class => "edit-user-links"} %></td>
                         <td><% if request.excused == false %><%= button_to "Excuse Request", excuse_pto_request_path(request) %></td>
                         <% end %>
                         </tr>
@@ -58,6 +64,8 @@
                         <td><b>Value:</b> <%= request.cost %></td>
                         <td><b>Reason:</b> <%= request.reason %></td>
                         <td><b>Excused:</b> <%= request.excused %> <%= request.admin_note %></td>
+                        <td><%= link_to "Delete", pto_request_path(request), {:data => {
+                :confirm => "Are you sure?"}, :method => :delete , :class => "edit-user-links"} %></td>
                         <td><% if request.excused == false %><%= button_to "Excuse Request", excuse_pto_request_path(request) %></td>
                         <% end %>
                         </tr>
@@ -75,6 +83,8 @@
                         <td><b>Value:</b> <%= request.cost %></td>
                         <td><b>Reason:</b> <%= request.reason %></td>
                         <td><b>Excused:</b> <%= request.excused %> <%= request.admin_note %></td>
+                        <td><%= link_to "Delete", pto_request_path(request), {:data => {
+                :confirm => "Are you sure?"}, :method => :delete , :class => "edit-user-links"} %></td>
                         <td><% if request.excused == false %><%= button_to "Excuse Request", excuse_pto_request_path(request) %></td>
                         <% end %>
                         </tr>
@@ -108,6 +118,26 @@
                     </div> <!-- modal-body -->
             </div> <!-- modal-conent -->
         </div> <!-- modal-dialog -->
-    </div> <!-- add-request -->
-
+    </div> <!-- add-request -->  
 </div>
+
+<div class="modal"  id="add-no-call-show" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div><!-- modal-header -->
+            <div class="modal-body">
+                <%= bootstrap_form_for(PtoRequest.new) do |f| %>
+                    <%= f.hidden_field :user_id, :value => @user.id %>
+                    <%= f.hidden_field :reason, :value => 'no call / no show' %>
+                    <%= f.hidden_field :cost, :value => '0' %>
+                    <%= f.date_field :request_date %>
+                    <%= f.submit 'create request', class: 'form-control' %>
+                <% end %>
+            </div> <!-- modal-body -->
+        </div> <!-- modal-conent -->
+    </div> <!-- modal-dialog -->
+</div> <!-- add-no-call-show -->

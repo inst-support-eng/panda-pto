@@ -9,10 +9,28 @@ $(document).on('turbolinks:load', () => {
     let monthAndYear = document.getElementById("month-name");
 
     let months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-    let createCalendar = async (year, month) => {
+    createCalendar = async (year, month) => {
 
         let calendarDates = await getDates()
         let currUser = await currentUser()
+
+        // switch (currUser.position) {
+        //     case "L1":
+        //         calendarDates = await getDates();
+        //         break;
+        //     case "L2":
+        //         calendarDates = await getL2Dates();
+        //         break;
+        //     case "L3":
+        //         calendarDates = await getL3Dates();
+        //         break;
+        //     case "Sup":
+        //         calendarDates = await getSupDates();
+        //         break;
+        //     default:
+        //         calendarDates = await getDates();
+        //         break;
+        // }
 
         let firstDay = new Date(year, month).getDay();
 
@@ -38,8 +56,7 @@ $(document).on('turbolinks:load', () => {
                     row.appendChild(cell)
                 } else if (date > getDaysInMonth(year, month)) {
                     break
-                }
-                else {
+                } else {
                     cell = document.createElement("td");
                     cellText = document.createTextNode(date);
 
@@ -47,18 +64,22 @@ $(document).on('turbolinks:load', () => {
                     cell.setAttribute("class", "calendar-date")
 
                     let dayId = date;
-                    let monthId = month+1;
-                    
-                    if (dayId < 10) { dayId = `0${date}` } 
+                    let monthId = month + 1;
 
-                    if (monthId < 10) { monthId = `0${monthId}` }
+                    if (dayId < 10) {
+                        dayId = `0${date}`
+                    }
+
+                    if (monthId < 10) {
+                        monthId = `0${monthId}`
+                    }
 
                     let reqDate = `${year}-${monthId}-${dayId}`
 
                     let reqData = {}
 
                     calendarDates.forEach(el => {
-                        
+
                         if (el.date == reqDate) {
                             if (el.current_price == null) {
                                 el.current_price = 1
@@ -106,24 +127,24 @@ $(document).on('turbolinks:load', () => {
     }
 
     // get last day of month
-    let getDaysInMonth = (year, month) => {
+    getDaysInMonth = (year, month) => {
         return 32 - new Date(year, month, 32).getDate();
     }
 
-    let next = () => {
+    next = () => {
         currentYear = (currentMonth === 11) ? currentYear + 1 : currentYear;
         currentMonth = (currentMonth + 1) % 12;
         createCalendar(currentYear, currentMonth);
     }
 
-    let previous = () => {
+    previous = () => {
         currentYear = (currentMonth === 0) ? currentYear - 1 : currentYear;
         currentMonth = (currentMonth === 0) ? 11 : currentMonth - 1;
         createCalendar(currentYear, currentMonth);
 
     }
 
-    let jump = () => {
+    jump = () => {
         currentYear = parseInt(selectYear.value);
         currentMonth = parseInt(selectMonth.value);
         createCalendar(currentYear, currentMonth)
@@ -135,7 +156,7 @@ $(document).on('turbolinks:load', () => {
     $('#next').click(() => {
         next();
     })
-    $('#jump').click(() => { 
+    $('#jump').click(() => {
         jump();
     })
 

@@ -20,13 +20,16 @@ class Agent < ApplicationRecord
           :email => block.email, 
           :password => generated_password, 
           :name => x.name, 
-          :bank_value => 180, 
+          :bank_value => 180,
           :humanity_user_id => HumanityAPI.set_humanity_id(x.email, response),
           :position => x.position.upcase!,
           :admin => x.admin,
+          :on_pip => true,
+          :no_call_show => 0,
           :team => x.team
         )
         RegistrationMailer.with(user: user, password: generated_password).registration_email.deliver_now
+        RegistrationMailer.with(user: user).new_employee_email.deliver_now
       end
     # Then itmes should always be updated on import go here
     update_info = User.find_by email: x.email

@@ -1,14 +1,19 @@
 $(document).on('turbolinks:load', () => {
-    let usersModal = () => {
-
-        let modal = document.getElementById('add-request');
+    usersModal = () => {
+        let requestModal = document.getElementById('add-request');
+        let noCallModal = document.getElementById('add-no-call-show');
 
         $('#add-request-btn').click(() => {
-            $('#add-request').modal('show')
+            requestModal.style.display = "block";
+        })
+
+        $('#add-no-call-show-btn').click(() => {
+            noCallModal.style.display = "block";
         })
 
         $('.close').click(() => {
-            modal.style.display = "none";
+            requestModal.style.display = "none";
+            noCallModal.style.display = "none";
         })
     }
 

@@ -1,17 +1,16 @@
-$(document).on('turbolinks:load', () => { 
-    let getCoverage = async(date) =>  {
+$(document).on('turbolinks:load', () => {
+    getCoverage = async (date) => {
         let response = {}
-        if(date == undefined) {
+        if (date == undefined) {
             response = await fetch('/admin/coverage');
-        }
-        else {
+        } else {
             response = await fetch(`/admin/coverage/?date=${date}`)
         }
-        
+
         return await response.json();
     }
 
-    let updateCoverage = async () => {
+    updateCoverage = async () => {
         let todayDate = new Date()
         let tomrorowDate = new Date()
         tomrorowDate.setDate(todayDate.getDate() + 1)
@@ -39,14 +38,14 @@ $(document).on('turbolinks:load', () => {
         today.agents_scheduled.forEach(el => {
             agents += `<div id='agent-info'>${el.name} ${el.start_time} ${el.end_time}</div>`
         })
-        
+
         agentsScheduled.innerHTML += agents;
 
         tomorrowDateId.append(tomrorowDate.toISOString())
         totalTomorrow.append(tomorrow.l1_total_on)
         offTomorrow.append(tomorrow.l1_total_off)
         tomorrow.agents_off.length != 0 ? agentsOffTomorrow.append(today.agents_off) : agentsOffTomorrow.innerHTML += 'none at this moment'
-        
+
         let agentsTomorrow = ""
 
         tomorrow.agents_scheduled.forEach(el => {

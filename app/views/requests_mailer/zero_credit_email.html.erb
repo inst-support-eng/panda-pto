@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    </head>
+
+    <body>
+        <p>Hello <%= @user.name%>,</p> 
+
+        <p>This is a note to let you know you are out of PTO credits. This means you will not be approved for any further vacation or planned PTO until you have more credits to cover it. Forty-five credits are allotted at the beginning of each quarter.
+
+        <p>If you have a zero balance due to future PTO requests, those days will remain approved unless you have a negative number of credits when the PTO dates arrive. If you have a negative balance, it means you don’t have enough credits to cover the PTO and those dates will no longer be approved.</p>
+
+        <p>If you have any sick days while you are out of credits You’ll need to makeup days missed within 3 weeks of your return date. 
+        Any sick or unplanned days will be unpaid until you make up the time. 
+        The makeup shift is determined by the MCO. Contact them as soon as possible and they will give you 2-3 choices of days and times to pick from.
+        If you do not make up your shift within 3 weeks from the day of your return, it will count as a “no call, no show”, and if you acquire 2 “no-call / no-show” days, your employment may be terminated.
+        If you have to make up more than 40 hours for the year due to being out of credits, disciplinary action will take place, up to and including termination. 
+
+        If you really, really, really need time off while you’re out of credits, you will need to work out some shift swaps and covers. You can work with your Supervisor to show you how, but it is completely up to you to find a cover for your shift if want to take the time off. Shift swapping does not count towards your 40 makeup hours.
+
+        As a note, if you submit a PTO request that doesn’t get approved and then you call in sick on those days, we’ll notice and probably have to have a chat with you about that. It may end up costing you double credits.</p>
+
+        <p>Agent: <%= @user.name %></p>
+        <p>Cost of request: <%= @pto_request.cost %></p>
+        <p>Date that was deducted: <%= @pto_request.request_date %></p>
+        <p>Remaining balances: <%= @user.bank_value %></p>
+        <p>Balance deducted by: <%= @supervisor.name %></p>
+        
+        <p>If you have any questions or concerns, please contact your supervisor.</p> 
+        <p>Thank you,
+        Panda Admin</p>
+    </body>
+
+</html>
