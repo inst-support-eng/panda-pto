@@ -176,6 +176,7 @@ class PtoRequestsController < ApplicationController
         @user.save
     end
 
+    ## methods used for adding / subtracting no_call_shows for a user
     def add_no_call_show
         humanity_request_id = HumanityAPI.create_request(@pto_request, @user)
         HumanityAPI.approve_request(humanity_request_id)
@@ -196,6 +197,32 @@ class PtoRequestsController < ApplicationController
 
         @user.no_call_show.nil? ? @user.no_call_show = 0 : @user.no_call_show -= 1
         @user.no_call_show <= 0 ? @user.no_call_show = 0 : @user.no_call_show = @user.no_call_show
+        @user.save
+        
+        redirect_to show_user_path(@user)
+    end
+
+    ## methods used to add / subtract make_up_day counters
+    def add_make_up_day
+        humanity_request_id = HumanityAPI.create_request(@pto_request, @user)
+        HumanityAPI.approve_request(humanity_request_id)
+        @pto_request.humanity_request_id = humanity_request_id 
+        @pto_request.excused = false
+        @pto_request.save
+
+        @user.make_up_day.nil? ? @user.make_up_day = 1 : @user.make_up_day += 1;
+        @user.save
+        
+        redirect_to show_user_path(@user)
+        RequestsMailer.with(user: @user, pto_request: @pto_request).sick_make_up_email.deliver_now
+    end
+
+    def sub_make_up_day
+        HumanityAPI.delete_request(@pto_request.humanity_request_id)
+        @pto_request.save
+
+        @user.make_up_day.nil? ? @user.make_up_day = 0 : @user.make_up_day -= 1
+        @user.make_up_day <= 0 ? @user.make_up_day= 0 : @user.make_up_day = @user.make_up_day
         @user.save
         
         redirect_to show_user_path(@user)
