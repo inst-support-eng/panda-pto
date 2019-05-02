@@ -45,7 +45,7 @@ class PtoRequestsController < ApplicationController
             return add_make_up_day
         end 
         
-        if @user.on_pip == true
+        if @user.on_pip == true && @user.id == current_user.id
             return redirect_to root_path, notice: "You're PTO is currently restricted, please talk to your supervisor"
         end    
 
