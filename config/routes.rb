@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-    # create pto request? 
+  # create pto request? 
     # post 'pto_requests' => 'pto_requests#new'
     resources :pto_requests do
       collection { post :create}
@@ -92,5 +92,6 @@ Rails.application.routes.draw do
       collection { post :import}
     end
   end
+end
 
 end
