@@ -74,7 +74,8 @@
                   <% hour = Time.parse(agent.start_time).in_time_zone("Mountain Time (US & Canada)").to_s[11..15].tr(':','') %>
 
                   <% if agent.pto_requests.where(request_date: Date.today).empty? %>
-                    <div class="grid-overflow <%= agent.position %> <%= agent.team %> start-<%= hour %>"><%= agent.name %></div>
+                    <div class="grid-overflow <%= agent.position %> <%= agent.team %> start-<%= hour %>" style='white-space: nowrap;
+  position: relative;'><%= agent.name %></div>
                       <% (shift_length - 1).to_i.times do %>
                         <% hour = hour.to_i + 100 %>
                         <% hour = hour - 2400 if hour > 2400 %>
