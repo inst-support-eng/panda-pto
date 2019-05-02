@@ -222,7 +222,7 @@ class PtoRequestsController < ApplicationController
         @pto_request.excused = false
         @pto_request.save
 
-        @user.make_up_day.nil? ? @user.make_up_day = 1 : @user.make_up_day += 1;
+        @user.make_up_days.nil? ? @user.make_up_days = 1 : @user.make_up_days += 1;
         @user.save
         
         redirect_to show_user_path(@user)
@@ -233,8 +233,8 @@ class PtoRequestsController < ApplicationController
         HumanityAPI.delete_request(@pto_request.humanity_request_id)
         @pto_request.save
 
-        @user.make_up_day.nil? ? @user.make_up_day = 0 : @user.make_up_day -= 1
-        @user.make_up_day <= 0 ? @user.make_up_day= 0 : @user.make_up_day = @user.make_up_day
+        @user.make_up_days.nil? ? @user.make_up_days = 0 : @user.make_up_days -= 1
+        @user.make_up_days <= 0 ? @user.make_up_days = 0 : @user.make_up_days = @user.make_up_days
         @user.save
         
         redirect_to show_user_path(@user)

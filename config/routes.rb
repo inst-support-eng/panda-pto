@@ -1,75 +1,94 @@
 Rails.application.routes.draw do
-  
-  # !TECHDEBT need to create new role-specific routing  
-  get 'admin/coverage'
 
-  # admin-only routes
-  authenticate :user, -> (u) { u.admin? || u.position == "Sup"} do
-    get 'admin/index'
-    resources :admin
-    # routes for agent csv imports
-    get 'agents/index'
-    get 'agents/import'
-    resources :agents do
-      collection { post :import}
-    end
-
-    get 'pto_requests/export'
-    get 'pto_requests/export_user_request/:id' => 'pto_requests#export_user_request', as: 'export_user_request'
-    # routes for date csv imports
-    get 'date_values/index'
-    get 'date_values/import'
-    resources :date_values do
-      collection { post :import}
-    end
+  resources :pto_requests do
+    collection { post :create}
   end
-  # note: this redirects to 'users/sign_in', not '/login'
-  # same thing, just not using the alias
-  # end admin-only
-  
+  # user routes
   devise_for :users, :controllers => {:registrations => "registrations"}
   devise_scope :user do 
     get 'login' => 'devise/sessions#new'
     get 'users/sign_out' => 'devise/sessions#destroy'
     get 'forgot_password' => 'devise/passwords#new'
   end
+  get 'current' => 'users#current'
+  get 'users/:id' => 'users#show', as: :show_user
 
-  # routes for calendar methods
-  post 'calendars/import' => 'calendars#import'
-  post 'calendars/update_base_price' => 'calendars#update_base_price', as: 'update_base_price'
-
+  # fetch dates calendar methods
   get 'calendars/fetch_dates' => 'calendars#fetch_dates'
   get 'calendars/l2_fetch_dates' => 'calendar_l2s#fetch_dates'
   get 'calendars/l3_fetch_dates' => 'calendar_l3s#fetch_dates'
   get 'calendars/sups_fetch_dates' => 'calendar_sups#fetch_dates'
 
-  # routes for refactored date csv imports
-  resources :calendars do
+  # feedback forms
+  match "/feedback" => redirect("https://docs.google.com/forms/d/e/1FAIpQLSdxkcvYhkhql5-39tJZE7ERjSOtw2eEfq9j-KynRV08luSAJw/viewform"), :via => [:get], :as => :feedback
+
+  # home page
+  root to: 'pages#index'
+
+# ! admin & sup shared routes
+# ============================ 
+authenticate :user, -> (u) { u.admin? || u.position == "Sup"} do
+  # access admin page
+  get 'admin/index'
+  resources :admin
+  # view user profiles
+  get 'agents/index'
+  # export pto_requests.csv
+  get 'pto_requests/export'
+  get 'pto_requests/export_user_request/:id' => 'pto_requests#export_user_request', as: 'export_user_request'
+  # coverage JSON
+  # !TODO
+  get 'admin/coverage' => 'admin#coverage'
+  # excuse pto_requests
+  post "pto_requests/:id/excuse_request" => 'pto_requests#excuse_request', as: :excuse_pto_request
+  # no-call / no-show pto_requeset
+  post "pto_requests/:id/add_no_call_show" => 'pto_requests#add_no_call_show', as: :add_no_call_show
+  # remove no-call / no-show pto_requeset
+  post "pto_requests/:id/sub_no_call_show" => 'pto_requests#sub_no_call_show', as: :sub_no_call_show
+
+  resources :users  do
+    # change users shift
+    put :update_shift
+    # change admin standing
+    post :update_admin
+    # pip / de-pip a user
+    post :update_pip
+    # send password rest on user's behalf
+    post :send_password_reset
+    # add pto_request for user
+    post :add_request_for_user
+    # delete user account 
+    delete :destroy
+  end
+
+end  
+
+# ! admin-only routes
+# ====================
+authenticate :user, -> (u) { u.admin? } do
+  # import agents.csv
+  get 'agents/import'
+  resources :agents do
     collection { post :import}
   end
-  # routes for pto_requests
-  post "pto_requests/:id/excuse_request" => 'pto_requests#excuse_request', as: :excuse_pto_request
-  post "pto_requests/:id/add_no_call_show" => 'pto_requests#add_no_call_show', as: :add_no_call_show
-  post "pto_requests/:id/sub_no_call_show" => 'pto_requests#sub_no_call_show', as: :sub_no_call_show
+  # manually update calendar base_price
+  post 'calendars/update_base_price' => 'calendars#update_base_price', as: 'update_base_price'
+  # import pto_requests.csv
   get 'pto_requests/import'
   resources :pto_requests do
     collection { post :import_request}
   end
-  
-  # add feedback route !TECHDEBT
-  match "/feedback" => redirect("https://docs.google.com/forms/d/e/1FAIpQLSdxkcvYhkhql5-39tJZE7ERjSOtw2eEfq9j-KynRV08luSAJw/viewform"), :via => [:get], :as => :feedback
-
-  # routes for users 
-  get 'current' => 'users#current'
-  get 'users/:id' => 'users#show', as: :show_user
-  
-  resources :users  do
-    put :update_shift
-    post :update_admin
-    post :update_pip
-    post :send_password_reset
-    post :add_request_for_user
-    delete :destroy
+  # routes for calendar.csv imports
+  # !TODO this will need to be cleaned up post-refactor
+  get 'date_values/index'
+  get 'date_values/import'
+  post 'calendars/import' => 'calendars#import'
+  resources :date_values do
+    collection { post :import}
   end
-  root to: 'pages#index'
+  resources :calendars do
+    collection { post :import}
+  end
+end
+
 end
