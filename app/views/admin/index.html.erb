@@ -82,13 +82,12 @@
                         <div class="grid-overflow <%= agent.position %> <%= agent.team %> start-<%= '0' if hour < 1000 %><%= hour %>"></div>
                       <% end %>
                   <% else %>
-                    <div class="offtoday grid-overflow <%= agent.position %> start-<%= hour %>"><%= agent.name %> - OFF
+                    <div class="offtoday grid-overflow <%= agent.position %> start-<%= hour %>"><%= agent.name %> - OFF</div>
                       <% (shift_length - 1).to_i.times do %>
                         <% hour = hour.to_i + 100 %>
                         <% hour = hour - 2400 if hour > 2400 %>
                         <div class="grid-overflow start-<%= '0' if hour < 1000 %><%= hour %>"></div>
                       <% end %>
-                    </div><!-- offtoday -->
                   <% end %>
               </div><!-- working-grid -->
           <% end %> <!-- @scheduled.each do -->
