@@ -69,6 +69,7 @@
           <div class="errormessage"></div><%= @offtoday %></div>
         <% else %>
           <% @scheduled.each do |agent| %>
+            <%= link_to show_user_path(agent) do%>
               <div class="working-grid">
                   <% if agent.ten_hour_shift %>
                     <% shift_length = 10 %>
@@ -94,6 +95,7 @@
                     <% end %>
                   <% end %>
               </div><!-- working-grid -->
+              <% end %>
           <% end %> <!-- @scheduled.each do -->
         <% end %> <!-- @offtoday.is_a? String -->
     </div>
