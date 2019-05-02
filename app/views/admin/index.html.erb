@@ -70,7 +70,11 @@
         <% else %>
           <% @scheduled.each do |agent| %>
               <div class="working-grid">
-                  <% shift_length = (Time.parse(agent.end_time) - Time.parse(agent.start_time)) / 3600 %>
+                  <% if agent.ten_hour_shift %>
+                    <% shift_length = 10 %>
+                  <% else %>
+                    <% shift_length = 8 %>
+                  <% end %>
                   <% hour = Time.parse(agent.start_time).in_time_zone("Mountain Time (US & Canada)").to_s[11..15].tr(':','') %>
 
                   <% if agent.pto_requests.where(request_date: Date.today).empty? %>
@@ -78,16 +82,16 @@
   position: relative;'><%= agent.name %></div>
                       <% (shift_length - 1).to_i.times do %>
                         <% hour = hour.to_i + 100 %>
-                        <% hour = hour - 2400 if hour > 2400 %>
+                        <% if hour > 2400 %> <% hour = hour - 2400 %> <% end %>
                         <div class="grid-overflow <%= agent.position %> <%= agent.team %> start-<%= '0' if hour < 1000 %><%= hour %>"></div>
                       <% end %>
                   <% else %>
                     <div class="offtoday grid-overflow <%= agent.position %> start-<%= hour %>"><%= agent.name %> - OFF</div>
-                      <% (shift_length - 1).to_i.times do %>
-                        <% hour = hour.to_i + 100 %>
-                        <% hour = hour - 2400 if hour > 2400 %>
-                        <div class="grid-overflow start-<%= '0' if hour < 1000 %><%= hour %>"></div>
-                      <% end %>
+                    <% (shift_length - 1).to_i.times do %>
+                      <% hour = hour.to_i + 100 %>
+                      <% hour = hour - 2400 if hour > 2400 %>
+                      <div class="grid-overflow start-<%= '0' if hour < 1000 %><%= hour %>"></div>
+                    <% end %>
                   <% end %>
               </div><!-- working-grid -->
           <% end %> <!-- @scheduled.each do -->
