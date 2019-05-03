@@ -203,6 +203,14 @@ form[enctype="multipart/form-data"] {
 }
 
 .center-content {
+  height: 95%;
+  background-color: white;
+  color: $header;
+  width: 100%;
+  padding-bottom: 10px;
+}
+
+.agents-table {
   overflow-x: scroll;
   height: 95%;
   background-color: white;
@@ -211,16 +219,23 @@ form[enctype="multipart/form-data"] {
   padding-bottom: 20px;
 }
 
+.grid-overflow > a {
+  margin: 10px 0px 0px 0px;
+  font-size: 1em;
+  color: grey;
+
+}
+
 /*------ Who is off ------*/
 .working-grid {
   display: grid;
   grid-template-areas:
-  'start04 start05 start06 start07 start08 start09 start10 start11 start12 start13 start14 start15 start16 start17 start18 start19 start20 start21 start22 start23 start00';
+  'start05 start06 start07 start08 start09 start10 start11 start12 start13 start14 start15 start16 start17 start18 start19 start20 start21 start22 start23 start00';
   height: 20px;
   grid-template-columns: 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px;
   overflow-x: visible;
   width: 100%;
-  margin-bottom: 9px;
+  margin-bottom: 15px;
 }
 
 .off-header {
@@ -258,7 +273,6 @@ form[enctype="multipart/form-data"] {
 
 .White {
   background-color: #e5e2e2;
-  border: 1px solid $header;
   color: $header;
 }
 
@@ -293,6 +307,7 @@ form[enctype="multipart/form-data"] {
 }
 
 .offtoday {
+  white-space: nowrap;
   background-color: $header;
   color: $text;
 }

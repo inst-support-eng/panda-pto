@@ -41,6 +41,7 @@
     grid-area: content-top;
     padding: 20px;
     border: 1px solid black;
+    height: fit-content;
     border-radius: 3px;
   }
 
@@ -53,7 +54,7 @@
     padding: 20px;
     border: 1px solid black;
     border-radius: 3px;
-    margin-top: 20px;
+    margin-top: 45px;
     height: 527px;
     overflow: scroll;
   }
