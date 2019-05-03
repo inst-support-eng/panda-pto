@@ -30,6 +30,8 @@ Rails.application.routes.draw do
   # ! admin & sup shared routes
   # ============================ 
   authenticate :user, -> (u) { u.admin? || u.position == "Sup"} do
+    # coverage JSON
+    get 'admin/coverage' => 'admin#coverage'
     # access admin page
     get 'admin/index'
     resources :admin
@@ -38,9 +40,6 @@ Rails.application.routes.draw do
     # export pto_requests.csv
     get 'pto_requests/export'
     get 'pto_requests/export_user_request/:id' => 'pto_requests#export_user_request', as: 'export_user_request'
-    # coverage JSON
-    # !TODO
-    get 'admin/coverage' => 'admin#coverage'
     # excuse pto_requests
     post "pto_requests/:id/excuse_request" => 'pto_requests#excuse_request', as: :excuse_pto_request
     # no-call / no-show pto_requeset
