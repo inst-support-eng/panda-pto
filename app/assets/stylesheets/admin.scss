@@ -203,6 +203,14 @@ form[enctype="multipart/form-data"] {
 }
 
 .center-content {
+  height: 95%;
+  background-color: white;
+  color: $header;
+  width: 100%;
+  padding-bottom: 20px;
+}
+
+.agents-table {
   overflow-x: scroll;
   height: 95%;
   background-color: white;
@@ -258,7 +266,6 @@ form[enctype="multipart/form-data"] {
 
 .White {
   background-color: #e5e2e2;
-  border: 1px solid $header;
   color: $header;
 }
 

@@ -65,6 +65,7 @@
           <td class="off-header">1A</td>
         </tr>
       </table>
+      <div class="agents-table">
         <% if @offtoday.is_a? String %>
           <div class="errormessage"></div><%= @offtoday %></div>
         <% else %>
@@ -98,6 +99,7 @@
               <% end %>
           <% end %> <!-- @scheduled.each do -->
         <% end %> <!-- @offtoday.is_a? String -->
+      </div> <!-- agents-table -->
     </div>
   </div>
 </div>
