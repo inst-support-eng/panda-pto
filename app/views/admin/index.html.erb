@@ -70,7 +70,7 @@
           <div class="errormessage"></div><%= @offtoday %></div>
         <% else %>
           <% @scheduled.each do |agent| %>
-            <%= link_to show_user_path(agent) do%>
+            
               <div class="working-grid">
                   <% if agent.ten_hour_shift %>
                     <% shift_length = 10 %>
@@ -80,29 +80,28 @@
                   <% hour = Time.parse(agent.start_time).in_time_zone("Mountain Time (US & Canada)").to_s[11..15].tr(':','') %>
 
                   <% if agent.pto_requests.where(request_date: Date.today).empty? %>
-                    <div class="grid-overflow <%= agent.position %> <%= agent.team %> start-<%= hour %>" style='white-space: nowrap;
-  position: relative;'><%= agent.name %></div>
+                    <div class="grid-overflow <%= agent.position %> <%= agent.team %> start-<%= hour %>" style='white-space: nowrap; position: relative;'><%= link_to "#{agent.name}", show_user_path(agent) %></div>
                       <% (shift_length - 1).to_i.times do %>
                         <% hour = hour.to_i + 100 %>
                         <% if hour > 2400 %> <% hour = hour - 2400 %> <% end %>
                         <div class="grid-overflow <%= agent.position %> <%= agent.team %> start-<%= '0' if hour < 1000 %><%= hour %>"></div>
                       <% end %>
                   <% else %>
-                    <div class="offtoday grid-overflow <%= agent.position %> start-<%= hour %>"><%= agent.name %> - OFF</div>
+                    <div class="offtoday grid-overflow <%= agent.position %> start-<%= hour %>" style='white-space: nowrap; position: relative;'><%= link_to "#{agent.name} - OFF", show_user_path(agent) %></div>
                     <% (shift_length - 1).to_i.times do %>
                       <% hour = hour.to_i + 100 %>
-                      <% hour = hour - 2400 if hour > 2400 %>
-                      <div class="grid-overflow start-<%= '0' if hour < 1000 %><%= hour %>"></div>
+                      <% if hour > 2400 %> <% hour = hour - 2400 %> <% end %>
+                      <div class="offtoday grid-overflow <%= agent.position %> start-<%= '0' if hour < 1000 %><%= hour %>"></div>
                     <% end %>
                   <% end %>
               </div><!-- working-grid -->
-              <% end %>
+
           <% end %> <!-- @scheduled.each do -->
         <% end %> <!-- @offtoday.is_a? String -->
       </div> <!-- agents-table -->
     </div>
-  </div>
-</div>
+  </div> <!-- center-content -->
+</div> <!-- layout -->
 
 <div id="upload-users" class="admin-modal">
   <div class="upload-users-content">
