@@ -192,14 +192,21 @@ class PtoRequestsController < ApplicationController
     def add_no_call_show
         humanity_request_id = HumanityAPI.create_request(@pto_request, @user)
         HumanityAPI.approve_request(humanity_request_id)
+
         @pto_request.humanity_request_id = humanity_request_id 
         @pto_request.excused = false
         @pto_request.save
+
+        @calendar.signed_up_total.nil? ? @calendar.signed_up_total = 1 : @calendar.signed_up_total += 1
+        @calendar.signed_up_agents.push(@user.name)
+        
+        @calendar.save
 
         @user.no_call_show.nil? ? @user.no_call_show = 1 : @user.no_call_show += 1;
         @user.save
         
         redirect_to show_user_path(@user)
+        helpers.update_price(@calendar.date)
         RequestsMailer.with(user: @user, pto_request: @pto_request).no_call_show_email.deliver_now
     end
 
@@ -207,11 +214,16 @@ class PtoRequestsController < ApplicationController
         HumanityAPI.delete_request(@pto_request.humanity_request_id)
         @pto_request.save
 
+        @calendar.signed_up_agents.delete(@user.name)
+        @calendar.signed_up_total -= 1
+        @calendar.save
+
         @user.no_call_show.nil? ? @user.no_call_show = 0 : @user.no_call_show -= 1
         @user.no_call_show <= 0 ? @user.no_call_show = 0 : @user.no_call_show = @user.no_call_show
         @user.save
         
         redirect_to show_user_path(@user)
+        helpers.update_price(@calendar.date)
     end
 
     ## methods used to add / subtract make_up_day counters
@@ -222,21 +234,30 @@ class PtoRequestsController < ApplicationController
         @pto_request.excused = false
         @pto_request.save
 
+        @calendar.signed_up_total.nil? ? @calendar.signed_up_total = 1 : @calendar.signed_up_total += 1
+        @calendar.signed_up_agents.push(@user.name)
+
         @user.make_up_days.nil? ? @user.make_up_days = 1 : @user.make_up_days += 1;
         @user.save
         
         redirect_to show_user_path(@user)
         RequestsMailer.with(user: @user, pto_request: @pto_request).sick_make_up_email.deliver_now
+        helpers.update_price(@calendar.date)
     end
 
     def sub_make_up_day
         HumanityAPI.delete_request(@pto_request.humanity_request_id)
         @pto_request.save
 
+        @calendar.signed_up_agents.delete(@user.name)
+        @calendar.signed_up_total -= 1
+        @calendar.save
+
         @user.make_up_days.nil? ? @user.make_up_days = 0 : @user.make_up_days -= 1
         @user.make_up_days <= 0 ? @user.make_up_days = 0 : @user.make_up_days = @user.make_up_days
         @user.save
         
         redirect_to show_user_path(@user)
+        helpers.update_price(@calendar.date)
     end
 end
