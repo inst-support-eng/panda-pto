@@ -3,6 +3,17 @@
 
   <head>
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <style>
+      table {
+              border-collapse: collapse;
+              width: 85%;
+          }
+          td, th {
+              border: 1px solid #dddddd;
+              text-align: left;
+              padding: 6px;
+          }
+    </style>
   </head>
 
   <body>
@@ -24,6 +35,7 @@
           <th>Shift</th>
           <th>Position</th>
           <th>Team</th>
+          <th>Request Reason</th>
         </tr>
         <% today.signed_up_agents.each do |name| %>
         <% agent = User.find_by(:name => name) %>
@@ -35,12 +47,14 @@
           <td><%= shift_start %> - <%= shift_end %> </td>
           <td><%= agent.position %> </td>
           <td><%= agent.team %></td>
+          <td><%= agent.pto_requests.find_by(:request_date => Date.today).reason %> </td>
         </tr>
         <% end %>
       </table> 
       <% end %>
-      <p>Love,
-        Panda Admin 
-        🖤🐼</p>
+      <p>Love,</p>
+
+        <p>Panda Admin</p>
+        </p>🖤🐼</p>
     </body>      
 </html>
