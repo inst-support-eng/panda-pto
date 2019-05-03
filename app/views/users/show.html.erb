@@ -30,10 +30,8 @@
                 <tr><td>Position:</td><td><%= @user.position %></td><td>Team:</td><td><%= @user.team %></td></tr>
                 <tr><td>Current Bank Value:</td><td><%= @user.bank_value %></td><td>Admin:</td><td><%= @user.admin %></td></tr>
                 <tr><td>Shift:</td><td><%= @shift_start %> – <%= @shift_end %></td><td>Shift Length:</td><td><% if @user.ten_hour_shift %> 10 hour shift <% else %> 8 hour shift <% end %></td></tr>
-                <tr><td>Work Days:</td><td><%= @workdays.chop.chop %></td></tr>
-                <tr><td>Restricted PTO : </td><td><%= @user.on_pip%></td></tr>
-                <tr><td>No Call/ No Shows : </td><td><%= @user.no_call_show%></td></tr>
-                <tr><td>Make Up Days : </td><td><%=@user.make_up_days %></td></tr>
+                <tr><td>Work Days:</td><td><%= @workdays.chop.chop %></td><td>Make Up Days : </td><td><%=@user.make_up_days %></td></tr>
+                <tr><td>Restricted PTO : </td><td><%= @user.on_pip%></td><td>No Call/ No Shows : </td><td><%= @user.no_call_show%></td></tr>
             </table>
         </div>
         <div class="content-bottom">
