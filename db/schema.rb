@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_06_200310) do
+ActiveRecord::Schema.define(version: 2019_05_06_201016) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 2019_05_06_200310) do
     t.string "end_time"
     t.string "work_days"
     t.boolean "admin"
+    t.datetime "start_date"
   end
 
   create_table "calendar_l2s", force: :cascade do |t|

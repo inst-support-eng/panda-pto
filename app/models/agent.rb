@@ -16,6 +16,7 @@ class Agent < ApplicationRecord
       User.where(:email => x.email).first_or_initialize do |block|
         generated_password = Devise.friendly_token.first(12)
   
+        bank_value = 
         user = User.create!(
           :email => block.email, 
           :password => generated_password, 
@@ -26,6 +27,7 @@ class Agent < ApplicationRecord
           :admin => x.admin,
           :on_pip => true,
           :no_call_show => 0,
+          :start_date => x.start_date,
           :team => x.team
         )
         RegistrationMailer.with(user: user, password: generated_password).registration_email.deliver_now
