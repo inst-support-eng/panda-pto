@@ -15,11 +15,8 @@ class Agent < ApplicationRecord
       User.where(:email => x.email).first_or_initialize do |block|
         generated_password = Devise.friendly_token.first(12)
   
-        # math for prorating new hires
-        agent_start_date = x.start_date.yday.to_f
-        percentage_in_year = agent_start_date/ Date.new(y=Date.today.year, m=12, d=31).yday.to_f
-        points_lost = 180 * percentage_in_year
-        bank_value = 180-points_lost
+        # math for prorating new hires 
+        bank_value = 180 - (180 * (x.start_date.yday.to_f/ Date.new(y=Date.today.year, m=12, d=31).yday.to_f))
         
         # create new users
         user = User.create!(
