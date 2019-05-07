@@ -20,6 +20,7 @@ class Agent < ApplicationRecord
         percentage_in_year = agent_start_date/ Date.new(y=Date.today.year, 12, 31).yday.to_f
         points_lost = 180 * percentage_in_year.round
         bank_value = 180-points_lost
+        
         user = User.create!(
           :email => block.email, 
           :password => generated_password, 
