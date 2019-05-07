@@ -12,17 +12,17 @@
   <div class="right">
       <div id="searchbar">
         <input type="text" id="search" onkeyup="filter()" placeholder="Filter by name.." title="Filter by name">
-      </div>
+      </div> <!-- searchbar -->
     <div class="agent-header">     
-    <table>       
-      <thead>
-        <tr>
-          <th><%= sortable "name", "Agent Name" %></th>
-          <th><%= sortable "bank_value", "PTO Points"%></th>
-        </tr>
-      </thead>
-    </table> 
-    </div>
+      <table>       
+        <thead>
+          <tr>
+            <th><%= sortable "name", "Agent Name" %></th>
+            <th><%= sortable "bank_value", "PTO Points"%></th>
+          </tr>
+        </thead>
+      </table> 
+    </div> <!-- agent-header -->
     <div class="all-agents">
         <table id="agent-table">
           <tbody>
@@ -32,11 +32,10 @@
               <td class="agent-points"><%= agent.bank_value %></td>
             </tr>
               <% end %>
-            </div>
           </tbody>
         </table>
-      </div>
-  </div>  
+    </div><!-- all-agents -->
+  </div> <!-- right -->
   <div class="center">
     <h4>Agents working today</h4>
     <div class="center-content">
@@ -70,7 +69,6 @@
           <div class="errormessage"></div><%= @offtoday %></div>
         <% else %>
           <% @scheduled.each do |agent| %>
-            
               <div class="working-grid">
                   <% if agent.ten_hour_shift %>
                     <% shift_length = 10 %>
@@ -95,12 +93,11 @@
                     <% end %>
                   <% end %>
               </div><!-- working-grid -->
-
           <% end %> <!-- @scheduled.each do -->
         <% end %> <!-- @offtoday.is_a? String -->
       </div> <!-- agents-table -->
-    </div>
-  </div> <!-- center-content -->
+    </div> <!-- center-content -->
+  </div> <!-- center -->
 </div> <!-- layout -->
 
 <div id="upload-users" class="admin-modal">
