@@ -3,7 +3,6 @@ class Agent < ApplicationRecord
   validates :name, :email, presence: true
   validates :email, uniqueness: true
   
-  
   def self.import(file)
     # !TECHDEBT this should be wrapped in some error handling
     CSV.foreach(file.path, {encoding: "UTF-8", headers: true, header_converters: :symbol, converters: :all, force_quotes: true}) do |row|
@@ -16,21 +15,24 @@ class Agent < ApplicationRecord
       User.where(:email => x.email).first_or_initialize do |block|
         generated_password = Devise.friendly_token.first(12)
   
+        # math for prorating new hires
         agent_start_date = x.start_date.yday.to_f
-        percentage_in_year = agent_start_date/ Date.new(y=Date.today.year, 12, 31).yday.to_f
-        points_lost = 180 * percentage_in_year.round
+        percentage_in_year = agent_start_date/ Date.new(y=Date.today.year, m=12, d=31).yday.to_f
+        points_lost = 180 * percentage_in_year
         bank_value = 180-points_lost
         
+        # create new users
         user = User.create!(
           :email => block.email, 
           :password => generated_password, 
           :name => x.name, 
-          :bank_value => bank_value,
+          :bank_value => bank_value.round,
           :humanity_user_id => HumanityAPI.set_humanity_id(x.email, response),
           :position => x.position.upcase!,
           :admin => x.admin,
           :on_pip => true,
           :no_call_show => 0,
+          :make_up_days => 0,
           :start_date => x.start_date,
           :team => x.team
         )
@@ -49,6 +51,5 @@ class Agent < ApplicationRecord
     update_info.save
 
     end
-
   end
 end 
