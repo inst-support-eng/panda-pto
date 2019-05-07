@@ -16,12 +16,15 @@ class Agent < ApplicationRecord
       User.where(:email => x.email).first_or_initialize do |block|
         generated_password = Devise.friendly_token.first(12)
   
-        bank_value = 
+        agent_start_date = x.start_date.yday.to_f
+        percentage_in_year = agent_start_date/ Date.new(y=Date.today.year, 12, 31).yday.to_f
+        points_lost = 180 * percentage_in_year.round
+        bank_value = 180-points_lost
         user = User.create!(
           :email => block.email, 
           :password => generated_password, 
           :name => x.name, 
-          :bank_value => 180,
+          :bank_value => bank_value,
           :humanity_user_id => HumanityAPI.set_humanity_id(x.email, response),
           :position => x.position.upcase!,
           :admin => x.admin,
