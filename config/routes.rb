@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
-
-  # create pto request? 
-    # post 'pto_requests' => 'pto_requests#new'
+  
     resources :pto_requests do
       collection { post :create}
     end
@@ -70,7 +68,12 @@ Rails.application.routes.draw do
   authenticate :user, -> (u) { u.admin? } do
     # import agents.csv
     get 'agents/import'
-    resources :agents do
+    post 'users/import' => 'users#import'
+    resources :agents do 
+      collection { post :import} # you get axed
+    end
+    get 'users/import'
+    resources :users do
       collection { post :import}
     end
     # manually update calendar base_price
@@ -86,7 +89,7 @@ Rails.application.routes.draw do
     get 'date_values/import'
     post 'calendars/import' => 'calendars#import'
     resources :date_values do
-      collection { post :import}
+      collection { post :import} # you get axed
     end
     resources :calendars do
       collection { post :import}
