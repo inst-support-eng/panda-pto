@@ -80,7 +80,6 @@ Rails.application.routes.draw do
       collection { post :import_request}
     end
     # routes for calendar.csv imports
-    # !TODO this will need to be cleaned up post-refactor
     resources :calendars do
       collection { post :import}
     end
