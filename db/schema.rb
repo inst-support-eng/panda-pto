@@ -10,24 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_06_201016) do
+ActiveRecord::Schema.define(version: 2019_05_08_195510) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "agents", force: :cascade do |t|
-    t.string "name"
-    t.string "email"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "position"
-    t.string "team"
-    t.string "start_time"
-    t.string "end_time"
-    t.string "work_days"
-    t.boolean "admin"
-    t.datetime "start_date"
-  end
 
   create_table "calendar_l2s", force: :cascade do |t|
     t.date "date"
@@ -65,13 +51,6 @@ ActiveRecord::Schema.define(version: 2019_05_06_201016) do
     t.integer "signed_up_total"
     t.text "signed_up_agents", default: [], array: true
     t.float "current_price"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "date_values", force: :cascade do |t|
-    t.date "date"
-    t.float "base_value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

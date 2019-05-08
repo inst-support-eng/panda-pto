@@ -1,9 +1,0 @@
-<%= flash[:notice] %>
-
-<div>
-  <h4> Import Date Value CSV </h4>
-    <%= form_tag import_date_values_path, multipart: true do %>
-    <%= file_field_tag :file %>
-    <%= submit_tag "Import Date CSV" %>
-    <% end %> 
-</div> 
