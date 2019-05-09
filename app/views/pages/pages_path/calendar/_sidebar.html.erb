@@ -8,7 +8,7 @@
         <h4>Upcoming Requests:</h4>
         <table class="agent-requests">
             <tbody>
-            <% requests = current_user.pto_requests.order("request_date DESC")%>
+            <% requests = current_user.pto_requests.order("request_date ASC")%>
             <% requests.each do |request| %>
                 <tr>
                     <% if request.request_date > Date.today %>

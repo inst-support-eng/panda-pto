@@ -38,7 +38,8 @@
             <div class="upcoming-requests-tab">
                     <h2>Requests for Today</h2>
                     <table class="requests">
-                        <% @user.pto_requests.each do |request| %>
+                        <% requests = @user.pto_requests.order("request_date ASC") %>
+                        <% requests.each do |request| %>
                         <% if request.request_date == Date.today %>
                         <tr>
                         <td><b>Date:</b> <%= request.request_date %></td>
