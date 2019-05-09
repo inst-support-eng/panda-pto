@@ -6,17 +6,20 @@
     <hr>
     <div class="all-requests">
         <h4>Upcoming Requests:</h4>
-        <table>
-        <% current_user.pto_requests.each do |request| %>
-        <tr>
-            <% if request.request_date > Date.today %>
-            <td><%= request.request_date %></td><td><%= request.reason.truncate(10) %></td><td><%= request.cost %></td>
-            <td><%= link_to "Delete", pto_request_path(request), data: {
-                :confirm => "Are you sure?"
-            }, :method => :delete %><td>
+        <table class="agent-requests">
+            <tbody>
+            <% requests = current_user.pto_requests.order("request_date DESC")%>
+            <% requests.each do |request| %>
+                <tr>
+                    <% if request.request_date > Date.today %>
+                    <td><%= request.request_date %></td><td><%= request.reason.truncate(10) %></td><td><%= request.cost %></td>
+                    <td><%= link_to "Delete", pto_request_path(request), data: {
+                        :confirm => "Are you sure?"
+                    }, :method => :delete %><td>
+                    <% end %>
+                </tr>
             <% end %>
-        </tr>
-        <% end %>
+            </tbody>
         </table>
     </div>
 </div> <!-- sidebar-wrapper z-depth-2 side-nav fixed -->
