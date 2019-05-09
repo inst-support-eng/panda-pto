@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
-
-  # create pto request? 
-    # post 'pto_requests' => 'pto_requests#new'
+  
     resources :pto_requests do
       collection { post :create}
     end
@@ -34,7 +32,7 @@ Rails.application.routes.draw do
     get 'admin/index'
     resources :admin
     # view user profiles
-    get 'agents/index'
+    get 'users/index'
     # export pto_requests.csv
     get 'pto_requests/export'
     get 'pto_requests/export_user_request/:id' => 'pto_requests#export_user_request', as: 'export_user_request'
@@ -69,8 +67,9 @@ Rails.application.routes.draw do
   # ====================
   authenticate :user, -> (u) { u.admin? } do
     # import agents.csv
-    get 'agents/import'
-    resources :agents do
+    get 'users/import'
+    post 'users/import' => 'users#import'
+    resources :users do 
       collection { post :import}
     end
     # manually update calendar base_price
@@ -81,13 +80,6 @@ Rails.application.routes.draw do
       collection { post :import_request}
     end
     # routes for calendar.csv imports
-    # !TODO this will need to be cleaned up post-refactor
-    get 'date_values/index'
-    get 'date_values/import'
-    post 'calendars/import' => 'calendars#import'
-    resources :date_values do
-      collection { post :import}
-    end
     resources :calendars do
       collection { post :import}
     end

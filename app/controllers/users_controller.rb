@@ -56,6 +56,15 @@ class UsersController < ApplicationController
         redirect_to show_user_path(@user)
     end
 
+    def import
+        if params[:file]
+            User.import(params[:file])
+            redirect_to admin_index_path, notice: "Agents CSV imported!"
+        else
+            redirect_to admin_index_path, notice: "Please upload a valid CSV file"
+        end
+    end
+
     private 
     def find_user
         @user = User.find(params[:user_id])

@@ -105,7 +105,7 @@
     <div class="modal-header">Import Agents CSV
       <div class="close2">x</div>
     </div>
-      <%= form_tag import_agents_path, multipart: true do %>
+      <%= form_tag import_users_path, multipart: true do %>
       <%= file_field_tag :file %>
       <%= submit_tag "Import Agents CSV" %>
       <% end %> 
