@@ -6,8 +6,8 @@ class CalendarSupsController < ApplicationController
 
     def import
         if params[:file]
-            CalendarL2.import(params[:file])
-            CalendarL2.find_each do |x|
+            CalendarSup.import(params[:file])
+            CalendarSup.find_each do |x|
                 helpers.update_price(x.date)
                 # !TECHDEBT update_price helper will need to be modified once we know 
                 # alternitive scaling for different teams
