@@ -208,10 +208,12 @@ form[enctype="multipart/form-data"] {
   color: $header;
   width: 100%;
   padding-bottom: 10px;
+  overflow-x: scroll;
 }
 
 .agents-table {
-  overflow-x: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
   height: 95%;
   background-color: white;
   color: $header;
