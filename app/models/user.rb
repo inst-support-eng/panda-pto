@@ -27,7 +27,11 @@ class User < ApplicationRecord
       # should always update on import
       unless row[:email].nil? || row[:name].nil?
         agent.email = row[:email]
-        agent.start_date = row[:start_date]
+        if row[:start_date].nil? 
+          agent.start_date = 1970-01-01
+        else
+          agent.start_date = row[:start_date]
+        end
         agent.name = row[:name]
         agent.position = row[:position].upcase!
         agent.admin = row[:admin] 

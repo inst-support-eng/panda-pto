@@ -137,15 +137,10 @@ class PtoRequestsController < ApplicationController
 
         @pto_request.cost = 0
         @pto_request.save
+        
+        @user.no_call_show -= 1 if @pto_request.reason == "no call / no show"
+        @user.make_up_days -= 1 if @pto_request.reason == "make up / sick day"
         @user.save
-
-        if @pto_request.reason == 'no call / no show'
-            return sub_no_call_show
-        end
-
-        if @pto_request.reason == 'make up / sick day'
-            return sub_make_up_day
-        end 
 
         RequestsMailer.with(user: @user, pto_request: @pto_request, supervisor: current_user).excuse_request_email.deliver_now
         return redirect_to show_user_path(@user)
@@ -192,14 +187,22 @@ class PtoRequestsController < ApplicationController
     def add_no_call_show
         humanity_request_id = HumanityAPI.create_request(@pto_request, @user)
         HumanityAPI.approve_request(humanity_request_id)
+
+        @calendar = Calendar.find_by(:date => @pto_request.request_date)
         @pto_request.humanity_request_id = humanity_request_id 
         @pto_request.excused = false
         @pto_request.save
+
+        @calendar.signed_up_total.nil? ? @calendar.signed_up_total = 1 : @calendar.signed_up_total += 1
+        @calendar.signed_up_agents.push(@user.name)
+        
+        @calendar.save
 
         @user.no_call_show.nil? ? @user.no_call_show = 1 : @user.no_call_show += 1;
         @user.save
         
         redirect_to show_user_path(@user)
+        helpers.update_price(@calendar.date)
         RequestsMailer.with(user: @user, pto_request: @pto_request).no_call_show_email.deliver_now
     end
 
@@ -207,36 +210,52 @@ class PtoRequestsController < ApplicationController
         HumanityAPI.delete_request(@pto_request.humanity_request_id)
         @pto_request.save
 
-        @user.no_call_show.nil? ? @user.no_call_show = 0 : @user.no_call_show -= 1
-        @user.no_call_show <= 0 ? @user.no_call_show = 0 : @user.no_call_show = @user.no_call_show
+        @calendar.signed_up_agents.delete(@user.name)
+        @calendar.signed_up_total -= 1
+        @calendar.save
+
+        @user.no_call_show -= 1 unless @user.no_call_show.nil? || @user.no_call_show == 0
         @user.save
         
         redirect_to show_user_path(@user)
+        helpers.update_price(@calendar.date)
     end
 
     ## methods used to add / subtract make_up_day counters
     def add_make_up_day
         humanity_request_id = HumanityAPI.create_request(@pto_request, @user)
         HumanityAPI.approve_request(humanity_request_id)
+
+        @calendar = Calendar.find_by(:date => @pto_request.request_date)
         @pto_request.humanity_request_id = humanity_request_id 
         @pto_request.excused = false
         @pto_request.save
+
+        @calendar.signed_up_total.nil? ? @calendar.signed_up_total = 1 : @calendar.signed_up_total += 1
+        @calendar.signed_up_agents.push(@user.name)
+        @calendar.save
 
         @user.make_up_days.nil? ? @user.make_up_days = 1 : @user.make_up_days += 1;
         @user.save
         
         redirect_to show_user_path(@user)
         RequestsMailer.with(user: @user, pto_request: @pto_request).sick_make_up_email.deliver_now
+        helpers.update_price(@calendar.date)
     end
 
     def sub_make_up_day
         HumanityAPI.delete_request(@pto_request.humanity_request_id)
         @pto_request.save
+        @calendar = Calendar.find_by(:date => @pto_request.request_date)
 
-        @user.make_up_days.nil? ? @user.make_up_days = 0 : @user.make_up_days -= 1
-        @user.make_up_days <= 0 ? @user.make_up_days = 0 : @user.make_up_days = @user.make_up_days
+        @calendar.signed_up_agents.delete(@user.name)
+        @calendar.signed_up_total -= 1
+        @calendar.save
+
+        @user.make_up_days -= 1 unless @user.make_up_days.nil? || @user.make_up_days == 0
         @user.save
         
         redirect_to show_user_path(@user)
+        helpers.update_price(@calendar.date)
     end
 end
