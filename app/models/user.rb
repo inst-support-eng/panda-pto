@@ -36,6 +36,7 @@ class User < ApplicationRecord
         agent.end_time = row[:end_time] 
         agent.work_days = row[:work_days].split(",").map(&:to_i) unless row[:work_days].nil?
         agent.humanity_user_id = HumanityAPI.set_humanity_id(row[:email], response) if agent.humanity_user_id == 0
+        agent.on_pip = 0 if agent.on_pip.nil?
       end
       
       agent.save
