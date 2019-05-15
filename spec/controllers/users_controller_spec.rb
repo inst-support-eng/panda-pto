@@ -1,19 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
-    describe "GET #show" do 
-        before(:each) do
-            @user = FactoryBot.create(:user) 
-        end
-        after(:each) do 
-            User.delete_all
-        end
-
-        it "should display user" do 
-        end
-    end 
-
-    desribe "DELETE #destroy" do
+    describe "DELETE #destroy" do
         before(:each) do
             @user = FactoryBot.create(:user) 
         end
@@ -22,6 +10,18 @@ RSpec.describe UsersController, type: :controller do
         end
         
         it "should delete user and all requests" do 
+            @pto_request = {:user_id => @user.id, :reason => 'disneyland', 
+                :request_date => 10.days.from_now, :cost => 10}
+
+            PtoRequest.create({:user_id => @user.id, :reason => 'disneyland', 
+                :request_date => 10.days.from_now, :cost => 10})
+
+
+            expect(PtoRequest.count).to eq(1)
+
+            delete :destroy, params: {:user_id => @user.id}
+
+            expect(PtoRequest.count).to eq(0)
         end
     end
 
@@ -47,14 +47,24 @@ RSpec.describe UsersController, type: :controller do
             User.delete_all
         end
         
-        it "should update true ten_hour_shift to false" do
+        it "should update ten_hour_shift = false to true" do
             put :update_shift, params: {:user_id => @user.id}
             @user.reload
             
-            expect(@user.ten_hour_shift).to eq true
+            expect(@user.ten_hour_shift).to be(true)
         end
 
-        it "should update false ten_hour_shift to true" do
+        it "should update ten_hour_shift = true to false" do
+            @user.ten_hour_shift = true
+            @user.save
+            @user.reload
+
+            expect(@user.ten_hour_shift).to be(true)
+
+            put :update_shift, params: {:user_id => @user.id}
+            @user.reload
+
+            expect(@user.ten_hour_shift).to be(false)
         end
     end
 
@@ -66,10 +76,24 @@ RSpec.describe UsersController, type: :controller do
             User.delete_all
         end
 
-        it "should udpate true update_admin to false" do 
+        it "should admin = false to true" do
+            post :update_admin, params: {:user_id => @user.id} 
+            @user.reload
+
+            expect(@user.admin).to be(true)
         end
 
-        it "should update false update_admin to true" do 
+        it "should admin = true to false" do 
+            @user.admin = true
+            @user.save            
+            @user.reload
+
+            expect(@user.admin).to be(true)
+            
+            post :update_admin, params: {:user_id => @user.id} 
+            @user.reload
+
+            expect(@user.admin).to be(false)
         end
     end
 
@@ -81,10 +105,24 @@ RSpec.describe UsersController, type: :controller do
             User.delete_all
         end
         
-        it "should update true update_pip to false" do 
+        it "should update on_pip = false to true" do 
+            post :update_pip, params: {:user_id => @user.id}
+            @user.reload
+
+            expect(@user.on_pip).to be(true)
         end
 
-        it "should update false update_pip to true" do 
+        it "should update false on_pip = true to false" do 
+            @user.on_pip = true
+            @user.save
+            @user.reload
+
+            expect(@user.on_pip).to be(true)
+
+            post :update_pip, params: {:user_id => @user.id}
+            @user.reload
+
+            expect(@user.on_pip).to be(false)
         end
     end
 end
