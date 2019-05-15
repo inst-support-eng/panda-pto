@@ -16,4 +16,5 @@ to run locally `rails s`
 All scheduled and recurring actions are currently written as rake tasks, and are executed using the [Heroku Scheduler](https://devcenter.heroku.com/articles/scheduler) plugin. 
 - For nightly coverage e-mails, add `rake coverage_mailer` as a daily job in scheduler 
 - To enable quarterly point seeding, add `rake quarterly_seed` as a daily job in scheduler
-- 
+- For pip checking for new hires, add  `rake new_hire_check_pip` as a daily job 
+

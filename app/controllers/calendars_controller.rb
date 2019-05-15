@@ -14,9 +14,9 @@ class CalendarsController < ApplicationController
             Calendar.find_each do |x|
                 helpers.update_price(x.date)
             end
-            redirect_to root_url, notice: "Calendar CSV imported"
+            redirect_to admin_index_path, notice: "Calendar CSV imported"
         else
-            redirect_to root_url, notice: "Please upload a valid CSV file"
+            redirect_to admin_index_path, notice: "Please upload a valid CSV file"
         end
     end
 

@@ -11,6 +11,7 @@
             <%= button_to "8/10 hour shift", user_update_shift_path(@user), method: :put %>
         </div>
         <button class="edit-user-buttons" id="add-no-call-show-btn">Add No Show</button>
+        <button class="edit-user-buttons" id="add-make-up-day-btn">Add Make Up / Sick Day</button>
         <% if current_user.admin? %>
         <%= button_to "Toggle Admin", user_update_admin_path(@user), {class:"edit-user-buttons"} %>
         <%= button_to "Toggle Pip", user_update_pip_path(@user), {class:"edit-user-buttons"} %>
@@ -29,16 +30,17 @@
                 <tr><td>Position:</td><td><%= @user.position %></td><td>Team:</td><td><%= @user.team %></td></tr>
                 <tr><td>Current Bank Value:</td><td><%= @user.bank_value %></td><td>Admin:</td><td><%= @user.admin %></td></tr>
                 <tr><td>Shift:</td><td><%= @shift_start %> – <%= @shift_end %></td><td>Shift Length:</td><td><% if @user.ten_hour_shift %> 10 hour shift <% else %> 8 hour shift <% end %></td></tr>
-                <tr><td>Work Days:</td><td><%= @workdays.chop.chop %></td></tr>
-                <tr><td>Restricted PTO : </td><td><%= @user.on_pip%></td></tr>
-                <tr><td>No Call/ No Shows : </td><td><%= @user.no_call_show%></td></tr>
+                <tr><td>Work Days:</td><td><%= @workdays.chop.chop %></td><td>Make Up Days : </td><td><%=@user.make_up_days %></td></tr>
+                <tr><td>Restricted PTO : </td><td><%= @user.on_pip%></td><td>No Call/ No Shows : </td><td><%= @user.no_call_show%></td></tr>
+                <tr><td>Start Date : </td><td><%= @user.start_date.strftime("%D") %></td></tr>
             </table>
         </div>
         <div class="content-bottom">
             <div class="upcoming-requests-tab">
                     <h2>Requests for Today</h2>
                     <table class="requests">
-                        <% @user.pto_requests.each do |request| %>
+                        <% requests = @user.pto_requests.order("request_date ASC") %>
+                        <% requests.each do |request| %>
                         <% if request.request_date == Date.today %>
                         <tr>
                         <td><b>Date:</b> <%= request.request_date %></td>
@@ -141,3 +143,24 @@
         </div> <!-- modal-conent -->
     </div> <!-- modal-dialog -->
 </div> <!-- add-no-call-show -->
+
+<div class="modal"  id="add-make-up-day" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div><!-- modal-header -->
+            <div class="modal-body">
+                <%= bootstrap_form_for(PtoRequest.new) do |f| %>
+                    <%= f.hidden_field :user_id, :value => @user.id %>
+                    <%= f.hidden_field :reason, :value => 'make up / sick day' %>
+                    <%= f.hidden_field :cost, :value => '0' %>
+                    <%= f.date_field :request_date %>
+                    <%= f.submit 'create request', class: 'form-control' %>
+                <% end %>
+            </div> <!-- modal-body -->
+        </div> <!-- modal-conent -->
+    </div> <!-- modal-dialog -->
+</div> <!-- add-make-up-day -->

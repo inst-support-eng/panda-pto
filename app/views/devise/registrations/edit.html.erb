@@ -23,7 +23,8 @@
         <h2>Upcoming Requests</h2>
         <div class="upcoming-body">
           <table class="requests">
-            <% current_user.pto_requests.each do |request| %>
+            <% requests = current_user.pto_requests.order("request_date ASC") %>
+            <% requests.each do |request| %>
               <% if request.request_date > Date.today %>
               <tr>
               <td><b>Date:</b> <%= request.request_date %></td>

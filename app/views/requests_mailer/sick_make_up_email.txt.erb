@@ -3,12 +3,6 @@ Hello ,
        You were out of the office on <%= @pto_request.request_date %>.  Since you do not have enough PTO credits to cover the day(s) you were out, you will need to makeup the time you missed within 3 weeks. Please contact the MCO and they will provide you with 2-3 different options to make up the time. If you aren’t able to makeup the missed time in 3 weeks, it will count as a “no-call / no-show” day.  As a reminder, if you acquire 2 “no-call / no-show” days, your employment may be terminated.
 If you haven’t already, please make sure you enter your sick time into the PTO tool. If you don’t enter your sick time within 3 days of returning to the office, you will receive one warning. If it happens a second time, you will be charged double the credits for the time you were out, with all of the implications that brings, especially already being out of credits.
 If you have to make up more than 40 hours for the year due to being out of credits, disciplinary action will take place, up to and including termination.  If you miss the makeup shift you signed up for, it will count as a “no call, no show.” 
-
-Agent: <%= @user.name %>
-Cost of request: <%= @pto_request.cost %>
-Date that was deducted: <%= @pto_request.request_date %>
-Remaining balances: <%= @user.bank_value %>
-Balance deducted by: <%= @supervisor.name %>
             
 If you have any questions or concerns, please contact your supervisor. 
         
