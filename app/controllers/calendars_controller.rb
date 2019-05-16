@@ -23,7 +23,6 @@ class CalendarsController < ApplicationController
     # this will be overriden by csv uploads if the file has the overriden date in it
     def update_base_price
         @calendar = Calendar.find_by(:date => params[:date][:date])
-        puts @calendar.date
         @calendar.base_value = params[:cost][:cost]
 
         @calendar.save

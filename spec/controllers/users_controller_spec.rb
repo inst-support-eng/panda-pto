@@ -10,12 +10,8 @@ RSpec.describe UsersController, type: :controller do
         end
         
         it "should delete user and all requests" do 
-            @pto_request = {:user_id => @user.id, :reason => 'disneyland', 
-                :request_date => 10.days.from_now, :cost => 10}
-
             PtoRequest.create({:user_id => @user.id, :reason => 'disneyland', 
                 :request_date => 10.days.from_now, :cost => 10})
-
 
             expect(PtoRequest.count).to eq(1)
 
