@@ -9,4 +9,12 @@ RSpec.describe AdminController, type: :controller do
     end
   end
 
+  describe "GET #coverage" do
+    it "returns http success" do
+      get :coverage
+
+      expect(response).to have_http_status(:success)
+    end
+  end
+
 end
