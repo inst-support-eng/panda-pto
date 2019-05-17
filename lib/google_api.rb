@@ -12,10 +12,23 @@ class GoogleAPI
     # returns a temporary csv file
 
     # google-api auth
-    scope = ['https://www.googleapis.com/auth/spreadsheets']
-    authorization = Google::Auth.get_application_default(scope)
+
+    authorization = Google::Auth::ServiceAccountCredentials.make_creds(
+      scope: 'https://www.googleapis.com/auth/spreadsheets',
+      json_key_io: StringIO.new(ENV['GOOGLE_APPLICATION_CREDENTIALS'])
+    )
     service = Google::Apis::SheetsV4::SheetsService.new
     service.authorization = authorization
+
+    # ============
+
+    # scope = ['https://www.googleapis.com/auth/spreadsheets']
+    # authorization = Google::Auth.get_application_default(scope)
+    # service = Google::Apis::SheetsV4::SheetsService.new
+    # service.authorization = authorization
+
+    # ============
+
     # retrieve google sheet data
     response = service.get_spreadsheet_values(sheet_id, cell_range).to_h.fetch(:values)
     # return temp csv
