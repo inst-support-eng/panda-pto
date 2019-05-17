@@ -6,7 +6,8 @@ class PtoRequest < ApplicationRecord
     CSV.foreach(file.path, {encoding: "UTF-8", headers: true, header_converters: :symbol, converters: :all}) do |row|
       agent = User.find_by(:email => row[:email])
       date = Calendar.find_by(:date => row[:date])
-      price = row[:shift].to_i
+      price = row[:price].to_i
+      reason = row[:reason]
       
       next if agent.nil?
       next if date.nil?
@@ -17,7 +18,7 @@ class PtoRequest < ApplicationRecord
         :request_date => date.date.to_s,
         :cost => price,
         :user_id => agent.id,
-        :reason => "Auto imported PTO request. I was pulled from Humanity, please contact your supervisor if I don't belong here.",
+        :reason => "#{reason} - request imported by admin",
         :excused => false
       )
       

@@ -10,7 +10,13 @@ class PtoRequestsController < ApplicationController
     def import_request
         if params[:file]
             PtoRequest.import(params[:file])
-            redirect_to root_url, notice: "Past requests imported!"
+            # update the current price of requests
+            dates = []
+            CSV.foreach(params[:file].path, {encoding: "UTF-8", headers: true, header_converters: :symbol, converters: :all}) do |row|
+                dates.push(row[:date])
+            end
+            dates.uniq.each { |x| helpers.update_price(x) }
+            redirect_to root_url, notice: "PTO requests imported!"
         else
             redirect_to root_url, notice: "Weep Womp. Please upload a valid CSV file"
         end
