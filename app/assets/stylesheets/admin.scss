@@ -312,6 +312,17 @@ form[enctype="multipart/form-data"] {
   white-space: nowrap;
   background-color: $header;
   color: $text;
+  animation: pulse 3s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: $header
+  }
+
+  100% {
+    background-color: white;
+  }
 }
 
 .start-0000  { grid-area: start00; }
