@@ -54,6 +54,9 @@ gem 'jquery-rails', '~> 4.3', '>= 4.3.3'
 # add devise
 gem 'devise'
 
+# google api
+gem 'google-api-client'
+
 # rails_12factor helps with heroku deploys 
 gem 'rails_12factor', group: [:production, :development]
 

@@ -8,7 +8,7 @@ class RegistrationMailer < ApplicationMailer
     end
 
     def new_employee_email
-        @user =params[:user]
+        @user = params[:user]
         mail(to: @user.email, subject: 'Panda PTO information')
     end
 

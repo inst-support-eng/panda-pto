@@ -17,8 +17,9 @@ class User < ApplicationRecord
       # should only update when first created
       if agent.new_record?
         bank_value = 180 - (180 * (Date.parse(row[:start_date]).yday.to_f/ Date.new(y=Date.today.year, m=12, d=31).yday.to_f))
-  
-        agent.password = Devise.friendly_token.first(12)
+        generated_password = Devise.friendly_token.first(12)
+
+        agent.password = generated_password
         agent.bank_value = bank_value
         agent.humanity_user_id = HumanityAPI.set_humanity_id(row[:email], response)
         agent.on_pip = true
@@ -38,7 +39,14 @@ class User < ApplicationRecord
         agent.humanity_user_id = HumanityAPI.set_humanity_id(row[:email], response) if agent.humanity_user_id == 0
       end
       
-      agent.save
+      if agent.new_record?
+        RegistrationMailer.with(user: agent, password: generated_password).registration_email.deliver_now
+        RegistrationMailer.with(user: agent).new_employee_email.deliver_now
+        agent.save
+      else
+        agent.save
+      end
+
     end
 
   end

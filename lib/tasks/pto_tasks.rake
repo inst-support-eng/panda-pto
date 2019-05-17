@@ -20,3 +20,10 @@ task :quarterly_seed => :environment do
     exit
   end
 end
+
+desc "Import agents.csv from google sheet defined in the enviorment"
+task :sync_agents => :environment do
+  csv = GoogleAPI.get_csv(ENV['AGENT_MASTER_SHEET'], "A1:I")
+  User.import(csv)
+  csv.close(unlink=true)
+end
