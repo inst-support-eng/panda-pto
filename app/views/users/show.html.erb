@@ -114,7 +114,7 @@
                             class: 'form-control', 
                             required: 'true' %>
                         <%= f.date_field :request_date %>
-                        <%= f.number_field :cost %>
+                        <%= f.number_field :cost, placeholder: 'place -1 to use todays cost' %>
                         <%= f.submit 'create request', class: 'form-control' %>
                     <% end %>
                     </div> <!-- modal-body -->

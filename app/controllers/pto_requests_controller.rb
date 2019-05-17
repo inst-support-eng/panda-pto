@@ -43,7 +43,7 @@ class PtoRequestsController < ApplicationController
 
         if @pto_request.reason == 'make up / sick day'
             return add_make_up_day
-        end 
+        end
         
         if @user.on_pip == true && @user.id == current_user.id
             return redirect_to root_path, notice: "You're PTO is currently restricted, please talk to your supervisor"
@@ -68,6 +68,10 @@ class PtoRequestsController < ApplicationController
 
         if @user.bank_value < @pto_request.cost
             return  redirect_to root_path, notice: "You do not have enough to make this request"
+        end
+
+        if @pto_request.cost == -1
+            @pto_request.cost = @calendar.current_price
         end
         
         if @pto_request.save
