@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    </head>
+    <body>
+        <p>Hello fleeties!</p>
+        
+        <p>Here is a list of agents that have upcoming requests that have more than 6 conecutive days off in a row. Do with information as you will.</p>
+
+        <p>Agents : </p>
+        <div>
+        <% @requests.each do |agent| %>
+        <p><%= agent %></p>
+        <% end %>
+        </div>
+        
+        <p>Love, <p>
+
+        <p>PandaAdmin</p>
+    </body>
+</html>
