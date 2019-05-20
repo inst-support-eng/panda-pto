@@ -17,6 +17,7 @@ All scheduled and recurring actions are currently written as rake tasks, and are
 - For nightly coverage e-mails, add `rake coverage_mailer` as a daily job in scheduler 
 - To enable quarterly point seeding, add `rake quarterly_seed` as a daily job in scheduler
 - To have new agents automactailly removed from a pip after 90 days, add  `rake new_hire_check_pip` as a daily job in scheduler
+- To have emails for 6+ day off requests made by agents, add   `rake check_long_requests` as a daily job in scheduler
 - To enable a nigtly sync of agents from a Google Sheet, add `rake sync_agents` as a daily job in scheduler
     - you will need to create an enviromental variable for `AGENT_MASTER_SHEET` and set it to the file id of the google sheet you want to sync from 
     - see the [Google API](#google-api-set-up) set up section for more information
