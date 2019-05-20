@@ -36,7 +36,7 @@ class RequestsMailer < ApplicationMailer
 
     def long_requests_email
         @requests = params[:requests]
-        mail(to:"fleet-command@instructure.com", subject: `Requests email`)
+        mail(to:ENV['FLEET_EMAIL'], subject: `Requests email`)
     end
 
     ## TALK TO TDYE / LBURNETT 
