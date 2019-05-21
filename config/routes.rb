@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  
+
+  authenticate :user, -> (u) { u.admin? } do
+    get 'pto_requests/export' => 'pto_requests#export'
+  end
     resources :pto_requests do
       collection { post :create}
     end
@@ -36,7 +39,7 @@ Rails.application.routes.draw do
     # view user profiles
     get 'users/index'
     # export pto_requests.csv
-    get 'pto_requests/export'
+    get 'pto_requests/export_all' => 'pto_requests#export_all'
     get 'pto_requests/export_user_request/:id' => 'pto_requests#export_user_request', as: 'export_user_request'
     # excuse pto_requests
     post "pto_requests/:id/excuse_request" => 'pto_requests#excuse_request', as: :excuse_pto_request
