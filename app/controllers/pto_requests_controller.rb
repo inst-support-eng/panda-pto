@@ -79,11 +79,11 @@ class PtoRequestsController < ApplicationController
         if @pto_request.cost == -1
             @pto_request.cost = @calendar.current_price
         end
-        
-        if @pto_request.save
 
+        if @pto_request.save
             update_request_info
-            if(current_user.id == @pto_request.user_id)    
+            check_long_requests
+            if(current_user.id == @pto_request.user_id)                   
                 RequestsMailer.with(user: @user, pto_request: @pto_request).requests_email.deliver_now
                 return redirect_to root_path
             else 
@@ -159,6 +159,25 @@ class PtoRequestsController < ApplicationController
     private 
     def post_params
         params.require(:pto_request).permit(:reason, :request_date, :cost, :user_id)
+    end
+
+    # check to see what 
+    def check_long_requests
+        if @user.pto_requests.find_by(:request_date => @pto_request.request_date + 1.day) || @user.pto_requests.find_by(:request_date => @pto_request.request_date - 1.day)
+            all_requests = @user.pto_requests.where('? <= request_date AND request_date <= ?', @pto_request.request_date - 3.days, @pto_request.request_date + 3.days).order('request_date ASC')
+            dates = []
+
+            all_requests.each do |req|
+                dates.push(req.request_date)
+            end
+
+            prev = dates.first
+            requests = dates.slice_before { |d| prev, prev2 = d, prev; prev2 + 1.day != d }.to_a
+
+            if requests.count >= 4
+                RequestsMailer.with(:user => @user, :requests => requests).long_requests_email.deliver_now
+            end
+        end
     end
 
     # update calednar && user with new request info

@@ -35,6 +35,7 @@ class RequestsMailer < ApplicationMailer
     end
 
     def long_requests_email
+        @user = params[:user]
         @requests = params[:requests]
         mail(to:ENV['FLEET_EMAIL'], subject: `Requests email`)
     end
