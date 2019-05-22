@@ -47,7 +47,7 @@ class RequestsMailer < ApplicationMailer
         mail(to: @user.email, cc: ENV['MCO_EMAIL'], subject: `#{@user.bank_value} PTO Credits Remain `)
     end
 
-    def credits_vested_email
+    def credits_added_email
         @user = params[:user]
         mail(to: @user.email, subject: "PTO Credits have been added to your account")
     end
