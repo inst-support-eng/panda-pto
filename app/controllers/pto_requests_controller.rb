@@ -81,9 +81,8 @@ class PtoRequestsController < ApplicationController
         end
         
         if @pto_request.save
-
             update_request_info
-            if(current_user.id == @pto_request.user_id)    
+            if(current_user.id == @pto_request.user_id) 
                 RequestsMailer.with(user: @user, pto_request: @pto_request).requests_email.deliver_now
                 return redirect_to root_path
             else 
@@ -176,6 +175,10 @@ class PtoRequestsController < ApplicationController
 
         @user.bank_value -= @pto_request.cost
         @user.save
+
+        if @user.bank_value <= 8
+            RequestsMailer.with(:user => @user).eight_credits_email.deliver_now
+        end
 
         helpers.update_price(@calendar.date)
     end
