@@ -162,7 +162,7 @@ class PtoRequestsController < ApplicationController
         params.require(:pto_request).permit(:reason, :request_date, :cost, :user_id)
     end
 
-    # check to see what 
+    # check to see if there are more than 4 consective days off in a row for a user
     def check_long_requests
         if @user.pto_requests.find_by(:request_date => @pto_request.request_date + 1.day) || @user.pto_requests.find_by(:request_date => @pto_request.request_date - 1.day)
             all_requests = @user.pto_requests.order('request_date ASC')
