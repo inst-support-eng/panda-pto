@@ -176,7 +176,9 @@ class PtoRequestsController < ApplicationController
         @user.bank_value -= @pto_request.cost
         @user.save
 
-        if @user.bank_value <= 8
+        if @user.bank_value <= 0
+            RequestsMailer.with(:user => @user).zero_credit_email.deliver_now
+        elsif @user.bank_value <= 8
             RequestsMailer.with(:user => @user).eight_credits_email.deliver_now
         end
 

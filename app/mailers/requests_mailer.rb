@@ -30,7 +30,6 @@ class RequestsMailer < ApplicationMailer
 
     def zero_credit_email
         @user = params[:user]
-        @pto_request = parmas[:pto_request]
         mail(to: @user.email, cc: ENV['MCO_EMAIL'], subject: `PTO Credits Have reached Zero`)
     end
 
