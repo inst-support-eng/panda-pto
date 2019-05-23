@@ -34,6 +34,12 @@ class RequestsMailer < ApplicationMailer
         mail(to: @user.email, cc: ENV['MCO_EMAIL'], subject: `PTO Credits Have reached Zero`)
     end
 
+    def long_requests_email
+        @user = params[:user]
+        @requests = params[:requests]
+        mail(to:ENV['FLEET_EMAIL'], subject: `Requests email`)
+    end
+
     ## TALK TO TDYE / LBURNETT 
     def missed_holiday_email
         mail(to: @user.email, cc: ENV['MCO_EMAIL'], subject: `Missed Holiday for `)
