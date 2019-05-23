@@ -29,7 +29,11 @@ class UsersController < ApplicationController
     end 
 
     def current
-        render json: current_user
+        @user = User.find(current_user.id)
+        
+        respond_to do |format|
+            format.json {render :json => @user.to_json(:include => :pto_requests)}
+        end
     end
 
     def update_shift

@@ -14,6 +14,11 @@ $(document).on('turbolinks:load', () => {
         let calendarDates = await getDates()
         let currUser = await currentUser()
 
+        // get and sort requested dates for users
+        let userDates = currUser.pto_requests
+        userDates.sort((a,b) => (a.request_date > b.request_date) ? 1 : -1)
+        console.log(userDates);
+
         // switch (currUser.position) {
         //     case "L1":
         //         calendarDates = await getDates();
@@ -104,13 +109,20 @@ $(document).on('turbolinks:load', () => {
                     // grey out old dates 
                     if ((year <= today.getFullYear() && month < today.getMonth()) || (date < today.getDate() && year <= today.getFullYear() && month <= today.getMonth())) {
                         cell.classList.add('grey')
-                        cell.classList.add('lighten-3')
                     }
 
+                    // check to see if the user has the days off
+                    let hasOff = userDates.filter(date => {
+                        return date.request_date == reqDate
+                    })
+
+                    if(hasOff.length == 1) {
+                        cell.classList.add('light-grey');
+                    }
+                    
                     // color todays date
                     if (date == today.getDate() && year == today.getFullYear() && month == today.getMonth()) {
                         cell.classList.add("blue");
-                        cell.classList.add("lighten-3");
                     }
 
                     let displayInfo = `<div id="pto-date">${date}</div><br/>${displayCost}`
