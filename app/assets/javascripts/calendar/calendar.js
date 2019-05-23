@@ -17,7 +17,6 @@ $(document).on('turbolinks:load', () => {
         // get and sort requested dates for users
         let userDates = currUser.pto_requests
         userDates.sort((a,b) => (a.request_date > b.request_date) ? 1 : -1)
-        console.log(userDates);
 
         // switch (currUser.position) {
         //     case "L1":
