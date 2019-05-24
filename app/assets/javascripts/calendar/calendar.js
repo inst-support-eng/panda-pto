@@ -116,7 +116,7 @@ $(document).on('turbolinks:load', () => {
                     })
 
                     if(hasOff.length == 1) {
-                        cell.classList.add('light-grey');
+                        cell.classList.add('day-off');
                     }
                     
                     // color todays date
