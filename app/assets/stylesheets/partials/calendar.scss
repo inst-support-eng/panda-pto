@@ -294,6 +294,7 @@
     text-align: center;
     border: 1px solid #f7f7f7;
     background-color: white;
+    border: 1px solid $sidebar;
   }
 
   .calendar-date:hover {
@@ -378,6 +379,11 @@
   .grey {
     background-color: rgb(119, 119, 119);
     color: white;
+  }
+
+  .day-off {
+    background-color: $text;
+    color: black;
   }
 
 

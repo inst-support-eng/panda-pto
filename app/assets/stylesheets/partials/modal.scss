@@ -37,3 +37,17 @@
   background-color: $header;
   color: $text;
 }
+
+.close3 {
+  color: $text;
+  float: right;
+  font-size: 28px;
+  font-weight: 200;
+  line-height: .5;
+}
+
+.close3:hover, .close3:focus {
+  color: $hovertext;
+  text-decoration: none;
+  cursor: pointer;
+}

@@ -15,6 +15,7 @@ task :quarterly_seed => :environment do
         agent.bank_value += 45
       end
       agent.save
+      RequestsMailer.with(:user => agent).credits_added_email.deliver_now
     end
   else
     exit

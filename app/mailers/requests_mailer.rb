@@ -30,7 +30,6 @@ class RequestsMailer < ApplicationMailer
 
     def zero_credit_email
         @user = params[:user]
-        @pto_request = parmas[:pto_request]
         mail(to: @user.email, cc: ENV['MCO_EMAIL'], subject: `PTO Credits Have reached Zero`)
     end
 
@@ -54,7 +53,7 @@ class RequestsMailer < ApplicationMailer
         mail(to: @user.email, cc: ENV['MCO_EMAIL'], subject: `#{@user.bank_value} PTO Credits Remain `)
     end
 
-    def credits_vested_email
+    def credits_added_email
         @user = params[:user]
         mail(to: @user.email, subject: "PTO Credits have been added to your account")
     end

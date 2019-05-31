@@ -4,6 +4,19 @@ $(document).on('turbolinks:load', () => {
         $('body').on('click', '.calendar-date', async (e) => {
             const calendarDates = await getDates();
             const currUser = await currentUser();
+            let userDates = currUser.pto_requests
+
+            userDates.sort((a,b) => (a.request_date > b.request_date)? 1: -1)
+
+            // check to see if the user has the days off
+            let hasOff = userDates.filter(date => {
+                return date.request_date == e.target.id
+            })
+
+            const hasOffModal = document.getElementById('hasOffModal');
+            const pipModal = document.getElementById('pipModal');
+            const calendarModal = document.getElementById('calendarModal');
+            const dayOfModal = document.getElementById('dayOfModal');
 
             let current_price = {}
             calendarDates.forEach(el => {
@@ -29,17 +42,31 @@ $(document).on('turbolinks:load', () => {
 
             if (requestDate.toDateString() == currentDate.toDateString()) {
                 if (currUser.on_pip == true) {
-                    $('.pipModal').modal('show')
+                    let closeButton = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button >'
+                    $('.modal-header').html(closeButton)
+                    pipModal.style.display = "block";
+                } else if (hasOff.length == 1) {
+                    let closeButton = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button >'
+                    $('.modal-header').html(closeButton)
+                    hasOffModal.style.display = "block";
                 } else {
-                    $('.dayOfModal').modal('show')
+                    let closeButton = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button >'
+                    $('.modal-header').html(closeButton)
+                    dayOfModal.style.display = "block";
                 }
             }
 
             if (requestDate > currentDate && requestDate.getMonth() - currentDate.getMonth() <= 9 && !isNaN(current_price.current_price)) {
                 if (currUser.on_pip == true) {
-                    $('.pipModal').modal('show')
+                    let closeButton = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button >'
+                    $('.modal-header').html(closeButton)
+                    pipModal.style.display = "block";
+                } else if(hasOff.length == 1) {
+                    let closeButton = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button >'
+                    $('.modal-header').html(closeButton)
+                    hasOffModal.style.display = "block";
                 } else {
-                    $('.calendarModal').modal('show');
+                    calendarModal.style.display = "block";
                     let closeButton = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button >'
                     let displayCost = current_price.current_price * 8;
                     if (currUser.ten_hour_shift) {
@@ -54,10 +81,11 @@ $(document).on('turbolinks:load', () => {
                 }
             }
 
-            $('.btn-default').click(() => {
-                $('.calendarModal').modal('hide')
-                $('.dayOfModal').modal('hide')
-                $('.pipModal').modal('hide')
+            $('.close').click(() => {
+                hasOffModal.style.display = "none";
+                pipModal.style.display = "none";
+                calendarModal.style.display = "none";
+                dayOfModal.style.display = "none";
             })
         })
     }
