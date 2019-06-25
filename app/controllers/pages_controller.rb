@@ -4,11 +4,11 @@ class PagesController < ApplicationController
     def quarter(date)
         date = Date.parse(date) if date.is_a? String
         quarters = [Date.parse("#{date.year}-01-01"), Date.parse("#{date.year}-04-01"), Date.parse("#{date.year}-07-01"), Date.parse("#{date.year}-10-01")]
-        if date < quarters[1]
+        if date < quarters[0]
             return 1
-        elsif date < quarters[2]
+        elsif date < quarters[1]
             return 2
-        elsif date < quarters[3]
+        elsif date < quarters[2]
             return 3
         elsif date > quarters[3]
             return 4

@@ -2,16 +2,16 @@
     <div class="sidebar-title">
         <h4 id="eventDayName">Date: <%= Time.now.in_time_zone("Mountain Time (US & Canada)").to_s[0,10] %></h4>
         <h5 id="bank-value" class="bank-value">Bank Value: ₢ <%= current_user.bank_value %></h5>
-        <!--
-        <p class="quarter-spending"> <%= "Q1 Remaining: #{45 - @q1}" unless @current_quarter > 1 %> </p>
-        <p class="quarter-spending"> <%= "Q2 Remaining: #{90 - @q2}" unless @current_quarter > 2 %> </p>
-        <p class="quarter-spending"> <%= "Q3 Remaining: #{135 - @q3}" unless @current_quarter > 3 %> </p>
-        <p class="quarter-spending"> <%= "Q4 Remaining: #{180 - @q4}" unless @current_quarter > 4 %> </p>
+        
+        <p class="quarter-spending" id="quarter1"> <%= "Q1 Remaining: #{45 - @q1}" unless @current_quarter > 1 %> </p>
+        <p class="quarter-spending" id="quarter2"> <%= "Q2 Remaining: #{90 - @q2}" unless @current_quarter > 2 %> </p>
+        <p class="quarter-spending" id="quarter3"> <%= "Q3 Remaining: #{135 - @q3}" unless @current_quarter > 3 %> </p>
+        <p class="quarter-spending" id="quarter4"> <%= "Q4 Remaining: #{180 - @q4}" unless @current_quarter > 4 %> </p>
         
         <p class="quarter-spending"> <%= "Q1 #{Date.today.year + 1}: #{45 - @q1_next}" if @current_quarter > 1 %> </p>
         <p class="quarter-spending"> <%= "Q2 #{Date.today.year + 1}: #{90 - @q2_next}" if @current_quarter > 2 %> </p>
         <p class="quarter-spending"> <%= "Q3 #{Date.today.year + 1}: #{135 - @q3_next}" if @current_quarter > 3 %> </p>
-        -->
+        
     </div> <!-- sidebar-title -->
     <hr>
     <div class="all-requests">
