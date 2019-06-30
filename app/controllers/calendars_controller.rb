@@ -1,4 +1,4 @@
-class CalendarsController < ApplicationController
+class CalendarsController < ApplicationController 
     before_action :login_required
     def show
         @calendar = Calendar.find(params[:id])
@@ -12,7 +12,8 @@ class CalendarsController < ApplicationController
             # ... and maybe update the helper to accept a Calendar object
             # instead of a date !TECHDEBT
             Calendar.find_each do |x|
-                helpers.update_price(x.date)
+
+                helpers.update_price(x)
             end
             redirect_to admin_index_path, notice: "Calendar CSV imported"
         else

@@ -3,7 +3,8 @@ module UpdatePriceHelper
   def update_price(date)
     scale = { 0  => 0.5, 8  => 1, 15 => 1.5, 21 => 2, 26 => 2.5, 30 => 3, 33 => 3.5, 35 => 4, 36 => 5, 37 => 6, 38 => 7, 39 => 8, 40 => 9 }
     weekend_scale = { 0  => 0.5, 4  => 1, 7 => 1.5, 9 => 2, 10 => 2.5, 11 => 3, 12 => 3.5, 13 => 4, 14 => 5, 15 => 6, 16 => 7, 17 => 8, 18 => 9 }
-    @calendar = Calendar.find_by(:date => date)
+    @calendar = date
+
 
     if @calendar.signed_up_total == nil
       @updated = @calendar.base_value

@@ -29,7 +29,9 @@
               <% @agents.each do |agent| %>
             <tr class="agent-row">
               <td class="agent-name"><%= link_to "#{agent.name}", show_user_path(agent) %></td>
-              <td class="agent-points"><%= agent.bank_value %></td>
+              <!-- display only the current year's point balence -->
+              <% bank_split = Legalizer.split_year(agent) %>
+              <td class="agent-points"><%= bank_split[0] %></td>
             </tr>
               <% end %>
           </tbody>

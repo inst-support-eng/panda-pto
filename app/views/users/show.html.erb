@@ -1,4 +1,4 @@
-<div class="layout-edit-user">
+<div class="layout-edit-user"> 
   <div class="left-edit-user">
         <button class="edit-user-buttons" id="add-request-btn">Add Request</button>
         <div>
@@ -28,11 +28,11 @@
             <table class="profile-container">
                 <tr><td>Name:</td><td><%= @user.name %></td><td>Email:</td><td><%= @user.email %></td></tr>
                 <tr><td>Position:</td><td><%= @user.position %></td><td>Team:</td><td><%= @user.team %></td></tr>
-                <tr><td>Current Bank Value:</td><td><%= @user.bank_value %></td><td>Admin:</td><td><%= @user.admin %></td></tr>
+                <tr><td><%= Date.today.year %> Bank Value:</td><td><%= @bank_split[0] %></td><td>Admin:</td><td><%= @user.admin %></td></tr>
+                <tr><td><%= Date.today.year + 1%> Bank Value:</td><td><%= @bank_split[1] %></td> <td>Start Date : </td><td><%= @user.start_date.strftime("%D") unless @user.start_date.nil? %></td></tr>
                 <tr><td>Shift:</td><td><%= @shift_start %> – <%= @shift_end %></td><td>Shift Length:</td><td><% if @user.ten_hour_shift %> 10 hour shift <% else %> 8 hour shift <% end %></td></tr>
                 <tr><td>Work Days:</td><td><%= @workdays.chop.chop %></td><td>Make Up Days : </td><td><%=@user.make_up_days %></td></tr>
                 <tr><td>Restricted PTO : </td><td><%= @user.on_pip%></td><td>No Call/ No Shows : </td><td><%= @user.no_call_show%></td></tr>
-                <tr><td>Start Date : </td><td><%= @user.start_date.strftime("%D") unless @user.start_date.nil? %></td></tr>
             </table>
         </div>
         <div class="content-bottom">

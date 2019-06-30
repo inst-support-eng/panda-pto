@@ -9,7 +9,8 @@
     <div class="content-top">
       <h2><%= current_user.name %></h2>
       <table class="profile-container">
-        <tr><td>Current Bank Value:</td><td>₢ <%= current_user.bank_value %></td></tr>
+        <tr><td><%= Date.today.year %> Bank Value:</td><td>₢ <%= @bank_split[0] %></td></tr>
+        <tr><td><%= Date.today.year + 1 %> Bank Value:</td><td>₢ <%= @bank_split[1] %></td></tr>
         <tr><td>Position:</td><td><%= current_user.position %></td></tr>
         <tr><td>Team:</td><td><%= current_user.team %></td></tr>
         <tr><td>Shift Length:</td><td><% if current_user.ten_hour_shift %> 10 hour shift <% else %> 8 hour shift <% end %></td></tr>

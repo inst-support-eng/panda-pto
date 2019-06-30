@@ -11,9 +11,13 @@ class UsersController < ApplicationController
             end
             @shift_start = Time.parse(@user.start_time).in_time_zone("Mountain Time (US & Canada)").strftime("%I:%M %p") unless @user.start_time.nil?
             @shift_end = Time.parse(@user.end_time).in_time_zone("Mountain Time (US & Canada)").strftime("%I:%M %p") unless @user.end_time.nil?
+
+            @bank_split = Legalizer.split_year(@user)
         else
             redirect_to root_path, notice: "You do not have access to this resource"
         end
+
+
     end
 
     def destroy
