@@ -60,7 +60,11 @@ $(document).on('turbolinks:load', () => {
             if (requestDate > currentDate && requestDate.getMonth() - currentDate.getMonth() <= 9 && !isNaN(current_price.current_price)) {
                 let requestQuarter = document.getElementById(getQuarter(requestDate)).innerHTML
                 let currentBank = requestQuarter.substr(requestQuarter.lastIndexOf(':') + 1)
-                console.log(currentBank)
+
+                let displayCost = current_price.current_price * 8
+                if (currUser.ten_hour_shift) {
+                    displayCost = current_price.current_price * 10
+                }
 
                 if (currUser.on_pip == true) {
                     let closeButton = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times</span></button >'
@@ -70,21 +74,18 @@ $(document).on('turbolinks:load', () => {
                     let closeButton = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times</span></button >'
                     $('.modal-header').html(closeButton)
                     hasOffModal.style.display = "block"
-                } else if(currentBank < current_price.current_price) {
+                } else if(currentBank - displayCost  <= 0) {
                     let closeButton = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times</span></button >'
                     $('.modal-header').html(closeButton)
                     notEnoughCreditsModal.style.display = "block"
                 } else {
                     calendarModal.style.display = "block"
                     let closeButton = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times</span></button >'
-                    let displayCost = current_price.current_price * 8
-                    if (currUser.ten_hour_shift) {
-                        displayCost = current_price.current_price * 10
-                    }
 
                     $('.modal-header').html("New Request for " + e.target.id + closeButton)
 
                     $('.request-total').html(`total: ${displayCost}`)
+                    $('.bank-total').html(`Current Bank Total : ${currentBank}`)
                     $('#pto_request_request_date').attr("value", e.target.id)
                     $('#pto_request_cost').attr("value", displayCost)
                 }
