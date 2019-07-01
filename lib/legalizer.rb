@@ -19,11 +19,11 @@ class Legalizer
     current_quarter = 0
     current_year
     quarters = [Date.parse("#{current_year}-01-01"), Date.parse("#{current_year}-04-01"), Date.parse("#{current_year}-07-01"), Date.parse("#{current_year}-10-01")]
-    if date < quarters[0]
+    if date < quarters[1]
       current_quarter = 1
-    elsif date < quarters[1]
-      current_quarter = 2
     elsif date < quarters[2]
+      current_quarter = 2
+    elsif date < quarters[3]
       current_quarter = 3
     elsif date > quarters[3]
       current_quarter = 4

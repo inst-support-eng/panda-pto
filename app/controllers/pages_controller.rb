@@ -42,7 +42,7 @@ class PagesController < ApplicationController
                 when 4
                     @q4 += r.cost
                 end
-            elsif r.request_date.year == Data.today.year + 1
+            elsif r.request_date.year == Date.today.year + 1
                 q = quarter(r.request_date)
                 case q
                 when 1
