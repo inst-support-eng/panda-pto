@@ -17,6 +17,7 @@ class User < ApplicationRecord
       # should only update when first created
       if agent.new_record?
         bank_value = 180 - (180 * (Date.parse(row[:start_date]).yday.to_f/ Date.new(y=Date.today.year, m=12, d=31).yday.to_f))
+        bank_value += Legalizer.quarter(row[:start_date])
         generated_password = Devise.friendly_token.first(12)
 
         agent.password = generated_password
@@ -51,10 +52,6 @@ class User < ApplicationRecord
       else
         agent.save
       end
-
     end
-
-  end
-
-      
+  end    
 end
