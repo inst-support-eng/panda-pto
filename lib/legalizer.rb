@@ -1,5 +1,21 @@
 class Legalizer
 
+  def self.quarter(date)
+    date = Date.parse(date) if date.is_a? String
+    quarters = [Date.parse("#{date.year}-01-01"), Date.parse("#{date.year}-04-01"), Date.parse("#{date.year}-07-01"), Date.parse("#{date.year}-10-01")]
+    if date < quarters[1]
+        return 1
+    elsif date < quarters[2]
+        return 2
+    elsif date < quarters[3]
+        return 3
+    elsif date > quarters[3]
+        return 4
+    else 
+        return nil
+    end
+  end
+
 
   def self.split_year(user)
 
@@ -16,21 +32,7 @@ class Legalizer
     # determine today's quarter , adapted from pages_controller.rb
     current_year = Date.today.year
     date = Date.today
-    current_quarter = 0
-    current_year
-    quarters = [Date.parse("#{current_year}-01-01"), Date.parse("#{current_year}-04-01"), Date.parse("#{current_year}-07-01"), Date.parse("#{current_year}-10-01")]
-    if date < quarters[1]
-      current_quarter = 1
-    elsif date < quarters[2]
-      current_quarter = 2
-    elsif date < quarters[3]
-      current_quarter = 3
-    elsif date > quarters[3]
-      current_quarter = 4
-    else 
-      return nil
-    end
-
+    current_quarter = quarter(date)
 
     current_year_balence = 0
     next_year_balenence = 0
