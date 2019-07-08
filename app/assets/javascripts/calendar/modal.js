@@ -57,7 +57,7 @@ $(document).on('turbolinks:load', () => {
                 }
             }
 
-            if (requestDate > currentDate && requestDate.getMonth() - currentDate.getMonth() <= 9 && !isNaN(current_price.current_price)) {
+            if (requestDate > currentDate && requestDate.getMonth() - currentDate.getMonth() <= 7 && !isNaN(current_price.current_price)) {
                 let requestQuarter = document.getElementById(getQuarter(requestDate)).innerHTML
                 let currentBank = requestQuarter.substr(requestQuarter.lastIndexOf(':') + 1)
 
