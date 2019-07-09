@@ -40,21 +40,17 @@ class Legalizer
     date = Date.today
     current_quarter = quarter(date)
 
-    current_year_balance = 0
+    current_year_balance = 180 - this_year_total
     next_year_balance = 0
 
     # seperate points
     case current_quarter
     when 1
-      current_year_balance = 180 - this_year_total
     when 2
-      current_year_balance = 45 - this_year_total
       next_year_balance = 45 - next_year_total
     when 3
-      current_year_balance = 90 - this_year_total
       next_year_balance = 90 - next_year_total
     when 4
-      current_year_balance = 135 - this_year_total
       next_year_balance = 135 - next_year_total
     else
     end
