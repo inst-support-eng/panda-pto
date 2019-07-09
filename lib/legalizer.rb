@@ -22,9 +22,15 @@ class Legalizer
     # determine how many points agent spent on pto for the next calendar year
     next_year = (Date.today.year + 1).to_s
     next_year_requests = user.pto_requests.where('extract(year from request_date) = ?', next_year).to_a
+    this_year_requests = user.pto_requests.where('extract(year from request_date) = ?', Date.today.year.to_s).to_a
     
+    this_year_total = 0
     next_year_total = 0
     
+    this_year_requests.each do |r|
+      this_year_total += r.cost
+    end
+
     next_year_requests.each do |r|
       next_year_total += r.cost
     end
@@ -34,26 +40,26 @@ class Legalizer
     date = Date.today
     current_quarter = quarter(date)
 
-    current_year_balence = 0
-    next_year_balenence = 0
+    current_year_balance = 0
+    next_year_balance = 0
 
     # seperate points
     case current_quarter
     when 1
-      current_year_balence = user.bank_value
+      current_year_balance = 180 - this_year_total
     when 2
-      current_year_balence = user.bank_value - 45
-      next_year_balenence = 45 - next_year_total
+      current_year_balance = 45 - this_year_total
+      next_year_balance = 45 - next_year_total
     when 3
-      current_year_balence = user.bank_value - 90
-      next_year_balenence = 90 - next_year_total
+      current_year_balance = 90 - this_year_total
+      next_year_balance = 90 - next_year_total
     when 4
-      current_year_balence = user.bank_value - 135
-      next_year_balenence = 135 - next_year_total
+      current_year_balance = 135 - this_year_total
+      next_year_balance = 135 - next_year_total
     else
     end
 
-    return current_year_balence, next_year_balenence
+    return current_year_balance, next_year_balance
   end
 
 end
