@@ -16,7 +16,13 @@ class User < ApplicationRecord
      
       # should only update when first created
       if agent.new_record?
+        # this math is for figuring out the users pto balance for their start year 
         bank_value = 180 - (180 * (Date.parse(row[:start_date]).yday.to_f/ Date.new(y=Date.today.year, m=12, d=31).yday.to_f))
+        # this math gives users balance for the year following their hire date 
+        # minus 45 is due to q1 does not vest for new users if that is their hire quarter 
+        # they would just get the points for the year and then start vesting with everyone else the following year
+        vesting_quarter = (Legalizer.quarter(Date.today) * 45) - 45 
+        bank_value += vesting_quarter
         generated_password = Devise.friendly_token.first(12)
 
         agent.password = generated_password
@@ -51,10 +57,6 @@ class User < ApplicationRecord
       else
         agent.save
       end
-
     end
-
-  end
-
-      
+  end    
 end

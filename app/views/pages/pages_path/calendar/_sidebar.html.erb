@@ -10,8 +10,8 @@
         <p class="quarter-spending" id="quarter4"> <%= "Q4 Remaining: #{@bank_split[0]}" unless @current_quarter > 4 %> </p>
         
         <p class="quarter-spending" id="quarter1next"> <%= "Q1 #{Date.today.year + 1}: #{45 - @q1_next}" if @current_quarter > 1 %> </p>
-        <p class="quarter-spending" id="quarter2next"> <%= "Q2 #{Date.today.year + 1}: #{90 - @q2_next}" if @current_quarter > 2 %> </p>
-        <p class="quarter-spending" id="quarter3next"> <%= "Q3 #{Date.today.year + 1}: #{135 - @q3_next}" if @current_quarter > 3 %> </p>
+        <p class="quarter-spending" id="quarter2next"> <%= "Q2 #{Date.today.year + 1}: #{90 - @q1_next - @q2_next}" if @current_quarter > 2 %> </p>
+        <p class="quarter-spending" id="quarter3next"> <%= "Q3 #{Date.today.year + 1}: #{135 - @q1_next - @q2_next - @q3_next}" if @current_quarter > 3 %> </p>
         
     </div> <!-- sidebar-title -->
     <hr>
