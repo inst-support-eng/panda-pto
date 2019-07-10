@@ -9,13 +9,16 @@ class PtoRequestsController < ApplicationController
 
     def import_request
         if params[:file]
+            # the PtoRequests are created in the model
             PtoRequest.import(params[:file])
-            # update the current price of requests
+            # since the requests already exist, get all dates pto requests where created for
+            # and run just those dates through UpdatePrice
+            # prevents us from updating the same calendar object multiple times
             dates = []
             CSV.foreach(params[:file].path, {encoding: "UTF-8", headers: true, header_converters: :symbol, converters: :all}) do |row|
                 dates.push(row[:date])
             end
-            dates.uniq.each { |x| helpers.update_price(x) }
+            dates.uniq.each { |x| UpdatePrice.update_calendar_item(x) }
             redirect_to root_url, notice: "PTO requests imported!"
         else
             redirect_to root_url, notice: "Weep Womp. Please upload a valid CSV file"
@@ -204,7 +207,7 @@ class PtoRequestsController < ApplicationController
             RequestsMailer.with(:user => @user).eight_credits_email.deliver_now
         end
 
-        helpers.update_price(@calendar.date)
+        UpdatePrice.update_calendar_item(@calendar)
     end
 
     # remove needed info to update the calendar and user appropriately 
@@ -214,7 +217,7 @@ class PtoRequestsController < ApplicationController
         @calendar.signed_up_agents.delete(@user.name)
         @calendar.signed_up_total -= 1
         @calendar.save
-        helpers.update_price(@calendar.date)
+        UpdatePrice.update_calendar_item(@calendar)
 
         @user.bank_value += @pto_request.cost
         @user.save
@@ -239,7 +242,7 @@ class PtoRequestsController < ApplicationController
         @user.save
         
         redirect_to show_user_path(@user)
-        helpers.update_price(@calendar.date)
+        UpdatePrice.update_calendar_item(@calendar)
         RequestsMailer.with(user: @user, pto_request: @pto_request).no_call_show_email.deliver_now
     end
 
@@ -255,7 +258,7 @@ class PtoRequestsController < ApplicationController
         @user.save
         
         redirect_to show_user_path(@user)
-        helpers.update_price(@calendar.date)
+        UpdatePrice.update_calendar_item(@calendar)
     end
 
     ## methods used to add / subtract make_up_day counters
@@ -277,7 +280,7 @@ class PtoRequestsController < ApplicationController
         
         redirect_to show_user_path(@user)
         RequestsMailer.with(user: @user, pto_request: @pto_request).sick_make_up_email.deliver_now
-        helpers.update_price(@calendar.date)
+        UpdatePrice.update_calendar_item(@calendar)
     end
 
     def sub_make_up_day
@@ -293,6 +296,6 @@ class PtoRequestsController < ApplicationController
         @user.save
         
         redirect_to show_user_path(@user)
-        helpers.update_price(@calendar.date)
+        UpdatePrice.update_calendar_item(@calendar)
     end
 end
