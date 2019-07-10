@@ -60,5 +60,4 @@ class PtoRequest < ApplicationRecord
       return FALSE
     end
   end
-
 end

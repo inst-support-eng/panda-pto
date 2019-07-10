@@ -1,22 +1,36 @@
 <div class="sidebar-wrapper z-depth-2 side-nav fixed" id="sidebar">
     <div class="sidebar-title">
         <h4 id="eventDayName">Date: <%= Time.now.in_time_zone("Mountain Time (US & Canada)").to_s[0,10] %></h4>
-        <h5 id="bank-value">Bank Value: ₢ <%= current_user.bank_value %></h5>
+        <h5 id="bank-value" class="bank-value"><%= Date.today.year %> Bank Value: ₢ <%= @bank_split[0] %></h5>
+        <h5 id="bank-value" class="bank-value"><%= Date.today.year + 1 %> Bank Value: ₢ <%= @bank_split[1] %></h5>
+                
+        <p class="quarter-spending" id="quarter1"> <%= "Q1 Remaining: #{@bank_split[0] + @q2 + @q3 + @q4 - 135}" unless @current_quarter > 1 %> </p>
+        <p class="quarter-spending" id="quarter2"> <%= "Q2 Remaining: #{@bank_split[0] + @q3 + @q4 - 90}" unless @current_quarter > 2 %> </p>
+        <p class="quarter-spending" id="quarter3"> <%= "Q3 Remaining: #{@bank_split[0] + @q4- 45}" unless @current_quarter > 3 %> </p>
+        <p class="quarter-spending" id="quarter4"> <%= "Q4 Remaining: #{@bank_split[0]}" unless @current_quarter > 4 %> </p>
+        
+        <p class="quarter-spending" id="quarter1next"> <%= "Q1 #{Date.today.year + 1}: #{45 - @q1_next}" if @current_quarter > 1 %> </p>
+        <p class="quarter-spending" id="quarter2next"> <%= "Q2 #{Date.today.year + 1}: #{90 - @q2_next}" if @current_quarter > 2 %> </p>
+        <p class="quarter-spending" id="quarter3next"> <%= "Q3 #{Date.today.year + 1}: #{135 - @q3_next}" if @current_quarter > 3 %> </p>
+        
     </div> <!-- sidebar-title -->
     <hr>
     <div class="all-requests">
         <h4>Upcoming Requests:</h4>
-        <table>
-        <% current_user.pto_requests.each do |request| %>
-        <tr>
-            <% if request.request_date > Date.today %>
-            <td><%= request.request_date %></td><td><%= request.reason.truncate(10) %></td><td><%= request.cost %></td>
-            <td><%= link_to "Delete", pto_request_path(request), data: {
-                :confirm => "Are you sure?"
-            }, :method => :delete %><td>
+        <table class="agent-requests">
+            <tbody>
+            <% requests = current_user.pto_requests.order("request_date ASC")%>
+            <% requests.each do |request| %>
+                <tr>
+                    <% if request.request_date > Date.today %>
+                    <td><%= request.request_date %> </td><td> <%= request.reason.truncate(10) %> </td><td> <%= request.cost %></td>
+                    <td><%= link_to "Delete", pto_request_path(request), data: {
+                        :confirm => "Are you sure?"
+                    }, :method => :delete %><td>
+                    <% end %>
+                </tr>
             <% end %>
-        </tr>
-        <% end %>
+            </tbody>
         </table>
     </div>
 </div> <!-- sidebar-wrapper z-depth-2 side-nav fixed -->

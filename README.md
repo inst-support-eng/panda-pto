@@ -15,3 +15,20 @@ to run locally `rails s`
 #### Scheduled Tasks
 All scheduled and recurring actions are currently written as rake tasks, and are executed using the [Heroku Scheduler](https://devcenter.heroku.com/articles/scheduler) plugin. 
 - For nightly coverage e-mails, add `rake coverage_mailer` as a daily job in scheduler 
+- To enable quarterly point seeding, add `rake quarterly_seed` as a daily job in scheduler
+- To have new agents automactailly removed from a pip after 90 days, add  `rake new_hire_check_pip` as a daily job in scheduler
+- To enable a nigtly sync of agents from a Google Sheet, add `rake sync_agents` as a daily job in scheduler
+    - you will need to create an enviromental variable for `AGENT_MASTER_SHEET` and set it to the file id of the google sheet you want to sync from 
+    - see the [Google API](#google-api-set-up) set up section for more information
+
+#### Google API set up
+This application utilizes the Google Sheets API for automated data syncs. A Google API project is needed to access these APIs. Once you have this, you can follow [this guide](https://cloud.google.com/docs/authentication/production#obtaining_and_providing_service_account_credentials_manually) to set up Service-to-Service authentication on the Google side. 
+
+Once you've aquired a credentials.json file from above, you'll need to configure it in the enviroment.
+
+##### For a local enviorment
+1. Add the .json file to to the `/config` directory
+1. In your .env file, create an enviormental variable for `GOOGLE_APPLICATION_CREDENTIALS` pointing to the .json file from step one. ex) `GOOGLE_APPLICATION_CREDENTIALS=config/google_credentials.json`
+
+##### For Heroku
+1. run `heroku config:set GOOGLE_APPLICATION_CREDENTIALS="$(< /local/path/to/google_credentials.json)"`

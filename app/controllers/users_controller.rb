@@ -11,9 +11,13 @@ class UsersController < ApplicationController
             end
             @shift_start = Time.parse(@user.start_time).in_time_zone("Mountain Time (US & Canada)").strftime("%I:%M %p") unless @user.start_time.nil?
             @shift_end = Time.parse(@user.end_time).in_time_zone("Mountain Time (US & Canada)").strftime("%I:%M %p") unless @user.end_time.nil?
+
+            @bank_split = Legalizer.split_year(@user)
         else
             redirect_to root_path, notice: "You do not have access to this resource"
         end
+
+
     end
 
     def destroy
@@ -29,7 +33,11 @@ class UsersController < ApplicationController
     end 
 
     def current
-        render json: current_user
+        @user = User.find(current_user.id)
+        
+        respond_to do |format|
+            format.json {render :json => @user.to_json(:include => :pto_requests)}
+        end
     end
 
     def update_shift
@@ -54,6 +62,15 @@ class UsersController < ApplicationController
     def send_password_reset
         @user.send_reset_password_instructions
         redirect_to show_user_path(@user)
+    end
+
+    def import
+        if params[:file]
+            User.import(params[:file])
+            redirect_to admin_index_path, notice: "Agents CSV imported!"
+        else
+            redirect_to admin_index_path, notice: "Please upload a valid CSV file"
+        end
     end
 
     private 

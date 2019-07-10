@@ -23,10 +23,7 @@
         As a note, if you submit a PTO request that doesn’t get approved and then you call in sick on those days, we’ll notice and probably have to have a chat with you about that. It may end up costing you double credits.</p>
 
         <p>Agent: <%= @user.name %></p>
-        <p>Cost of request: <%= @pto_request.cost %></p>
-        <p>Date that was deducted: <%= @pto_request.request_date %></p>
         <p>Remaining balances: <%= @user.bank_value %></p>
-        <p>Balance deducted by: <%= @supervisor.name %></p>
         
         <p>If you have any questions or concerns, please contact your supervisor.</p> 
         <p>Thank you,
