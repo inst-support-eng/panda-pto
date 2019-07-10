@@ -7,11 +7,6 @@ class CalendarL3sController < ApplicationController
     def import
         if params[:file]
             CalendarL3.import(params[:file])
-            CalendarL3.find_each do |x|
-                helpers.update_price(x.date)
-                # !TECHDEBT update_price helper will need to be modified once we know 
-                # alternitive scaling for different teams
-            end
             redirect_to admin_index_path, notice: "Calendar CSV imported"
         else
             redirect_to admin_index_path, notice: "Please upload a valid CSV file"

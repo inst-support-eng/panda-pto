@@ -7,14 +7,6 @@ class CalendarsController < ApplicationController
     def import
         if params[:file]
             Calendar.import(params[:file])
-            # this is really dumb, the update_price helper needs to
-            # be moved to make it avaible in the model, quick fix for now
-            # ... and maybe update the helper to accept a Calendar object
-            # instead of a date !TECHDEBT
-            Calendar.find_each do |x|
-
-                helpers.update_price(x)
-            end
             redirect_to admin_index_path, notice: "Calendar CSV imported"
         else
             redirect_to admin_index_path, notice: "Please upload a valid CSV file"
@@ -27,7 +19,7 @@ class CalendarsController < ApplicationController
         @calendar.base_value = params[:cost][:cost]
 
         @calendar.save
-        helpers.update_price(@calendar.date)
+        UpdatePrice.update_calendar_item(@calendar)
         redirect_to admin_index_path
     end
 
