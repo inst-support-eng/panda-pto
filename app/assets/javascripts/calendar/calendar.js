@@ -1,3 +1,7 @@
+/**
+ * This js loads the calendar for users to request time off with
+ */
+
 $(document).on('turbolinks:load', () => {
     let today = new Date();
     let currentMonth = today.getMonth();
@@ -18,6 +22,7 @@ $(document).on('turbolinks:load', () => {
         let userDates = currUser.pto_requests
         userDates.sort((a,b) => (a.request_date > b.request_date) ? 1 : -1)
 
+        // this will be used for if / when we use the app for different positions PTO
         // switch (currUser.position) {
         //     case "L1":
         //         calendarDates = await getDates();
@@ -83,7 +88,6 @@ $(document).on('turbolinks:load', () => {
                     let reqData = {}
 
                     calendarDates.forEach(el => {
-
                         if (el.date == reqDate) {
                             if (el.current_price == null) {
                                 el.current_price = 1
@@ -92,6 +96,7 @@ $(document).on('turbolinks:load', () => {
                         }
                     })
 
+                    // places the date from the calendar to be the id for request dates
                     cell.setAttribute("id", reqDate)
 
                     // display 8 / 10 hour costs for day

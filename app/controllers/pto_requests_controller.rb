@@ -21,7 +21,7 @@ class PtoRequestsController < ApplicationController
             redirect_to root_url, notice: "Weep Womp. Please upload a valid CSV file"
         end
     end
-
+    
     def export_user_request
         @user = User.find(params[:id])
         @user_requests = @user.pto_requests
