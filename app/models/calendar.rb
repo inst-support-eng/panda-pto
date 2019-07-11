@@ -6,6 +6,7 @@ class Calendar < ApplicationRecord
             day = find_by(:date => row[:date]) || new
             day.base_value = row[:base_value]
             day.date = row[:date]
+            UpdatePrice.update_calendar_item(day)
             day.save
         end
    

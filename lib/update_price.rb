@@ -1,23 +1,28 @@
-module UpdatePriceHelper
-  require 'date'
-  def update_price(date)
+class UpdatePrice
+  def self.update_calendar_item(date)
+    # these hashes map how a Calendar object's signed_up_total & base_value sum to the per-hour price for PtoRequests
     scale = { 0  => 0.5, 8  => 1, 15 => 1.5, 21 => 2, 26 => 2.5, 30 => 3, 33 => 3.5, 35 => 4, 36 => 5, 37 => 6, 38 => 7, 39 => 8, 40 => 9 }
     weekend_scale = { 0  => 0.5, 4  => 1, 7 => 1.5, 9 => 2, 10 => 2.5, 11 => 3, 12 => 3.5, 13 => 4, 14 => 5, 15 => 6, 16 => 7, 17 => 8, 18 => 9 }
     
-    if date.is_a? Date or date.is_a? String   
+    # validate input, this method can be accept:
+    # a) Date object b) iso-8601 formatted string c) Calendar object
+    # ! it is prefered a Calendar object is passed
+    if date.is_a? Date or date.is_a? String
       @calendar = Calendar.find_by(:date => date)
     elsif
       @calendar = date
     end
-
+    
+    # find the sum of signed_up_total & base_value
+    # don't do math with nil values
     if @calendar.signed_up_total == nil
       @updated = @calendar.base_value
     else
       @updated = @calendar.base_value + @calendar.signed_up_total
     end
 
+    # weekend scaling
     if @calendar.date.wday == 0 || @calendar.date.wday == 6
-      # weekend scaling
       case @updated
       when weekend_scale.keys[0]..(weekend_scale.keys[1] - 1)
         @calendar.current_price = weekend_scale.values[0]
@@ -48,8 +53,8 @@ module UpdatePriceHelper
       else
         raise "something went wrong"
       end
+    # week day scaling
     else
-      # weekday scaling
       case @updated
       when scale.keys[0]..(scale.keys[1] - 1)
         @calendar.current_price = scale.values[0]
@@ -85,4 +90,4 @@ module UpdatePriceHelper
   end
 
 
-  end 
+end
