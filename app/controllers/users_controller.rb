@@ -16,8 +16,6 @@ class UsersController < ApplicationController
         else
             redirect_to root_path, notice: "You do not have access to this resource"
         end
-
-
     end
 
     def destroy
