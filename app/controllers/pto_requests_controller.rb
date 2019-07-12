@@ -1,5 +1,9 @@
+###
+# this controller is for PTO requests made by end user and admins
+###
 class PtoRequestsController < ApplicationController
     before_action :login_required
+    # export all PTO requests from db
     def export
         @export_pto = PtoRequest.all
         respond_to do |format|
@@ -7,6 +11,7 @@ class PtoRequestsController < ApplicationController
         end
     end
 
+    # import existing requests into the system
     def import_request
         if params[:file]
             PtoRequest.import(params[:file])
@@ -22,6 +27,7 @@ class PtoRequestsController < ApplicationController
         end
     end
     
+    #export single users requests
     def export_user_request
         @user = User.find(params[:id])
         @user_requests = @user.pto_requests
