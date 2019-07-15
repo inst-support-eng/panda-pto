@@ -83,6 +83,4 @@ module UpdatePriceHelper
     end
     @calendar.save
   end
-
-
-  end 
+end 

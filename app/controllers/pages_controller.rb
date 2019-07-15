@@ -1,3 +1,6 @@
+###
+# this controller is used in the calendar / sidebar views to determine quarters
+###
 class PagesController < ApplicationController
     before_action :login_required
 
@@ -40,7 +43,5 @@ class PagesController < ApplicationController
                 next
             end
         end
-
     end
-
 end
