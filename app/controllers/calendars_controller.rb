@@ -1,3 +1,6 @@
+###
+# This controller is used to determine L1 prices
+###
 class CalendarsController < ApplicationController 
     before_action :login_required
     def show

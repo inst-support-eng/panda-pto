@@ -88,6 +88,4 @@ class UpdatePrice
     end
     @calendar.save
   end
-
-
-end
+end 
