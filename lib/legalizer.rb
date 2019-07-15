@@ -1,5 +1,7 @@
+###
+# Class used to determine quarters for vestings and when / how PTO can be taken  
+###
 class Legalizer
-
   def self.quarter(date)
     date = Date.parse(date) if date.is_a? String
     quarters = [Date.parse("#{date.year}-01-01"), Date.parse("#{date.year}-04-01"), Date.parse("#{date.year}-07-01"), Date.parse("#{date.year}-10-01")]
@@ -16,9 +18,7 @@ class Legalizer
     end
   end
 
-
   def self.split_year(user)
-
     # determine how many points agent spent on pto for the next calendar year
     next_year = (Date.today.year + 1).to_s
     next_year_requests = user.pto_requests.where('extract(year from request_date) = ?', next_year).to_a
@@ -62,5 +62,4 @@ class Legalizer
 
     return current_year_balance, next_year_balance
   end
-
 end

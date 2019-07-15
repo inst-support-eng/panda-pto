@@ -1,11 +1,13 @@
-# frozen_string_literal: true
-
+###
+# THIS WILL BE DEPRICATED WHEN NEW HR TOOL IS IMPIMENTED
+###
 require 'httparty'
 
 class HumanityAPI
   include HTTParty
   base_uri 'https://www.humanity.com'
 
+# used to create request in Humanity
   def self.create_request(request, user)
     access_token = get_token
     url = "#{base_uri}/api/v2/leaves?access_token=#{access_token}"
@@ -22,6 +24,7 @@ class HumanityAPI
     response['data']['id']
   end
 
+# approve created request in Humanity
   def self.approve_request(request_id)
     access_token = get_token
     url = "#{base_uri}/api/v2/leaves/#{request_id}?access_token=#{access_token}"
@@ -32,6 +35,7 @@ class HumanityAPI
     response
   end
 
+# delete requests in Humanity
   def self.delete_request(request_id)
     access_token = get_token
     url = "#{base_uri}/api/v2/leaves/#{request_id}?access_token=#{access_token}"
@@ -40,6 +44,7 @@ class HumanityAPI
     response
   end
 
+# obtain list of employees
   def self.get_employees
     access_token = get_token
     url = "#{base_uri}/api/v2/employees?access_token=#{access_token}"
@@ -48,6 +53,7 @@ class HumanityAPI
     response['data']
   end
 
+# get auth token
   def self.get_token
     url = "#{base_uri}/oauth2/token.php"
     headers = { 'Content-Type' => 'application/x-www-form-urlencoded' }
@@ -73,5 +79,5 @@ class HumanityAPI
     else
         humanity_user_id = humanity_user_id[0]['id']
     end
-  end 
+  end   
 end
