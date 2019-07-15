@@ -1,4 +1,4 @@
-
+<!-- this is the view for admin_index /admin/index -->
 <div class="layout">
   <div class="left">
   <% if current_user.admin? %>
@@ -102,6 +102,7 @@
   </div> <!-- center -->
 </div> <!-- layout -->
 
+<!-- modal for uplaoding users -->
 <div id="upload-users" class="admin-modal">
   <div class="upload-users-content">
     <div class="modal-header">Import Agents CSV
@@ -113,8 +114,9 @@
       <% end %> 
     </div>
   </div>
-</div>
+</div><!-- upload-users -->
 
+<!-- modal for importing calendar -->
 <div id="upload-values" class="admin-modal">
   <div class="upload-values-content">
     <div class="modal-header">Import Date Value CSV
@@ -126,8 +128,9 @@
       <% end %> 
     </div>
   </div>
-</div>
+</div> <!-- upload-values -->
 
+<!-- modal for importing requests -->
 <div id="upload-requests" class="admin-modal">
   <div class="upload-values-content">
     <div class="modal-header">Import PTO Requests CSV
@@ -139,8 +142,9 @@
       <% end %> 
     </div>
   </div>
-</div>
+</div> <!-- upload-requests -->
 
+<!-- modal for adjusting costs for a single day -->
 <div id="adjust-calendar-cost" class="admin-modal">
   <div class="adjust-calendar-cost-content">
     <div class="modal-header">Adjust Calendar Date Costs
@@ -153,8 +157,9 @@
       <% end %> 
     </div>
   </div>
-</div>
+</div> <!-- adjust-calendar-cost -->
 
+<!-- search for users filter -->
 <script>
     function filter() {
         var input, filter, table, tr, td, i, ii;
