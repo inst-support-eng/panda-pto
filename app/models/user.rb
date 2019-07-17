@@ -21,7 +21,7 @@ class User < ApplicationRecord
         # this math gives users balance for the year following their hire date 
         # minus 45 is due to q1 does not vest for new users if that is their hire quarter 
         # they would just get the points for the year and then start vesting with everyone else the following year
-        vesting_quarter = (Legalizer.quarter(row[:start_date]) * 45) - 45 
+        vesting_quarter = (Legalizer.quarter(Date.today) * 45) - 45 
         bank_value += vesting_quarter
         generated_password = Devise.friendly_token.first(12)
 
