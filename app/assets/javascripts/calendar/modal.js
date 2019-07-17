@@ -59,7 +59,6 @@ $(document).on('turbolinks:load', () => {
 
             if (requestDate > currentDate && requestDate.getMonth() - currentDate.getMonth() <= 9 && !isNaN(current_price.current_price)) {
                 let requestQuarter = document.getElementById(getQuarter(requestDate)).innerHTML
-                console.log(requestQuarter)
                 let currentBank = requestQuarter.substr(requestQuarter.lastIndexOf(':') + 1)
 
                 let displayCost = current_price.current_price * 8
