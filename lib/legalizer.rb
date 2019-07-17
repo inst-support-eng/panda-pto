@@ -40,7 +40,7 @@ class Legalizer
     date = Date.today
     current_quarter = quarter(date)
 
-    current_year_balance = 180 - this_year_total
+    current_year_balance = user.bank_value - ((quarter(user.start_date) * 45) - next_year_total)
     next_year_balance = 0
 
     # seperate points
