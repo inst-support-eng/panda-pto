@@ -59,6 +59,7 @@ $(document).on('turbolinks:load', () => {
 
             if (requestDate > currentDate && requestDate.getMonth() - currentDate.getMonth() <= 9 && !isNaN(current_price.current_price)) {
                 let requestQuarter = document.getElementById(getQuarter(requestDate)).innerHTML
+                console.log(requestQuarter)
                 let currentBank = requestQuarter.substr(requestQuarter.lastIndexOf(':') + 1)
 
                 let displayCost = current_price.current_price * 8
@@ -84,8 +85,8 @@ $(document).on('turbolinks:load', () => {
 
                     $('.modal-header').html("New Request for " + e.target.id + closeButton)
 
-                    $('.request-total').html(`total: ${displayCost}`)
-                    $('.bank-total').html(`Current Bank Total : ${currentBank}`)
+                    $('.request-total').html(`Total: ${displayCost}`)
+                    $('.bank-total').html(`Quarter Bank Total : ${currentBank}`)
                     $('#pto_request_request_date').attr("value", e.target.id)
                     $('#pto_request_cost').attr("value", displayCost)
                 }
