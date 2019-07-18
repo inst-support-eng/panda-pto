@@ -1,5 +1,5 @@
 class RegistrationMailer < ApplicationMailer
-    default from: 'supportpanda@instructure.com'
+    default from: ENV['APP_FROM_EMAIL']
 
     def registration_email
         @user = params[:user]
