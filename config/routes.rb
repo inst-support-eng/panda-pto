@@ -30,7 +30,7 @@ Rails.application.routes.draw do
 
   # ! admin & sup shared routes
   # ============================ 
-  authenticate :user, -> (u) { u.admin? || u.position == "Sup" || u.position == "SUP"} do
+  authenticate :user, -> (u) { u.admin? || u.position.downcase == "sup" } do
     # coverage JSON
     get 'admin/coverage' => 'admin#coverage'
     # access admin page
