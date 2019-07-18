@@ -26,7 +26,7 @@ class UsersController < ApplicationController
         end
 
         if @user.destroy 
-            redirect_to admin_index_path
+            redirect_to admin_path
         else 
             redirect_to show_user_path(@user), notice: "something went wrong"
         end
@@ -67,9 +67,9 @@ class UsersController < ApplicationController
     def import
         if params[:file]
             User.import(params[:file])
-            redirect_to admin_index_path, notice: "Agents CSV imported!"
+            redirect_to admin_path, notice: "Agents CSV imported!"
         else
-            redirect_to admin_index_path, notice: "Please upload a valid CSV file"
+            redirect_to admin_path, notice: "Please upload a valid CSV file"
         end
     end
 

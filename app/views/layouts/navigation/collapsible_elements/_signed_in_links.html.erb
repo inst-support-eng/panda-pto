@@ -6,7 +6,7 @@
 
     <ul class="dropdown-menu" role="menu">
         <% if current_user.admin? || current_user.position == "Sup" %>
-        <li><%= link_to 'Admin', admin_index_path %></li>
+        <li><%= link_to 'Admin', admin_path %></li>
         <% end %>
         <li><%= link_to 'Edit Profile', edit_user_registration_path %></li>
         <li><%= link_to 'Log out', destroy_user_session_path, method: :delete %></li>

@@ -7,9 +7,9 @@ class CalendarsController < ApplicationController
     def import
         if params[:file]
             Calendar.import(params[:file])
-            redirect_to admin_index_path, notice: "Calendar CSV imported"
+            redirect_to admin_path, notice: "Calendar CSV imported"
         else
-            redirect_to admin_index_path, notice: "Please upload a valid CSV file"
+            redirect_to admin_path, notice: "Please upload a valid CSV file"
         end
     end
 
@@ -20,7 +20,7 @@ class CalendarsController < ApplicationController
 
         @calendar.save
         UpdatePrice.update_calendar_item(@calendar)
-        redirect_to admin_index_path
+        redirect_to admin_path
     end
 
     def fetch_dates

@@ -34,7 +34,7 @@ Rails.application.routes.draw do
     # coverage JSON
     get 'admin/coverage' => 'admin#coverage'
     # access admin page
-    get 'admin/index'
+    get 'admin' => 'admin#index'
     resources :admin
     # view user profiles
     get 'users/index'
