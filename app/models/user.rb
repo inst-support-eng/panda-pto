@@ -91,10 +91,34 @@ class User < ApplicationRecord
           agent.position = 'L1'
           agent.admin = false
           agent.start_date = u['work_start_date']
-          # agent.team = row[:team] 
-          # agent.start_time = row[:start_time] 
-          # agent.end_time = row[:end_time] 
-          # agent.work_days = row[:work_days].split(",").map(&:to_i) unless row[:work_days].nil?
+          agent.team = u['skills']['139079'] unless u['skills'].empty?
+          agent.start_time = u['custom']['35718']['value']
+          agent.end_time = u['custom']['35719']['value']
+
+          work_days = []
+          if u['custom']['35708']['toggle'] == '1'
+            work_days.push(0)
+          end
+          if u['custom']['35711']['toggle'] == '1'
+            work_days.push(1)
+          end
+          if u['custom']['35712']['toggle'] == '1'
+            work_days.push(2)
+          end
+          if u['custom']['35713']['toggle'] == '1'
+            work_days.push(3)
+          end
+          if u['custom']['35714']['toggle'] == '1'
+            work_days.push(4)
+          end
+          if u['custom']['35715']['toggle'] == '1'
+            work_days.push(5)
+          end
+          if u['custom']['35716']['toggle'] == '1'
+            work_days.push(6)
+          end
+
+          agent.work_days = work_days unless work_days.nil?
           agent.humanity_user_id = u['id']
           agent.on_pip = 0 if agent.on_pip.nil?
           
