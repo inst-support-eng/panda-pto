@@ -59,14 +59,11 @@ class User < ApplicationRecord
         agent.save
       else
         agent.save
+        #deletes any upcoming requests for deleted users
         if agent.is_deleted then 
-          agent.pto_requests.reverse_each do |request|
-            if request.request_date.future?
-            request.destroy
-            end
+          agent.pto_requests.where('request_date > ?', Date.today).destroy_all
           end
         end
       end
     end
-  end    
-end
+  end
