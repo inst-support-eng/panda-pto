@@ -30,6 +30,7 @@ class User < ApplicationRecord
         agent.humanity_user_id = HumanityAPI.set_humanity_id(row[:email], response)
         agent.on_pip = true
         agent.no_call_show = 0
+        agent.is_deleted = FALSE
       end
       # should always update on import
       unless row[:email].nil? || row[:name].nil?
@@ -48,6 +49,8 @@ class User < ApplicationRecord
         agent.work_days = row[:work_days].split(",").map(&:to_i) unless row[:work_days].nil?
         agent.humanity_user_id = HumanityAPI.set_humanity_id(row[:email], response) if agent.humanity_user_id == 0
         agent.on_pip = 0 if agent.on_pip.nil?
+        agent.is_deleted = row[:is_deleted]
+        agent.is_deleted = 0 if agent.is_deleted.nil?
       end
       
       if agent.new_record?
@@ -56,6 +59,13 @@ class User < ApplicationRecord
         agent.save
       else
         agent.save
+        if agent.is_deleted then 
+          agent.pto_requests.reverse_each do |request|
+            if request.request_date.future?
+            request.destroy
+            end
+          end
+        end
       end
     end
   end    
