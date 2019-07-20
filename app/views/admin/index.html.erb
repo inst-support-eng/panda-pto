@@ -27,7 +27,8 @@
         <table id="agent-table">
           <tbody>
               <% @agents.each do |agent| 
-                if !agent.is_deleted %>
+                if agent.is_deleted?
+                else %>
             <tr class="agent-row">
               <td class="agent-name"><%= link_to "#{agent.name}", show_user_path(agent) %></td>
               <!-- display only the current year's point balence -->
@@ -73,7 +74,8 @@
           <div class="errormessage"></div><%= @offtoday %></div>
         <% else %>
           <% @scheduled.each do |agent|
-            if !agent.is_deleted %>
+            if agent.is_deleted?
+            else %>
               <div class="working-grid">
                   <% if agent.ten_hour_shift %>
                     <% shift_length = 10 %>
