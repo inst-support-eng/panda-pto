@@ -77,8 +77,10 @@
                   <% else %>
                     <% shift_length = 8 %>
                   <% end %>
-                  <% hour = Time.parse(agent.start_time).in_time_zone("Mountain Time (US & Canada)").to_s[11..15].tr(':','') %>
-
+                  <% unless agent.start_time.nil? || agent.end_time.nil? %>
+                    <% hour = Time.parse(agent.start_time).in_time_zone("Mountain Time (US & Canada)").to_s[11..15].tr(':','') %>
+                  <% end %>
+                  
                   <% if agent.pto_requests.where(request_date: Date.today).empty? %>
                     <div class="grid-overflow <%= agent.position %> <%= agent.team %> start-<%= hour %>" style='white-space: nowrap; position: relative;'><%= link_to "#{agent.name}", show_user_path(agent) %></div>
                       <% (shift_length - 1).to_i.times do %>

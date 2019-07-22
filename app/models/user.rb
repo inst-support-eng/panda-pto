@@ -66,63 +66,93 @@ class User < ApplicationRecord
     humanity_users = HumanityAPI.get_employees
 
     humanity_users.each do |u|
-      if u['schedules'].any? && u['schedules']['1836499']
+      if u['schedules'].any? && (u['schedules']['1836499'] || u['schedules']['1836500'] ||  u['schedules']['1836500'])
         agent = find_by(:email => u['email']) || new 
         if agent.new_record?
-            if Date.parse(u['work_start_date']).year == Date.today.year
-              # this math is for figuring out the users pto balance for their start year 
-              bank_value = 180 - (180 * (Date.parse(u['work_start_date']).yday.to_f/ Date.new(y=Date.today.year, m=12, d=31).yday.to_f))
-              # this math gives users balance for the year following their hire date 
-              # minus 45 is due to q1 does not vest for new users if that is their hire quarter 
-              # they would just get the points for the year and then start vesting with everyone else the following year
-              bank_value += (Legalizer.quarter(Date.today) * 45) - 45 
-            else  
-              bank_value = 180
-            end
-            agent.email = u['email'] 
-            agent.password = Devise.friendly_token.first(12)
-            agent.bank_value = bank_value
-            agent.humanity_user_id = u['id']
-            agent.on_pip = true
-            agent.no_call_show = 0
+          if Date.parse(u['work_start_date']).year == Date.today.year
+            # this math is for figuring out the users pto balance for their start year 
+            bank_value = 180 - (180 * (Date.parse(u['work_start_date']).yday.to_f/ Date.new(y=Date.today.year, m=12, d=31).yday.to_f))
+            # this math gives users balance for the year following their hire date 
+            # minus 45 is due to q1 does not vest for new users if that is their hire quarter 
+            # they would just get the points for the year and then start vesting with everyone else the following year
+            bank_value += (Legalizer.quarter(Date.today) * 45) - 45 
+          else  
+            bank_value = 180
+            bank_value += (Legalizer.quarter(Date.today) * 45) - 45 
           end
-
-          agent.name = u['name']
-          agent.position = 'L1'
-          agent.admin = false
-          agent.start_date = u['work_start_date']
-          agent.team = u['skills']['139079'] unless u['skills'].empty?
-          agent.start_time = u['custom']['35718']['value']
-          agent.end_time = u['custom']['35719']['value']
-
-          work_days = []
-          if u['custom']['35708']['toggle'] == '1'
-            work_days.push(0)
-          end
-          if u['custom']['35711']['toggle'] == '1'
-            work_days.push(1)
-          end
-          if u['custom']['35712']['toggle'] == '1'
-            work_days.push(2)
-          end
-          if u['custom']['35713']['toggle'] == '1'
-            work_days.push(3)
-          end
-          if u['custom']['35714']['toggle'] == '1'
-            work_days.push(4)
-          end
-          if u['custom']['35715']['toggle'] == '1'
-            work_days.push(5)
-          end
-          if u['custom']['35716']['toggle'] == '1'
-            work_days.push(6)
-          end
-
-          agent.work_days = work_days unless work_days.nil?
+          agent.email = u['email'] 
+          agent.password = Devise.friendly_token.first(12)
+          agent.bank_value = bank_value
           agent.humanity_user_id = u['id']
-          agent.on_pip = 0 if agent.on_pip.nil?
-          
+          agent.on_pip = true
+          agent.no_call_show = 0
+        end
+
+        agent.name = u['name']
+        agent.position = 'L1'
+        agent.admin = false
+        agent.start_date = u['work_start_date']
+        agent.team = u['skills']['139079'] unless u['skills'].empty?
+        start_time = u['custom']['35718']['value'] 
+        end_time = u['custom']['35719']['value']
+
+        unless start_time.nil?
+          time = Time.zone.parse(start_time)
+          hour = time.hour
+          if hour < 10
+            start_time = '0%d:00' %[hour]
+          else
+            start_time = '%d:00' %[hour]
+          end
+        end
+        
+        unless end_time.nil?
+          time = Time.zone.parse(end_time)
+          hour = time.hour
+          if hour < 10
+            end_time = '0%d:00' %[hour]
+          else
+            end_time = '%d:00' %[hour]
+          end
+        end
+
+        agent.start_time = start_time
+        agent.end_time = end_time
+
+        work_days = []
+        if u['custom']['35708']['toggle'] == '1'
+          work_days.push(0)
+        end
+        if u['custom']['35711']['toggle'] == '1'
+          work_days.push(1)
+        end
+        if u['custom']['35712']['toggle'] == '1'
+          work_days.push(2)
+        end
+        if u['custom']['35713']['toggle'] == '1'
+          work_days.push(3)
+        end
+        if u['custom']['35714']['toggle'] == '1'
+          work_days.push(4)
+        end
+        if u['custom']['35715']['toggle'] == '1'
+          work_days.push(5)
+        end
+        if u['custom']['35716']['toggle'] == '1'
+          work_days.push(6)
+        end
+
+        agent.work_days = work_days unless work_days.nil?
+        agent.humanity_user_id = u['id']
+        agent.on_pip = 0 if agent.on_pip.nil?
+        
+        if agent.new_record?
+          RegistrationMailer.with(user: agent, password: generated_password).registration_email.deliver_now
+          RegistrationMailer.with(user: agent).new_employee_email.deliver_now
           agent.save
+        else
+          agent.save
+        end 
       end
     end 
   end
