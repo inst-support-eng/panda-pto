@@ -62,6 +62,8 @@ class User < ApplicationRecord
         #deletes any upcoming requests for deleted users
         if agent.is_deleted then 
           agent.pto_requests.where('request_date > ?', Date.today).destroy_all
+          #updating the user's password also kills active sessions
+          agent.update(:password => SecureRandom.hex)
           end
         end
       end
