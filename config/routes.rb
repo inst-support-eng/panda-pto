@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     end
     get 'current' => 'users#current'
     get 'users/:id' => 'users#show', as: :show_user
+    put 'users/:id/soft_delete' => 'users#soft_delete', as: :soft_delete_user
   
     # fetch dates calendar methods
     get 'calendars/fetch_dates' => 'calendars#fetch_dates'

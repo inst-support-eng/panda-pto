@@ -1,5 +1,20 @@
 /*---- Page Layout ----*/
 
+
+.alert {
+    background-color: red;
+    color: black;
+    grid-area: alert;
+    padding: 20px;
+    border: 1px solid black;
+    height: fit-content;
+    border-radius: 3px;
+}
+
+.alert-content {
+    margin: 10px;
+}
+
 .layout-edit-user {
     display: grid;
     grid-template-areas:
@@ -36,6 +51,14 @@
     display: grid;
     grid-template-rows: 225px auto;
   }
+  .users-right-alert{
+    grid-template-areas:
+     'alert'
+     'content-top' 
+     'content-bottom';
+  display: grid;
+  grid-template-rows: 100px auto;
+}
 
   .content-top {
     grid-area: content-top;

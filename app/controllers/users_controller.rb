@@ -73,6 +73,12 @@ class UsersController < ApplicationController
         end
     end
 
+    def soft_delete
+        @user = User.find(params[:id])
+        @user.update(:is_deleted => 1)
+        redirect_to show_user_path(@user)
+    end
+
     private 
     def find_user
         @user = User.find(params[:user_id])

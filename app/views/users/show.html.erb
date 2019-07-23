@@ -1,5 +1,13 @@
+
 <div class="layout-edit-user"> 
+
   <div class="left-edit-user">
+        <% if @user.is_deleted? %>
+        <div>
+        <%= link_to "User PTO Requests", export_user_request_path(:id => @user, :format => :csv , :method => :get), {class:"edit-user-links"} %>
+        </div>
+        <% else %>
+        
         <button class="edit-user-buttons" id="add-request-btn">Add Request</button>
         <div>
         <%= link_to "User PTO Requests", export_user_request_path(:id => @user, :format => :csv , :method => :get), {class:"edit-user-links"} %>
@@ -15,14 +23,24 @@
         <% if current_user.admin? %>
         <%= button_to "Toggle Admin", user_update_admin_path(@user), {class:"edit-user-buttons"} %>
         <%= button_to "Toggle Pip", user_update_pip_path(@user), {class:"edit-user-buttons"} %>
-        <%= button_to "Delete User", user_destroy_path(@user), data: {
-                :confirm => "Are you sure?"
-             }, :method => :delete %>
+        <%= button_to "Delete User", soft_delete_user_url(@user), data: {
+            :confirm => "Are you sure that you want to delete #{@user.name}?"
+         }, :method => :put %>
+        <% end %>
         <% end %>
         <button class="edit-user-buttons" id="Back" onclick="history.back(-1)">Go Back</button>
   </div>
+        #logic for showing banner if user is deleted
+         <% if @user.is_deleted? %>
+    <div class="right-edit-user users-right-alert">
 
+        <div class="alert">
+            <h1>You are currently viewing a DELETED user.</h1>
+        </div>
+        <% else %>
     <div class="right-edit-user users-right">
+        <% end %>
+        
         <div class="content-top">
             <h2>Agent Profile</h2>
             <table class="profile-container">
