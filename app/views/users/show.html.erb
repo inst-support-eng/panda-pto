@@ -24,7 +24,7 @@
         <%= button_to "Toggle Admin", user_update_admin_path(@user), {class:"edit-user-buttons"} %>
         <%= button_to "Toggle Pip", user_update_pip_path(@user), {class:"edit-user-buttons"} %>
         <%= button_to "Delete User", soft_delete_user_url(@user), data: {
-            :confirm => "Are you sure that you want to delete #{@user.name}? This will also delete #{@user.name}'s future PTO requests.ra "
+            :confirm => "Are you sure that you want to delete #{@user.name}? This will also delete #{@user.name}'s future PTO requests."
          }, :method => :put %>
         <% end %>
         <% end %>
