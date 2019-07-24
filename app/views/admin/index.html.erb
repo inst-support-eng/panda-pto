@@ -26,7 +26,9 @@
     <div class="all-agents">
         <table id="agent-table">
           <tbody>
-              <% @agents.each do |agent| %>
+              <% @agents.each do |agent| 
+                if agent.is_deleted?
+                else %>
             <tr class="agent-row">
               <td class="agent-name"><%= link_to "#{agent.name}", show_user_path(agent) %></td>
               <!-- display only the current year's point balence -->
@@ -34,9 +36,10 @@
               <td class="agent-points"><%= bank_split[0] %></td>
             </tr>
               <% end %>
+              <% end %>
           </tbody>
         </table>
-    </div><!-- all-agents -->
+    </div><!-- all- -->
   </div> <!-- right -->
   <div class="center">
     <h4>Agents working today</h4>
@@ -70,7 +73,9 @@
         <% if @offtoday.is_a? String %>
           <div class="errormessage"></div><%= @offtoday %></div>
         <% else %>
-          <% @scheduled.each do |agent| %>
+          <% @scheduled.each do |agent|
+            if agent.is_deleted?
+            else %>
               <div class="working-grid">
                   <% if agent.ten_hour_shift %>
                     <% shift_length = 10 %>
@@ -95,6 +100,7 @@
                     <% end %>
                   <% end %>
               </div><!-- working-grid -->
+            <% end %>
           <% end %> <!-- @scheduled.each do -->
         <% end %> <!-- @offtoday.is_a? String -->
       </div> <!-- agents-table -->
