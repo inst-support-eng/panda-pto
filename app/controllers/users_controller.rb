@@ -75,7 +75,9 @@ class UsersController < ApplicationController
 
     def soft_delete
         @user = User.find(params[:id])
-        @user.update(:is_deleted => 1)
+        #updating the user's password also kills active sessions
+        @user.update(:is_deleted => 1, :password => SecureRandom.hex)
+        @user.pto_requests.where('request_date > ?', Date.today).destroy_all
         redirect_to show_user_path(@user)
     end
 
