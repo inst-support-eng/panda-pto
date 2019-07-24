@@ -33,6 +33,10 @@ class AdminController < ApplicationController
     }
   end
 
+  def deleted_users
+    render :json => User.where(:is_deleted => 1).all.to_json
+  end
+
   private 
 
   def sort_col

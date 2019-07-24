@@ -5,7 +5,13 @@
         <% if @user.is_deleted? %>
         <div>
         <%= link_to "User PTO Requests", export_user_request_path(:id => @user, :format => :csv , :method => :get), {class:"edit-user-links"} %>
-        </div>
+        <%= button_to "Restore User", restore_user_url(@user), data: {
+            :confirm => <<-confrim 
+            Are you sure that you want to restore #{@user.name}?
+            Note: this *will not* restore their previous future PTO requests
+            confrim
+         }, :method => :post %>        
+         </div>
         <% else %>
         
         <button class="edit-user-buttons" id="add-request-btn">Add Request</button>

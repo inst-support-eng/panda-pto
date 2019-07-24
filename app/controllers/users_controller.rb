@@ -79,6 +79,22 @@ class UsersController < ApplicationController
         redirect_to show_user_path(@user)
     end
 
+    def restore_user
+        @user = User.find(params[:id])
+        if @user.nil?
+            render plain: "No user found with an id of #{params[:id]}"
+        elsif @user.is_deleted == false
+            not_deleted =  <<-error
+            User: #{@user.name}, Email: #{@user.email}, ID: #{@user.id}
+            is not not deleted
+            error
+            render plain: not_deleted
+        else
+            @user.update(:is_deleted => 0)
+            redirect_to show_user_path(@user), notice: "User restored"
+        end
+    end
+
     private 
     def find_user
         @user = User.find(params[:user_id])
