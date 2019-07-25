@@ -81,7 +81,8 @@ class User < ApplicationRecord
             bank_value += (Legalizer.quarter(Date.today) * 45) - 45 
           end
           agent.email = u['email'] 
-          agent.password = Devise.friendly_token.first(12)
+          generated_password = Devise.friendly_token.first(12)
+          agent.password = generated_password
           agent.bank_value = bank_value
           agent.humanity_user_id = u['id']
           agent.on_pip = true
@@ -97,28 +98,31 @@ class User < ApplicationRecord
         end_time = u['custom']['35719']['value']
 
         unless start_time.nil?
-          time = Time.zone.parse(start_time)
+          Time.zone = 'Mountain Time (US & Canada)'
+          time = Time.zone.parse(start_time).in_time_zone('UTC')
           hour = time.hour
           if hour < 10
-            start_time = '0%d:00' %[hour]
+            start_time = '0%d:00' %[hour] + 'Z'
           else
-            start_time = '%d:00' %[hour]
+            start_time = '%d:00' %[hour] + 'Z'
           end
         end
         
         unless end_time.nil?
-          time = Time.zone.parse(end_time)
+          Time.zone = 'Mountain Time (US & Canada)'
+          time = Time.zone.parse(end_time).in_time_zone('UTC')
           hour = time.hour
           if hour < 10
-            end_time = '0%d:00' %[hour]
+            end_time = '0%d:00' %[hour] + 'Z'
           else
-            end_time = '%d:00' %[hour]
+            end_time = '%d:00' %[hour] + 'Z'
           end
         end
 
         agent.start_time = start_time
         agent.end_time = end_time
-        end_time.to_i - start_time.to_i == 8 ? agent.ten_hour_shift = false : agent.ten_hour_shift == true
+        shift_difference = (end_time.to_i - start_time.to_i).abs
+        24 - shift_difference == 8 ? agent.ten_hour_shift = false : agent.ten_hour_shift = true
 
         work_days = []
         if u['custom']['35708']['toggle'] == '1'
@@ -148,8 +152,8 @@ class User < ApplicationRecord
         agent.on_pip = 0 if agent.on_pip.nil?
         
         if agent.new_record?
-          RegistrationMailer.with(user: agent, password: generated_password).registration_email.deliver_now
-          RegistrationMailer.with(user: agent).new_employee_email.deliver_now
+          # RegistrationMailer.with(user: agent, password: generated_password).registration_email.deliver_now
+          # RegistrationMailer.with(user: agent).new_employee_email.deliver_now
           agent.save
         else
           agent.save
