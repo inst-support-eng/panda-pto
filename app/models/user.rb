@@ -93,7 +93,7 @@ class User < ApplicationRecord
         agent.position = 'L1'
         agent.admin = false
         agent.start_date = u['work_start_date']
-        agent.team = u['skills']['139079'] unless u['skills'].empty?
+        agent.team = u['skills'].values[0] unless u['skills'].empty?
         start_time = u['custom']['35718']['value'] 
         end_time = u['custom']['35719']['value']
 
