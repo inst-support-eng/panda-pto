@@ -21,6 +21,10 @@ All scheduled and recurring actions are currently written as rake tasks, and are
 - To have new agents automactailly removed from a pip after 90 days, add  `rake new_hire_check_pip` as a daily job in scheduler
 - To enable L1 agent syncs from Humanity add `rake sync_humanity_users` to scheduler. 
     - Note: only agents with the 'schedules' value of 'L1 Phones', other positions will need to manually uploaded via CSV
+- To enable a nigtly sync of agents from a Google Sheet, add `rake sync_agents` as a daily job in scheduler
+    - you will need to create an enviromental variable for AGENT_MASTER_SHEET and set it to the file id of the google sheet you want to sync from
+    - see the Google API set up section for more information
+
 
 #### Google API set up
 This application utilizes the Google Sheets API for automated data syncs. A Google API project is needed to access these APIs. Once you have this, you can follow [this guide](https://cloud.google.com/docs/authentication/production#obtaining_and_providing_service_account_credentials_manually) to set up Service-to-Service authentication on the Google side. 
