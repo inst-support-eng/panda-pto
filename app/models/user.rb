@@ -65,7 +65,6 @@ class User < ApplicationRecord
           agent.pto_requests.where('request_date > ?', Date.today).destroy_all
           #updating the user's password also kills active sessions
           agent.update(:password => SecureRandom.hex)
-          end
         end
       end
     end
@@ -162,8 +161,8 @@ class User < ApplicationRecord
         agent.on_pip = 0 if agent.on_pip.nil?
         
         if agent.new_record?
-          # RegistrationMailer.with(user: agent, password: generated_password).registration_email.deliver_now
-          # RegistrationMailer.with(user: agent).new_employee_email.deliver_now
+          RegistrationMailer.with(user: agent, password: generated_password).registration_email.deliver_now
+          RegistrationMailer.with(user: agent).new_employee_email.deliver_now
           agent.save
         else
           agent.save
