@@ -43,7 +43,7 @@ class HumanityAPI
   def self.get_employees
     access_token = get_token
     url = "#{base_uri}/api/v2/employees?access_token=#{access_token}"
-    puts url
+    
     response = HumanityAPI.get(url)
     response['data']
   end
@@ -64,6 +64,7 @@ class HumanityAPI
     access_token
   end
 
+# sets humanity id to user. 0, if user is exists in panda-pto but not humanity
   def self.set_humanity_id(email, response)
     humanity_user_id = response.select { |res| res['email'] == email}
     if humanity_user_id.empty?
@@ -73,5 +74,4 @@ class HumanityAPI
         humanity_user_id = humanity_user_id[0]['id']
     end
   end 
-  
 end

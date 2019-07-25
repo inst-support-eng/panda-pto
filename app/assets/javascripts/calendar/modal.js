@@ -74,7 +74,7 @@ $(document).on('turbolinks:load', () => {
                     let closeButton = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times</span></button >'
                     $('.modal-header').html(closeButton)
                     hasOffModal.style.display = "block"
-                } else if(currentBank - displayCost  < 0) {
+                } else if(currentBank - displayCost  <= 0) {
                     let closeButton = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times</span></button >'
                     $('.modal-header').html(closeButton)
                     notEnoughCreditsModal.style.display = "block"

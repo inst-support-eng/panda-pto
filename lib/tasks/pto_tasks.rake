@@ -39,3 +39,8 @@ task :sync_agents => :environment do
   User.import(csv)
   csv.close(unlink=true)
 end
+
+desc "Import users from humanity"
+task :sync_humanity_users => :environment do
+  User.humanity_import
+end
