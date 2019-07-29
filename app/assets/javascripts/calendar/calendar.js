@@ -8,7 +8,6 @@ $(document).on('turbolinks:load', () => {
 
     let monthAndYear = document.getElementById("month-name");
 
-    let months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     createCalendar = async (year, month) => {
 
         let calendarDates = await getDates()
@@ -41,7 +40,7 @@ $(document).on('turbolinks:load', () => {
         let tbl = document.getElementById("table-body");
         tbl.innerHTML = "";
 
-        monthAndYear.innerHTML = `${months[month]} ${year}`;
+        monthAndYear.innerHTML = `${month} ${year}`;
         selectYear.value = year;
         selectMonth.value = month;
 
@@ -56,7 +55,7 @@ $(document).on('turbolinks:load', () => {
                 if (i === 0 && j < firstDay) {
                     cell = document.createElement("td");
                     cellText = document.createTextNode("");
-                    cell.appendChild(cellText);
+                    cell.appendChild(cellText)
                     row.appendChild(cell)
                 } else if (date > getDaysInMonth(year, month)) {
                     break
@@ -130,7 +129,6 @@ $(document).on('turbolinks:load', () => {
                     row.appendChild(cell);
 
                     date++;
-
                 }
             }
             tbl.appendChild(row)
@@ -143,22 +141,57 @@ $(document).on('turbolinks:load', () => {
     }
 
     next = () => {
-        currentYear = (currentMonth === 11) ? currentYear + 1 : currentYear;
-        currentMonth = (currentMonth + 1) % 12;
-        createCalendar(currentYear, currentMonth);
+        let nextYear = (currentMonth === 11) ? currentYear + 1 : currentYear;
+        let nextMonth = (currentMonth + 1) % 12;
+        if(nextYear == today.getFullYear() + 1) { 
+            let year = document.getElementById('nextYearTable')
+            openYear(event, year)
+            createCalendar(nextYear, nextMonth)
+        }
+        if(nextYear == today.getFullYear()) {
+            let year = document.getElementById('currentYearTable')
+            openYear(event, year)
+            createCalendar(nextYear, nextMonth)
+        }
+        currentYear = nextYear
+        currentMonth = nextMonth
     }
 
     previous = () => {
-        currentYear = (currentMonth === 0) ? currentYear - 1 : currentYear;
-        currentMonth = (currentMonth === 0) ? 11 : currentMonth - 1;
-        createCalendar(currentYear, currentMonth);
-
+        let prevYear = (currentMonth === 0) ? currentYear - 1 : currentYear;
+        let prevMonth = (currentMonth === 0) ? 11 : currentMonth - 1;
+        
+        if(prevYear == today.getFullYear() + 1) { 
+            let year = document.getElementById('nextYearTable')
+            openYear(event, year)
+            createCalendar(prevYear, prevMonth)
+        }
+        if(prevYear == today.getFullYear()) {
+            let year = document.getElementById('currentYearTable')
+            openYear(event, year)
+            createCalendar(prevYear, prevMonth)
+        }
+        currentYear = prevYear
+        currentMonth = prevMonth
     }
 
     jump = () => {
-        currentYear = parseInt(selectYear.value);
-        currentMonth = parseInt(selectMonth.value);
-        createCalendar(currentYear, currentMonth)
+        let jumpYear = parseInt(selectYear.value)
+        let jumpMonth = parseInt(selectMonth.value)      
+
+        if(jumpYear == today.getFullYear() + 1) { 
+            let year = document.getElementById('nextYearTable')
+            openYear(event, year)
+            createCalendar(jumpYear, jumpMonth)
+        }
+        if(jumpYear == today.getFullYear()) {
+            let year = document.getElementById('currentYearTable')
+            openYear(event, year)
+            createCalendar(jumpYear, jumpMonth)
+        }
+
+        currentYear = jumpYear
+        currentMonth = jumpMonth
     }
 
     $('#prev').click(() => {

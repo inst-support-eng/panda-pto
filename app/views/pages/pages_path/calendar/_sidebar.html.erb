@@ -1,18 +1,60 @@
 <div class="sidebar-wrapper z-depth-2 side-nav fixed" id="sidebar">
     <div class="sidebar-title">
-        <h4 id="eventDayName">Date: <%= Time.now.in_time_zone("Mountain Time (US & Canada)").to_s[0,10] %></h4>
-        <h5 id="bank-value" class="bank-value"><%= Date.today.year %> Bank Value: ₢ <%= @bank_split[0] %></h5>
-        <h5 id="bank-value" class="bank-value"><%= Date.today.year + 1 %> Bank Value: ₢ <%= @bank_split[1] %></h5>
-                
-        <p class="quarter-spending" id="quarter1"> <%= "Q1 Remaining: #{@bank_split[0] + @q2 + @q3 + @q4 - 135}" unless @current_quarter > 1 %> </p>
-        <p class="quarter-spending" id="quarter2"> <%= "Q2 Remaining: #{@bank_split[0] + @q3 + @q4 - 90}" unless @current_quarter > 2 %> </p>
-        <p class="quarter-spending" id="quarter3"> <%= "Q3 Remaining: #{@bank_split[0] + @q4- 45}" unless @current_quarter > 3 %> </p>
-        <p class="quarter-spending" id="quarter4"> <%= "Q4 Remaining: #{@bank_split[0]}" unless @current_quarter > 4 %> </p>
-        
-        <p class="quarter-spending" id="quarter1next"> <%= "Q1 #{Date.today.year + 1}: #{45 - @q1_next}" if @current_quarter > 1 %> </p>
-        <p class="quarter-spending" id="quarter2next"> <%= "Q2 #{Date.today.year + 1}: #{90 - @q1_next - @q2_next}" if @current_quarter > 2 %> </p>
-        <p class="quarter-spending" id="quarter3next"> <%= "Q3 #{Date.today.year + 1}: #{135 - @q1_next - @q2_next - @q3_next}" if @current_quarter > 3 %> </p>
-        
+        <div class="yearSelect">
+            <button class="yearButtons" id="currentYearButton" onclick="openYear(event, currentYearTable)"><%= Date.today.year %></button>
+            <button class="yearButtons" id="nextYearButton" onclick="openYear(event, nextYearTable)"><%= Date.today.year + 1 %></button>
+        </div>
+        <div class="tabContent" id="currentYearTable">
+            <table>
+                <thead><h4 id="eventDayName"><%= Date.today.year %> Balances</h4></thead>         
+                <tbody
+                    <tr>
+                        <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to March 31" id="quarter1"><%= "Q1" %></td>
+                        <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to June 30" id="quarter2"><%= "Q2" %></td>
+                        <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to Sept 30" id="quarter3"><%= "Q3" %></td>
+                        <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to Dec 31" id="quarter4"><%= "Q4" %></td>
+                    </tr>
+                    <tr>
+                        <% unless @current_quarter > 1%>
+                            <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to March 31" id="quarter1"><%= "#{@bank_split[0] + @q2 + @q3 + @q4 - 135}"%></td>
+                        <% else %>
+                            <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to March 31" id="quarter1">--</td>
+                        <% end %>
+
+                        <% unless @current_quarter > 2 %>
+                            <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to June 30" id="quarter2"><%= "#{@bank_split[0] + @q3 + @q4 - 90}"%></td>
+                        <% else %>
+                            <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to June 30" id="quarter2">--</td>
+                        <% end %>
+
+                        <% unless @current_quarter > 3 %>
+                            <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to Sept 30" id="quarter3"><%= "#{@bank_split[0] + @q4- 45}" %></td>
+                        <% else %>
+                            <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to Sept 30" id="quarter3">--</td>
+                        <% end %>
+
+                        <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to Dec 31" id="quarter4"><%= "#{@bank_split[0]}" unless @current_quarter > 4 %></td>
+                    </tr>
+                </tbody>
+            </table>                                          
+        </div>
+        <div class="tabContent" id="nextYearTable">
+            <table>
+                <thead><h4 id="eventDayName"><%= Date.today.year + 1%> Balances</h4></thead>
+                <tr>
+                    <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to March 31 of <%= Date.today.year + 1 %>" id="quarter1next"><%= "Q1" %></td>
+                    <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to June 30 of <%= Date.today.year + 1 %>" id="quarter2next"><%= "Q2" %></td>
+                    <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to Sept 30 of <%= Date.today.year + 1 %>" id="quarter3next"><%= "Q3" %></td>
+                    <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to Dec 31 of <%= Date.today.year + 1 %>" id="quarter4next"><%= "Q4" %></td>
+                </tr>
+                <tr>
+                    <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to March 31 of <%= Date.today.year + 1 %>" id="quarter1next"><%= "#{45 - @q1_next}" %></td>
+                    <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to June 30 of <%= Date.today.year + 1 %>" id="quarter2next"><%= "#{90 - @q1_next - @q2_next}" %></td>
+                    <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to Sept 30 of <%= Date.today.year + 1 %>" id="quarter3next"><%= "#{135 - @q1_next - @q2_next - @q3_next}" %></td>
+                    <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to Dec 31 of <%= Date.today.year + 1 %>" id="quarter4next"><%= "#{180 - @q1_next - @q2_next - @q3_next - @q4_next}" %></td>
+                </tr>   
+            </table>
+        </div>
     </div> <!-- sidebar-title -->
     <hr>
     <div class="all-requests">

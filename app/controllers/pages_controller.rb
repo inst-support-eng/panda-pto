@@ -10,6 +10,7 @@ class PagesController < ApplicationController
         @q1_next = 0
         @q2_next = 0
         @q3_next = 0
+        @q4_next = 0
 
         @bank_split = Legalizer.split_year(current_user)
         
@@ -35,6 +36,8 @@ class PagesController < ApplicationController
                     @q2_next += r.cost
                 when 3
                     @q3_next += r.cost
+                when 4
+                    @q4_next += r.cost
                 end 
             else
                 next
