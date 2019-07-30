@@ -6,7 +6,7 @@ $(document).on('turbolinks:load', () => {
     let currentYearButton = document.getElementById('currentYearButton')
 
     for(let i = 0; i < tabContent.length; i++) {
-      tabContent[i].style.display = 'none';
+      tabContent[i].style.display = 'none'
     }
 
     for(let i =0; i < yearButtons.length; i++) {
