@@ -71,7 +71,7 @@
                         <td><b>Value:</b> <%= request.cost %></td>
                         <td><b>Reason:</b> <%= request.reason %></td>
                         <td><b>Excused:</b> <%= request.excused %> <%= request.admin_note %></td>
-                        <td><%= link_to "Delete", pto_request_path(request), {:data => {
+                        <td><%= link_to "Delete", soft_delete_request_url(request), {:data => { 
                 :confirm => "Are you sure?"}, :method => :delete , :class => "edit-user-links"} %></td>
                         <td><% if request.excused == false %><%= button_to "Excuse Request", excuse_pto_request_path(request) %></td>
                         <% end %>
@@ -90,7 +90,7 @@
                         <td><b>Value:</b> <%= request.cost %></td>
                         <td><b>Reason:</b> <%= request.reason %></td>
                         <td><b>Excused:</b> <%= request.excused %> <%= request.admin_note %></td>
-                        <td><%= link_to "Delete", pto_request_path(request), {:data => {
+                        <td><%= link_to "Delete", soft_delete_request_url(request), {:data => {
                 :confirm => "Are you sure?"}, :method => :delete , :class => "edit-user-links"} %></td>
                         <td><% if request.excused == false %><%= button_to "Excuse Request", excuse_pto_request_path(request) %></td>
                         <% end %>
@@ -109,7 +109,7 @@
                         <td><b>Value:</b> <%= request.cost %></td>
                         <td><b>Reason:</b> <%= request.reason %></td>
                         <td><b>Excused:</b> <%= request.excused %> <%= request.admin_note %></td>
-                        <td><%= link_to "Delete", pto_request_path(request), {:data => {
+                        <td><%= link_to "Delete", soft_delete_request_url(request), {:data => {
                 :confirm => "Are you sure?"}, :method => :delete , :class => "edit-user-links"} %></td>
                         <td><% if request.excused == false %><%= button_to "Excuse Request", excuse_pto_request_path(request) %></td>
                         <% end %>

@@ -71,6 +71,12 @@ class PtoRequestsController < ApplicationController
             @calendar = Calendar.find_by(:date => @pto_request.request_date)
         end
 
+        # set signed_up_total on a ptorequest object when it's created
+        # equal to the signed_up_total of the associated calendar object
+        # prior to the request being made
+        @pto_request.signed_up_total = @calendar.signed_up_total
+
+        #!TODO this will need to be modified in order to account for soft deletes
         if @calendar.signed_up_agents.include?(@user.name)
             return redirect_to root_path, notice: "You already have a request for this date"
         end 
@@ -101,6 +107,45 @@ class PtoRequestsController < ApplicationController
         end
     end
 
+    def soft_delete
+        @pto_request = PtoRequest.find(params[:id])
+        @user = @pto_request.user
+
+        case @user.position
+        when 'L1'
+            @calendar = Calendar.find_by(:date => @pto_request.request_date)
+        when 'L2'
+            @calendar = CalendarL2.find_by(:date => @pto_request.request_date)
+        when 'L3'
+            @calendar = CalendarL3.find_by(:date => @pto_request.request_date)
+        when 'Sup'
+            @calendar = CalendarSup.find_by(:date => @pto_request.request_date)
+        else 
+            @calendar = Calendar.find_by(:date => @pto_request.request_date)
+        end
+
+
+        if @pto_request.reason == 'no call / no show'
+            return sub_no_call_show
+        end
+
+        if @pto_request.reason == 'make up / sick day'
+            return sub_make_up_day
+        end 
+
+        # mark request as soft deleted
+        @pto_request.update(:is_deleted => 1)
+        # query all requests for the day, made after the deleted request
+        @future_requests = PtoRequest.where(["request_date = ? and created_at > ?", @pto_request.request_date, @pto_request.created_at]).to_a
+        # parital refund requests if avalible
+        UpdatePrice.update_pto_requests(@future_requests)
+
+        remove_request_info
+
+        RequestsMailer.with(user: @user, pto_request: @pto_request).delete_request_email.deliver_now
+        return redirect_to root_path, notice: "Your request was deleted"
+    end
+
     def destroy
         @pto_request = PtoRequest.find(params[:id])
         @user = User.find_by(:id => @pto_request.user_id)
@@ -126,12 +171,11 @@ class PtoRequestsController < ApplicationController
             if @pto_request.reason == 'make up / sick day'
                 return sub_make_up_day
             end 
-
             remove_request_info
             RequestsMailer.with(user: @user, pto_request: @pto_request).delete_request_email.deliver_now
             return redirect_to root_path, notice: "Your request was deleted"
         else
-            return redirect_to root_path, notice: "Somthing went wrong"
+            return redirect_to root_path, notice: "Something went wrong"
         end
 
     end
