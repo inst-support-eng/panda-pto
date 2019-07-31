@@ -1,0 +1,7 @@
+<p id="notice"><%= notice %></p>
+<p>
+  <%= @faq.body.html_safe %>
+  <p>Lats Modified On: <%= @faq.updated_at.strftime("%m/%d/%Y") %></p>
+</p>
+
+<%= link_to 'Back', root_path %>
