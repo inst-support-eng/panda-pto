@@ -14,6 +14,9 @@ gem 'bootstrap-sass'
 gem 'bootstrap_form'
 gem 'sass-rails', '~> 5.0'
 
+# tiny-mce
+gem 'tinymce-rails'
+
 # gem for http requests
 gem 'httparty'
 

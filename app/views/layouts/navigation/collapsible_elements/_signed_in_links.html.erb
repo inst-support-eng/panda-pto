@@ -6,7 +6,17 @@
 
     <ul class="dropdown-menu" role="menu">
         <% if current_user.admin? || current_user.position == "Sup" %>
-        <li><%= link_to 'Admin', admin_path %></li>
+            <li><%= link_to 'Admin', admin_path %></li>
+        <% end %>
+        <% if current_user.admin? %>
+            <% if Faq.first.nil? %>
+                <li><%= link_to 'New FAQ', new_faq_path %></li>
+            <% else %>
+                <li><li><%= link_to 'Edit FAQ', edit_faq_path(Faq.first.id)%></li></li>
+            <% end %>
+        <% end %>
+        <% unless Faq.first.nil? %>
+            <li><%= link_to 'Show FAQ', show_faq_path_url(Faq.first.id)%></li>
         <% end %>
         <li><%= link_to 'Edit Profile', edit_user_registration_path %></li>
         <li><%= link_to 'Log out', destroy_user_session_path, method: :delete %></li>

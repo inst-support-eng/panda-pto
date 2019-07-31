@@ -24,6 +24,9 @@ Rails.application.routes.draw do
     get 'calendars/l2_fetch_dates' => 'calendar_l2s#fetch_dates'
     get 'calendars/l3_fetch_dates' => 'calendar_l3s#fetch_dates'
     get 'calendars/sups_fetch_dates' => 'calendar_sups#fetch_dates'
+
+    #faqs page 
+    get 'faqs/:id/show' => 'faqs#show', as: :show_faq_path
   
     # feedback forms
     match "/feedback" => redirect("https://docs.google.com/forms/d/e/1FAIpQLSdxkcvYhkhql5-39tJZE7ERjSOtw2eEfq9j-KynRV08luSAJw/viewform"), :via => [:get], :as => :feedback
@@ -88,5 +91,7 @@ Rails.application.routes.draw do
     resources :calendars do
       collection { post :import}
     end
+
+    resources :faqs
   end
 end
