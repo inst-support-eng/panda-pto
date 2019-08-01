@@ -1,6 +1,6 @@
 <h1>Editing FAQ</h1>
-<p>Last Updated By: <%= @faq.last_modified_by %></p>
-<p>Last Updated On: <%= @faq.updated_at.strftime("%m/%d/%Y") %>
+<p><b>Last Updated By</b>: <%= @faq.last_modified_by %></p>
+<p><b>Last Updated On</b>: <%= @faq.updated_at.strftime("%m/%d/%Y") %>
 
 <div>
 	<%= bootstrap_form_for(@faq, :url => {:action => 'update', :id => @faq.id}) do |f| %>
