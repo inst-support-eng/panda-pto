@@ -34,7 +34,7 @@ class PtoRequest < ApplicationRecord
   end
 
   def self.to_csv()
-    data = ['name', 'email', 'request_date', 'cost', 'reason', 'signed_up_total', 'excused', 'same_day', 'created_at'] 
+    data = ['name', 'email', 'request_date', 'cost', 'reason', 'signed_up_total', 'excused', 'same_day', 'created_at', 'is_deleted'] 
     CSV.generate(headers: true) do |csv|
       csv << data
 
