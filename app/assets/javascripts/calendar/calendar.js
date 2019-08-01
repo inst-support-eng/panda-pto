@@ -1,12 +1,12 @@
-$(document).on('turbolinks:load', () => {
+$('.pages.index').ready(() => {
     let today = new Date()
     let currentMonth = today.getMonth()
     let currentYear = today.getFullYear()
 
-    let selectYear = document.getElementById("year")
-    let selectMonth = document.getElementById("month")
+    let selectYear = document.getElementById('year')
+    let selectMonth = document.getElementById('month')
 
-    let monthAndYear = document.getElementById("month-name")
+    let monthAndYear = document.getElementById('month-name')
 
     createCalendar = async (year, month) => {
 
@@ -18,16 +18,16 @@ $(document).on('turbolinks:load', () => {
         userDates.sort((a, b) => (a.request_date > b.request_date) ? 1 : -1)
 
         // switch (currUser.position) {
-        //     case "L1":
+        //     case 'L1':
         //         calendarDates = await getDates()
         //         break
-        //     case "L2":
+        //     case 'L2':
         //         calendarDates = await getL2Dates()
         //         break
-        //     case "L3":
+        //     case 'L3':
         //         calendarDates = await getL3Dates()
         //         break
-        //     case "Sup":
+        //     case 'Sup':
         //         calendarDates = await getSupDates()
         //         break
         //     default:
@@ -37,8 +37,8 @@ $(document).on('turbolinks:load', () => {
 
         let firstDay = new Date(year, month).getDay()
 
-        let tbl = document.getElementById("table-body")
-        tbl.innerHTML = ""
+        let tbl = document.getElementById('table-body')
+        tbl.innerHTML = ''
 
         monthAndYear.innerHTML = `${month} ${year}`
         selectYear.value = year
@@ -48,23 +48,23 @@ $(document).on('turbolinks:load', () => {
         let date = 1
         for (let i = 0; i < 6; i++) {
             // create row
-            let row = document.createElement("tr")
+            let row = document.createElement('tr')
 
             // create ind cells
             for (let j = 0; j < 7; j++) {
                 if (i === 0 && j < firstDay) {
-                    cell = document.createElement("td")
-                    cellText = document.createTextNode("")
+                    cell = document.createElement('td')
+                    cellText = document.createTextNode('')
                     cell.appendChild(cellText)
                     row.appendChild(cell)
                 } else if (date > getDaysInMonth(year, month)) {
                     break
                 } else {
-                    cell = document.createElement("td")
+                    cell = document.createElement('td')
                     cellText = document.createTextNode(date)
 
                     cell.append(cellText)
-                    cell.setAttribute("class", "calendar-date")
+                    cell.setAttribute('class', 'calendar-date')
 
                     let dayId = date
                     let monthId = month + 1
@@ -91,17 +91,17 @@ $(document).on('turbolinks:load', () => {
                         }
                     })
 
-                    cell.setAttribute("id", reqDate)
+                    cell.setAttribute('id', reqDate)
 
                     // display 8 / 10 hour costs for day
-                    let displayCost = `<div id="pto-cost">total: ₢ ${reqData.current_price * 8}</div>`
+                    let displayCost = `<div id='pto-cost'>total: ₢ ${reqData.current_price * 8}</div>`
                     if (currUser.ten_hour_shift) {
-                        displayCost = `<div id="pto-cost">total: ₢ ${reqData.current_price * 10}</div>`
+                        displayCost = `<div id='pto-cost'>total: ₢ ${reqData.current_price * 10}</div>`
                     }
 
                     // check if day has current_price
                     if (isNaN(reqData.current_price)) {
-                        displayCost = `<div id="pto-cost">??</div>`
+                        displayCost = `<div id='pto-cost'>??</div>`
                     }
 
                     // grey out old dates 
@@ -120,10 +120,10 @@ $(document).on('turbolinks:load', () => {
 
                     // color todays date
                     if (date == today.getDate() && year == today.getFullYear() && month == today.getMonth()) {
-                        cell.classList.add("blue")
+                        cell.classList.add('blue')
                     }
 
-                    let displayInfo = `<div id="pto-date">${date}</div><br/>${displayCost}`
+                    let displayInfo = `<div id='pto-date'>${date}</div><br/>${displayCost}`
                     cell.innerHTML = displayInfo
 
                     row.appendChild(cell)

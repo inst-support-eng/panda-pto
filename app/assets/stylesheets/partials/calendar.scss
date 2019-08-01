@@ -26,11 +26,13 @@
   color: $text;
   background-color: $sidebar;
   padding-bottom: 20px;
+  padding-top: 50px;
   font-weight: 300;
   left: 0;
   width: 20%;
   height: 100%;
 }
+
 /* Control the right side */
 .main-wrapper {
   right: 0;
@@ -128,290 +130,308 @@
 
 /*----------------- Smaller Devices -------------*/
 
+.mobile-header {
+  padding: 0;
+  display: none;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  position: fixed;
+  z-index: 99;
+  width: 100%;
+  background-color: $header !important;
+}
+
+.mobile-header a i {
+  color: $text;
+  font-size: 38px;
+}
+
+.mobile-header h4 {
+  color: $text;
+}
+
+.mobile-header .row {
+  margin-bottom: 0;
+}
+
+.mobile-header h4 {
+  margin: 0;
+  font-weight: 300;
+}
+
+@media (max-width:992px) {
+  .content-wrapper {
+    margin-left: 0;
+  }
+
   .mobile-header {
-    padding: 0;
-    display: none;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    position: fixed;
-    z-index: 99;
-    width: 100%;
-    background-color: $header !important;
+    display: block;
   }
 
-  .mobile-header a i {
-    color: $text;
-    font-size: 38px;
+  .empty-message {
+    color: black;
+  }
+}
+
+@media (max-width:767px) {
+  .content-wrapper {
+    width: auto;
   }
 
-  .mobile-header h4 {
-    color: $text;
+  .calendar-content {
+    padding-left: 5%;
+    padding-right: 5%;
   }
 
-  .mobile-header .row {
+  body .row {
     margin-bottom: 0;
   }
+}
 
-  .mobile-header h4 {
-    margin: 0;
-    font-weight: 300;
+@media (max-width:450px) {
+  .content-wrapper {
+    padding-left: 0;
+    padding-right: 0;
   }
 
-  @media (max-width:992px) {
-    .content-wrapper {
-      margin-left: 0;
-    }
-    .mobile-header {
-      display: block;
-    }
-
-    .empty-message {
-      color: black;
-    }
+  .content-wrapper {
+    padding-left: 0;
+    padding-right: 0;
   }
-
-  @media (max-width:767px) {
-    .content-wrapper{
-      width: auto;
-    }
-    .calendar-content {
-      padding-left: 5%;
-      padding-right: 5%;
-    }
-    body .row {
-      margin-bottom: 0;
-    }
-  }
-
-  @media (max-width:450px) {
-    .content-wrapper {
-      padding-left: 0;
-      padding-right: 0;
-    }
-    .content-wrapper{
-      padding-left: 0;
-      padding-right: 0;
-    }
-  }
+}
 
 /*----------------- Side Bar --------------------*/
-  .sidebar-title {
-    position: relative;
-    padding: 20px;
-    font-size: 1.25em;
-  }
+.sidebar-title {
+  position: relative;
+  padding: 20px;
+  font-size: 1.25em;
+}
 
-  .sidebar-title h4 {
-    margin-top: 0;
-  }
+.sidebar-title h4 {
+  margin-top: 0;
+}
 
-  .sidebar-events {
-    overflow-x: hidden;
-    overflow-y: scroll;
-  }
+.sidebar-events {
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
 
-  .all-requests {
-    padding: 20px;
-    font-size: 1.25em;
-  }
+.all-requests {
+  padding: 20px;
+  font-size: 1.25em;
+}
 
-  .agent-requests{
-    border-collapse: collapse;
-    height: 95%;
-    display: inline-block;
-  }
+.agent-requests {
+  border-collapse: collapse;
+  height: 95%;
+  display: inline-block;
+}
 
-  .agent-requests > tbody {
-    width: 100%;
-    height: 650px;
-    display: inline-block;
-    overflow-y: scroll;
-  }
+.agent-requests>tbody {
+  width: 100%;
+  height: 650px;
+  display: inline-block;
+  overflow-y: scroll;
+}
 
-  .yearButtons {
-    overflow: hidden;
-    float: left;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    transition: 0.3s;
-    height: 30px;
-    width: 60px;
-    background: $navbarColor;
-  }
+.yearButtons {
+  overflow: hidden;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: 0.3s;
+  height: 30px;
+  width: 60px;
+  background: $navbarColor;
+}
 
-  .tabContent {
-    display: none;
-    padding: 6px 12px;
-    border-top: none;
-    clear:both;
-    background: $navbarColor;
-  }  
+.tabContent {
+  display: none;
+  padding: 6px 12px;
+  border-top: none;
+  clear: both;
+  background: $navbarColor;
+}
 
-  .quarter-spending {
-    border: 2px solid black;
-    text-align: center;
-    width: 150px;
-    height: 30px;
-  }
+.quarter-spending {
+  border: 2px solid black;
+  text-align: center;
+  width: 150px;
+  height: 30px;
+}
 
-  hr {
-    margin: 0px;
-    border: 1px solid $text;
-  }
+hr {
+  margin: 0px;
+  border: 1px solid $text;
+}
 
 /*----------------- Callendar Content -----------*/
 
 
-  .cal-top-left { grid-area: left; }
-  .cal-top-center { grid-area: center; width: 400px; margin: auto; }
-  .cal-top-right { grid-area: right; }
-  .cal-bottom { grid-area: bottom; }
+.cal-top-left {
+  grid-area: left;
+}
 
-  .calendar {
-    position: relative;
-    top: 60px;
-    display: grid;
-    grid-template-areas: 
+.cal-top-center {
+  grid-area: center;
+  width: 400px;
+  margin: auto;
+}
+
+.cal-top-right {
+  grid-area: right;
+}
+
+.cal-bottom {
+  grid-area: bottom;
+}
+
+.calendar {
+  position: relative;
+  top: 60px;
+  display: grid;
+  grid-template-areas:
     'left center right'
     'bottom bottom bottom';
-  }
+}
 
-  .header-text {
-    font-size: 4em;
-    text-align: center;
-    line-height: 2.1;
-    font-weight: 100;
-  }
+.header-text {
+  font-size: 4em;
+  text-align: center;
+  line-height: 2.1;
+  font-weight: 100;
+}
 
-  .prev-button {
-    cursor: pointer;
-    color: $header;
-    float: right;
-    margin-right: 20%;
-  }
+.prev-button {
+  cursor: pointer;
+  color: $header;
+  float: right;
+  margin-right: 20%;
+}
 
-  .prev-button i { 
-    font-size: 4em;
-  }
+.prev-button i {
+  font-size: 4em;
+}
 
-  .next-button {
-    cursor: pointer;
-    color: $header;
-    float: left;
-    margin-left: 20%;
-  }
+.next-button {
+  cursor: pointer;
+  color: $header;
+  float: left;
+  margin-left: 20%;
+}
 
-  .next-button i { 
-    font-size: 4em;
-  }
+.next-button i {
+  font-size: 4em;
+}
 
-  a.prev-button:hover, a.next-button:hover {
-    color: $sidebar !important;
-  }
+a.prev-button:hover,
+a.next-button:hover {
+  color: $sidebar !important;
+}
 
-  .calendar-content {
-    padding: 20px;
-    overflow: hidden;
-  }
+.calendar-content {
+  padding: 20px;
+  overflow: hidden;
+}
 
-  .calendar-date {
-    height: 40px;
-    padding: 10px 60px 10px 60px;
-    text-align: center;
-    border: 1px solid #f7f7f7;
-    background-color: white;
-    border: 1px solid $sidebar;
-  }
+.calendar-date {
+  height: 40px;
+  padding: 10px 60px 10px 60px;
+  text-align: center;
+  border: 1px solid #f7f7f7;
+  background-color: white;
+  border: 1px solid $sidebar;
+}
 
-  .calendar-date:hover {
-    background-color: #337ab7;
-    color: white;
-    cursor: pointer;
-  }
+.calendar-date:hover {
+  background-color: #337ab7;
+  color: white;
+  cursor: pointer;
+}
 
-  .past-day {
-    background-color: $sidebar !important;
-    cursor: not-allowed;
-  }
+.past-day {
+  background-color: $sidebar !important;
+  cursor: not-allowed;
+}
 
-  th {
-    text-align: center;
-    border-bottom: 1px solid black;
-    padding: 10px;
-  }
+th {
+  text-align: center;
+  border-bottom: 1px solid black;
+  padding: 10px;
+}
 
-  .day-mark {
-    width: 7px;
-    height: 7px;
-    background-color: #b39ddb;
-    border-radius: 100px;
-    position: absolute;
-    left: 47%;
-    top: 67%;
-  }
+.day-mark {
+  width: 7px;
+  height: 7px;
+  background-color: #b39ddb;
+  border-radius: 100px;
+  position: absolute;
+  left: 47%;
+  top: 67%;
+}
 
-  #table-body .col:hover {
-    cursor: pointer;
-  }
+#table-body .col:hover {
+  cursor: pointer;
+}
 
-  .grey:hover {
-    cursor: not-allowed !important;
-  }
+.grey:hover {
+  cursor: not-allowed !important;
+}
 
-  #table-body .row .col {
-    padding: .75rem;
-  }
+#table-body .row .col {
+  padding: .75rem;
+}
 
-  #table-body .col {
-    border: 1px solid transparent;
-  }
+#table-body .col {
+  border: 1px solid transparent;
+}
 
-  #table-body .row {
-    margin-bottom: 0;
-  }
+#table-body .row {
+  margin-bottom: 0;
+}
 
-  #table-body .col {
-    padding-top: 1.3rem !important;
-    padding-bottom: 1.3rem !important;
-  }
+#table-body .col {
+  padding-top: 1.3rem !important;
+  padding-bottom: 1.3rem !important;
+}
 
-  #calendar-table {
-    margin: 0 auto;
-    text-align: center;
-  }
+#calendar-table {
+  margin: 0 auto;
+  text-align: center;
+}
 
-  .addEvent {
-    box-shadow: 0 5px 15px rgb(57, 168, 228);
-    background-color: #39a8e4;
-    padding: 10px;
-    padding-left: 3em;
-    padding-right: 3em;
-    cursor: pointer;
-    border-radius: 25px;
-    color: #fff !important;
-    background-image: linear-gradient(135deg, #8d8dd4, #45ced4);
-  }
+.addEvent {
+  box-shadow: 0 5px 15px rgb(57, 168, 228);
+  background-color: #39a8e4;
+  padding: 10px;
+  padding-left: 3em;
+  padding-right: 3em;
+  cursor: pointer;
+  border-radius: 25px;
+  color: #fff !important;
+  background-image: linear-gradient(135deg, #8d8dd4, #45ced4);
+}
 
-  .addEvent:hover {
-    transition: box-shadow 0.5s;
-    box-shadow: 0 4px 25px rgb(57, 168, 228);
-  }
+.addEvent:hover {
+  transition: box-shadow 0.5s;
+  box-shadow: 0 4px 25px rgb(57, 168, 228);
+}
 
-  .blue {
-    background-color: #132f52;
-    color: white;
-  }
+.blue {
+  background-color: #132f52;
+  color: white;
+}
 
-  .grey {
-    background-color: rgb(119, 119, 119);
-    color: white;
-  }
+.grey {
+  background-color: rgb(119, 119, 119);
+  color: white;
+}
 
-  .day-off {
-    background-color: $text;
-    color: black;
-  }
+.day-off {
+  background-color: $text;
+  color: black;
+}
 
 
 /* -------------- Shared Links ---------------- */
@@ -419,15 +439,15 @@
 .shared-links {
   position: fixed;
   bottom: 10px;
-  left: 10px; 
+  left: 10px;
 }
 
-.shared-links > a {
+.shared-links>a {
   margin: 0px 10px 0px 0px;
   color: $header;
 }
 
-.shared-links > a:hover {
+.shared-links>a:hover {
   color: $text;
 }
 
@@ -442,21 +462,21 @@
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0;
-  -webkit-transition: 
-      opacity 0.2s ease-in-out,
-        visibility 0.2s ease-in-out,
-        -webkit-transform 0.2s cubic-bezier(0.71, 1.7, 0.77, 1.24);
-    -moz-transition:    
-        opacity 0.2s ease-in-out,
-        visibility 0.2s ease-in-out,
-        -moz-transform 0.2s cubic-bezier(0.71, 1.7, 0.77, 1.24);
-    transition:         
-        opacity 0.2s ease-in-out,
-        visibility 0.2s ease-in-out,
-        transform 0.2s cubic-bezier(0.71, 1.7, 0.77, 1.24);
+  -webkit-transition:
+    opacity 0.2s ease-in-out,
+    visibility 0.2s ease-in-out,
+    -webkit-transform 0.2s cubic-bezier(0.71, 1.7, 0.77, 1.24);
+  -moz-transition:
+    opacity 0.2s ease-in-out,
+    visibility 0.2s ease-in-out,
+    -moz-transform 0.2s cubic-bezier(0.71, 1.7, 0.77, 1.24);
+  transition:
+    opacity 0.2s ease-in-out,
+    visibility 0.2s ease-in-out,
+    transform 0.2s cubic-bezier(0.71, 1.7, 0.77, 1.24);
   -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform:    translate3d(0, 0, 0);
-  transform:         translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
   pointer-events: none;
 }
 
@@ -474,6 +494,7 @@
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
   opacity: 1;
 }
+
 /* Base styles for the tooltip's directional arrow */
 .tooltip:before,
 [data-tooltip]:before {
@@ -516,6 +537,6 @@
 .tooltip-right:focus:before,
 .tooltip-right:focus:after {
   -webkit-transform: translateX(12px);
-  -moz-transform:    translateX(12px);
-  transform:         translateX(12px); 
+  -moz-transform: translateX(12px);
+  transform: translateX(12px);
 }
