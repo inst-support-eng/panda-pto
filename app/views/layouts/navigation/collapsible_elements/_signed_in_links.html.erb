@@ -16,7 +16,7 @@
             <% end %>
         <% end %>
         <% unless Faq.first.nil? %>
-            <li><%= link_to 'Show FAQ', show_faq_path_url(Faq.first.id)%></li>
+            <li><%= link_to 'View FAQ', show_faq_path_url(Faq.first.id)%></li>
         <% end %>
         <li><%= link_to 'Edit Profile', edit_user_registration_path %></li>
         <li><%= link_to 'Log out', destroy_user_session_path, method: :delete %></li>
