@@ -9,6 +9,8 @@ class RegistrationsController < Devise::RegistrationsController
       @shift_start = Time.parse(current_user.start_time).in_time_zone("Mountain Time (US & Canada)").strftime("%I:%M %p")
       @shift_end = Time.parse(current_user.end_time).in_time_zone("Mountain Time (US & Canada)").strftime("%I:%M %p")
       @bank_split = Legalizer.split_year(current_user)
+      @user_requests = @user.pto_requests.where(:is_deleted => nil).or(@user.pto_requests.where(:is_deleted => 0))
+
     end
 
     private

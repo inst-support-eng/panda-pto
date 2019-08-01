@@ -15,8 +15,6 @@ Rails.application.routes.draw do
     end
     get 'current' => 'users#current'
     get 'users/:id' => 'users#show', as: :show_user
-    put 'users/:id/soft_delete' => 'users#soft_delete', as: :soft_delete_user
-    get 'admin/deleted_users' => 'admin#deleted_users'
     post 'users/:id/restore_user' => 'users#restore_user', as: :restore_user
 
     # fetch dates calendar methods
@@ -77,6 +75,11 @@ Rails.application.routes.draw do
     # import agents.csv
     get 'users/import'
     post 'users/import' => 'users#import'
+    # soft delete users
+    delete 'users/:id/soft_delete' => 'users#soft_delete', as: :soft_delete_user
+    # view (soft) deleted users
+    get 'admin/deleted_users' => 'admin#deleted_users'
+    
     resources :users do 
       collection { post :import}
     end

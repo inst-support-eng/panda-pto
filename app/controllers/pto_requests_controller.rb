@@ -110,6 +110,14 @@ class PtoRequestsController < ApplicationController
     def soft_delete
         @pto_request = PtoRequest.find(params[:id])
         @user = @pto_request.user
+        # disallow regular users from deleting pto requests they don't own
+        unless current_user.admin == false || current_user.position != "Sup" || @user != current_user
+            return  redirect_to root_path, notice: "A! You do not have sufficent privlages to delete this request."
+        end
+        # disallow regular users from deleting past pto requests
+        if @user == current_user && @pto_request.request_date < Date.today
+            return  redirect_to root_path, notice: "B You do not have sufficent privlages to delete this request."
+        end 
 
         case @user.position
         when 'L1'

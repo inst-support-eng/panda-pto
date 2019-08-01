@@ -13,6 +13,9 @@ class UsersController < ApplicationController
             @shift_end = Time.parse(@user.end_time).in_time_zone("Mountain Time (US & Canada)").strftime("%I:%M %p") unless @user.end_time.nil?
 
             @bank_split = Legalizer.split_year(@user)
+
+            @user_requests = @user.pto_requests.where(:is_deleted => nil).or(@user.pto_requests.where(:is_deleted => 0))
+
         else
             redirect_to root_path, notice: "You do not have access to this resource"
         end

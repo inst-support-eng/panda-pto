@@ -29,6 +29,7 @@ class UpdatePrice
     return "something went wrong!" if request.class != Array
 
     request.each do |r|
+      next if r.signed_up_total.nil?
       shift_length = 8
       shift_length = 10 if r.user.ten_hour_shift? 
 

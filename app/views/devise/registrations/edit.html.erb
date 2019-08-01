@@ -20,13 +20,16 @@
         </table>
     </div>
     <div class="content-bottom">
+      <% if @user_requests.count <= 0 %>
+        <h2>User Has No PTO Requests</h2>
+      <% end %>
       <div class="upcoming-requests-tab">
+        <% upcoming_requests = @user_requests.where("request_date > ?", Date.today) %>
+        <% if upcoming_requests.count > 0 %>
         <h2>Upcoming Requests</h2>
         <div class="upcoming-body">
           <table class="requests">
-            <% requests = current_user.pto_requests.order("request_date ASC") %>
-            <% requests.each do |request| %>
-              <% if request.request_date > Date.today %>
+            <% upcoming_requests.order("request_date ASC").each do |request| %>
               <tr>
               <td><b>Date:</b> <%= request.request_date %></td>
               <td><b>Cost:</b> <%= request.cost %></td>
@@ -36,26 +39,27 @@
               }, :method => :delete %></td>
               <% end %>
               </tr>
-            <% end %> 
           </table>
         </div> 
       </div>
+      <% end %>
       <div class="past-requests-tab">
+        <% past_requests =  @user_requests.where("request_date < ?", Date.today).to_a  %>
+        <% if past_requests.count > 0 %>
         <h2>Past Requests</h2>
         <div class="upcoming-body">
             <table class="requests">
-              <% current_user.pto_requests.each do |request| %>
-              <% if request.request_date <= Date.today %>
+              <% past_requests.each do |request| %>
               <tr>
               <td><b>Date:</b> <%= request.request_date %></td>
               <td><b>Cost:</b> <%= request.cost %></td>
               <td><b>Reason:</b> <%= request.reason %></td>
               </tr>
               <% end %>
-              <% end %>
             </table>
           </div>
       </div>
+      <% end %>
   </div>
       <div id="update-password" class="password-modal">
           <div class="update-password-content">
