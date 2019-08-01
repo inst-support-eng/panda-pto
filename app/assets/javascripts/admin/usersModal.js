@@ -3,6 +3,7 @@ $(document).on('turbolinks:load', () => {
         let requestModal = document.getElementById('add-request');
         let noCallModal = document.getElementById('add-no-call-show');
         let makeUpDayModal = document.getElementById('add-make-up-day');
+        let setTeamColorModal = document.getElementById('set-team-color');
 
         $('#add-request-btn').click(() => {
             requestModal.style.display = "block";
@@ -15,11 +16,15 @@ $(document).on('turbolinks:load', () => {
         $('#add-make-up-day-btn').click(() => {
             makeUpDayModal.style.display = "block";
         })
+        $('#set-team-color-btn').click(() => {
+            setTeamColorModal.style.display = "block";
+        })
 
         $('.close').click(() => {
             requestModal.style.display = "none";
             noCallModal.style.display = "none";
             makeUpDayModal.style.display = "none";
+            setTeamColorModal.style.display = "none";
         })
     }
 

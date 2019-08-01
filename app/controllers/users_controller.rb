@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-    before_action :find_user, only: %i[destroy update_shift update_admin update_pip send_password_reset]
+    before_action :find_user, only: %i[destroy update_shift update_admin update_pip send_password_reset update_color]
     def show
         if current_user.nil?
             redirect_to login_path
@@ -95,6 +95,20 @@ class UsersController < ApplicationController
             @user.update(:is_deleted => 0)
             redirect_to show_user_path(@user), notice: "User restored"
         end
+    end
+
+    def update_color
+        @new_color = params[:color]
+        @supervisor = User.find(params[:user_id])
+        if @supervisor.position.downcase == 'sup'
+            @team_agents = User.where(team: @supervisor.team)
+            @team_agents.each do |agent|
+                agent.update(:color => @new_color)
+            end
+        else
+            redirect_to root_path, notice: "You do not have access to this resource"
+        end
+        redirect_to teams_path
     end
 
     private 

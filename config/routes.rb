@@ -18,6 +18,10 @@ Rails.application.routes.draw do
     put 'users/:id/soft_delete' => 'users#soft_delete', as: :soft_delete_user
     get 'admin/deleted_users' => 'admin#deleted_users'
     post 'users/:id/restore_user' => 'users#restore_user', as: :restore_user
+    post 'teams/update_color' => 'users#update_color', as: :update_team_color
+
+    #team routes
+    get 'teams' => 'teams#index'
 
     # fetch dates calendar methods
     get 'calendars/fetch_dates' => 'calendars#fetch_dates'
@@ -89,4 +93,5 @@ Rails.application.routes.draw do
       collection { post :import}
     end
   end
+  
 end

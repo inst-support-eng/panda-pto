@@ -1,0 +1,144 @@
+
+<div class="layout">
+<div class="left">
+<%= link_to "Export PTO", pto_requests_export_path(format: :csv), class: 'adminlink', method: :get %>
+<button class="adminbutton" id="set-team-color-btn">Set Team Color</button>
+<%= link_to "Go Back", admin_index_path, class: 'adminlink' %>
+</div>
+<div class="right">
+    <div id="searchbar">
+      <input type="text" id="search" onkeyup="filter()" placeholder="Filter by name.." title="Filter by name">
+    </div> <!-- searchbar -->
+  <div class="agent-header">     
+    <table>       
+      <thead>
+        <tr>
+          <th><%= sortable "name", "Agent Name" %></th>
+          <th><%= sortable "bank_value", "PTO Points"%></th>
+        </tr>
+      </thead>
+    </table> 
+  </div> <!-- agent-header -->
+  <div class="all-agents">
+      <table id="agent-table">
+        <tbody>
+            <% @team_agents.each do |agent| 
+              if agent.is_deleted?
+              else %>
+          <tr class="agent-row">
+            <td class="agent-name"><%= link_to "#{agent.name}", show_user_path(agent) %></td>
+            <!-- display only the current year's point balence -->
+            <% bank_split = Legalizer.split_year(agent) %>
+            <td class="agent-points"><%= bank_split[0] %></td>
+          </tr>
+            <% end %>
+            <% end %>
+        </tbody>
+      </table>
+  </div><!-- all-agents -->
+</div> <!-- right -->
+<div class="center">
+  <h4>Agents on my team</h4>
+  <div class="center-content">
+    <table>
+      <tr>
+        <td class="off-header">5A</td>
+        <td class="off-header">6A</td>
+        <td class="off-header">7A</td>
+        <td class="off-header">8A</td>
+        <td class="off-header">9A</td>
+        <td class="off-header">10A</td>
+        <td class="off-header">11A</td>
+        <td class="off-header">12P</td>
+        <td class="off-header">1P</td>
+        <td class="off-header">2P</td>
+        <td class="off-header">3P</td>
+        <td class="off-header">4P</td>
+        <td class="off-header">5P</td>
+        <td class="off-header">6P</td>
+        <td class="off-header">7P</td>
+        <td class="off-header">8P</td>
+        <td class="off-header">9P</td>
+        <td class="off-header">10P</td>
+        <td class="off-header">11P</td>
+        <td class="off-header">12A</td>
+        <td class="off-header">1A</td>
+      </tr>
+    </table>
+    <div class="agents-table">
+        <% @team_agents.each do |agent|
+          if agent.is_deleted?
+          else %>
+            <div class="working-grid">
+                <% if agent.ten_hour_shift %>
+                  <% shift_length = 10 %>
+                <% else %>
+                  <% shift_length = 8 %>
+                <% end %>
+                <% unless agent.start_time.nil? || agent.end_time.nil? %>
+                  <% hour = Time.parse(agent.start_time).in_time_zone("Mountain Time (US & Canada)").to_s[11..15].tr(':','') %>
+                <% end %>
+                
+                <% if agent.pto_requests.where(request_date: Date.today).empty? %>
+                  <div class="grid-overflow <%= agent.position %> <%= agent.team %> start-<%= hour %>" style='white-space: nowrap; position: relative;'><%= link_to "#{agent.name}", show_user_path(agent) %></div>
+                    <% (shift_length - 1).to_i.times do %>
+                      <% hour = hour.to_i + 100 %>
+                      <% if hour > 2400 %> <% hour = hour - 2400 %> <% end %>
+                      <div class="grid-overflow <%= agent.position %> <%= agent.team %> start-<%= '0' if hour < 1000 %><%= hour %>"></div>
+                    <% end %>
+                <% else %>
+                  <div class="offtoday grid-overflow <%= agent.position %> start-<%= hour %>" style='white-space: nowrap; position: relative;'><%= link_to "#{agent.name} - OFF", show_user_path(agent) %></div>
+                  <% (shift_length - 1).to_i.times do %>
+                    <% hour = hour.to_i + 100 %>
+                    <% if hour > 2400 %> <% hour = hour - 2400 %> <% end %>
+                    <div class="offtoday grid-overflow <%= agent.position %> start-<%= '0' if hour < 1000 %><%= hour %>"></div>
+                  <% end %>
+                <% end %>
+            </div><!-- working-grid -->
+          <% end %>
+        <% end %> <!-- @scheduled.each do -->
+    </div> <!-- agents-table -->
+  </div> <!-- center-content -->
+</div> <!-- center -->
+</div> <!-- layout -->
+
+
+<div class="modal" id="set-team-color" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div><!-- modal-header -->
+            <div class="modal-body">
+                <%= bootstrap_form_tag url: 'teams/update_color' do |f| %>
+                    <%= f.hidden_field :user_id, :value => current_user.id %>
+                    <%= f.text_field :color, as: :minicolors, :class => "minicolor", id: "color_input", placeholder: "eg: Black or #dde244", class: 'form-control' %>
+                    <%= f.submit'update request', class: 'form-control' %>
+                <% end %>
+            </div> <!-- modal-body -->
+        </div> <!-- modal-conent -->
+    </div> <!-- modal-dialog -->
+</div> <!-- set-team-color -->
+
+<script>
+  function filter() {
+      var input, filter, table, tr, td, i, ii;
+      input = document.getElementById("search");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("agent-table");
+      tr = table.querySelectorAll("tbody tr");
+      for (i = 0; i < tr.length; i++) {
+          var tds = tr[i].getElementsByTagName("td");
+          var found = false;
+          for (ii = 0; ii < tds.length && !found; ii++) {
+              if (tds[ii].textContent.toUpperCase().indexOf(filter) > -1) {
+                  found = true;
+                  break;
+              }
+          }
+          tr[i].style.display = found?"":"none";
+      }
+  }
+</script>
