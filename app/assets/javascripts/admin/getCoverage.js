@@ -1,4 +1,4 @@
-$(document).on('turbolinks:load', () => {
+$('.admin.coverage').ready(() => {
     getCoverage = async (date) => {
         let response = {}
         if (date == undefined) {
