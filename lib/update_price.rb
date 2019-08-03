@@ -39,8 +39,11 @@ class UpdatePrice
         r.user.bank_value += cost_difference
         r.user.save
         r.cost -= cost_difference
+        r.signed_up_total -= 1
         r.save
       else
+        r.signed_up_total -= 1
+        r.save
         next
       end
 
