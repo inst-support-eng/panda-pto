@@ -114,7 +114,7 @@
             <div class="modal-body">
                 <%= bootstrap_form_tag url: 'teams/update_color' do |f| %>
                     <%= f.hidden_field :user_id, :value => current_user.id %>
-                    <%= f.text_field :color, as: :minicolors, :class => "minicolor", id: "color_input", placeholder: "eg: Black or #dde244", class: 'form-control' %>
+                    <%= f.text_field :color, id: "colorpicker", placeholder: "eg: Black or #dde244", class: 'form-control' %>
                     <%= f.submit'update request', class: 'form-control' %>
                 <% end %>
             </div> <!-- modal-body -->
