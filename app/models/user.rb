@@ -52,6 +52,14 @@ class User < ApplicationRecord
         agent.on_pip = 0 if agent.on_pip.nil?
         agent.is_deleted = row[:is_deleted]
         agent.is_deleted = 0 if agent.is_deleted.nil?
+        if agent.team.nil?
+          agent.color = '#D3D3D3'
+        else
+          agent.color = User.find_by_position_and_team('Sup',agent.team).color
+          if agent.color.nil?
+            agent.color = '#D3D3D3'
+          end
+        end
       end
       
       if agent.new_record?
@@ -102,7 +110,15 @@ class User < ApplicationRecord
         agent.position = 'L1'
         agent.admin = false
         agent.start_date = u['work_start_date']
-        agent.team = u['skills'].values[0] unless u['skills'].empty?
+        if u['skills'].empty?
+          agent.color = '#D3D3D3'
+        else
+          agent.team = u['skills'].values[0]
+          agent.color = User.find_by_position_and_team('Sup',agent.team).color
+          if agent.color.nil?
+            agent.color = '#D3D3D3'
+          end
+        end
         start_time = u['custom']['35718']['value'] 
         end_time = u['custom']['35719']['value']
 

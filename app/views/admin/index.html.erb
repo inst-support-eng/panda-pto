@@ -8,6 +8,9 @@
   <button class="adminbutton" id="adjust-calendar-cost-btn">Adjust Date Costs</button>
   <% end %>
   <%= link_to "Export PTO", pto_requests_export_path(format: :csv), class: 'adminlink', method: :get %>
+  <% if current_user.position.downcase == "sup" then %>
+  <%= link_to "My Team", teams_path, class: 'adminlink'%>
+  <% end %>
   </div>
   <div class="right">
       <div id="searchbar">
@@ -87,18 +90,18 @@
                   <% end %>
                   
                   <% if agent.pto_requests.where(request_date: Date.today).empty? %>
-                    <div class="grid-overflow <%= agent.position %> <%= agent.team %> start-<%= hour %>" style='white-space: nowrap; position: relative;'><%= link_to "#{agent.name}", show_user_path(agent) %></div>
+                    <div class="grid-overflow <%= agent.position %> start-<%= hour %>" style='white-space: nowrap; position: relative; background-color: <%= agent.color %>'><%= link_to "#{agent.name}", show_user_path(agent) %></div>
                       <% (shift_length - 1).to_i.times do %>
                         <% hour = hour.to_i + 100 %>
                         <% if hour > 2400 %> <% hour = hour - 2400 %> <% end %>
-                        <div class="grid-overflow <%= agent.position %> <%= agent.team %> start-<%= '0' if hour < 1000 %><%= hour %>"></div>
+                        <div class="grid-overflow <%= agent.position %> start-<%= '0' if hour < 1000 %><%= hour %>" style = "background-color: <%= agent.color %>"></div>
                       <% end %>
                   <% else %>
-                    <div class="offtoday grid-overflow <%= agent.position %> start-<%= hour %>" style='white-space: nowrap; position: relative;'><%= link_to "#{agent.name} - OFF", show_user_path(agent) %></div>
+                    <div class="offtoday grid-overflow <%= agent.position %> start-<%= hour %>" style='white-space: nowrap; position: relative; background-color: <%= agent.color %>'><%= link_to "#{agent.name} - OFF", show_user_path(agent) %></div>
                     <% (shift_length - 1).to_i.times do %>
                       <% hour = hour.to_i + 100 %>
                       <% if hour > 2400 %> <% hour = hour - 2400 %> <% end %>
-                      <div class="offtoday grid-overflow <%= agent.position %> start-<%= '0' if hour < 1000 %><%= hour %>"></div>
+                      <div class="offtoday grid-overflow <%= agent.position %> start-<%= '0' if hour < 1000 %><%= hour %>" style = "background-color: <%= agent.color %>"></div>
                     <% end %>
                   <% end %>
               </div><!-- working-grid -->

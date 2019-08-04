@@ -153,7 +153,7 @@
  vertical-align: baseline;
 }
 
-.upload-users-content, .upload-values-content, .adjust-calendar-cost-content {
+.upload-users-content, .upload-values-content, .adjust-calendar-cost-content, .set-team-color-content {
   background-color: #fefefe;
   border: 1px solid #888;
   width: 40%;
@@ -250,62 +250,6 @@ form[enctype="multipart/form-data"] {
 .grid-overflow {
   white-space: nowrap;
   padding: 3px 5px 3px 5px;
-}
-
-.Black {
-  background-color: black;
-  color: $header;
-  color: $text;
-}
-
-.Red {
-  background-color: rgb(214, 29, 29);
-  color: $text;
-}
-
-.Blue {
-  background-color: #1DACD6;
-  color: $header;
-}
-
-.Orange {
-  background-color: #FFAA1D;
-  color: $text;
-}
-
-.White {
-  background-color: #e5e2e2;
-  color: $header;
-}
-
-.Green {
-  background-color: #8DD64F;
-  color: $text;
-}
-
-.Teal {
-  background-color: rgb(79, 214, 203);
-  color: $header;
-}
-
-.Charcoal {
-  background-color: #323332;
-  color: $text;
-}
-
-.Purple {
-  background-color: #643F90;
-  color: $text;
-}
-
-.Maroon {
-  background-color: #690b0b;
-  color: $text;
-}
-
-.Yellow {
-  background-color: #FFF000;
-  color: $text;
 }
 
 .offtoday {

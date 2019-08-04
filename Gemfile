@@ -51,6 +51,9 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # add jquery
 gem 'jquery-rails', '~> 4.3', '>= 4.3.3'
 
+# add Minicolor to the Rails asset pipeline
+gem 'jquery-minicolors-rails'
+
 # add devise
 gem 'devise'
 
