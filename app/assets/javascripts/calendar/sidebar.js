@@ -1,5 +1,4 @@
-$('.pages.index').ready(() => {
-  openYear = (event, year) => {
+openYear = (event, year) => {
     let tabContent = document.getElementsByClassName('tabContent')
     let yearButtons = document.getElementsByClassName('yearButtons')
     let nextYearButton = document.getElementById('nextYearButton')
@@ -29,8 +28,3 @@ $('.pages.index').ready(() => {
       currentYearButton.style.background = '#222629'
     }
   }
-
-  let year = document.getElementById('currentYearTable')
-
-  openYear(event, year)
-})
