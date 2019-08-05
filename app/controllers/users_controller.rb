@@ -36,11 +36,27 @@ class UsersController < ApplicationController
     end 
 
     def current
-        @user = User.find(current_user.id)
-        
-        respond_to do |format|
-            format.json {render :json => @user.to_json(:include => :pto_requests)}
-        end
+        # mynamejeff = current_user.as_json(:methods => [user_requests])
+        user_requests = current_user.pto_requests.where(:is_deleted => nil).or(current_user.pto_requests.where(:is_deleted => 0)).to_a
+        render json: {
+            id: current_user.id,
+            email: current_user.email,
+            name: current_user.name,
+            bank_value: current_user.bank_value,
+            humanity_user_id: current_user.humanity_user_id,
+            ten_hour_shift: current_user.ten_hour_shift,
+            position: current_user.position,
+            team: current_user.team,
+            start_time: current_user.start_time,
+            end_time: current_user.end_time,
+            work_days: current_user.work_days,
+            admin: current_user.admin,
+            on_pip: current_user.on_pip,
+            no_call_show: current_user.no_call_show,
+            make_up_days: current_user.make_up_days,
+            start_date: current_user.start_date,
+            pto_requests: user_requests,
+        }
     end
 
     def update_shift

@@ -76,7 +76,6 @@ class PtoRequestsController < ApplicationController
         # prior to the request being made
         @pto_request.signed_up_total = @calendar.signed_up_total
 
-        #!TODO this will need to be modified in order to account for soft deletes
         if @calendar.signed_up_agents.include?(@user.name)
             return redirect_to root_path, notice: "You already have a request for this date"
         end 
@@ -112,11 +111,11 @@ class PtoRequestsController < ApplicationController
         @user = @pto_request.user
         # disallow regular users from deleting pto requests they don't own
         unless current_user.admin == false || current_user.position != "Sup" || @user != current_user
-            return  redirect_to root_path, notice: "A! You do not have sufficent privlages to delete this request."
+            return  redirect_back(fallback_location: root_path), alert: "You do not have sufficent privlages to delete this request."
         end
         # disallow regular users from deleting past pto requests
         if @user == current_user && @pto_request.request_date < Date.today
-            return  redirect_to root_path, notice: "B You do not have sufficent privlages to delete this request."
+            return  redirect_back(fallback_location: root_path), alert: "You do not have sufficent privlages to delete this request."
         end 
 
         case @user.position
@@ -151,7 +150,7 @@ class PtoRequestsController < ApplicationController
         remove_request_info
 
         RequestsMailer.with(user: @user, pto_request: @pto_request).delete_request_email.deliver_now
-        return redirect_to root_path, notice: "Your request was deleted"
+        return redirect_back(fallback_location: root_path), notice: "Your request was deleted"
     end
 
     def destroy
