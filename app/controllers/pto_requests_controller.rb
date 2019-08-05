@@ -80,7 +80,11 @@ class PtoRequestsController < ApplicationController
         end
 
         if @pto_request.cost == -1
-            @pto_request.cost = @calendar.current_price
+            if @user.ten_hour_shift?
+                @pto_request.cost = @calendar.current_price * 10
+            else 
+                @pto_request.cost = @calendar.current_price * 8 
+            end
         end
 
         if @pto_request.save
