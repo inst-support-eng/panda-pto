@@ -1,3 +1,4 @@
+<!-- user's edit page /users/edit edit_user_registration_path -->
 <div class="layout-edit-user">
   <div class="left-edit-user">
       <button class="edit-user-buttons" id="reset-password-button">Reset Password</button>
@@ -43,6 +44,7 @@
         </div> 
       </div>
       <% end %>
+
       <div class="past-requests-tab">
         <% past_requests =  @user_requests.where("request_date < ?", Date.today).to_a  %>
         <% if past_requests.count > 0 %>
@@ -60,47 +62,47 @@
           </div>
       </div>
       <% end %>
+
   </div>
-      <div id="update-password" class="password-modal">
-          <div class="update-password-content">
-              <div class="modal-header">Update Password
-                <div class="close2">x</div></div>
-                <div class="password-form">
-                <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-                <%= render "devise/shared/error_messages", resource: resource %>
+    <div id="update-password" class="password-modal">
+      <div class="update-password-content">
+        <div class="modal-header">Update Password
+          <div class="close2">x</div></div>
+          <div class="password-form">
+          <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+          <%= render "devise/shared/error_messages", resource: resource %>
 
-                <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-                  <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-                <% end %>
+          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+            <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+          <% end %>
 
-                <div class="field">
-                  <%= f.hidden_field :email, :value => current_user.email %>
-                </div>
-
-                <div class="field">
-                <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-                <%= f.password_field :current_password, autocomplete: "current-password" %>
-                </div>
-                <br>
-                <div class="field">
-                <%= f.label :password %> <em><%= @minimum_password_length %> characters minimum</em>
-                <br>
-                <%= f.password_field :password, autocomplete: "new-password" %>
-                <% if @minimum_password_length %>
-                <% end %>
-                </div>
-                <br>
-                <div class="field">
-                  <%= f.label :password_confirmation %><br />
-                  <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-                </div>
-                <br>
-                <div class="actions">
-                  <%= f.submit "Update" %>
-                </div>
-                <% end %>
-              </div>
-            </div>
+          <div class="field">
+            <%= f.hidden_field :email, :value => current_user.email %>
           </div>
-  </div>
+
+          <div class="field">
+          <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+          <%= f.password_field :current_password, autocomplete: "current-password" %>
+          </div>
+          <br>
+          <div class="field">
+          <%= f.label :password %> <em><%= @minimum_password_length %> characters minimum</em>
+          <br>
+          <%= f.password_field :password, autocomplete: "new-password" %>
+          <% if @minimum_password_length %>
+          <% end %>
+          </div>
+          <br>
+          <div class="field">
+            <%= f.label :password_confirmation %><br />
+            <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+          </div>
+          <br>
+          <div class="actions">
+            <%= f.submit "Update" %>
+          </div>
+          <% end %>
+        </div>
+      </div>
+  </div> <!-- update-password -->
 </div>

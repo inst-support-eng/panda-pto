@@ -1,3 +1,6 @@
+/**
+ * loads / displays modals on calendar
+ */
 $(document).on('turbolinks:load', () => {
     // when a post is clicked show a modal
     renderModal = () => {
@@ -13,6 +16,7 @@ $(document).on('turbolinks:load', () => {
                 return date.request_date == e.target.id
             })
 
+            // get modals from calendar partial
             const hasOffModal = document.getElementById('hasOffModal')
             const pipModal = document.getElementById('pipModal')
             const calendarModal = document.getElementById('calendarModal')
@@ -57,7 +61,7 @@ $(document).on('turbolinks:load', () => {
                 }
             }
 
-            if (requestDate > currentDate && requestDate.getMonth() - currentDate.getMonth() <= 9 && !isNaN(current_price.current_price)) {
+            if (requestDate > currentDate && requestDate.getMonth() - currentDate.getMonth() <= 7 && !isNaN(current_price.current_price)) {
                 let requestQuarter = document.getElementById(getQuarter(requestDate)).innerHTML
                 let currentBank = requestQuarter.substr(requestQuarter.lastIndexOf(':') + 1)
 

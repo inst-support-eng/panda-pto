@@ -130,6 +130,4 @@ class UpdatePrice
       return output
     end
   end
-
-
-end
+end 
