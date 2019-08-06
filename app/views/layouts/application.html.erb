@@ -12,9 +12,21 @@
 
   <body>
     <%= render 'layouts/navigation' %>
-    <% flash.each do |key, value|%>
-    <div class="flash-notice <% key %>"><%= value %></div>
+    <div class="alert-container">
+    <% flash.each do |key, value| %>
+    <% if key == 'alert'
+      alert_class = 'danger'
+    elsif key == 'notice'
+      alert_class = 'success'
+    else
+        alert_class == key
+    end %>
+      <%= content_tag :div, class: "alert alert-#{alert_class}" do %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <%= value %>
+      <% end %>
     <% end %>
+    </div>
     <%= yield %>
   </body>
 

@@ -20,7 +20,7 @@ class UsersController < ApplicationController
             @user_requests = @user.pto_requests.where(:is_deleted => nil).or(@user.pto_requests.where(:is_deleted => 0))
 
         else
-            redirect_to root_path, notice: "You do not have access to this resource"
+            redirect_to root_path, alert: "You do not have access to this resource"
         end
     end
 
@@ -32,7 +32,7 @@ class UsersController < ApplicationController
         if @user.destroy 
             redirect_to admin_path
         else 
-            redirect_to show_user_path(@user), notice: "something went wrong"
+            redirect_to show_user_path(@user), alert: "something went wrong"
         end
     end 
 
@@ -87,7 +87,7 @@ class UsersController < ApplicationController
             User.import(params[:file])
             redirect_to admin_path, notice: "Agents CSV imported!"
         else
-            redirect_to admin_path, notice: "Please upload a valid CSV file"
+            redirect_to admin_path, alert: "Please upload a valid CSV file"
         end
     end
 

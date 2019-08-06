@@ -1,17 +1,17 @@
 /*---- Page Layout ----*/
 
 
-.alert {
+.notice {
     background-color: red;
     color: black;
-    grid-area: alert;
+    grid-area: notice;
     padding: 20px;
     border: 1px solid black;
     height: fit-content;
     border-radius: 3px;
 }
 
-.alert-content {
+.notice-content {
     margin: 10px;
 }
 
@@ -51,9 +51,9 @@
     display: grid;
     grid-template-rows: 225px auto;
   }
-  .users-right-alert{
+  .users-right-notice{
     grid-template-areas:
-     'alert'
+     'notice'
      'content-top' 
      'content-bottom';
   display: grid;
