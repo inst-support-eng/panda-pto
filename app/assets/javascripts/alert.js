@@ -26,13 +26,13 @@
    /* ALERT CLASS DEFINITION
     * ====================== */
   
-    var dismiss = '[data-dismiss="alert"]'
-      , Alert = function (el) {
-          $(el).on('click', dismiss, this.close)
-        }
+    let dismiss = '[data-dismiss="alert"]'
+    let Alert =  el => {
+        $(el).on('click', dismiss, this.close)
+    }
   
     Alert.prototype.close = function (e) {
-      var $this = $(this)
+      let $this = $(this)
         , selector = $this.attr('data-target')
         , $parent
   
@@ -70,7 +70,7 @@
   
     $.fn.alert = function (option) {
       return this.each(function () {
-        var $this = $(this)
+        let $this = $(this)
           , data = $this.data('alert')
         if (!data) $this.data('alert', (data = new Alert(this)))
         if (typeof option == 'string') data[option].call($this)
