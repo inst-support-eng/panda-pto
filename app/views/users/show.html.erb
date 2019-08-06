@@ -31,7 +31,7 @@
         <%= button_to "Toggle Pip", user_update_pip_path(@user), {class:"edit-user-buttons"} %>
         <%= button_to "Delete User", soft_delete_user_url(@user), data: {
             :confirm => "Are you sure that you want to delete #{@user.name}? This will also delete #{@user.name}'s future PTO requests."
-         }, :method => :put %>
+         }, :method => :delete %>
         <% end %>
         <% end %>
         <button class="edit-user-buttons" id="Back" onclick="history.back(-1)">Go Back</button>
@@ -60,64 +60,67 @@
             </table>
         </div>
         <div class="content-bottom">
-            <div class="upcoming-requests-tab">
+            <% if @user_requests.count <= 0 %>
+                <h2>User Has No PTO Requests</h2>
+            <% end %>
+            <div class="upcoming-requests-tab"> 
+                <% todays_request = @user_requests.where(:request_date => Date.today) %>
+                <% if todays_request.count > 0 %>
                     <h2>Requests for Today</h2>
                     <table class="requests">
-                        <% requests = @user.pto_requests.order("request_date ASC") %>
-                        <% requests.each do |request| %>
-                        <% if request.request_date == Date.today %>
                         <tr>
-                        <td><b>Date:</b> <%= request.request_date %></td>
-                        <td><b>Value:</b> <%= request.cost %></td>
-                        <td><b>Reason:</b> <%= request.reason %></td>
-                        <td><b>Excused:</b> <%= request.excused %> <%= request.admin_note %></td>
-                        <td><%= link_to "Delete", pto_request_path(request), {:data => {
+                        <td><b>Date:</b> <%= todays_request[0].request_date %></td>
+                        <td><b>Value:</b> <%= todays_request[0].cost %></td>
+                        <td><b>Reason:</b> <%= todays_request[0].reason %></td>
+                        <td><b>Excused:</b> <%= todays_request[0].excused %> <%= todays_request[0].admin_note %></td>
+                        <td><%= link_to "Delete", soft_delete_request_url(todays_request[0]), {:data => { 
                 :confirm => "Are you sure?"}, :method => :delete , :class => "edit-user-links"} %></td>
-                        <td><% if request.excused == false %><%= button_to "Excuse Request", excuse_pto_request_path(request) %></td>
-                        <% end %>
+                        <td><% if todays_request[0].excused == false %><%= button_to "Excuse Request", excuse_pto_request_path(todays_request[0]) %></td>
                         </tr>
-                        <% end %>
-                    <% end %>
+                    <% end # ??? %> 
                     </table>
+                <% end %>
             </div>
             <div class="upcoming-requests-tab">
+                <% upcoming_requests = @user_requests.where("request_date > ?", Date.today).to_a  %>
+                <% if upcoming_requests.count > 0 %>
                     <h2>Upcoming Requests</h2>
                     <table class="requests">
-                        <% @user.pto_requests.each do |request| %>
-                        <% if request.request_date > Date.today %>
+                        <% upcoming_requests.each do |request| %>
                         <tr>
                         <td><b>Date:</b> <%= request.request_date %></td>
                         <td><b>Value:</b> <%= request.cost %></td>
                         <td><b>Reason:</b> <%= request.reason %></td>
                         <td><b>Excused:</b> <%= request.excused %> <%= request.admin_note %></td>
-                        <td><%= link_to "Delete", pto_request_path(request), {:data => {
+                        <td><%= link_to "Delete", soft_delete_request_url(request), {:data => {
                 :confirm => "Are you sure?"}, :method => :delete , :class => "edit-user-links"} %></td>
                         <td><% if request.excused == false %><%= button_to "Excuse Request", excuse_pto_request_path(request) %></td>
                         <% end %>
                         </tr>
-                        <% end %>
                     <% end %>
                     </table>
-            </div> 
+                <% end %>
             <div class="past-requests-tab">
+                <% past_requests =  @user_requests.where("request_date < ?", Date.today).to_a  %>
+                <% if past_requests.count > 0 %>
+
                     <h2>Past Requests</h2>
                     <table class="requests">
-                        <% @user.pto_requests.each do |request| %>
-                        <% if request.request_date < Date.today %>
+                        <% past_requests.each do |request| %>
                         <tr>
                         <td><b>Date:</b> <%= request.request_date %></td>
                         <td><b>Value:</b> <%= request.cost %></td>
                         <td><b>Reason:</b> <%= request.reason %></td>
                         <td><b>Excused:</b> <%= request.excused %> <%= request.admin_note %></td>
-                        <td><%= link_to "Delete", pto_request_path(request), {:data => {
+                        <td><%= link_to "Delete", soft_delete_request_url(request), {:data => {
                 :confirm => "Are you sure?"}, :method => :delete , :class => "edit-user-links"} %></td>
                         <td><% if request.excused == false %><%= button_to "Excuse Request", excuse_pto_request_path(request) %></td>
                         <% end %>
                         </tr>
-                        <% end %>
                         <% end %>
                     </table>
             </div>
+            <% end %>
         </div>
     </div>
 <!-- modal for adding a new request -->    

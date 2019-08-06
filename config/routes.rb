@@ -15,8 +15,6 @@ Rails.application.routes.draw do
     end
     get 'current' => 'users#current'
     get 'users/:id' => 'users#show', as: :show_user
-    put 'users/:id/soft_delete' => 'users#soft_delete', as: :soft_delete_user
-    get 'admin/deleted_users' => 'admin#deleted_users'
     post 'users/:id/restore_user' => 'users#restore_user', as: :restore_user
 
     # fetch dates calendar methods
@@ -24,6 +22,9 @@ Rails.application.routes.draw do
     get 'calendars/l2_fetch_dates' => 'calendar_l2s#fetch_dates'
     get 'calendars/l3_fetch_dates' => 'calendar_l3s#fetch_dates'
     get 'calendars/sups_fetch_dates' => 'calendar_sups#fetch_dates'
+
+    # soft delete pto request
+    delete 'pto_requests/:id/delete'  => 'pto_requests#soft_delete', as: :soft_delete_request
   
     # feedback forms
     match "/feedback" => redirect("https://docs.google.com/forms/d/e/1FAIpQLSdxkcvYhkhql5-39tJZE7ERjSOtw2eEfq9j-KynRV08luSAJw/viewform"), :via => [:get], :as => :feedback
@@ -74,6 +75,11 @@ Rails.application.routes.draw do
     # import agents.csv
     get 'users/import'
     post 'users/import' => 'users#import'
+    # soft delete users
+    delete 'users/:id/soft_delete' => 'users#soft_delete', as: :soft_delete_user
+    # view (soft) deleted users
+    get 'admin/deleted_users' => 'admin#deleted_users'
+    
     resources :users do 
       collection { post :import}
     end

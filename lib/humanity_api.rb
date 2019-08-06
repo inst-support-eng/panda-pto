@@ -53,6 +53,15 @@ class HumanityAPI
     response['data']
   end
 
+# find disabled user accounts
+  def self.get_deleted_employees
+    access_token = get_token
+    url = "#{base_uri}/api/v2/employees?access_token=#{access_token}&disabled=1"
+    
+    response = HumanityAPI.get(url)
+    response['data']
+  end
+
 # get auth token
   def self.get_token
     url = "#{base_uri}/oauth2/token.php"

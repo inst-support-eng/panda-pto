@@ -16,6 +16,9 @@ class UsersController < ApplicationController
             @shift_end = Time.parse(@user.end_time).in_time_zone("Mountain Time (US & Canada)").strftime("%I:%M %p") unless @user.end_time.nil?
 
             @bank_split = Legalizer.split_year(@user)
+
+            @user_requests = @user.pto_requests.where(:is_deleted => nil).or(@user.pto_requests.where(:is_deleted => 0))
+
         else
             redirect_to root_path, alert: "You do not have access to this resource"
         end
@@ -35,11 +38,21 @@ class UsersController < ApplicationController
 
     # returns current user as json
     def current
-        @user = User.find(current_user.id)
-        
-        respond_to do |format|
-            format.json {render :json => @user.to_json(:include => :pto_requests)}
-        end
+        # mynamejeff = current_user.as_json(:methods => [user_requests])
+        user_requests = current_user.pto_requests.where(:is_deleted => nil).or(current_user.pto_requests.where(:is_deleted => 0)).to_a
+        render json: {
+            id: current_user.id,
+            email: current_user.email,
+            name: current_user.name,
+            ten_hour_shift: current_user.ten_hour_shift,
+            position: current_user.position,
+            team: current_user.team,
+            start_time: current_user.start_time,
+            end_time: current_user.end_time,
+            work_days: current_user.work_days,
+            on_pip: current_user.on_pip,
+            pto_requests: user_requests,
+        }
     end
 
     # update 8 / 10 hour shift

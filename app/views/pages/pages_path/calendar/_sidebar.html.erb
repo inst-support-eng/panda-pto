@@ -62,15 +62,13 @@
         <h4>Upcoming Requests:</h4>
         <table class="agent-requests">
             <tbody>
-            <% requests = current_user.pto_requests.order("request_date ASC")%>
+            <% requests = @user_requests.where("request_date > ?", Date.today).order("request_date ASC").to_a %>
             <% requests.each do |request| %>
                 <tr>
-                    <% if request.request_date > Date.today %>
                     <td><%= request.request_date %> </td><td> <%= request.reason.truncate(10) %> </td><td> <%= request.cost %></td>
-                    <td><%= link_to "Delete", pto_request_path(request), data: {
+                    <td><%= link_to "Delete", soft_delete_request_url(request), data: {
                         :confirm => "Are you sure?"
                     }, :method => :delete %><td>
-                    <% end %>
                 </tr>
             <% end %>
             </tbody>

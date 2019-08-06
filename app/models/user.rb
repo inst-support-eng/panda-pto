@@ -42,7 +42,7 @@ class User < ApplicationRecord
           agent.start_date = row[:start_date]
         end
         agent.name = row[:name]
-        agent.position = row[:position].upcase!
+        agent.position = row[:position].downcase.capitalize
         agent.admin = row[:admin] 
         agent.team = row[:team] 
         agent.start_time = row[:start_time] 
@@ -73,6 +73,7 @@ class User < ApplicationRecord
 # import users from humanity
   def self.humanity_import
     humanity_users = HumanityAPI.get_employees
+    deleted_users = HumanityAPI.get_deleted_employees
 
     humanity_users.each do |u|
       if u['schedules'].any? && (u['schedules']['1836499'] || u['schedules']['1836500'] ||  u['schedules']['1836500'])
@@ -168,6 +169,14 @@ class User < ApplicationRecord
           agent.save
         end 
       end
-    end 
-  end
+    # check for deleted users
+    deleted_users.each.do |d|
+      agent = find_by(:email => u['email'])
+      next if agent.nil?
+      agent.update(:is_deleted => 1, :password => SecureRandom.hex)
+      #!TODO add softdelete here
+      agent.pto_requests.where('request_date > ?', Date.today).destroy_all
+    end
+  end 
+
 end

@@ -5,6 +5,8 @@ class PagesController < ApplicationController
     before_action :login_required
 
     def index
+        @user_requests = current_user.pto_requests.where(:is_deleted => nil).or(current_user.pto_requests.where(:is_deleted => 0))
+
         @current_quarter = Legalizer.quarter(Date.today)
         @q1 = 0
         @q2 = 0
