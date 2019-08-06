@@ -1,3 +1,6 @@
+/**
+ * displays reset password modal from users profile
+ */
 $(document).on('turbolinks:load', () => {
     let editPassword = () => {
         var modal = document.getElementById('update-password');

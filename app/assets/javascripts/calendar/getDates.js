@@ -1,5 +1,7 @@
-// gets all calendar dates from rails 
-// used in calendar and modal
+/**
+ * gets data from calendars_controller method fetch_dates
+ * used in calendar and modal
+ */ 
 
 getDates = async () => {
     const response = await fetch('/calendars/fetch_dates')

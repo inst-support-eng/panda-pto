@@ -1,3 +1,6 @@
+###
+# this controller is for adjusting users table values
+###
 class UsersController < ApplicationController
     before_action :find_user, only: %i[destroy update_shift update_admin update_pip send_password_reset]
     def show
@@ -16,8 +19,6 @@ class UsersController < ApplicationController
         else
             redirect_to root_path, notice: "You do not have access to this resource"
         end
-
-
     end
 
     def destroy
@@ -32,6 +33,7 @@ class UsersController < ApplicationController
         end
     end 
 
+    # returns current user as json
     def current
         @user = User.find(current_user.id)
         
@@ -40,6 +42,7 @@ class UsersController < ApplicationController
         end
     end
 
+    # update 8 / 10 hour shift
     def update_shift
         @user.ten_hour_shift = !@user.ten_hour_shift
         @user.save
@@ -47,12 +50,14 @@ class UsersController < ApplicationController
         redirect_to show_user_path(@user) 
     end
 
+    # toggles admin
     def update_admin
         @user.admin = !@user.admin
         @user.save
         redirect_to show_user_path(@user) 
     end
 
+    # toggles pip, which allows user to make requests
     def update_pip
         @user.on_pip = !@user.on_pip
         @user.save

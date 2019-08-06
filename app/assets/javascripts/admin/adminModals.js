@@ -1,3 +1,6 @@
+/**
+ * displays modals on admin_path
+ */
 $(document).on('turbolinks:load', () => {
   adminModal = () => {
     let modal = document.getElementById('upload-users');

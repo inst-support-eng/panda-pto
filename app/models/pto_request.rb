@@ -2,6 +2,7 @@ class PtoRequest < ApplicationRecord
   require 'csv'
   belongs_to :user
 
+  # import requests from outside the system
   def self.import(file)
     CSV.foreach(file.path, {encoding: "UTF-8", headers: true, header_converters: :symbol, converters: :all}) do |row|
       agent = User.find_by(:email => row[:email])
@@ -28,11 +29,10 @@ class PtoRequest < ApplicationRecord
       
       agent.bank_value -= price
       agent.save
-      
-
     end
   end
 
+  # create csv of requests
   def self.to_csv()
     data = ['name', 'email', 'request_date', 'cost', 'reason', 'signed_up_total', 'excused', 'same_day', 'created_at'] 
     CSV.generate(headers: true) do |csv|

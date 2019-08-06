@@ -1,3 +1,6 @@
+/**
+ * loads modals for users_show_path
+ */
 $(document).on('turbolinks:load', () => {
     usersModal = () => {
         let requestModal = document.getElementById('add-request');
