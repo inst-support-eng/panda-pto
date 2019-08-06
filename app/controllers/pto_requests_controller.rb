@@ -26,7 +26,7 @@ class PtoRequestsController < ApplicationController
             dates.uniq.each { |x| UpdatePrice.update_calendar_item(x) }
             redirect_to root_url, notice: "PTO requests imported!"
         else
-            redirect_to root_url, notice: "Weep Womp. Please upload a valid CSV file"
+            redirect_to root_url, alert: "Weep Womp. Please upload a valid CSV file"
         end
     end
     
@@ -61,7 +61,7 @@ class PtoRequestsController < ApplicationController
         end
         
         if @user.on_pip == true && @user.id == current_user.id
-            return redirect_to root_path, notice: "You're PTO is currently restricted, please talk to your supervisor"
+            return redirect_to root_path, alert: "You're PTO is currently restricted, please talk to your supervisor"
         end    
 
         case @user.position
@@ -78,11 +78,11 @@ class PtoRequestsController < ApplicationController
         end
 
         if @calendar.signed_up_agents.include?(@user.name)
-            return redirect_to root_path, notice: "You already have a request for this date"
+            return redirect_to root_path, alert: "You already have a request for this date"
         end 
 
         if @user.bank_value < @pto_request.cost
-            return  redirect_to root_path, notice: "You do not have enough to make this request"
+            return  redirect_to root_path, alert: "You do not have enough to make this request"
         end
 
         if @pto_request.cost == -1
@@ -107,7 +107,7 @@ class PtoRequestsController < ApplicationController
                 return redirect_to show_user_path(@user)
             end
         else
-            return redirect_to root_path, notice: "something went wrong"
+            return redirect_to root_path, alert: "something went wrong"
         end
     end
 
@@ -141,7 +141,7 @@ class PtoRequestsController < ApplicationController
             RequestsMailer.with(user: @user, pto_request: @pto_request).delete_request_email.deliver_now
             return redirect_to root_path, notice: "Your request was deleted"
         else
-            return redirect_to root_path, notice: "Somthing went wrong"
+            return redirect_to root_path, alert: "Somthing went wrong"
         end
 
     end
@@ -150,7 +150,7 @@ class PtoRequestsController < ApplicationController
         @pto_request = PtoRequest.find(params[:id])
 
         if @pto_request == true
-            return redirect_to show_user_path(@user), notice: "This request is already excused"
+            return redirect_to show_user_path(@user), alert: "This request is already excused"
         end
 
         @user = User.find_by(:id => @pto_request.user_id)

@@ -9,7 +9,7 @@ class CalendarL3sController < ApplicationController
             CalendarL3.import(params[:file])
             redirect_to admin_path, notice: "Calendar CSV imported"
         else
-            redirect_to admin_path, notice: "Please upload a valid CSV file"
+            redirect_to admin_path, alert: "Please upload a valid CSV file"
         end
     end
 
