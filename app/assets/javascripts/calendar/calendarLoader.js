@@ -4,20 +4,18 @@ $(document).on('turbolinks:load', () => {
 	let month = today.getMonth()
 	let year = document.getElementById('currentYearTable')
 
-	$('.pages.index').ready(() => {
-		console.log('pages load')
+	$('.pages.index').ready(()  => {
 		createCalendar(year, month)
 		openYear(event, year)
-	})
 
-	$('#prev').click(() => {
-		previous()
-	})
-	$('#next').click(() => {
-		console.log(`click`)
-		next()
-	})
-	$('#jump').click(() => {
-		jump()
+		$('#prev').click(() => {
+			previous()
+		})
+		$('#next').click(() => {
+			next()
+		})
+		$('#jump').click(() => {
+			jump()
+		})
 	})
 })

@@ -8,7 +8,6 @@ let currentMonth = today.getMonth()
 let currentYear = today.getFullYear()
 
 createCalendar = async (year, month) => {
-
   let selectYear = document.getElementById("year")
   let selectMonth = document.getElementById("month")
 
@@ -149,18 +148,13 @@ next = () => {
   let nextYear = (currentMonth === 11) ? currentYear + 1 : currentYear
   let nextMonth = (currentMonth + 1) % 12
 
-  console.log(`currentYear ${currentYear}, currentMonth ${currentMonth}`)
-  console.log(`nextYear ${nextYear}, nextMonth ${nextMonth}`)
-  if (nextYear == today.getFullYear() + 1) {
+  if (nextYear == today.getFullYear() + 1 && nextYear != currentYear) {
     let changeYear = document.getElementById('nextYearTable')
     openYear(event, changeYear)
+  } else {
     createCalendar(nextYear, nextMonth)
   }
-  if (nextYear == today.getFullYear()) {
-    let year = document.getElementById('currentYearTable')
-    openYear(event, year)
-    createCalendar(nextYear, nextMonth)
-  }
+
   currentYear = nextYear
   currentMonth = nextMonth
 }
@@ -169,14 +163,10 @@ previous = () => {
   let prevYear = (currentMonth === 0) ? currentYear - 1 : currentYear
   let prevMonth = (currentMonth === 0) ? 11 : currentMonth - 1
 
-  if (prevYear == today.getFullYear() + 1) {
+  if (currentYear == prevYear - 1 && prevYear != currentYear) {
     let year = document.getElementById('nextYearTable')
     openYear(event, year)
-    createCalendar(prevYear, prevMonth)
-  }
-  if (prevYear == today.getFullYear()) {
-    let year = document.getElementById('currentYearTable')
-    openYear(event, year)
+  } else {
     createCalendar(prevYear, prevMonth)
   }
   currentYear = prevYear
