@@ -2,10 +2,6 @@
  * This js loads the calendar for users to request time off with
  */
 
-let today = new Date()
-let currentMonth = today.getMonth()
-let currentYear = today.getFullYear()
-
 createCalendar = async (year, month) => {
 
   let selectYear = document.getElementById("year")
