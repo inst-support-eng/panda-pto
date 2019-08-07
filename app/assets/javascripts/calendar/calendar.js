@@ -3,10 +3,12 @@
  */
 
 let today = new Date()
+
 let currentMonth = today.getMonth()
 let currentYear = today.getFullYear()
 
 createCalendar = async (year, month) => {
+
   let selectYear = document.getElementById("year")
   let selectMonth = document.getElementById("month")
 
@@ -147,8 +149,8 @@ next = () => {
   let nextYear = (currentMonth === 11) ? currentYear + 1 : currentYear
   let nextMonth = (currentMonth + 1) % 12
   if (nextYear == today.getFullYear() + 1) {
-    let year = document.getElementById('nextYearTable')
-    openYear(event, year)
+    let changeYear = document.getElementById('nextYearTable')
+    openYear(event, changeYear)
     createCalendar(nextYear, nextMonth)
   }
   if (nextYear == today.getFullYear()) {
@@ -192,7 +194,6 @@ jump = () => {
     openYear(event, year)
     createCalendar(jumpYear, jumpMonth)
   }
-
   currentYear = jumpYear
   currentMonth = jumpMonth
 }
