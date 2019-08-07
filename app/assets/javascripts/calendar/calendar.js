@@ -148,6 +148,9 @@ getDaysInMonth = (year, month) => {
 next = () => {
   let nextYear = (currentMonth === 11) ? currentYear + 1 : currentYear
   let nextMonth = (currentMonth + 1) % 12
+
+  console.log(`currentYear ${currentYear}, currentMonth ${currentMonth}`)
+  console.log(`nextYear ${nextYear}, nextMonth ${nextMonth}`)
   if (nextYear == today.getFullYear() + 1) {
     let changeYear = document.getElementById('nextYearTable')
     openYear(event, changeYear)
