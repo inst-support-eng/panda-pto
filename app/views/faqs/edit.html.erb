@@ -1,5 +1,7 @@
 <body>
+<div class="faqs-layout">
 	<h1>Editing FAQ</h1>
+	<div class="faqs-content">
 	<p><b>Last Updated By</b>: <%= @faq.last_modified_by %></p>
 	<p><b>Last Updated On</b>: <%= @faq.updated_at.strftime("%m/%d/%Y") %>
 
@@ -7,9 +9,11 @@
 		<%= bootstrap_form_for(@faq, :url => {:action => 'update', :id => @faq.id}) do |f| %>
 			<%= f.text_area :body, rows: 5, cols: 25, :class => 'tinymce' %>
 			<%= f.hidden_field :last_modified_by, :value => current_user.name %>
-			<%= f.submit 'update faq', class:'form-control'%>
+			<%= f.submit 'Update FAQ', class:'form-control', style: 'width: 400px;'%>
 		<% end %>
 	</div>
+	</div>
+</div>
 </body>	
 
 <%= tinymce%>

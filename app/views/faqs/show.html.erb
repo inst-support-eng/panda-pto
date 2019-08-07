@@ -1,14 +1,16 @@
 <body>
-  <div>
-    <p id="notice"><%= notice %></p>
-    <h1>FAQ</h1>
-    <div>
-      <p>
-        <%= @faq.body.html_safe %>
-        <hr>
-        <p><b>Lats Modified On</b>: <%= @faq.updated_at.strftime("%m/%d/%Y") %></p>
-      </p>
-    </div>
+  <div class="faqs-layout">
+  <h1>FAQ</h1>
+    <div class="faqs-content">
+     <p id="notice"><%= notice %></p>
+     <div>
+        <p>
+          <%= @faq.body.html_safe %>
+         <hr>
+         <p><b>Last Modified On</b>: <%= @faq.updated_at.strftime("%m/%d/%Y") %></p>
+        </p>
+     </div>
+     <%= link_to 'Back', root_path, class: 'adminlink', style:'width: 400px; margin-left: 0px' %>
+   </div>
   </div>
-  <%= link_to 'Back', root_path %>
 </body>
