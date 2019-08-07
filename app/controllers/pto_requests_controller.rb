@@ -143,11 +143,11 @@ class PtoRequestsController < ApplicationController
 
 
         if @pto_request.reason == 'no call / no show'
-            return sub_no_call_show
+            sub_no_call_show
         end
 
         if @pto_request.reason == 'make up / sick day'
-            return sub_make_up_day
+            sub_make_up_day
         end 
 
         # mark request as soft deleted
@@ -319,7 +319,6 @@ class PtoRequestsController < ApplicationController
         @user.no_call_show -= 1 unless @user.no_call_show.nil? || @user.no_call_show == 0
         @user.save
         
-        redirect_to show_user_path(@user)
         UpdatePrice.update_calendar_item(@calendar)
     end
 
@@ -357,7 +356,6 @@ class PtoRequestsController < ApplicationController
         @user.make_up_days -= 1 unless @user.make_up_days.nil? || @user.make_up_days == 0
         @user.save
         
-        redirect_to show_user_path(@user)
         UpdatePrice.update_calendar_item(@calendar)
     end
 end
