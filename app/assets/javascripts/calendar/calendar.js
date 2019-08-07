@@ -3,6 +3,7 @@
  */
 
 createCalendar = async (year, month) => {
+  let today = new Date()
 
   let selectYear = document.getElementById("year")
   let selectMonth = document.getElementById("month")
