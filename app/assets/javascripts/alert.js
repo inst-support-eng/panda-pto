@@ -18,10 +18,7 @@
 //  * ========================================================== */
 
 
-!function ($) {
-
-  //  "use strict"; // jshint ;_;
-  
+$(document).on('turbolinks:load', () => {
   
    /* ALERT CLASS DEFINITION
     * ====================== */
@@ -31,7 +28,7 @@
         $(el).on('click', dismiss, this.close)
     }
   
-    Alert.prototype.close = function (e) {
+    Alert.close = function (e) {
       let $this = $(this)
         , selector = $this.attr('data-target')
         , $parent
@@ -84,7 +81,7 @@
     * ============== */
   
     $(function () {
-      $('body').on('click.alert.data-api', dismiss, Alert.prototype.close)
+      $('body').on('click.alert.data-api', dismiss, Alert.close)
     })
   
-  }(window.jQuery);
+  })
