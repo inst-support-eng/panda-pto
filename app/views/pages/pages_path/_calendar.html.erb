@@ -8,7 +8,7 @@
 
     </head>
 
-    <body>
+    <body class="<%= controller_name %> <%= action_name %>">
         <div class="main-wrapper split">
             <div class="container content-wrapper">
                 <div class="calendar-wrapper z-depth-2">
@@ -76,9 +76,7 @@
                                 <tbody id="table-body">
                                 </tbody>
                             </table>
-                            <div hidden id="month-name">
-                                Month
-                            </div>
+                            <div hidden id="month-name"><% Date.today %></div>
                         </div>
                     </div>
                 </div>
