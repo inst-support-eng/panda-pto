@@ -3,7 +3,7 @@ Hello, This is to confirm that you’ve deleted PTO request. This will send an a
 Agent: <%= @user.name %>
 Cost of request: <%= @pto_request.cost %>
 Date of request: <%= @pto_request.request_date %>
-Remaining balance: <%= @user.bank_value %>
+<%= @pto_request.request_date.year %> remaing balance: <%= year_balance %>
         
 If you have any questions or concerns, please contact your supervisor.
 Thank you,

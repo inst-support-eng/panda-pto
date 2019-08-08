@@ -102,8 +102,16 @@ class PtoRequestsController < ApplicationController
             update_request_info
             check_long_requests
 
-            if(current_user.id == @pto_request.user_id)                   
-                RequestsMailer.with(user: @user, pto_request: @pto_request).requests_email.deliver_now
+            bank_split = Legalizer.split_year(@user)
+            year_balance = 0
+            if @pto_request.request_date.year == Date.today.year
+                year_balance = bank_split[0]
+            else
+                year_balance = bank_split[1]
+            end 
+
+            if(current_user.id == @pto_request.user_id)
+                RequestsMailer.with(user: @user, pto_request: @pto_request, year_balance: year_balance).requests_email.deliver_now
                 return redirect_to root_path
             else 
                 @pto_request.reason = @pto_request.reason + " requested by #{current_user.name}"

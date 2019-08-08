@@ -5,7 +5,7 @@ This email is to confirm that a PTO deduction has been made on your behalf. Your
 Agent: <%= @user.name %>
 Cost of request: <%= @pto_request.cost %>
 Date that was deducted: <%= @pto_request.request_date %>
-Remaining balances: <%= @user.bank_value %>
+<%= @pto_request.request_date.year %> remaing balance: <%= year_balance %>
 Balance deducted by: <%= @supervisor.name %> 
 
 If you have any questions or concerns, please contact your supervisor. 
