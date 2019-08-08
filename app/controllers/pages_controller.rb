@@ -19,7 +19,7 @@ class PagesController < ApplicationController
 
         @bank_split = Legalizer.split_year(current_user)
         
-        current_user.pto_requests.each do |r|
+        @user_requests.each do |r|
             if r.request_date.year == Date.today.year
                 q = Legalizer.quarter(r.request_date)
                 case q
