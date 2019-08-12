@@ -6,32 +6,32 @@ getQuarter = (date) => {
     if(year === current_year) {
 
         if(date.getTime() < quarters[1].getTime()) {
-            return 'quarter1'
+            return 'quarter1Balance'
         }
 
         if(date.getTime() < quarters[2].getTime()) {
-            return 'quarter2'
+            return 'quarter2Balance'
         }
 
         if(date.getTime() < quarters[3].getTime()) {
-            return 'quarter3'
+            return 'quarter3Balance'
         }
 
         if(date.getTime() > quarters[3].getTime()) {
-            return 'quarter4' 
+            return 'quarter4Balance' 
         }
     } else if(year > current_year) {
 
         if(date.getTime() < quarters[1].getTime()) {
-            return 'quarter1next'
+            return 'quarter1nextBalance'
         }
 
         if(date.getTime() < quarters[2].getTime()) {
-            return 'quarter2next'
+            return 'quarter2nextBalance'
         }
 
         if(date.getTime() < quarters[3].getTime()) {
-            return 'quarter3next'
+            return 'quarter3nextBalance'
         }
     }
 }
