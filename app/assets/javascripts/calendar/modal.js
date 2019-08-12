@@ -63,7 +63,6 @@ $(document).on('turbolinks:load', () => {
 
             if (requestDate > currentDate && requestDate.getMonth() - currentDate.getMonth() <= 7 && !isNaN(current_price.current_price)) {
                 let requestQuarter = document.getElementById(getQuarter(requestDate)).innerHTML
-                let currentBank = requestQuarter.substr(requestQuarter.lastIndexOf(':') + 1)
 
                 let displayCost = current_price.current_price * 8
                 if (currUser.ten_hour_shift) {
@@ -78,7 +77,7 @@ $(document).on('turbolinks:load', () => {
                     let closeButton = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times</span></button >'
                     $('.modal-header').html(closeButton)
                     hasOffModal.style.display = "block"
-                } else if(currentBank - displayCost  <= 0) {
+                } else if(requestQuarter - displayCost  <= 0) {
                     let closeButton = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times</span></button >'
                     $('.modal-header').html(closeButton)
                     notEnoughCreditsModal.style.display = "block"
@@ -89,7 +88,7 @@ $(document).on('turbolinks:load', () => {
                     $('.modal-header').html("New Request for " + e.target.id + closeButton)
 
                     $('.request-total').html(`Total: ${displayCost}`)
-                    $('.bank-total').html(`Quarter Bank Total : ${currentBank}`)
+                    $('.bank-total').html(`Quarter Bank Total : ${requestQuarter}`)
                     $('#pto_request_request_date').attr("value", e.target.id)
                     $('#pto_request_cost').attr("value", displayCost)
                 }

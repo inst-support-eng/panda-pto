@@ -1,5 +1,4 @@
 $(document).on('turbolinks:load', () => {
-	console.log('load')
 	let today = new Date()
 	let month = today.getMonth()
 	let year = document.getElementById('currentYearTable')
