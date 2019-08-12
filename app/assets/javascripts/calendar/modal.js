@@ -87,7 +87,7 @@ $(document).on('turbolinks:load', () => {
 
                     $('.modal-header').html("New Request for " + e.target.id + closeButton)
 
-                    $('.request-total').html(`Total: ${displayCost}`)
+                    $('.request-total').html(`Request Total: ${displayCost}`)
                     $('.bank-total').html(`Quarter Bank Total : ${requestQuarter}`)
                     $('#pto_request_request_date').attr("value", e.target.id)
                     $('#pto_request_cost').attr("value", displayCost)
