@@ -1,16 +1,19 @@
 <body>
+<div class="layout">
+  <div class="left">
+    <%= link_to 'Have a question?', root_path, class: 'adminlink', notice: "too bad nerd!" %>
+    <%= link_to 'Back', root_path, class: 'adminlink' %>
+  </div>
+
   <div class="faqs-layout">
-  <h1>FAQ</h1>
+  <h1 style="color: #485366">PTO: Frequently Asked Questions</h1>
     <div class="faqs-content">
      <p id="notice"><%= notice %></p>
      <div>
-        <p>
-          <%= @faq.body.html_safe %>
-         <hr>
-         <p><b>Last Modified On</b>: <%= @faq.updated_at.strftime("%m/%d/%Y") %></p>
+        <p><%= @faq.body.html_safe %></p>
+        <p class="smol">Last Updated: <%= @faq.updated_at.strftime("%m/%d/%Y") %></p>
         </p>
      </div>
-     <%= link_to 'Back', root_path, class: 'adminlink', style:'width: 400px; margin-left: 0px' %>
    </div>
   </div>
 </body>
