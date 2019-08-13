@@ -80,6 +80,9 @@ class PtoRequestsController < ApplicationController
         # set signed_up_total on a ptorequest object when it's created
         # equal to the signed_up_total of the associated calendar object
         # prior to the request being made
+        if @calendar.signed_up_total.nil? || @calendar.signed_up_total <= 0 
+            @calendar.signed_up_total = 0
+        end
         @pto_request.signed_up_total = @calendar.signed_up_total
 
         if @calendar.signed_up_agents.include?(@user.name)
@@ -286,7 +289,7 @@ class PtoRequestsController < ApplicationController
         @user.save
 
         @calendar.signed_up_agents.delete(@user.name)
-        @calendar.signed_up_total -= 1
+        @calendar.signed_up_total >= 1 ? @calendar.signed_up_total -= 1 : @calendar.signed_up_total = 0
         @calendar.save
         UpdatePrice.update_calendar_item(@calendar)
         HumanityAPI.delete_request(@pto_request.humanity_request_id)
@@ -320,7 +323,7 @@ class PtoRequestsController < ApplicationController
         @pto_request.save
 
         @calendar.signed_up_agents.delete(@user.name)
-        @calendar.signed_up_total -= 1
+        @calendar.signed_up_total >= 1 ? @calendar.signed_up_total -= 1 : @calendar.signed_up_total > 0
         @calendar.save
 
         @user.no_call_show -= 1 unless @user.no_call_show.nil? || @user.no_call_show == 0
@@ -357,7 +360,7 @@ class PtoRequestsController < ApplicationController
         @calendar = Calendar.find_by(:date => @pto_request.request_date)
 
         @calendar.signed_up_agents.delete(@user.name)
-        @calendar.signed_up_total -= 1
+        @calendar.signed_up_total >= 1 ? @calendar.signed_up_total -= 1 : @calendar.signed_up_total = 0
         @calendar.save
 
         @user.make_up_days -= 1 unless @user.make_up_days.nil? || @user.make_up_days == 0
