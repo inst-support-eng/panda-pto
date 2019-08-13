@@ -282,15 +282,14 @@ class PtoRequestsController < ApplicationController
 
     # remove needed info to update the calendar and user appropriately 
     def remove_request_info
-        HumanityAPI.delete_request(@pto_request.humanity_request_id)
+        @user.bank_value += @pto_request.cost
+        @user.save
 
         @calendar.signed_up_agents.delete(@user.name)
         @calendar.signed_up_total -= 1
         @calendar.save
         UpdatePrice.update_calendar_item(@calendar)
-
-        @user.bank_value += @pto_request.cost
-        @user.save
+        HumanityAPI.delete_request(@pto_request.humanity_request_id)
     end
 
     ## methods used for adding / subtracting no_call_shows for a user
