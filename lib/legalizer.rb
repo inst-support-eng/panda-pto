@@ -28,11 +28,15 @@ class Legalizer
     next_year_total = 0
     
     this_year_requests.each do |r|
-      this_year_total += r.cost
+      if r.is_deleted != true
+        this_year_total += r.cost
+      end
     end
 
     next_year_requests.each do |r|
-      next_year_total += r.cost
+      if r.is_deleted != true
+        next_year_total += r.cost
+      end
     end
 
     # determine today's quarter , adapted from pages_controller.rb
