@@ -24,8 +24,8 @@ class UpdatePrice
 
   def self.update_pto_requests(request)
     # accepts an array of PtoRequests, updates the object and
-    # refunds the associated user bank_value if
-    # 
+    # refunds the associated user bank_value if request would
+    # have cost less than what was originally paid
     return "something went wrong!" if request.class != Array
 
     request.each do |r|

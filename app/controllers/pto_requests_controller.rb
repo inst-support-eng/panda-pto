@@ -322,8 +322,6 @@ class PtoRequestsController < ApplicationController
         HumanityAPI.delete_request(@pto_request.humanity_request_id)
         @pto_request.save
 
-        @calendar.signed_up_agents.delete(@user.name)
-        @calendar.signed_up_total >= 1 ? @calendar.signed_up_total -= 1 : @calendar.signed_up_total > 0
         @calendar.save
 
         @user.no_call_show -= 1 unless @user.no_call_show.nil? || @user.no_call_show == 0
@@ -359,8 +357,6 @@ class PtoRequestsController < ApplicationController
         @pto_request.save
         @calendar = Calendar.find_by(:date => @pto_request.request_date)
 
-        @calendar.signed_up_agents.delete(@user.name)
-        @calendar.signed_up_total >= 1 ? @calendar.signed_up_total -= 1 : @calendar.signed_up_total = 0
         @calendar.save
 
         @user.make_up_days -= 1 unless @user.make_up_days.nil? || @user.make_up_days == 0
