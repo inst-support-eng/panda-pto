@@ -95,7 +95,11 @@ class UsersController < ApplicationController
         @user = User.find(params[:id])
         #updating the user's password also kills active sessions
         @user.update(:is_deleted => 1, :password => SecureRandom.hex)
-        @user.pto_requests.where('request_date > ?', Date.today).destroy_all
+        @user.pto_requests.where('request_date > ?', Date.today).each do |request|
+            @future_requests = PtoRequest.where(["request_date = ? and created_at > ?", request.request_date, request.created_at]).to_a
+            UpdatePrice.update_pto_requests(@future_requests)
+            request.destroy
+        end
         redirect_to show_user_path(@user)
     end
 

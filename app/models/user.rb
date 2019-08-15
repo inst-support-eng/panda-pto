@@ -62,8 +62,11 @@ class User < ApplicationRecord
         agent.save
         #deletes any upcoming requests for deleted users
         if agent.is_deleted then 
-          agent.pto_requests.where('request_date > ?', Date.today).destroy_all
-          #updating the user's password also kills active sessions
+          agent.pto_requests.where('request_date > ?', Date.today).each do |request|
+            future_requests = PtoRequest.where(["request_date = ? and created_at > ?", request.request_date, request.created_at]).to_a
+            UpdatePrice.update_pto_requests(future_requests)
+            request.destroy
+        end
           agent.update(:password => SecureRandom.hex)
         end
       end
@@ -173,6 +176,11 @@ class User < ApplicationRecord
     deleted_users.each.do |d|
       agent = find_by(:email => u['email'])
       next if agent.nil?
+      agent.pto_requests.where('request_date > ?', Date.today).each do |request|
+        future_requests = PtoRequest.where(["request_date = ? and created_at > ?", request.request_date, request.created_at]).to_a
+        UpdatePrice.update_pto_requests(future_requests)
+        request.destroy
+    end
       agent.update(:is_deleted => 1, :password => SecureRandom.hex)
       #!TODO add softdelete here
       agent.pto_requests.where('request_date > ?', Date.today).destroy_all
