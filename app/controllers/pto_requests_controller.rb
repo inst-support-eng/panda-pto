@@ -161,6 +161,8 @@ class PtoRequestsController < ApplicationController
             sub_make_up_day
         end 
 
+        # remove request from humanity
+        HumanityAPI.delete_request(@pto_request.humanity_request_id)
         # mark request as soft deleted
         @pto_request.update(:is_deleted => 1)
         # query all requests for the day, made after the deleted request
@@ -319,11 +321,6 @@ class PtoRequestsController < ApplicationController
     end
 
     def sub_no_call_show
-        HumanityAPI.delete_request(@pto_request.humanity_request_id)
-        @pto_request.save
-
-        @calendar.save
-
         @user.no_call_show -= 1 unless @user.no_call_show.nil? || @user.no_call_show == 0
         @user.save
         
@@ -353,12 +350,6 @@ class PtoRequestsController < ApplicationController
     end
 
     def sub_make_up_day
-        HumanityAPI.delete_request(@pto_request.humanity_request_id)
-        @pto_request.save
-        @calendar = Calendar.find_by(:date => @pto_request.request_date)
-
-        @calendar.save
-
         @user.make_up_days -= 1 unless @user.make_up_days.nil? || @user.make_up_days == 0
         @user.save
         
