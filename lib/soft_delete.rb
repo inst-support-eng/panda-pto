@@ -1,5 +1,5 @@
 class SoftDelete
-  def delete_future_requesets(user)
+  def self.delete_future_requesets(user)
     user_future_requests = user.pto_requests.where('request_date > ?', Date.today).to_a
     user_future_requests.each do |r|
         user.bank_value += r.cost
@@ -23,5 +23,5 @@ class SoftDelete
     end
     user.save
   end
-  
+
 end
