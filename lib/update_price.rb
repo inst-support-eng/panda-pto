@@ -32,8 +32,11 @@ class UpdatePrice
       next if r.signed_up_total.nil?
       shift_length = 8
       shift_length = 10 if r.user.ten_hour_shift? 
+      reduced_total = r.signed_up_total - 1
+      reduced_total = 0 if reduced_total < 0
+      cal = Calendar.find_by(:date => r.request_date)
 
-      reduced_price = value_map((r.signed_up_total - 1), r.request_date)
+      reduced_price = value_map((reduced_total + cal.base_value), r.request_date)
       cost_difference = r.cost - (reduced_price * shift_length)
       if cost_difference > 0
         r.user.bank_value += cost_difference
