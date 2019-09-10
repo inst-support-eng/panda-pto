@@ -15,7 +15,6 @@ openYear = (event, year) => {
   year.style.display = 'block'
   event.currentTarget.className += ' active'
   if(year.id == 'nextYearTable') {
-    let month = document.getElementById('month-name').innerText.split(' ')[0]
     createCalendar(new Date().getFullYear() + 1 , 0)
     currentYearButton.style.background = 'inherit'
     nextYearButton.style.background = '#222629'

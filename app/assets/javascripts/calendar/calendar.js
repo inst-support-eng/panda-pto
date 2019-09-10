@@ -8,6 +8,8 @@ let currentMonth = today.getMonth()
 let currentYear = today.getFullYear()
 
 createCalendar = async (year, month) => {
+  currentMonth = month
+  currentYear = year
   let selectYear = document.getElementById("year")
   let selectMonth = document.getElementById("month")
 
