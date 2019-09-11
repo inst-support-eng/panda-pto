@@ -13,6 +13,18 @@ createCalendar = async (year, month) => {
   let selectYear = document.getElementById("year")
   let selectMonth = document.getElementById("month")
 
+  if(year ==  new Date().getFullYear() + 1) {
+    currentYearButton.style.background = 'inherit'
+    nextYearButton.style.background = '#222629'
+  }
+
+  if(year == new Date().getFullYear()) {
+    nextYearButton.style.background = 'inherit'
+    currentYearButton.style.background = '#222629'
+    document.getElementById('nextYearTable').style.display = 'none'
+    document.getElementById('currentYearTable').style.display = 'block'
+  }
+
   let monthAndYear = document.getElementById("month-name")
 
   let calendarDates = await getDates()

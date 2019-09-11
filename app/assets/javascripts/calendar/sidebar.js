@@ -14,12 +14,13 @@ openYear = (event, year) => {
 
   year.style.display = 'block'
   event.currentTarget.className += ' active'
+  
   if(year.id == 'nextYearTable') {
     createCalendar(new Date().getFullYear() + 1 , 0)
     currentYearButton.style.background = 'inherit'
     nextYearButton.style.background = '#222629'
-
   }
+
   if(year.id == 'currentYearTable') {
     let today = new Date()
     createCalendar(today.getFullYear(), today.getMonth())
