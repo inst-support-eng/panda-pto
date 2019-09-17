@@ -18,24 +18,23 @@
                         </tr>
                         <tr>
                             <% unless @current_quarter > 1%>
-                                <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to March 31" id="quarter1Balance"><%= "#{@bank_split[0] + @q2 + @q3 + @q4 - 135}"%></td>
+                                <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to March 31" id="quarter1Balance"><%= "#{@q1_balance}"%></td>
                             <% else %>
                                 <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to March 31" id="quarter1Balance">--</td>
                             <% end %>
 
                             <% unless @current_quarter > 2 %>
-                                <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to June 30" id="quarter2Balance"><%= "#{@bank_split[0] + @q3 + @q4 - 90}"%></td>
+                                <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to June 30" id="quarter2Balance"><%= "#{@q2_balance}"%></td>
                             <% else %>
                                 <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to June 30" id="quarter2Balance">--</td>
                             <% end %> 
 
                             <% unless @current_quarter > 3 %>
-                                <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to Sept 30" id="quarter3Balance"><%= "#{@bank_split[0] + @q4- 45}" %></td>
+                                <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to Sept 30" id="quarter3Balance"><%= "#{@q3_balance}" %></td>
                             <% else %>
                                 <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to Sept 30" id="quarter3Balance">--</td>
                             <% end %>
-
-                            <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to Dec 31" id="quarter4Balance"><%= "#{@bank_split[0]}" unless @current_quarter > 4 %></td>
+                            <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to Dec 31" id="quarter4Balance"><%= "#{@q4_balance}" unless @current_quarter > 4 %></td>
                         </tr>
                     </tbody>
                 </table>                                          
@@ -51,22 +50,22 @@
                     </tr>
                     <tr>
                         <% if @current_quarter > 1 %> 
-                        <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to March 31 of <%= Date.today.year + 1 %>" id="quarter1nextBalance"><%= "#{45 - @q1_next}" %></td>
+                        <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to March 31 of <%= Date.today.year + 1 %>" id="quarter1nextBalance"><%= "#{@q1_next_balance}" %></td>
                         <% else %>
                         <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to March 31 of <%= Date.today.year + 1 %>" id="quarter1nextBalance"><%= "🔒" %></td>
                         <% end %>
                         <% if @current_quarter > 2 %> 
-                        <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to June 30 of <%= Date.today.year + 1 %>" id="quarter2nextBalance"><%= "#{90 - @q1_next - @q2_next}" %></td>
+                        <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to June 30 of <%= Date.today.year + 1 %>" id="quarter2nextBalance"><%= "#{@q2_next_balance}" %></td>
                         <% else %>
                         <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to June 30 of <%= Date.today.year + 1 %>" id="quarter2nextBalance"><%= "🔒" %></td>
                         <% end %>
                         <% if @current_quarter > 3 %> 
-                        <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to Sept 30 of <%= Date.today.year + 1 %>" id="quarter3nextBalance"><%= "#{135 - @q1_next - @q2_next - @q3_next}" %></td>
+                        <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to Sept 30 of <%= Date.today.year + 1 %>" id="quarter3nextBalance"><%= "#{@q3_next_balance}" %></td>
                         <% else %>
                         <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to Sept 30 of <%= Date.today.year + 1 %>" id="quarter3nextBalance"><%= "🔒" %></td>
                         <% end %>
                         <% if @current_quarter == 4 %>
-                        <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to Dec 31 of <%= Date.today.year + 1 %>" id="quarter4nextBalance"><%= "#{180 - @q1_next - @q2_next - @q3_next - @q4_next}" %></td>
+                        <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to Dec 31 of <%= Date.today.year + 1 %>" id="quarter4nextBalance"><%= "#{@q4_next_balance}" %></td>
                         <% else %>
                         <td class="quarter-spending tooltip-right" data-tooltip="Usable balance prior to Dec 31 of <%= Date.today.year + 1 %>" id="quarter4nextBalance"><%= "🔒" %></td>
                         <% end %>
