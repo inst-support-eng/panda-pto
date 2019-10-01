@@ -11,7 +11,7 @@ class Legalizer
         return 2
     elsif date < quarters[3]
         return 3
-    elsif date > quarters[3]
+    elsif date >= quarters[3]
         return 4
     else 
         return nil
