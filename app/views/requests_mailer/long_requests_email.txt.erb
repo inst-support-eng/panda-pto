@@ -1,8 +1,12 @@
 Hello fleeties! 
 
-<%= @user.name %> has taken more 4 or more conecutive days off in a row. Do with information as you will.
+Here is a list of agents that have take more than 4 days off in a row since your last email:
 
-The requested time is from <%= @requests.first %> to <%= @requests.last %>
+<% @users.each do |user| %>
+<%= user %>
+<% end %>
+
+Do with this information as you will.
 
 Love, 
 
