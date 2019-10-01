@@ -1,60 +1,63 @@
 <!DOCTYPE html>
 <html>
 
-  <head>
-    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
-    <style>
-      table {
-              border-collapse: collapse;
-              width: 85%;
-          }
-          td, th {
-              border: 1px solid #dddddd;
-              text-align: left;
-              padding: 6px;
-          }
-    </style>
-  </head>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 85%;
+    }
 
-  <body>
-    <% today = Calendar.find_by(:date => Date.today) %>
-    <% if today.signed_up_agents.empty? %>
-    <p>Contradulation Fleeties,</p>
+    td,
+    th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 6px;
+    }
+  </style>
+</head>
 
-    <p>No agents are schedlued off today \o/</p>
+<body>
+  <% today = Calendar.find_by(:date => Date.today) %>
+  <% if today.signed_up_agents.empty? %>
+  <p>Contradulation Fleeties,</p>
 
-    <% else %>
+  <p>No agents are schedlued off today \o/</p>
 
-    <p>Hello Fleeties,</p> 
+  <% else %>
 
-    <p>Here is a list of agents who are scheduled off today: <%= Date.today.strftime("%A, %Y-%m-%d") %> </p>
-    <!-- make this table nice and pretty -->
-      <table>
-        <tr>
-          <th>Agent</th>
-          <th>Shift</th>
-          <th>Position</th>
-          <th>Team</th>
-          <th>Request Reason</th>
-        </tr>
-        <% today.signed_up_agents.each do |name| %>
-        <% agent = User.find_by(:name => name) %>
-        <% shift_start = Time.parse(agent.start_time).in_time_zone("Mountain Time (US & Canada)").strftime("%I:%M %p") unless agent.start_time.nil? %>
-        <% shift_end = Time.parse(agent.end_time).in_time_zone("Mountain Time (US & Canada)").strftime("%I:%M %p") unless agent.end_time.nil? %>
+  <p>Hello Fleeties,</p>
 
-        <tr>
-          <td><%= agent.name %></td>
-          <td><%= shift_start %> - <%= shift_end %> </td>
-          <td><%= agent.position %> </td>
-          <td><%= agent.team %></td>
-          <td><%= agent.pto_requests.find_by(:request_date => Date.today).reason %> </td>
-        </tr>
-        <% end %>
-      </table> 
-      <% end %>
-      <p>Love,</p>
+  <p>Here is a list of agents who are scheduled off today: <%= Date.today.strftime("%A, %Y-%m-%d") %> </p>
+  <!-- make this table nice and pretty -->
+  <table>
+    <tr>
+      <th>Agent</th>
+      <th>Shift</th>
+      <th>Position</th>
+      <th>Team</th>
+      <th>Request Reason</th>
+    </tr>
+    <% today.signed_up_agents.each do |name| %>
+    <% agent = User.find_by(:name => name) %>
+    <% shift_start = Time.parse(agent.start_time).in_time_zone("Mountain Time (US & Canada)").strftime("%I:%M %p") unless agent.start_time.nil? %>
+    <% shift_end = Time.parse(agent.end_time).in_time_zone("Mountain Time (US & Canada)").strftime("%I:%M %p") unless agent.end_time.nil? %>
 
-        <p>Panda Admin</p>
-        </p>🖤🐼</p>
-    </body>      
+    <tr>
+      <td><%= agent.name %></td>
+      <td><%= shift_start %> - <%= shift_end %> </td>
+      <td><%= agent.position %> </td>
+      <td><%= agent.team %></td>
+      <td><%= agent.pto_requests.find_by(:request_date => Date.today).reason %> </td>
+    </tr>
+    <% end %>
+  </table>
+  <% end %>
+  <p>Love,</p>
+
+  <p>Panda Admin</p>
+  </p>🖤🐼</p>
+</body>
+
 </html>

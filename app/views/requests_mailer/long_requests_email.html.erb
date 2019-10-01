@@ -6,9 +6,12 @@
     <body>
         <p>Hello fleeties!</p>
         
-        <p><%= @user.name %> has taken more 4 or more conecutive days off in a row. Do with information as you will.</p>
-
-        <p>The requested time is from <%= @requests.first %> to <%= @requests.last %></p>
+        <p>Here is a list of agents that have take more than 4 days off in a row since your last email:</p>
+        <% @users.each do |user| %>
+        <li><%= user %></li>
+        <% end %>
+        
+        <p>Do with this information as you will.</p>
         
         <p>Love, <p>
 
