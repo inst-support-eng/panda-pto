@@ -188,6 +188,9 @@ previous = () => {
 }
 
 jump = () => {
+  let selectYear = document.getElementById("year")
+  let selectMonth = document.getElementById("month")
+  
   let jumpYear = parseInt(selectYear.value)
   let jumpMonth = parseInt(selectMonth.value)
 
