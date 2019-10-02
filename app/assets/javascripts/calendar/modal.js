@@ -9,7 +9,7 @@ $(document).on('turbolinks:load', () => {
             const currUser = await currentUser()
             let userDates = currUser.pto_requests
 
-            userDates.sort((a,b) => (a.request_date > b.request_date)? 1: -1)
+            userDates.sort((a, b) => (a.request_date > b.request_date) ? 1 : -1)
 
             // check to see if the user has the days off
             let hasOff = userDates.filter(date => {
@@ -73,11 +73,15 @@ $(document).on('turbolinks:load', () => {
                     let closeButton = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times</span></button >'
                     $('.modal-header').html(closeButton)
                     pipModal.style.display = "block"
-                } else if(hasOff.length == 1) {
+                } else if (hasOff.length == 1) {
                     let closeButton = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times</span></button >'
                     $('.modal-header').html(closeButton)
                     hasOffModal.style.display = "block"
+<<<<<<< HEAD
                 } else if(requestQuarter - displayCost  < 0) {
+=======
+                } else if (requestQuarter - displayCost < 0) {
+>>>>>>> fix zeroing out bank requests
                     let closeButton = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times</span></button >'
                     $('.modal-header').html(closeButton)
                     notEnoughCreditsModal.style.display = "block"
