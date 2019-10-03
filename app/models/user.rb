@@ -172,6 +172,7 @@ class User < ApplicationRecord
           agent.save
         end 
       end
+    end
     # check for deleted users
     deleted_users.each do |d|
       agent = find_by(:email => d['email'])
