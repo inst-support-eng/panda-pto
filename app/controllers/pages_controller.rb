@@ -77,7 +77,7 @@ class PagesController < ApplicationController
         end
         # calculate avalible balance for q2 of next year 
         if @bank_split[1] < (90 - (q1_next + q2_next))
-            @q2_next_balance = @bank_split[0]
+            @q2_next_balance = @bank_split[0] 
         else
             @q2_next_balance = (90 - (q1_next + q2_next))
         end

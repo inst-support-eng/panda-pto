@@ -45,7 +45,8 @@ class Legalizer
     current_quarter = quarter(date)
 
     if user.start_date.year == date.year
-      current_year_balance = user.bank_value - (((current_quarter * 45) - 45) + next_year_total)
+      prorated_start = 180 - (180 * (((user.start_date).yday.to_f) / (Date.new(y=Date.today.year, m=12, d=31).yday.to_f)))
+      current_year_balance = prorated_start.round - this_year_total
     else
       current_year_balance = 180 - this_year_total
     end
