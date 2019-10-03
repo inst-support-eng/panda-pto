@@ -173,12 +173,11 @@ class User < ApplicationRecord
         end 
       end
     # check for deleted users
-    deleted_users.each.do |d|
+    deleted_users.each do |d|
       agent = find_by(:email => d['email'])
       next if agent.nil?
       SoftDelete.delete_future_requesets(agent)
       agent.update(:is_deleted => 1, :password => SecureRandom.hex)
-      #!TODO add softdelete here
     end
   end 
 
