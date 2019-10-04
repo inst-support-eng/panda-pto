@@ -44,7 +44,7 @@ class Legalizer
     date = Date.today
     current_quarter = quarter(date)
 
-    if user.start_date.year == date.year
+    if user.start_date.year == date.year && user.created_at > Date.parse('2019-04-03')
       prorated_start = 180 - (180 * (((user.start_date).yday.to_f) / (Date.new(y=Date.today.year, m=12, d=31).yday.to_f)))
       current_year_balance = prorated_start.round - this_year_total
     else
