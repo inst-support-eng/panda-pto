@@ -18,11 +18,14 @@ class PtoRequestsController < ApplicationController
     if params[:file]
       # the PtoRequests are created in the model
       PtoRequest.import(params[:file])
-      # since the requests already exist, get all dates pto requests where created for
-      # and run just those dates through UpdatePrice
+      # since the requests already exist get all dates pto requests where
+      # created and run just those dates through UpdatePrice
       # prevents us from updating the same calendar object multiple times
       dates = []
-      CSV.foreach(params[:file].path, encoding: 'UTF-8', headers: true, header_converters: :symbol, converters: :all) do |row|
+      CSV.foreach(params[:file].path, encoding: 'UTF-8',
+                                      headers: true,
+                                      header_converters: :symbol,
+                                      converters: :all) do |row|
         dates.push(row[:date])
       end
       dates.uniq.each { |x| UpdatePrice.update_calendar_item(x) }
@@ -59,7 +62,8 @@ class PtoRequestsController < ApplicationController
     return add_make_up_day if @pto_request.reason == 'make up / sick day'
 
     if @user.on_pip == true && @user.id == current_user.id
-      return redirect_to root_path, alert: "You're PTO is currently restricted, please talk to your supervisor"
+      return redirect_to root_path,
+                         alert: "You're PTO is currently restricted, please talk to your supervisor"
     end
 
     @calendar = case @user.position
@@ -84,11 +88,13 @@ class PtoRequestsController < ApplicationController
     @pto_request.signed_up_total = @calendar.signed_up_total
 
     if @calendar.signed_up_agents.include?(@user.name)
-      return redirect_to root_path, alert: 'You already have a request for this date'
+      return redirect_to root_path,
+                         alert: 'You already have a request for this date'
     end
 
     if @user.bank_value < @pto_request.cost
-      return redirect_to root_path, alert: 'You do not have enough to make this request'
+      return redirect_to root_path,
+                         alert: 'You do not have enough to make this request'
     end
 
     if @pto_request.cost == -1
@@ -128,11 +134,14 @@ class PtoRequestsController < ApplicationController
     @user = @pto_request.user
     # disallow regular users from deleting pto requests they don't own
     unless current_user.admin == false || current_user.position != 'Sup' || @user != current_user
-      return  redirect_back(fallback_location: root_path), alert: 'You do not have sufficent privlages to delete this request.'
+      return redirect_back(fallback_location: root_path),
+        alert: 'You do not have sufficent privlages to delete this request.'
     end
+
     # disallow regular users from deleting past pto requests
     if @user == current_user && @pto_request.request_date < Date.today
-      return  redirect_back(fallback_location: root_path), alert: 'You do not have sufficent privlages to delete this request.'
+      return redirect_back(fallback_location: root_path),
+        alert: 'You do not have sufficent privlages to delete this request.'
     end
 
     @calendar = case @user.position
@@ -185,9 +194,9 @@ class PtoRequestsController < ApplicationController
                 end
 
     if @pto_request.destroy
-      return sub_no_call_show if @pto_request.reason == 'no call / no show'
+      sub_no_call_show if @pto_request.reason == 'no call / no show'
 
-      return sub_make_up_day if @pto_request.reason == 'make up / sick day'
+      sub_make_up_day if @pto_request.reason == 'make up / sick day'
 
       remove_request_info
       RequestsMailer.with(user: @user, pto_request: @pto_request).delete_request_email.deliver_now
@@ -289,7 +298,7 @@ class PtoRequestsController < ApplicationController
   end
 
   def sub_no_call_show
-    unless @user.no_call_show.nil? || @user.no_call_show == 0
+    unless @user.no_call_show.nil? || @user.no_call_show.zero?
       @user.no_call_show -= 1
     end
     @user.save
@@ -320,7 +329,7 @@ class PtoRequestsController < ApplicationController
   end
 
   def sub_make_up_day
-    unless @user.make_up_days.nil? || @user.make_up_days == 0
+    unless @user.make_up_days.nil? || @user.make_up_days.zero?
       @user.make_up_days -= 1
     end
     @user.save
