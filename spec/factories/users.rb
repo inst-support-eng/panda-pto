@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 FactoryBot.define do
   factory :user do
     sequence(:id) { |n| n }
@@ -16,5 +14,16 @@ FactoryBot.define do
     no_call_show { 0 }
     make_up_days { 0 }
     start_date { '2018-01-01' }
+    is_deleted { false }
+
+    factory :user_with_requests do
+      transient do
+        request_count { 5 }
+      end
+
+      after(:create) do |user, evaluator|
+        create_list(:pto_request, evaluator.request_count, user: user)
+      end
+    end
   end
 end

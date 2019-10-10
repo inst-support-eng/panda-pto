@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 Rails.application.routes.draw do
   authenticate :user, ->(u) { u.admin? } do
     get 'pto_requests/export' => 'pto_requests#export'
