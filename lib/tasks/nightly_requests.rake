@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 desc 'check for long requests'
 task check_long_requests: :environment do
   requests = PtoRequest.where('created_at > ?', Date.yesterday)

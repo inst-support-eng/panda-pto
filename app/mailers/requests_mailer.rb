@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class RequestsMailer < ApplicationMailer
   default from: ENV['APP_FROM_EMAIL']
 

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 desc 'remove new hires from 90 day pip'
 task new_hire_check_pip: :environment do
   @users = User.all

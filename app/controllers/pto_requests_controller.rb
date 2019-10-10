@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 ###
 # this controller is for PTO requests made by end user and admins
 ###
@@ -29,9 +27,9 @@ class PtoRequestsController < ApplicationController
         dates.push(row[:date])
       end
       dates.uniq.each { |x| UpdatePrice.update_calendar_item(x) }
-      redirect_to root_url, notice: 'PTO requests imported!'
+      redirect_to admin_path, notice: 'PTO requests imported!'
     else
-      redirect_to root_url, alert: 'Weep Womp. Please upload a valid CSV file'
+      redirect_to admin_path, alert: 'Weep Womp. Please upload a valid CSV file'
     end
   end
 
@@ -195,14 +193,12 @@ class PtoRequestsController < ApplicationController
 
     if @pto_request.destroy
       sub_no_call_show if @pto_request.reason == 'no call / no show'
-
       sub_make_up_day if @pto_request.reason == 'make up / sick day'
 
       remove_request_info
       RequestsMailer.with(user: @user, pto_request: @pto_request).delete_request_email.deliver_now
       return redirect_to root_path, notice: 'Your request was deleted'
     else
-
       return redirect_to root_path, alert: 'Somthing went wrong'
     end
   end
@@ -210,7 +206,7 @@ class PtoRequestsController < ApplicationController
   def excuse_request
     @pto_request = PtoRequest.find(params[:id])
 
-    if @pto_request == true
+    if @pto_request.excused == true
       return redirect_to show_user_path(@user), alert: 'This request is already excused'
     end
 
