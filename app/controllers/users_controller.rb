@@ -2,6 +2,7 @@
 # this controller is for adjusting users table values
 ###
 class UsersController < ApplicationController
+	before_action :login_required
   before_action :find_user, only: %i[destroy update_shift update_admin update_pip send_password_reset]
   def show
     if current_user.nil?
