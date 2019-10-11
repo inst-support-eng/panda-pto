@@ -1,14 +1,15 @@
-require "rails_helper"
+require 'rails_helper'
 
-RSpec.feature "Logout", :type => :feature do
-  let(:user) { create(:user) }
-
-  scenario 'user successfully logs out', js: true do
-    sign_in user
-    visit root_path
-    find('nav #user-settings').click
-    find('nav a', text: 'Log out').click
-    expect(page).to have_selector('nav a', text: 'Login')
+RSpec.feature 'Logout', type: :feature do
+  before(:each) do
+    @user = FactoryBot.create(:user)
   end
 
+  scenario 'user successfully logs out', js: true do
+    sign_in(@user)
+    visit(root_path)
+    find('nav #user-settings').click
+    find_link('Log out').click
+    expect(page).to have_button('Log in')
+  end
 end

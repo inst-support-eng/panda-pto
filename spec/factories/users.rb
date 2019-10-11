@@ -15,6 +15,9 @@ FactoryBot.define do
     make_up_days { 0 }
     start_date { '2018-01-01' }
     is_deleted { false }
+    start_time { '15:00Z' }
+    end_time { '23:00Z' }
+    work_days { [1, 2, 3, 4, 5] }
 
     factory :user_with_requests do
       transient do
