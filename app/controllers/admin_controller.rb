@@ -1,7 +1,6 @@
 ##
 # Admin controller for what is viewable by admins
 ##
-
 class AdminController < ApplicationController
   before_action :login_required
   helper_method :sort_col, :sort_dir
@@ -44,11 +43,12 @@ class AdminController < ApplicationController
   end
 
   private
+
   def sort_col
     User.column_names.include?(params[:sort]) ? params[:sort] : 'name'
   end
 
   def sort_dir
     %w[asc desc].include?(params[:direction]) ? params[:direction] : 'asc'
-   end
+  end
 end
