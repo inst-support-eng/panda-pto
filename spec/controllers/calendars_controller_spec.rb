@@ -47,9 +47,9 @@ RSpec.describe CalendarsController, type: :controller do
     it 'should update calendar price' do
       expect(@calendar.current_price).to eq(0.5)
 
-      post :update_base_price, params: { date: { date: @calendar.date }, cost: { cost: 4 } }
+      post :update_base_price, params: { date: { date: @calendar.date }, cost: { cost: 15 } }
 
-      expect(@calendar.reload.current_price).to eq(0.5)
+      expect(@calendar.reload.current_price).to eq(1.5)
       expect(response).to redirect_to(admin_path)
     end
   end
