@@ -3,11 +3,15 @@
 ###
 require 'httparty'
 
+###
+# Humanity Connector, creates users, created/ deleted requests
+##
+
 class HumanityAPI
   include HTTParty
   base_uri 'https://www.humanity.com'
 
-# used to create request in Humanity
+  # used to create request in Humanity
   def self.create_request(request, user)
     access_token = get_token
     url = "#{base_uri}/api/v2/leaves?access_token=#{access_token}"
@@ -24,7 +28,7 @@ class HumanityAPI
     response['data']['id']
   end
 
-# approve created request in Humanity
+  # approve created request in Humanity
   def self.approve_request(request_id)
     access_token = get_token
     url = "#{base_uri}/api/v2/leaves/#{request_id}?access_token=#{access_token}"
@@ -35,7 +39,7 @@ class HumanityAPI
     response
   end
 
-# delete requests in Humanity
+  # delete requests in Humanity
   def self.delete_request(request_id)
     access_token = get_token
     url = "#{base_uri}/api/v2/leaves/#{request_id}?access_token=#{access_token}"
@@ -44,25 +48,25 @@ class HumanityAPI
     response
   end
 
-# obtain list of employees
+  # obtain list of employees
   def self.get_employees
     access_token = get_token
     url = "#{base_uri}/api/v2/employees?access_token=#{access_token}"
-    
+
     response = HumanityAPI.get(url)
     response['data']
   end
 
-# find disabled user accounts
+  # find disabled user accounts
   def self.get_deleted_employees
     access_token = get_token
     url = "#{base_uri}/api/v2/employees?access_token=#{access_token}&disabled=1"
-    
+
     response = HumanityAPI.get(url)
     response['data']
   end
 
-# get auth token
+  # get auth token
   def self.get_token
     url = "#{base_uri}/oauth2/token.php"
     headers = { 'Content-Type' => 'application/x-www-form-urlencoded' }
@@ -79,14 +83,14 @@ class HumanityAPI
     access_token
   end
 
-# sets humanity id to user. 0, if user is exists in panda-pto but not humanity
+  # sets humanity id to user. 0, if user is exists in panda-pto but not humanity
   def self.set_humanity_id(email, response)
-    humanity_user_id = response.select { |res| res['email'] == email}
+    humanity_user_id = response.select { |res| res['email'] == email }
     if humanity_user_id.empty?
-        humanity_user_id = 0
-        # prevents a user without a humanity account from derailing an import
+      humanity_user_id = 0
+    # prevents a user without a humanity account from derailing an import
     else
-        humanity_user_id = humanity_user_id[0]['id']
+      humanity_user_id = humanity_user_id[0]['id']
     end
-  end   
+  end
 end

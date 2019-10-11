@@ -30,6 +30,3 @@
 /config/master.key
 .vscode/settings.json
 config/google_credentials.json
-
-# ignore rubocop
-.rubocop.yml
