@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :calendar do
     date { 10.days.from_now }
-    base_value { 1.5 }
-    signed_up_total { 1 }
+    base_value { 0 }
+    signed_up_total { 0 }
     signed_up_agents { [] }
-    current_price { 1.5 }
+    current_price { 0.5 }
   end
 end

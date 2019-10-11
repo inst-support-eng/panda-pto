@@ -52,7 +52,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'jquery-rails', '~> 4.3', '>= 4.3.3'
 
 # add devise
-gem "devise", ">= 4.7.1"
+gem 'devise', '>= 4.7.1'
 
 # google api
 gem 'google-api-client'

@@ -17,7 +17,6 @@ class UpdatePrice
                else
                  @calendar.base_value + @calendar.signed_up_total
                end
-
     @calendar.current_price = value_map(@updated, @calendar.date)
     @calendar.save
   end
@@ -34,7 +33,7 @@ class UpdatePrice
       shift_length = 8
       shift_length = 10 if r.user.ten_hour_shift?
       reduced_total = r.signed_up_total - 1
-      reduced_total = 0 if reduced_total < 0
+      reduced_total = 0 if reduced_total.negative?
       cal = Calendar.find_by(date: r.request_date)
 
       reduced_price = value_map((reduced_total + cal.base_value), r.request_date)

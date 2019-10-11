@@ -77,11 +77,7 @@ $(document).on('turbolinks:load', () => {
                     let closeButton = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times</span></button >'
                     $('.modal-header').html(closeButton)
                     hasOffModal.style.display = "block"
-<<<<<<< HEAD
                 } else if(requestQuarter - displayCost  < 0) {
-=======
-                } else if (requestQuarter - displayCost < 0) {
->>>>>>> fix zeroing out bank requests
                     let closeButton = '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times</span></button >'
                     $('.modal-header').html(closeButton)
                     notEnoughCreditsModal.style.display = "block"

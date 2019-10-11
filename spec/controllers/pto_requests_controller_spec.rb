@@ -40,12 +40,12 @@ RSpec.describe PtoRequestsController, type: :controller do
       @user.admin = true
       @user.save
 
-      CSV.open('test.csv', 'w', col_sep: ',', headers: true) do |csv|
+      CSV.open('pto_request.csv', 'w', col_sep: ',', headers: true) do |csv|
         csv << %w[date email shift]
         requests.each { |row| csv << row }
       end
 
-      post :import_request, params: { file: fixture_file_upload('test.csv', 'text/csv') }
+      post :import_request, params: { file: fixture_file_upload('pto_request.csv', 'text/csv') }
 
       expect(PtoRequest.count).to eq(1)
       expect(PtoRequest.where(user_id: @user.id)).to be_present
@@ -107,7 +107,7 @@ RSpec.describe PtoRequestsController, type: :controller do
       @user2.save
       @calendar.save
 
-      expect(@calendar.reload.signed_up_total).to eq(1)
+      expect(@calendar.reload.signed_up_total).to eq(0)
       expect(@user2.reload.pto_requests.count).to eq(5)
       expect(@calendar.reload.signed_up_agents).to include(@user2.name)
       expect(@user2.reload.bank_value).to eq(150)
