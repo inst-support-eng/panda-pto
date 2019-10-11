@@ -11,7 +11,7 @@ class RegistrationsController < Devise::RegistrationsController
     @user_requests = @user.pto_requests.where(is_deleted: nil).or(@user.pto_requests.where(is_deleted: 0))
   end
 
-    private
+  private
 
   def sign_up_params
     params.require(:user).permit(:name,
@@ -27,4 +27,4 @@ class RegistrationsController < Devise::RegistrationsController
                                  :password_confirmation,
                                  :current_password)
   end
-  end
+end

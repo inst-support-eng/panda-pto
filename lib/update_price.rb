@@ -1,3 +1,7 @@
+##
+# updates calendar price dependants on data and the num of signed up agents
+##
+
 class UpdatePrice
   def self.update_calendar_item(date)
     # validate input, this method can be accept:
