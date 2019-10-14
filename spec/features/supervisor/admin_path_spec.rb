@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.feature 'Admin Path', type: :feature do
+RSpec.feature 'Supervisor Admin Path', type: :feature do
   before(:each) do
-    @admin = FactoryBot.create(:user, :admin)
+    @sup = FactoryBot.create(:user, :supervisor)
     @user = FactoryBot.create(:user_with_one_request)
     @calendar = FactoryBot.create(:calendar)
   end
@@ -14,19 +14,19 @@ RSpec.feature 'Admin Path', type: :feature do
   end
 
   scenario 'should allow admin to access the admin path', js: true do
-    sign_in(@admin)
+    sign_in(@sup)
     visit(root_path)
     find('#user-settings').click
     click_link('Admin')
 
-    expect(page).to have_button('Upload Values')
-    expect(page).to have_button('Upload Users')
-    expect(page).to have_button('Import Requests')
-    expect(page).to have_button('Adjust Date Costs')
+    expect(page).to have_no_button('Upload Values')
+    expect(page).to have_no_button('Upload Users')
+    expect(page).to have_no_button('Import Requests')
+    expect(page).to have_no_button('Adjust Date Costs')
     expect(page).to have_link('Export PTO')
 
     expect(page).to have_link(@user.name.to_s)
-    expect(page).to have_link(@admin.name.to_s)
+    expect(page).to have_link(@sup.name.to_s)
   end
 
   scenario 'should not allow normal users to access the admin page', js: true do
@@ -40,7 +40,7 @@ RSpec.feature 'Admin Path', type: :feature do
   end
 
   scenario 'should not show deleted users', js: true do
-    sign_in(@admin)
+    sign_in(@sup)
     visit(admin_path)
 
     expect(page).to have_link(@user.name.to_s)

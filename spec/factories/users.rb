@@ -27,13 +27,13 @@ FactoryBot.define do
       position { 'Sup' }
     end
 
-		trait :deleted_user do
-			is_deleted { true }
-		end
+    trait :deleted_user do
+      is_deleted { true }
+    end
 
-		trait :on_pip_user do
-			on_pip { true }
-		end
+    trait :on_pip_user do
+      on_pip { true }
+    end
 
     factory :user_with_requests do
       transient do
