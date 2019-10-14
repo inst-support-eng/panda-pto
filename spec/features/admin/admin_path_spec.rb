@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'spec_helper'
 
 RSpec.feature 'Admin Path', type: :feature do
   before(:each) do
@@ -27,5 +26,29 @@ RSpec.feature 'Admin Path', type: :feature do
 
     expect(page).to have_link(@user.name.to_s)
     expect(page).to have_link(@admin.name.to_s)
+  end
+
+  scenario 'should not allow normal users to access the admin page', js: true do
+    sign_in(@user)
+    visit(root_path)
+    find('#user-settings').click
+    has_no_link?('Admin')
+
+    visit(admin_path)
+    expect { visit(admin_path) }.to raise_error(ActionController::RoutingError)
+  end
+
+  scenario 'should not show deleted users', js: true do
+    sign_in(@admin)
+    visit(admin_path)
+
+    expect(page).to have_link(@user.name.to_s)
+
+    @user.is_deleted = true
+    @user.save
+
+    visit(admin_path)
+    expect(@user.reload.is_deleted).to eq(true)
+    expect(page).to have_no_link(@user.name.to_s)
   end
 end
