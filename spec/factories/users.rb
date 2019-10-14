@@ -28,5 +28,15 @@ FactoryBot.define do
         create_list(:pto_request, evaluator.request_count, user: user)
       end
     end
+
+    factory :user_with_one_request do
+      transient do
+        request_count { 1 }
+      end
+
+      after(:create) do |user, evaluator|
+        create_list(:pto_request, evaluator.request_count, user: user)
+      end
+    end
   end
 end
