@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Add Requests', type: :feature do
+RSpec.feature 'Delete Requests', type: :feature do
   before(:each) do
     @user = FactoryBot.create(:user_with_one_request)
     @calendar = FactoryBot.create(:calendar)
