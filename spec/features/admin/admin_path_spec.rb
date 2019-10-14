@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.feature 'Admin Path', type: :feature do
   before(:each) do
-    @admin = FactoryBot.create(:admin)
+    @admin = FactoryBot.create(:user, :admin)
     @user = FactoryBot.create(:user_with_one_request)
     @calendar = FactoryBot.create(:calendar)
   end

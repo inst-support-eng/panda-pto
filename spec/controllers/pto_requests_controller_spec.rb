@@ -85,8 +85,6 @@ RSpec.describe PtoRequestsController, type: :controller do
       post :create, params: { pto_request: { user_id: @user.id, reason: 'also butts',
                                              request_date: 10.days.from_now, cost: 160 } }
 
-      @user.save
-      @calendar.save
 
       @user.reload
       @calendar.reload
@@ -104,8 +102,6 @@ RSpec.describe PtoRequestsController, type: :controller do
 
       post :create, params: { pto_request: { user_id: @user2.id, reason: 'also butts',
                                              request_date: 10.days.from_now, cost: 10 } }
-      @user2.save
-      @calendar.save
 
       expect(@calendar.reload.signed_up_total).to eq(0)
       expect(@user2.reload.pto_requests.count).to eq(5)
@@ -123,8 +119,6 @@ RSpec.describe PtoRequestsController, type: :controller do
                        request_date: 10.days.from_now, cost: 10 }
 
       post :create, params: { pto_request: @pto_request }
-      @user.save
-      @calendar.save
 
       expect(PtoRequest.count).to eq(5)
       expect(@user.reload.bank_value).to eq(150)
@@ -139,8 +133,6 @@ RSpec.describe PtoRequestsController, type: :controller do
                        request_date: 10.days.from_now, cost: 0 }
 
       post :create, params: { pto_request: @pto_request }
-      @user.save
-      @calendar.save
 
       expect(PtoRequest.count).to eq(6)
       expect(@user.reload.bank_value).to eq(150)
@@ -154,8 +146,6 @@ RSpec.describe PtoRequestsController, type: :controller do
                        request_date: 10.days.from_now, cost: 0 }
 
       post :create, params: { pto_request: @pto_request }
-      @user.save
-      @calendar.save
 
       expect(PtoRequest.count).to eq(6)
       expect(@user.reload.bank_value).to eq(150)

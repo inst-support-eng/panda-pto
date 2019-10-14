@@ -102,9 +102,7 @@ RSpec.describe UsersController, type: :controller do
   describe 'POST #update_admin' do
     before(:each) do
       @user = FactoryBot.create(:user)
-      @admin = FactoryBot.create(:user)
-      @admin.admin = true
-      @admin.save
+      @admin = FactoryBot.create(:user, :admin)
     end
     after(:each) do
       User.delete_all
@@ -144,9 +142,7 @@ RSpec.describe UsersController, type: :controller do
   describe 'POST #update_pip' do
     before(:each) do
       @user = FactoryBot.create(:user)
-      @user_on_pip = FactoryBot.create(:user)
-      @user_on_pip.on_pip = true
-      @user_on_pip.save
+      @on_pip_user = FactoryBot.create(:user, :on_pip_user)
     end
     after(:each) do
       User.delete_all
@@ -162,15 +158,15 @@ RSpec.describe UsersController, type: :controller do
     end
 
     it 'should update false on_pip = true to false' do
-      sign_in(@user_on_pip, scope: :user)
+      sign_in(@on_pip_user, scope: :user)
 
-      expect(@user_on_pip.on_pip).to be(true)
+      expect(@on_pip_user.on_pip).to be(true)
 
-      post :update_pip, params: { user_id: @user_on_pip.id }
+      post :update_pip, params: { user_id: @on_pip_user.id }
 
-      expect(@user_on_pip.reload.on_pip).to be(false)
+      expect(@on_pip_user.reload.on_pip).to be(false)
       expect(response).to have_http_status(:redirect)
-      expect(response).to redirect_to(show_user_path(@user_on_pip))
+      expect(response).to redirect_to(show_user_path(@on_pip_user))
     end
 
     it 'should redirect non-logged in users to login_path' do
@@ -187,7 +183,8 @@ RSpec.describe UsersController, type: :controller do
   describe 'DELETE #soft_delete' do
     before(:each) do
       @user = FactoryBot.create(:user_with_requests)
-      @calendar = FactoryBot.create(:calendar)
+			@calendar = FactoryBot.create(:calendar)
+			sign_in(@user, scope: :user)
     end
 
     after(:each) do
@@ -196,7 +193,6 @@ RSpec.describe UsersController, type: :controller do
     end
 
     it 'should flag the user.is_deleted = 1' do
-      sign_in(@user, scope: :user)
       delete :soft_delete, params: { id: @user.id }
 
       expect(User.count).to eq(1)
@@ -206,10 +202,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     it 'should remove active pto_requests from the user' do
-      sign_in(@user, scope: :user)
       delete :soft_delete, params: { id: @user.id }
-
-      @user.reload
 
       expect(User.count).to eq(1)
       expect(@user.reload.pto_requests.where(is_deleted: 1).count).to eq(5)
@@ -220,9 +213,7 @@ RSpec.describe UsersController, type: :controller do
 
   describe 'POST #restore_user' do
     before(:each) do
-      @deleted_user = FactoryBot.create(:user)
-      @deleted_user.is_deleted = true
-      @deleted_user.save
+      @deleted_user = FactoryBot.create(:user, :deleted_user)
       @user = FactoryBot.create(:user)
     end
 
@@ -231,7 +222,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     it 'should restore a deleted user' do
-      sign_in(@deleted_user, scope: :user)
+      sign_in(@user, scope: :user)
       post :restore_user, params: { id: @deleted_user.id }
 
       expect(@deleted_user.reload.is_deleted).to eq(false)

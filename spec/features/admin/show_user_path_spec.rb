@@ -162,9 +162,7 @@ RSpec.feature 'Admin show_user path', type: :feature do
   scenario 'should be able to excuse request', js: true do
     visit(show_user_path(@user))
 
-    accept_alert do
-      click_button('Excuse Request')
-    end
+    click_button('Excuse Request')
 
     visit(show_user_path(@user))
     expect(@user.reload.pto_requests.where(excused: true).count).to eq(1)

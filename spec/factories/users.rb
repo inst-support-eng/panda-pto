@@ -31,6 +31,10 @@ FactoryBot.define do
 			is_deleted { true }
 		end
 
+		trait :on_pip_user do
+			on_pip { true }
+		end
+
     factory :user_with_requests do
       transient do
         request_count { 5 }
