@@ -64,18 +64,7 @@ class PtoRequestsController < ApplicationController
                          alert: "You're PTO is currently restricted, please talk to your supervisor"
     end
 
-    @calendar = case @user.position
-                when 'L1'
-                  Calendar.find_by(date: @pto_request.request_date)
-                when 'L2'
-                  CalendarL2.find_by(date: @pto_request.request_date)
-                when 'L3'
-                  CalendarL3.find_by(date: @pto_request.request_date)
-                when 'Sup'
-                  CalendarSup.find_by(date: @pto_request.request_date)
-                else
-                  Calendar.find_by(date: @pto_request.request_date)
-                end
+    @calendar = Calendar.find_by(date: @pto_request.request_date)
 
     # set signed_up_total on a ptorequest object when it's created
     # equal to the signed_up_total of the associated calendar object
@@ -140,20 +129,9 @@ class PtoRequestsController < ApplicationController
     if @user == current_user && @pto_request.request_date < Date.today
       return redirect_back(fallback_location: root_path),
         alert: 'You do not have sufficent privlages to delete this request.'
-		end
+    end
 
-    @calendar = case @user.position
-                when 'L1'
-                  Calendar.find_by(date: @pto_request.request_date)
-                when 'L2'
-                  CalendarL2.find_by(date: @pto_request.request_date)
-                when 'L3'
-                  CalendarL3.find_by(date: @pto_request.request_date)
-                when 'Sup'
-                  CalendarSup.find_by(date: @pto_request.request_date)
-                else
-                  Calendar.find_by(date: @pto_request.request_date)
-                end
+    @calendar = Calendar.find_by(date: @pto_request.request_date)
 
     sub_no_call_show if @pto_request.reason == 'no call / no show'
 
@@ -178,29 +156,18 @@ class PtoRequestsController < ApplicationController
     @pto_request = PtoRequest.find(params[:id])
     @user = User.find_by(id: @pto_request.user_id)
 
-    @calendar = case @user.position
-                when 'L1'
-                  Calendar.find_by(date: @pto_request.request_date)
-                when 'L2'
-                  CalendarL2.find_by(date: @pto_request.request_date)
-                when 'L3'
-                  CalendarL3.find_by(date: @pto_request.request_date)
-                when 'Sup'
-                  CalendarSup.find_by(date: @pto_request.request_date)
-                else
-                  Calendar.find_by(date: @pto_request.request_date)
-                end
+    @calendar = Calendar.find_by(date: @pto_request.request_date)
 
-    if @pto_request.destroy
-      sub_no_call_show if @pto_request.reason == 'no call / no show'
-      sub_make_up_day if @pto_request.reason == 'make up / sick day'
-
-      remove_request_info
-      RequestsMailer.with(user: @user, pto_request: @pto_request).delete_request_email.deliver_now
-      return redirect_to root_path, notice: 'Your request was deleted'
-    else
+    unless @pto_request.destroy
       return redirect_to root_path, alert: 'Somthing went wrong'
     end
+
+    sub_no_call_show if @pto_request.reason == 'no call / no show'
+    sub_make_up_day if @pto_request.reason == 'make up / sick day'
+
+    remove_request_info
+    RequestsMailer.with(user: @user, pto_request: @pto_request).delete_request_email.deliver_now
+    redirect_to root_path, notice: 'Your request was deleted'
   end
 
   def excuse_request
