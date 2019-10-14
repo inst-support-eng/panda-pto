@@ -74,7 +74,7 @@
                         <td><b>Reason:</b> <%= todays_request[0].reason %></td>
                         <td><b>Excused:</b> <%= todays_request[0].excused %> <%= todays_request[0].admin_note %></td>
                         <td><%= link_to "Delete", soft_delete_request_url(todays_request[0]), {:data => { 
-                :confirm => "Are you sure?"}, :method => :delete , :class => "edit-user-links"} %></td>
+                :confirm => "Are you sure you want to delete this request?"}, :method => :delete , :class => "edit-user-links"} %></td>
                         <td><% if todays_request[0].excused == false %><%= button_to "Excuse Request", excuse_pto_request_path(todays_request[0]) %></td>
                         </tr>
                     <% end # ??? %> 

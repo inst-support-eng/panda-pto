@@ -20,5 +20,7 @@ RSpec.feature 'Add Requests', type: :feature do
 
     expect('.day-off')
     expect('a Delete')
+
+    expect(@user.reload.pto_requests.count).to eq(1)
   end
 end

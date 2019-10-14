@@ -140,7 +140,7 @@ class PtoRequestsController < ApplicationController
     if @user == current_user && @pto_request.request_date < Date.today
       return redirect_back(fallback_location: root_path),
         alert: 'You do not have sufficent privlages to delete this request.'
-    end
+		end
 
     @calendar = case @user.position
                 when 'L1'
