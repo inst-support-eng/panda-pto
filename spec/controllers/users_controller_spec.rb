@@ -183,8 +183,8 @@ RSpec.describe UsersController, type: :controller do
   describe 'DELETE #soft_delete' do
     before(:each) do
       @user = FactoryBot.create(:user_with_requests)
-			@calendar = FactoryBot.create(:calendar)
-			sign_in(@user, scope: :user)
+      @calendar = FactoryBot.create(:calendar)
+      sign_in(@user, scope: :user)
     end
 
     after(:each) do
@@ -235,14 +235,14 @@ RSpec.describe UsersController, type: :controller do
       post :restore_user, params: { id: @user.id }
 
       expect(@user.reload.is_deleted).to eq(false)
-			expect(response.body).to include('is not not deleted')
+      expect(response.body).to include('is not not deleted')
     end
 
-		it 'should redirect non-logged in user' do
-			post :restore_user, params: { id: @user.id }
+    it 'should redirect non-logged in user' do
+      post :restore_user, params: { id: @user.id }
 
       expect(@user.reload.is_deleted).to eq(false)
-			expect(response).to have_http_status(:redirect)
+      expect(response).to have_http_status(:redirect)
       expect(response).to redirect_to(login_path)
     end
   end
