@@ -90,9 +90,9 @@ RSpec.feature 'Admin show_user path', type: :feature do
   scenario 'should be able to delete a request', js: true do
     visit(show_user_path(@user))
 
-		accept_alert do
-			click_link('Delete')
-		end
+    accept_alert do
+      click_link('Delete')
+    end
 
     visit(show_user_path(@user))
     expect(@user.reload.pto_requests.where(is_deleted: true).count).to eq(1)
