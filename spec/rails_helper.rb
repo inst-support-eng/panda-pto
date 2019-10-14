@@ -81,7 +81,8 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
-  require 'capybara/rspec'
+	require 'capybara/rspec'
+	require 'capybara/rails'
   require 'factory_bot_rails'
 
   config.include Devise::Test::IntegrationHelpers, type: :feature
