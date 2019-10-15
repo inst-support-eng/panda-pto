@@ -23,7 +23,9 @@ RSpec.describe CalendarsController, type: :controller do
         calendar_dates.each { |row| csv << row }
       end
 
-      post :import, params: { file: fixture_file_upload('calendar.csv', 'text/csv') }
+      post :import, params: {
+        file: fixture_file_upload('calendar.csv', 'text/csv')
+      }
 
       expect(Calendar.count).to be(2)
       expect(Calendar.find_by(date: '2019-01-01').nil?).to be(false)
@@ -47,7 +49,9 @@ RSpec.describe CalendarsController, type: :controller do
     it 'should update calendar price' do
       expect(@calendar.current_price).to eq(0.5)
 
-      post :update_base_price, params: { date: { date: @calendar.date }, cost: { cost: 15 } }
+      post :update_base_price, params: {
+        date: { date: @calendar.date }, cost: { cost: 15 }
+      }
 
       expect(@calendar.reload.current_price).to eq(1.5)
       expect(response).to redirect_to(admin_path)

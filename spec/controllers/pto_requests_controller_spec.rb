@@ -17,7 +17,8 @@ RSpec.describe PtoRequestsController, type: :controller do
     end
 
     it 'should export a csv of all requests' do
-      expect(response.header['Content-Type']).to include('application/octet-stream')
+      expect(response.header['Content-Type'])
+        .to include('application/octet-stream')
       expect(response.status).to eq(200)
     end
   end
@@ -45,7 +46,9 @@ RSpec.describe PtoRequestsController, type: :controller do
         requests.each { |row| csv << row }
       end
 
-      post :import_request, params: { file: fixture_file_upload('pto_request.csv', 'text/csv') }
+      post :import_request, params: {
+        file: fixture_file_upload('pto_request.csv', 'text/csv')
+      }
 
       expect(PtoRequest.count).to eq(1)
       expect(PtoRequest.where(user_id: @user.id)).to be_present
@@ -66,7 +69,7 @@ RSpec.describe PtoRequestsController, type: :controller do
       Calendar.delete_all
     end
 
-    it 'should allow user with enough credits to request a day / have not requested date off' do
+    it 'should allow user with enough credits to request a day' do
       @pto_request = { user_id: @user.id, reason: 'disneyland',
                        request_date: 10.days.from_now, cost: 10 }
       post :create, params: { pto_request: @pto_request }
@@ -79,12 +82,16 @@ RSpec.describe PtoRequestsController, type: :controller do
       expect(@user.reload.pto_requests.count).to eq(1)
       expect(@calendar.reload.signed_up_agents).to include(@user.name)
       expect(response).to redirect_to(root_path)
+      expect(ActionMailer::Base.deliveries.count).to increase_by(1)
     end
 
-    it 'should not allow a user to make a request if they do not have enough credits' do
-      post :create, params: { pto_request: { user_id: @user.id, reason: 'also butts',
-                                             request_date: 10.days.from_now, cost: 160 } }
-
+    it 'should not allow a user to make a request' do
+      post :create, params: {
+        pto_request: {
+          user_id: @user.id, reason: 'also butts',
+          request_date: 10.days.from_now, cost: 160
+        }
+      }
 
       @user.reload
       @calendar.reload
@@ -96,12 +103,18 @@ RSpec.describe PtoRequestsController, type: :controller do
       expect(:alert).to be_present
     end
 
-    it 'should not allow a user to make a request if they already have the day off' do
+    it 'should not allow a user to make a request if it is already off' do
       @calendar.signed_up_agents = [@user2.name]
       @calendar.save
 
-      post :create, params: { pto_request: { user_id: @user2.id, reason: 'also butts',
-                                             request_date: 10.days.from_now, cost: 10 } }
+      post :create, params: {
+        pto_request: {
+          user_id: @user2.id,
+          reason: 'also butts',
+          request_date: 10.days.from_now,
+          cost: 10
+        }
+      }
 
       expect(@calendar.reload.signed_up_total).to eq(0)
       expect(@user2.reload.pto_requests.count).to eq(5)
@@ -169,7 +182,9 @@ RSpec.describe PtoRequestsController, type: :controller do
       Calendar.delete_all
     end
 
-    it 'should recredit their bank_value, remove them from the calendar date, allowing them re-request the day' do
+    it 'should recredit their bank_value/
+				remove from the calendar date/
+				allow them re-request the day' do
       post :create, params: { pto_request: @pto_request }
       @user.save
       @calendar.save
@@ -188,6 +203,7 @@ RSpec.describe PtoRequestsController, type: :controller do
       expect(@calendar.reload.signed_up_agents).to_not include(@user.name)
       expect(response).to redirect_to(root_path)
       expect(:notice).to be_present
+      expect(ActionMailer::Base.deliveries.count).to increase_by(1)
     end
 
     it 'should remove no_call_show counter from user' do
@@ -235,8 +251,11 @@ RSpec.describe PtoRequestsController, type: :controller do
     before(:each) do
       @user = FactoryBot.create(:user)
       @calendar = FactoryBot.create(:calendar)
-      @pto_request = { user_id: @user.id, reason: 'disneyland',
-                       request_date: 10.days.from_now, cost: 10, excused: false }
+      @pto_request = { user_id: @user.id,
+                       reason: 'disneyland',
+                       request_date: 10.days.from_now,
+                       cost: 10,
+                       excused: false }
       sign_in(@user, scope: :user)
     end
     after(:each) do
@@ -260,11 +279,15 @@ RSpec.describe PtoRequestsController, type: :controller do
       expect(request.reload.excused).to be_truthy
       expect(request.reload.admin_note).to eq("excused by #{@user.name}")
       expect(response).to redirect_to(show_user_path(@user))
+      expect(ActionMailer::Base.deliveries.count).to increase_by(1)
     end
 
     it 'should not allow already excused requests from being made' do
-      @pto_request2 = { user_id: @user.id, reason: 'excused by Joe Dirt',
-                        request_date: 10.days.from_now, cost: 10, excused: true }
+      @pto_request2 = { user_id: @user.id,
+                        reason: 'excused by Joe Dirt',
+                        request_date: 10.days.from_now,
+                        cost: 10,
+                        excused: true }
 
       post :create, params: { pto_request: @pto_request }
 
@@ -277,6 +300,7 @@ RSpec.describe PtoRequestsController, type: :controller do
 
       expect(response).to redirect_to(show_user_path(@user))
       expect(:alert).to be_present
+      expect(ActionMailer::Base.deliveries.count).to be(0)
     end
 
     it 'should excuse and decrease no_call_show counter' do
@@ -297,6 +321,7 @@ RSpec.describe PtoRequestsController, type: :controller do
       expect(request.reload.excused).to be_truthy
       expect(request.reload.admin_note).to eq("excused by #{@user.name}")
       expect(response).to redirect_to(show_user_path(@user))
+      expect(ActionMailer::Base.deliveries.count).to increase_by(1)
     end
 
     it 'should excuse and decrease make_up_days counter' do
@@ -317,6 +342,7 @@ RSpec.describe PtoRequestsController, type: :controller do
       expect(request.reload.excused).to be_truthy
       expect(request.reload.admin_note).to eq("excused by #{@user.name}")
       expect(response).to redirect_to(show_user_path(@user))
+      expect(ActionMailer::Base.deliveries.count).to increase_by(1)
     end
   end
 
@@ -350,6 +376,7 @@ RSpec.describe PtoRequestsController, type: :controller do
       expect(PtoRequest.count).to eq(1)
       expect(@user.reload.pto_requests.first.is_deleted).to eq(true)
       expect(@calendar.reload.signed_up_agents).to_not include(@user.name)
+      expect(ActionMailer::Base.deliveries.count).to increase_by(1)
     end
 
     it 'should decrease make_up_day counter by 1' do
@@ -371,6 +398,7 @@ RSpec.describe PtoRequestsController, type: :controller do
       expect(PtoRequest.count).to eq(1)
       expect(@user.reload.pto_requests.first.is_deleted).to eq(true)
       expect(@calendar.reload.signed_up_agents).to_not include(@user.name)
+      expect(ActionMailer::Base.deliveries.count).to increase_by(1)
     end
 
     it 'should allow them to retake the day off' do
