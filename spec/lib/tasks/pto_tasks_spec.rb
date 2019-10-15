@@ -12,7 +12,8 @@ describe 'update new hires pip status' do
     Rake::Task.define_task(:environment)
   end
 
-  before(:each) do
+	before(:each) do
+		ActionMailer::Base.deliveries = []
     @calendar = FactoryBot.create(:calendar, :calendar_today)
   end
 
