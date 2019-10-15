@@ -3,7 +3,7 @@ require 'spec_helper'
 require 'rake'
 
 describe 'update new hires pip status' do
-  let (:run_rake_task) do
+  let(:run_rake_task) do
     Rake.application.invoke_task 'new_hire_check_pip'
   end
 
@@ -28,10 +28,10 @@ describe 'update new hires pip status' do
       expect(@new_hire.reload.on_pip).to eq(false)
     end
 
-		it 'should not update users on_pop w/ start_date 3.months' do
-			run_rake_task
+    it 'should not update users on_pop w/ start_date 3.months' do
+      run_rake_task
 
-			expect(@user_on_pip.reload.on_pip).to eq(true)
+      expect(@user_on_pip.reload.on_pip).to eq(true)
     end
   end
 end
