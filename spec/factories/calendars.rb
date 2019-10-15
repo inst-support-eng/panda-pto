@@ -9,5 +9,9 @@ FactoryBot.define do
 		trait :calendar_tomorrow do
 			date { Date.tomorrow }
 		end
+
+		trait :calendar_today do
+			date { Date.today }
+		end
   end
 end
