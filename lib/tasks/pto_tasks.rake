@@ -10,7 +10,9 @@ task quarterly_seed: :environment do
   year_start = '-01-01'
   if Date.today.to_s.include?(year_start)
     User.find_each do |agent|
-      requests = agent.pto_requests.where('extract(year from request_date) = ?', Date.today.year).to_a
+      requests = agent.pto_requests
+                      .where('extract(year from request_date) = ?', Date.today.year)
+                      .to_a
       year_total = 0
       requests.each do |r|
         year_total += r.cost
