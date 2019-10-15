@@ -2,7 +2,7 @@
 # this controller is for adjusting users table values
 ###
 class UsersController < ApplicationController
-	before_action :login_required
+  before_action :login_required
   before_action :find_user, only: %i[destroy update_shift update_admin update_pip send_password_reset]
   def show
     if current_user.nil?
@@ -14,15 +14,21 @@ class UsersController < ApplicationController
         @workdays << "#{Date::DAYNAMES[day]}, "
       end
       unless @user.start_time.nil?
-        @shift_start = Time.parse(@user.start_time).in_time_zone('Mountain Time (US & Canada)').strftime('%I:%M %p')
+        @shift_start = Time.parse(@user.start_time)
+                           .in_time_zone('Mountain Time (US & Canada)')
+                           .strftime('%I:%M %p')
       end
       unless @user.end_time.nil?
-        @shift_end = Time.parse(@user.end_time).in_time_zone('Mountain Time (US & Canada)').strftime('%I:%M %p')
+        @shift_end = Time.parse(@user.end_time)
+                         .in_time_zone('Mountain Time (US & Canada)')
+                         .strftime('%I:%M %p')
       end
 
       @bank_split = Legalizer.split_year(@user)
 
-      @user_requests = @user.pto_requests.where(is_deleted: nil).or(@user.pto_requests.where(is_deleted: 0))
+      @user_requests = @user.pto_requests
+                            .where(is_deleted: nil)
+                            .or(@user.pto_requests.where(is_deleted: 0))
 
     else
       redirect_to root_path, alert: 'You do not have access to this resource'
@@ -42,7 +48,10 @@ class UsersController < ApplicationController
   # returns current user as json
   def current
     # mynamejeff = current_user.as_json(:methods => [user_requests])
-    user_requests = current_user.pto_requests.where(is_deleted: nil).or(current_user.pto_requests.where(is_deleted: 0)).to_a
+    user_requests = current_user.pto_requests
+                                .where(is_deleted: nil)
+                                .or(current_user.pto_requests.where(is_deleted: 0))
+                                .to_a
     render json: {
       id: current_user.id,
       email: current_user.email,
