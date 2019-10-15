@@ -35,6 +35,11 @@ FactoryBot.define do
       on_pip { true }
     end
 
+    trait :new_hire do
+      on_pip { true }
+      start_date { 3.months.ago }
+    end
+
     factory :user_with_requests do
       transient do
         request_count { 5 }
