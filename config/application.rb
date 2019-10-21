@@ -12,9 +12,6 @@ module PandaPto
     config.load_defaults 5.2
     config.action_controller.include_all_helpers = false
 
-    # config/application.rb
-    config.assets.initialize_on_precompile = false
-
     # calls dotenv to load vars
     Bundler.require(*Rails.groups)
     Dotenv::Railtie.load if %w[development test].include? ENV['RAILS_ENV']
