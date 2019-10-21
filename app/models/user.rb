@@ -135,7 +135,7 @@ class User < ApplicationRecord
         agent.start_time = start_time
         agent.end_time = end_time
         shift_difference = (end_time.to_i - start_time.to_i).abs
-        24 - shift_difference == 8 ? agent.ten_hour_shift = false : agent.ten_hour_shift = true
+        shift_difference == 8 ? agent.ten_hour_shift = false : agent.ten_hour_shift = true
 
         work_days = []
         if u['custom']['35708']['toggle'] == '1'
