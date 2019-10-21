@@ -43,7 +43,7 @@ class User < ApplicationRecord
       unless row[:email].nil? || row[:name].nil?
         agent.email = row[:email]
         agent.start_date = if row[:start_date].nil?
-                             1970 - 0o1 - 0o1
+                             '1970-01-01'
                            else
                              row[:start_date]
                            end
