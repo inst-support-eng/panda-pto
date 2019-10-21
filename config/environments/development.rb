@@ -12,6 +12,9 @@ Rails.application.configure do
   # Show full error reports.
   config.consider_all_requests_local = true
 
+  # config/environments/development.rb
+  config.sass.inline_source_maps = true
+
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
   if Rails.root.join('tmp', 'caching-dev.txt').exist?
@@ -60,14 +63,14 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.perform_deliveries = true 
+  config.action_mailer.perform_deliveries = true
   ActionMailer::Base.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address:              'smtp.gmail.com',
-    port:                 587,
-    domain:               ENV["DOMAIN"],
-    user_name:            ENV["GMAIL_USERNAME"],
-    password:             ENV["GMAIL_PASSWORD"],
-    authentication:       'plain'
+    address: 'smtp.gmail.com',
+    port: 587,
+    domain: ENV['DOMAIN'],
+    user_name: ENV['GMAIL_USERNAME'],
+    password: ENV['GMAIL_PASSWORD'],
+    authentication: 'plain'
   }
 end
