@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   delete 'pto_requests/:id/delete' => 'pto_requests#soft_delete', as: :soft_delete_request
 
   # feedback forms
-  match '/feedback' => redirect('https://docs.google.com/forms/d/e/1FAIpQLSdxkcvYhkhql5-39tJZE7ERjSOtw2eEfq9j-KynRV08luSAJw/viewform'), :via => [:get], :as => :feedback
+  match '/feedback' => redirect(ENV['FEEDBACK_FORM']), :via => [:get], :as => :feedback
 
   # home page
   root to: 'pages#index'
