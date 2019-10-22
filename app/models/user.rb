@@ -85,7 +85,7 @@ class User < ApplicationRecord
     deleted_users = HumanityAPI.get_deleted_employees
 
     humanity_users.each do |u|
-      unless u['schedules'].any? && (u['schedules']['1836499'] || u['schedules']['1836500'] || u['schedules']['1836500'])
+      unless u['schedules'].any? && (u['schedules']['1836499'] || u['schedules']['1836500'] || u['schedules']['1836501'])
         next
       end
 
