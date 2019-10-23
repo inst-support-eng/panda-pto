@@ -22,7 +22,6 @@ RSpec.feature 'Admin Path', type: :feature do
     expect(page).to have_button('Upload Values')
     expect(page).to have_button('Upload Users')
     expect(page).to have_button('Import Requests')
-    expect(page).to have_button('Adjust Date Costs')
     expect(page).to have_link('Export PTO')
 
     expect(page).to have_link(@user.name.to_s)

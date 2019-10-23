@@ -53,7 +53,11 @@ RSpec.describe CalendarsController, type: :controller do
         date: { date: @calendar.date }, cost: { cost: 15 }
       }
 
-      expect(@calendar.reload.current_price).to eq(1.5)
+			if @calendar.date.wday == 0 || @calendar.date.wday == 6
+				expect(@calendar.reload.current_price).to eq(6.0)
+			else
+				expect(@calendar.reload.current_price).to eq(1.5)
+			end
       expect(response).to redirect_to(admin_path)
     end
   end
