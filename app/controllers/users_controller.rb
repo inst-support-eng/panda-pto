@@ -7,10 +7,10 @@ class UsersController < ApplicationController
   def show
     if current_user.nil?
       redirect_to login_path
-		elsif current_user.admin? || current_user.position == 'Sup'
+    elsif current_user.admin? || current_user.position == 'Sup'
       @user = User.find(params[:id])
-			@workdays = ''
-			@calendar = Calendar.find_by(date: Date.today)
+      @workdays = ''
+      @calendar = Calendar.find_by(date: Date.today)
       @user.work_days.each do |day|
         @workdays << "#{Date::DAYNAMES[day]}, "
       end

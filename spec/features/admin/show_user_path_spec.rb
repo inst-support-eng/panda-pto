@@ -18,8 +18,8 @@ RSpec.feature 'Admin show_user path', type: :feature do
   end
 
   scenario 'should be able to get to users page', js: true do
-		visit(admin_path)
-		page.has_content?(@user.name.to_s)
+    visit(admin_path)
+    page.has_content?(@user.name.to_s)
     visit(show_user_path(@user))
 
     expect(page).to have_button('Add Request')

@@ -183,7 +183,9 @@
                             required: 'true' %>
 							<%= f.date_field :request_date %>
 							<%= f.number_field :cost, placeholder: 'place -1 to use todays cost' %>
-							<p><b>Current Price for today</b>: <%=  @user.ten_hour_shift ? (@calendar.current_price * 10).to_i : (@calendar.current_price * 8).to_i %></p>
+							<p><b>Current Price for today</b>:
+								<%=  @user.ten_hour_shift ? (@calendar.current_price * 10).to_i : (@calendar.current_price * 8).to_i %>
+							</p>
 							<%= f.submit 'create request', class: 'form-control' %>
 							<% end %>
 						</div> <!-- modal-body -->
