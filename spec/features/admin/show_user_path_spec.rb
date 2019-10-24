@@ -6,6 +6,7 @@ RSpec.feature 'Admin show_user path', type: :feature do
     @user = FactoryBot.create(:user_with_one_request)
     @deleted_user = FactoryBot.create(:user, :deleted_user)
     @calendar = FactoryBot.create(:calendar, :calendar_tomorrow)
+    @calendar_today = FactoryBot.create(:calendar, :calendar_today)
     @request_date = FactoryBot.create(:calendar)
     sign_in(@admin)
   end
@@ -17,8 +18,9 @@ RSpec.feature 'Admin show_user path', type: :feature do
   end
 
   scenario 'should be able to get to users page', js: true do
-    visit(admin_path)
-    click_link(@user.name.to_s)
+		visit(admin_path)
+		page.has_content?(@user.name.to_s)
+    visit(show_user_path(@user))
 
     expect(page).to have_button('Add Request')
     expect(page).to have_link('User PTO Requests')
@@ -40,6 +42,7 @@ RSpec.feature 'Admin show_user path', type: :feature do
 
     click_button('Add Request')
 
+    page.has_content?(`Current Price for today: #{@calendar_today.current_price}`)
     fill_in('pto_request_reason', with: 'test')
     fill_in('pto_request_request_date', with: request)
     fill_in('pto_request_cost', with: '10')
