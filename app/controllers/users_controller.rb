@@ -10,6 +10,7 @@ class UsersController < ApplicationController
     elsif current_user.admin? || current_user.position == 'Sup'
       @user = User.find(params[:id])
       @workdays = ''
+      @calendar = Calendar.find_by(date: Date.today)
       @user.work_days.each do |day|
         @workdays << "#{Date::DAYNAMES[day]}, "
       end

@@ -2,297 +2,324 @@
 
 
 .notice {
-    background-color: red;
-    color: black;
-    grid-area: notice;
-    padding: 20px;
-    border: 1px solid black;
-    height: fit-content;
-    border-radius: 3px;
+	background-color: red;
+	color: black;
+	grid-area: notice;
+	padding: 20px;
+	border: 1px solid black;
+	height: fit-content;
+	border-radius: 3px;
 }
 
 .notice-content {
-    margin: 10px;
+	margin: 10px;
 }
 
 .layout-edit-user {
-    display: grid;
-    grid-template-areas:
-      'eleft eright eright eright eright eright eright eright eright eright';
-    height: 100%;
-    width: 100%;
-    font-size: 1.15em;
-    color: $header;
-  }
-
-  .left-edit-user { 
-    grid-area: eleft; 
-    height: 100%; 
-    background-color: $sidebar; 
-    padding: 10px;
-    width: auto;
-    min-width: 200px;
-    box-shadow: 1px 1px #7178864f;
-  }
-
-  .right-edit-user { 
-    grid-area: eright;
-    background-color: white;
-    width: auto;
-    height: 100%;
-    border: 1px solid #485366;
-    padding: 20px;
-  }
-
-  .users-right {
-    grid-template-areas:
-      'content-top' 
-      'content-bottom';
-    display: grid;
-    grid-template-rows: 225px auto;
-  }
-  .users-right-notice{
-    grid-template-areas:
-     'notice'
-     'content-top' 
-     'content-bottom';
-  display: grid;
-  grid-template-rows: 100px auto;
+	display: grid;
+	grid-template-areas:
+		'eleft eright eright eright eright eright eright eright eright eright';
+	height: 100%;
+	width: 100%;
+	font-size: 1.15em;
+	color: $header;
 }
 
-  .content-top {
-    grid-area: content-top;
-    padding: 20px;
-    border: 1px solid black;
-    height: fit-content;
-    border-radius: 3px;
-  }
+.left-edit-user {
+	grid-area: eleft;
+	height: 100%;
+	background-color: $sidebar;
+	padding: 10px;
+	width: auto;
+	min-width: 200px;
+	box-shadow: 1px 1px #7178864f;
+}
 
-  .content-top > h2 {
-    margin: 0px;
-  }
-  
-  .content-bottom {
-    grid-area: content-bottom;
-    padding: 20px;
-    border: 1px solid black;
-    border-radius: 3px;
-    margin-top: 45px;
-    height: 527px;
-    overflow: scroll;
-  }
+.right-edit-user {
+	grid-area: eright;
+	background-color: white;
+	width: auto;
+	height: 100%;
+	border: 1px solid #485366;
+	padding: 20px;
+}
 
-  .edit-user-buttons {
-    background-color: $header;
-    border-radius: 5px;
-    border: 1px solid #132f52;
-    color: $text;
-    height: 40px;
-    display: block;
-    width: 100%;
-    font-size: 24px;
-    font-weight: 200;
-    outline: none;
-    margin-top: 10px;
-  }
+.users-right {
+	grid-template-areas:
+		'content-top'
+		'content-bottom';
+	display: grid;
+	grid-template-rows: 225px auto;
+}
 
-  .edit-user-buttons:hover {
-    color: $hovertext;
-  }
+.users-right-notice {
+	grid-template-areas:
+		'notice'
+		'content-top'
+		'content-bottom';
+	display: grid;
+	grid-template-rows: 100px auto;
+}
 
-  .edit-user-links {
-    background-color: $header;
-    border-radius: 5px;
-    border: 1px solid #132f52;
-    color: $text;
-    height: 40px;
-    display: block;
-    width: 100%;
-    font-size: 24px;
-    font-weight: 200;
-    outline: none;
-    margin-top: 10px;
-    margin-left: 0px;
-    text-align: center;
-  }
+.content-top {
+	grid-area: content-top;
+	padding: 20px;
+	border: 1px solid black;
+	height: fit-content;
+	border-radius: 3px;
+}
 
-  .edit-user-buttons:hover {
-    color: $hovertext;
-  }
+.content-top>h2 {
+	margin: 0px;
+}
 
-  .profile-container {
-    width: auto;
-    margin-top: 10px;
-  }
+.content-bottom {
+	grid-area: content-bottom;
+	padding: 20px;
+	border: 1px solid black;
+	border-radius: 3px;
+	margin-top: 45px;
+	height: 527px;
+	overflow: scroll;
+}
 
-  .upcoming-body {
-    margin-bottom: 10px;
-  }
+.edit-user-buttons {
+	background-color: $header;
+	border-radius: 5px;
+	border: 1px solid #132f52;
+	color: $text;
+	height: 40px;
+	display: block;
+	width: 100%;
+	font-size: 24px;
+	font-weight: 200;
+	outline: none;
+	margin-top: 10px;
+}
 
-  .requests {
-    width: 100%;
-    margin-bottom: 10px;
-  }
+.edit-user-buttons:hover {
+	color: $hovertext;
+}
 
-  .requests > tbody > tr > td {
-    padding: 5px 20px 5px 0px;
-    border-bottom: 1px solid $header;
-    border-top: 1px solid $header;
-    min-width: 150px;
-    height: 60px;
-  }
+.edit-user-links {
+	background-color: $header;
+	border-radius: 5px;
+	border: 1px solid #132f52;
+	color: $text;
+	height: 40px;
+	display: block;
+	width: 100%;
+	font-size: 24px;
+	font-weight: 200;
+	outline: none;
+	margin-top: 10px;
+	margin-left: 0px;
+	text-align: center;
+}
 
-  .upcoming-requests-tab > h2, .past-requests-tab > h2 {
-    margin-top: 0px;
-    margin-bottom: 10px;
-  }
+.edit-user-buttons:hover {
+	color: $hovertext;
+}
+
+.profile-container {
+	width: auto;
+	margin-top: 10px;
+}
+
+.upcoming-body {
+	margin-bottom: 10px;
+}
+
+.requests {
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.requests>tbody>tr>td {
+	padding: 5px 20px 5px 0px;
+	border-bottom: 1px solid $header;
+	border-top: 1px solid $header;
+	min-width: 150px;
+	height: 60px;
+}
+
+.upcoming-requests-tab>h2,
+.past-requests-tab>h2 {
+	margin-top: 0px;
+	margin-bottom: 10px;
+}
 
 
-  .requests > tbody > tr > td > form > input[type="submit"] {
-    max-width: 200px;
-    min-width: 200px;
-    float: right;
-  }
+.requests>tbody>tr>td>form>input[type="submit"] {
+	max-width: 200px;
+	min-width: 200px;
+	float: right;
+}
 
-  .profile-container > tbody > tr > td {
-    padding-right: 20px;
-  }
+.profile-container>tbody>tr>td {
+	padding-right: 20px;
+}
 
-  .edit-user-buttons > a {
-    font-size: 1em;
-    color: $text;
-    vertical-align: top;
-    margin: auto;
-    display: block;
-    width: 100%;
-    height: 40px;
-  }
+.edit-user-buttons>a {
+	font-size: 1em;
+	color: $text;
+	vertical-align: top;
+	margin: auto;
+	display: block;
+	width: 100%;
+	height: 40px;
+}
 
-  .edit-user-buttons > a:hover {
-    color: $hovertext;
-  }
+.edit-user-buttons>a:hover {
+	color: $hovertext;
+}
 
-  /* -- Buttons --- */
+/* -- Buttons --- */
 
-    .add-resquest-btn {
-    background-color: #132f52;
-    border-radius: 5px;
-    border: 1px solid #132f52;
-    color: white;
-    height: 40px;
-    display: block;
-    width: 90%;
-    margin: 10px 20px 0px 10px;
-    box-shadow: 2px 2px #485366;
-    font-size: 24px;
-    font-weight: 200;
-    outline: none;
-  }
+.add-resquest-btn {
+	background-color: #132f52;
+	border-radius: 5px;
+	border: 1px solid #132f52;
+	color: white;
+	height: 40px;
+	display: block;
+	width: 90%;
+	margin: 10px 20px 0px 10px;
+	box-shadow: 2px 2px #485366;
+	font-size: 24px;
+	font-weight: 200;
+	outline: none;
+}
 
-  .add-resquest-btn:hover {
-    color: $text;
-  }
+.add-resquest-btn:hover {
+	color: $text;
+}
 
-  /*---- Modals ----*/
+/*---- Modals ----*/
 
-    .password-modal {
-        display: none; /* Hidden by default */
-        position: fixed; /* Stay in place */
-        z-index: 1; /* Sit on top */
-        padding-top: 200px; /* Location of the box */
-        left: 0;
-        top: 0;
-        width: 100%; /* Full width */
-        height: 100%; /* Full height */
-        overflow: auto; /* Enable scroll if needed */
-        background-color: rgb(0,0,0); /* Fallback color */
-        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    }
-  
-    .password-form {
-        padding: 20px;
-    }
-  
-    .update-password-content {
-        background-color: #fefefe;
-        border: 1px solid #888;
-        width: 40%;
-        margin: auto;
-        border-radius: 3px;
-    }
-  
-    .close2 {
-        color: $text;
-        float: right;
-        font-size: 28px;
-        font-weight: 200;
-        line-height: .5;
-    }
-  
-    .close2:hover, .close2:focus {
-        color: $hovertext;
-        text-decoration: none;
-        cursor: pointer;
-    }
-  
-    .input[type="submit"] {
-        background-color: $header;
-        color: white;
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-weight: 200;
-        font-size: 2rem;
-        width: 200px;
-        height: 50px;
-    }
-    
-    .input[type="file"] {
-        margin-left: 20px;
-    }
+.password-modal {
+	display: none;
+	/* Hidden by default */
+	position: fixed;
+	/* Stay in place */
+	z-index: 1;
+	/* Sit on top */
+	padding-top: 200px;
+	/* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+	/* Black w/ opacity */
+}
 
-    #error_explanation {
-        color: red;
-        font-size: 1em;
-    }
+.password-form {
+	padding: 20px;
+}
 
-/*------- Forgot Password ---------*/    
+.update-password-content {
+	background-color: #fefefe;
+	border: 1px solid #888;
+	width: 40%;
+	margin: auto;
+	border-radius: 3px;
+}
 
-    .forgot-pass > a {
-      margin: 10px !important;
-      color: $header;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-    }
+.close {
+	color: $text;
+	float: right;
+	font-size: 28px;
+	font-weight: 200;
+	line-height: .5;
+}
 
-    .forgot-pass > a:hover {
-      color: $text;
-    }
+.close:hover,
+.close:focus {
+	color: $hovertext;
+	text-decoration: none;
+	cursor: pointer;
+}
 
-    .form-check-label[for="user_remember_me"] {
-      margin-left: 7px;
-      margin-bottom: 0px;
-      vertical-align: middle;
-    }
+.close2 {
+	color: $text;
+	float: right;
+	font-size: 28px;
+	font-weight: 200;
+	line-height: .5;
+}
 
-    .forgot-pass > input[type="submit"] {
-      float: right;
-    }
+.close2:hover,
+.close2:focus {
+	color: $hovertext;
+	text-decoration: none;
+	cursor: pointer;
+}
 
-    .actions > input[type="submit"] {
-      background-color: $header;
-      border-radius: 5px;
-      border: 1px solid #132f52;
-      color: $text;
-      height: 40px;
-      display: block;
-      width: 100%;
-      font-size: 24px;
-      font-weight: 200;
-      outline: none;
-      margin-top: 10px;
-      line-height: 1;
-    }
-    
-    .actions > input[type="submit"]:hover {
-      color: $hovertext;
-    }
+.input[type="submit"] {
+	background-color: $header;
+	color: white;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 200;
+	font-size: 2rem;
+	width: 200px;
+	height: 50px;
+}
+
+.input[type="file"] {
+	margin-left: 20px;
+}
+
+#error_explanation {
+	color: red;
+	font-size: 1em;
+}
+
+/*------- Forgot Password ---------*/
+
+.forgot-pass>a {
+	margin: 10px !important;
+	color: $header;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+}
+
+.forgot-pass>a:hover {
+	color: $text;
+}
+
+.form-check-label[for="user_remember_me"] {
+	margin-left: 7px;
+	margin-bottom: 0px;
+	vertical-align: middle;
+}
+
+.forgot-pass>input[type="submit"] {
+	float: right;
+}
+
+.actions>input[type="submit"] {
+	background-color: $header;
+	border-radius: 5px;
+	border: 1px solid #132f52;
+	color: $text;
+	height: 40px;
+	display: block;
+	width: 100%;
+	font-size: 24px;
+	font-weight: 200;
+	outline: none;
+	margin-top: 10px;
+	line-height: 1;
+}
+
+.actions>input[type="submit"]:hover {
+	color: $hovertext;
+}
