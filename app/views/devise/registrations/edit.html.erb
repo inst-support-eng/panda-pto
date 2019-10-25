@@ -32,14 +32,13 @@
           <table class="requests">
             <% upcoming_requests.order("request_date ASC").each do |request| %>
               <tr>
-              <td><b>Date:</b> <%= request.request_date %></td>
-              <td><b>Cost:</b> <%= request.cost %></td>
-              <td><b>Reason:</b> <%= request.reason %></td>  
-              <td><%= link_to "Delete", pto_request_path(request), data: {
-                  :confirm => "Are you sure?"
-              }, :method => :delete %></td>
-              <% end %>
-              </tr>
+								<td><b>Date:</b> <%= request.request_date %></td>
+								<td><b>Cost:</b> <%= request.cost %></td>
+								<td><b>Reason:</b> <%= request.reason %></td>  
+								<td><%= link_to "Delete", soft_delete_request_url(request), {:data => { 
+									:confirm => "Are you sure?"}, :method => :delete , :class => "edit-user-links"} %></td>
+							</tr>
+            <% end %>
           </table>
         </div> 
       </div>

@@ -14,16 +14,14 @@ module PandaPto
 
     # calls dotenv to load vars
     Bundler.require(*Rails.groups)
-    if ['development', 'test'].include? ENV['RAILS_ENV']
-      Dotenv::Railtie.load
-    end
+    Dotenv::Railtie.load if %w[development test].include? ENV['RAILS_ENV']
 
-    #call classes from lib
+    # call classes from lib
     config.eager_load_paths << "#{Rails.root}/lib"
 
-    #setup sidekiq
+    # setup sidekiq
     config.active_job.queue_adapter = :sidekiq
- 
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading

@@ -10,98 +10,96 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_31_152709) do
-
+ActiveRecord::Schema.define(version: 20_190_731_152_709) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension 'plpgsql'
 
-  create_table "calendar_l2s", force: :cascade do |t|
-    t.date "date"
-    t.float "base_value"
-    t.integer "signed_up_total"
-    t.text "signed_up_agents", default: [], array: true
-    t.float "current_price"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table 'calendar_l2s', force: :cascade do |t|
+    t.date 'date'
+    t.float 'base_value'
+    t.integer 'signed_up_total'
+    t.text 'signed_up_agents', default: [], array: true
+    t.float 'current_price'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
   end
 
-  create_table "calendar_l3s", force: :cascade do |t|
-    t.date "date"
-    t.float "base_value"
-    t.integer "signed_up_total"
-    t.text "signed_up_agents", default: [], array: true
-    t.float "current_price"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table 'calendar_l3s', force: :cascade do |t|
+    t.date 'date'
+    t.float 'base_value'
+    t.integer 'signed_up_total'
+    t.text 'signed_up_agents', default: [], array: true
+    t.float 'current_price'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
   end
 
-  create_table "calendar_sups", force: :cascade do |t|
-    t.date "date"
-    t.float "base_value"
-    t.integer "signed_up_total"
-    t.text "signed_up_agents", default: [], array: true
-    t.float "current_price"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table 'calendar_sups', force: :cascade do |t|
+    t.date 'date'
+    t.float 'base_value'
+    t.integer 'signed_up_total'
+    t.text 'signed_up_agents', default: [], array: true
+    t.float 'current_price'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
   end
 
-  create_table "calendars", force: :cascade do |t|
-    t.date "date"
-    t.float "base_value"
-    t.integer "signed_up_total"
-    t.text "signed_up_agents", default: [], array: true
-    t.float "current_price"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table 'calendars', force: :cascade do |t|
+    t.date 'date'
+    t.float 'base_value'
+    t.integer 'signed_up_total'
+    t.text 'signed_up_agents', default: [], array: true
+    t.float 'current_price'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
   end
 
-  create_table "faqs", force: :cascade do |t|
-    t.text "body"
-    t.string "last_modified_by"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table 'faqs', force: :cascade do |t|
+    t.text 'body'
+    t.string 'last_modified_by'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
   end
 
-  create_table "pto_requests", force: :cascade do |t|
-    t.string "reason"
-    t.date "request_date"
-    t.integer "cost"
-    t.integer "signed_up_total"
-    t.integer "user_id"
-    t.integer "humanity_request_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "admin_note"
-    t.boolean "excused"
-    t.string "position"
-    t.boolean "is_deleted"
+  create_table 'pto_requests', force: :cascade do |t|
+    t.string 'reason'
+    t.date 'request_date'
+    t.integer 'cost'
+    t.integer 'signed_up_total'
+    t.integer 'user_id'
+    t.integer 'humanity_request_id'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.string 'admin_note'
+    t.boolean 'excused'
+    t.string 'position'
+    t.boolean 'is_deleted'
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "name", default: "", null: false
-    t.integer "bank_value", default: 0, null: false
-    t.integer "humanity_user_id"
-    t.boolean "ten_hour_shift", default: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "position"
-    t.string "team"
-    t.string "start_time"
-    t.string "end_time"
-    t.integer "work_days", default: [], array: true
-    t.boolean "admin"
-    t.boolean "on_pip"
-    t.integer "no_call_show"
-    t.integer "make_up_days"
-    t.datetime "start_date"
-    t.boolean "is_deleted"
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  create_table 'users', force: :cascade do |t|
+    t.string 'email', default: '', null: false
+    t.string 'encrypted_password', default: '', null: false
+    t.string 'name', default: '', null: false
+    t.integer 'bank_value', default: 0, null: false
+    t.integer 'humanity_user_id'
+    t.boolean 'ten_hour_shift', default: false
+    t.string 'reset_password_token'
+    t.datetime 'reset_password_sent_at'
+    t.datetime 'remember_created_at'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.string 'position'
+    t.string 'team'
+    t.string 'start_time'
+    t.string 'end_time'
+    t.integer 'work_days', default: [], array: true
+    t.boolean 'admin'
+    t.boolean 'on_pip'
+    t.integer 'no_call_show'
+    t.integer 'make_up_days'
+    t.datetime 'start_date'
+    t.boolean 'is_deleted'
+    t.index ['email'], name: 'index_users_on_email', unique: true
+    t.index ['reset_password_token'], name: 'index_users_on_reset_password_token', unique: true
   end
-
 end

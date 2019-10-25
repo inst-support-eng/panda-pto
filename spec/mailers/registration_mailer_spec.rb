@@ -1,5 +1,5 @@
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe RegistrationMailer, type: :mailer do
-  pending "add some examples to (or delete) #{__FILE__}"
+  puts 'nothing here'
 end
