@@ -103,11 +103,21 @@
 					<% if todays_request.count > 0 %>
 					<h2>Requests for Today</h2>
 					<table class="requests">
+						<thead>
+								<tr>
+										<th>Date</th>
+										<th>Cost</th>
+										<th>Reason</th>
+										<th>Excused</th>
+										<th></th>
+										<th></th>
+									</tr>
+						</thead>
 						<tr>
-							<td><b>Date:</b> <%= todays_request[0].request_date %></td>
-							<td><b>Value:</b> <%= todays_request[0].cost %></td>
-							<td><b>Reason:</b> <%= todays_request[0].reason %></td>
-							<td><b>Excused:</b> <%= todays_request[0].excused %> <%= todays_request[0].admin_note %></td>
+							<td><%= todays_request[0].request_date %></td>
+							<td><%= todays_request[0].cost %></td>
+							<td><%= todays_request[0].reason %></td>
+							<td><%= todays_request[0].excused %> <%= todays_request[0].admin_note %></td>
 							<td>
 								<%= link_to "Delete", soft_delete_request_url(todays_request[0]), {:data => { 
                 :confirm => "Are you sure you want to delete this request?"}, :method => :delete , :class => "edit-user-links"} %>
@@ -125,12 +135,22 @@
 					<% if upcoming_requests.count > 0 %>
 					<h2>Upcoming Requests</h2>
 					<table class="requests">
+						<thead>
+								<tr>
+										<th>Date</th>
+										<th>Cost</th>
+										<th>Reason</th>
+										<th>Excused</th>
+										<th></th>
+										<th></th>
+								</tr>
+						</thead>
 						<% upcoming_requests.each do |request| %>
 						<tr>
-							<td><b>Date:</b> <%= request.request_date %></td>
-							<td><b>Value:</b> <%= request.cost %></td>
-							<td><b>Reason:</b> <%= request.reason %></td>
-							<td><b>Excused:</b> <%= request.excused %> <%= request.admin_note %></td>
+							<td><%= request.request_date %></td>
+							<td><%= request.cost %></td>
+							<td><%= request.reason %></td>
+							<td><%= request.excused %> <%= request.admin_note %></td>
 							<td><%= link_to "Delete", soft_delete_request_url(request), {:data => {
                 :confirm => "Are you sure?"}, :method => :delete , :class => "edit-user-links"} %></td>
 							<td><% if request.excused == false %><%= button_to "Excuse Request", excuse_pto_request_path(request) %>
@@ -146,12 +166,22 @@
 
 						<h2>Past Requests</h2>
 						<table class="requests">
+							<thead>
+									<tr>
+											<th>Date</th>
+											<th>Cost</th>
+											<th>Reason</th>
+											<th>Excused</th>
+											<th></th>
+											<th></th>
+										</tr>
+							</thead>
 							<% past_requests.each do |request| %>
 							<tr>
-								<td><b>Date:</b> <%= request.request_date %></td>
-								<td><b>Value:</b> <%= request.cost %></td>
-								<td><b>Reason:</b> <%= request.reason %></td>
-								<td><b>Excused:</b> <%= request.excused %> <%= request.admin_note %></td>
+								<td><%= request.request_date %></td>
+								<td><%= request.cost %></td>
+								<td><%= request.reason %></td>
+								<td><%= request.excused %> <%= request.admin_note %></td>
 								<td><%= link_to "Delete", soft_delete_request_url(request), {:data => {
                 :confirm => "Are you sure?"}, :method => :delete , :class => "edit-user-links"} %></td>
 								<td><% if request.excused == false %><%= button_to "Excuse Request", excuse_pto_request_path(request) %>

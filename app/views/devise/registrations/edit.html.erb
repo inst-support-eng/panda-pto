@@ -1,107 +1,146 @@
 <!-- user's edit page /users/edit edit_user_registration_path -->
 <div class="layout-edit-user">
-  <div class="left-edit-user">
-      <button class="edit-user-buttons" id="reset-password-button">Reset Password</button>
-      <%= link_to "Feedback?", feedback_path, {class:"edit-user-links"} %>
-      <button class="edit-user-buttons" id="Back" onclick="history.back(-1)">Go Back</button>
-  </div>
- 
-  <div class="right-edit-user users-right">
-    <div class="content-top">
-      <h2><%= current_user.name %></h2>
-      <table class="profile-container">
-        <tr><td><%= Date.today.year %> Bank Value:</td><td>₢ <%= @bank_split[0] %></td></tr>
-        <tr><td><%= Date.today.year + 1 %> Bank Value:</td><td>₢ <%= @bank_split[1] %></td></tr>
-        <tr><td>Position:</td><td><%= current_user.position %></td></tr>
-        <tr><td>Team:</td><td><%= current_user.team %></td></tr>
-        <tr><td>Shift Length:</td><td><% if current_user.ten_hour_shift %> 10 hour shift <% else %> 8 hour shift <% end %></td></tr>
-        <tr><td>Shift:</td><td><%= @shift_start %> – <%= @shift_end %></td></tr>
-        <tr><td>Work Days:</td><td><%= @workdays.chop.chop %></td></tr>
-        <tr><td>Restricted PTO : </td><td><%= current_user.on_pip%></td></tr>
-        </table>
-    </div>
-    <div class="content-bottom">
-      <% if @user_requests.count <= 0 %>
-        <h2>User Has No PTO Requests</h2>
-      <% end %>
-      <div class="upcoming-requests-tab">
-        <% upcoming_requests = @user_requests.where("request_date > ?", Date.today) %>
-        <% if upcoming_requests.count > 0 %>
-        <h2>Upcoming Requests</h2>
-        <div class="upcoming-body">
-          <table class="requests">
-            <% upcoming_requests.order("request_date ASC").each do |request| %>
-              <tr>
-								<td><b>Date:</b> <%= request.request_date %></td>
-								<td><b>Cost:</b> <%= request.cost %></td>
-								<td><b>Reason:</b> <%= request.reason %></td>  
-								<td><%= link_to "Delete", soft_delete_request_url(request), {:data => { 
+	<div class="left-edit-user">
+		<button class="edit-user-buttons" id="reset-password-button">Reset Password</button>
+		<%= link_to "Feedback?", feedback_path, {class:"edit-user-links"} %>
+		<button class="edit-user-buttons" id="Back" onclick="history.back(-1)">Go Back</button>
+	</div>
+
+	<div class="right-edit-user users-right">
+		<div class="content-top">
+			<h2><%= current_user.name %></h2>
+			<table class="profile-container">
+				<tr>
+					<td><%= Date.today.year %> Bank Value:</td>
+					<td>₢ <%= @bank_split[0] %></td>
+				</tr>
+				<tr>
+					<td><%= Date.today.year + 1 %> Bank Value:</td>
+					<td>₢ <%= @bank_split[1] %></td>
+				</tr>
+				<tr>
+					<td>Position:</td>
+					<td><%= current_user.position %></td>
+				</tr>
+				<tr>
+					<td>Team:</td>
+					<td><%= current_user.team %></td>
+				</tr>
+				<tr>
+					<td>Shift Length:</td>
+					<td><% if current_user.ten_hour_shift %> 10 hour shift <% else %> 8 hour shift <% end %></td>
+				</tr>
+				<tr>
+					<td>Shift:</td>
+					<td><%= @shift_start %> – <%= @shift_end %></td>
+				</tr>
+				<tr>
+					<td>Work Days:</td>
+					<td><%= @workdays.chop.chop %></td>
+				</tr>
+				<tr>
+					<td>Restricted PTO : </td>
+					<td><%= current_user.on_pip%></td>
+				</tr>
+			</table>
+		</div>
+		<div class="content-bottom">
+			<% if @user_requests.count <= 0 %>
+			<h2>User Has No PTO Requests</h2>
+			<% end %>
+			<div class="upcoming-requests-tab">
+				<% upcoming_requests = @user_requests.where("request_date > ?", Date.today) %>
+				<% if upcoming_requests.count > 0 %>
+				<h2>Upcoming Requests</h2>
+				<div class="upcoming-body">
+					<table class="requests">
+						<tr>
+							<th>Date</th>
+							<th>Cost</th>
+							<th>Reason</th>
+							<th></th>
+						</tr>
+						<% upcoming_requests.order("request_date ASC").each do |request| %>
+						<tr>
+							<td><%= request.request_date %></td>
+							<td><%= request.cost %></td>
+							<td><%= request.reason %></td>
+							<td><%= link_to "Delete", soft_delete_request_url(request), {:data => { 
 									:confirm => "Are you sure?"}, :method => :delete , :class => "edit-user-links"} %></td>
-							</tr>
-            <% end %>
-          </table>
-        </div> 
-      </div>
-      <% end %>
+						</tr>
+						<% end %>
+					</table>
+				</div>
+			</div>
+			<% end %>
 
-      <div class="past-requests-tab">
-        <% past_requests =  @user_requests.where("request_date < ?", Date.today).to_a  %>
-        <% if past_requests.count > 0 %>
-        <h2>Past Requests</h2>
-        <div class="upcoming-body">
-            <table class="requests">
-              <% past_requests.each do |request| %>
-              <tr>
-              <td><b>Date:</b> <%= request.request_date %></td>
-              <td><b>Cost:</b> <%= request.cost %></td>
-              <td><b>Reason:</b> <%= request.reason %></td>
-              </tr>
-              <% end %>
-            </table>
-          </div>
-      </div>
-      <% end %>
+			<div class="past-requests-tab">
+				<% past_requests =  @user_requests.where("request_date < ?", Date.today).to_a  %>
+				<% if past_requests.count > 0 %>
+				<h2>Past Requests</h2>
+				<div class="upcoming-body">
+					<table class="requests">
+						<tr>
+							<th>Date</th>
+							<th>Cost</th>
+							<th>Reason</th>
+							<th></th>
+						</tr>
+						<% past_requests.each do |request| %>
+						<tr>
+							<td><%= request.request_date %></td>
+							<td><%= request.cost %></td>
+							<td><%= request.reason %></td>
+							<td></td>
+						</tr>
+						<% end %>
+					</table>
+				</div>
+			</div>
+			<% end %>
 
-  </div>
-    <div id="update-password" class="password-modal">
-      <div class="update-password-content">
-        <div class="modal-header">Update Password
-          <div class="close2">x</div></div>
-          <div class="password-form">
-          <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-          <%= render "devise/shared/error_messages", resource: resource %>
+		</div>
+		<div id="update-password" class="password-modal">
+			<div class="update-password-content">
+				<div class="modal-header">Update Password
+					<div class="close2">x</div>
+				</div>
+				<div class="password-form">
+					<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+					<%= render "devise/shared/error_messages", resource: resource %>
 
-          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-            <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-          <% end %>
+					<% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+					<div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+					<% end %>
 
-          <div class="field">
-            <%= f.hidden_field :email, :value => current_user.email %>
-          </div>
+					<div class="field">
+						<%= f.hidden_field :email, :value => current_user.email %>
+					</div>
 
-          <div class="field">
-          <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-          <%= f.password_field :current_password, autocomplete: "current-password" %>
-          </div>
-          <br>
-          <div class="field">
-          <%= f.label :password %> <em><%= @minimum_password_length %> characters minimum</em>
-          <br>
-          <%= f.password_field :password, autocomplete: "new-password" %>
-          <% if @minimum_password_length %>
-          <% end %>
-          </div>
-          <br>
-          <div class="field">
-            <%= f.label :password_confirmation %><br />
-            <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-          </div>
-          <br>
-          <div class="actions">
-            <%= f.submit "Update" %>
-          </div>
-          <% end %>
-        </div>
-      </div>
-  </div> <!-- update-password -->
+					<div class="field">
+						<%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+						<%= f.password_field :current_password, autocomplete: "current-password" %>
+					</div>
+					<br>
+					<div class="field">
+						<%= f.label :password %> <em><%= @minimum_password_length %> characters minimum</em>
+						<br>
+						<%= f.password_field :password, autocomplete: "new-password" %>
+						<% if @minimum_password_length %>
+						<% end %>
+					</div>
+					<br>
+					<div class="field">
+						<%= f.label :password_confirmation %><br />
+						<%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+					</div>
+					<br>
+					<div class="actions">
+						<%= f.submit "Update" %>
+					</div>
+					<% end %>
+				</div>
+			</div>
+		</div> <!-- update-password -->
+	</div>
 </div>

@@ -135,11 +135,22 @@
 	margin-bottom: 10px;
 }
 
+.requests>tbody>tr>th {
+	padding: 5px 20px 5px 0px;
+	border-bottom: 1px solid $header;
+	border-top: 1px solid $header;
+	min-width: 150px;
+	height: 60px;
+	font-weight: bold;
+	text-align: left;
+}
+
 .requests>tbody>tr>td {
 	padding: 5px 20px 5px 0px;
 	border-bottom: 1px solid $header;
 	border-top: 1px solid $header;
 	min-width: 150px;
+	width: 25%;
 	height: 60px;
 }
 
@@ -149,6 +160,13 @@
 	margin-bottom: 10px;
 }
 
+.requests>tbody>tr:nth-child(even) {
+	background: #CCC;
+}
+
+.requests>tbody>tr:nth-child(odd) {
+	background: #FFF;
+}
 
 .requests>tbody>tr>td>form>input[type="submit"] {
 	max-width: 200px;
@@ -156,8 +174,13 @@
 	float: right;
 }
 
+.requests>thead>tr>th {
+	text-align: left;
+}
+
 .profile-container>tbody>tr>td {
 	padding-right: 20px;
+	border-bottom: 1px solid black;
 }
 
 .edit-user-buttons>a {

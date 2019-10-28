@@ -4,372 +4,537 @@
 
 /*---- Page Layout ----*/
 
-  .layout {
-    display: grid;
-    grid-template-areas:
-      'left center center center center center center center right right';
-    height: 100%;
-  }
+.layout {
+	display: grid;
+	grid-template-areas:
+		'left center center center center center center center right right';
+	height: 100%;
+}
 
 /*---- Left sidebar ----*/
 
-  .left { 
-    grid-area: left; 
-    height: 100%; 
-    background-color: $sidebar; 
-    padding-top: 15px; 
-    width: 15vw;
-    min-width: 252px;
-    box-shadow: 1px 1px #7178864f;
-  }
+.left {
+	grid-area: left;
+	height: 100%;
+	background-color: $sidebar;
+	padding-top: 15px;
+	width: 15vw;
+	min-width: 252px;
+	box-shadow: 1px 1px #7178864f;
+}
 
-  .adminbutton {
-    background-color: $header;
-    border-radius: 5px;
-    border: 1px solid #132f52;
-    color: $text;
-    height: 40px;
-    display: block;
-    width: 90%;
-    margin: 10px 20px 0px 10px;
-    box-shadow: 2px 2px #485366;
-    font-size: 24px;
-    font-weight: 200;
-    outline: none;
-  }
+.adminbutton {
+	background-color: $header;
+	border-radius: 5px;
+	border: 1px solid #132f52;
+	color: $text;
+	height: 40px;
+	display: block;
+	width: 90%;
+	margin: 10px 20px 0px 10px;
+	box-shadow: 2px 2px #485366;
+	font-size: 24px;
+	font-weight: 200;
+	outline: none;
+}
 
-  .adminbutton:hover {
-    color: $hovertext;
-  }
+.adminbutton:hover {
+	color: $hovertext;
+}
 
-  .adminlink {
-    background-color: $header;
-    border-radius: 5px;
-    border: 1px solid #132f52;
-    color: $text;
-    height: 40px;
-    display: block;
-    width: 90%;
-    margin: 10px 20px 0px 10px;
-    box-shadow: 2px 2px #485366;
-    font-size: 24px;
-    font-weight: 200;
-    outline: none;
-    text-align: center;
-  }
+.adminlink {
+	background-color: $header;
+	border-radius: 5px;
+	border: 1px solid #132f52;
+	color: $text;
+	height: 40px;
+	display: block;
+	width: 90%;
+	margin: 10px 20px 0px 10px;
+	box-shadow: 2px 2px #485366;
+	font-size: 24px;
+	font-weight: 200;
+	outline: none;
+	text-align: center;
+}
 
-  .adminlink:hover {
-    color: $hovertext;
-  }
+.adminlink:hover {
+	color: $hovertext;
+}
 
 /*---- Right ----*/
 
-  .right { 
-    grid-area: right;
-    background-color: white;
-    width: 350px;
-    min-width: 350px;
-    height: 760px;
-    border: 1px solid #485366;
-    border-radius: 3px;
-    padding: 20px;
-    margin: 20px;
-  }
+.right {
+	grid-area: right;
+	background-color: white;
+	width: 350px;
+	min-width: 350px;
+	height: 760px;
+	border: 1px solid #485366;
+	border-radius: 3px;
+	padding: 20px;
+	margin: 20px;
+}
 
-  input[title="Filter by name"] {
-    width: 300px;
-    font-size: 16px;
-    padding: 12px 20px 12px 40px;
-    border: 1px solid #485366;
-    color: #485366;
-    outline: none;
-    background-color: #f2f4f7;
-    border-radius: 3px;
-  }
+input[title="Filter by name"] {
+	width: 300px;
+	font-size: 16px;
+	padding: 12px 20px 12px 40px;
+	border: 1px solid #485366;
+	color: #485366;
+	outline: none;
+	background-color: #f2f4f7;
+	border-radius: 3px;
+}
 
-  .agent-header > table {
-    width: 300px;
-  }
+.agent-header>table {
+	width: 300px;
+}
 
-  .all-agents {
-    height: 630px;
-    overflow: scroll;
-  }
+.all-agents {
+	height: 630px;
+	overflow: scroll;
+}
 
-  #agent-table {
-    width: 300px;
+#agent-table {
+	width: 300px;
 
-  }
+}
 
-  .agent-table > td, .agent-table> tr, .agent-table> th {
-    padding: 5px;
-    height: 20px;
-    width: 100%;
-  }
+.agent-table>td,
+.agent-table>tr,
+.agent-table>th {
+	padding: 5px;
+	height: 20px;
+	width: 100%;
+}
 
-  .agent-row:hover {
-    background-color: $sidebar;
-    color: $text !important;
-  }
+#agent-table>tbody>tr:nth-child(even) {
+	background: #CCC;
+}
 
-  .agent-row {
-    margin-left: 3px;
-    border-bottom: 1px solid $sidebar;
-    color: $text;
-  }
+#agent-table>tbody>tr:nth-child(odd) {
+	background: #FFF;
+}
 
-  .agent-name > a {
-    margin: auto;
-    display: block;
-    width: 100%;
-    padding-left: 10px;
-  }
+.agent-row:hover {
+	background-color: $sidebar;
+	color: $text !important;
+}
 
-  .agent-name > a:hover, .agent-points > a:hover {
-    color: $text !important;
-  }
+.agent-row {
+	margin-left: 3px;
+	border-bottom: 1px solid $sidebar;
+	color: $text;
+}
 
-  .agent-points {
-    text-align: center;
-  }
+.agent-name>a {
+	margin: auto;
+	display: block;
+	width: 100%;
+	padding-left: 10px;
+}
+
+.agent-name>a:hover,
+.agent-points>a:hover {
+	color: $text !important;
+}
+
+.agent-points {
+	text-align: center;
+}
 
 /*---- Modals ----*/
 
 .admin-modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+	display: none;
+	/* Hidden by default */
+	position: fixed;
+	/* Stay in place */
+	z-index: 1;
+	/* Sit on top */
+	padding-top: 100px;
+	/* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+	/* Black w/ opacity */
 }
 
 .modal-header {
- vertical-align: baseline;
+	vertical-align: baseline;
 }
 
-.upload-users-content, .upload-values-content, .adjust-calendar-cost-content {
-  background-color: #fefefe;
-  border: 1px solid #888;
-  width: 40%;
-  margin: auto;
+.upload-users-content,
+.upload-values-content,
+.adjust-calendar-cost-content {
+	background-color: #fefefe;
+	border: 1px solid #888;
+	width: 40%;
+	margin: auto;
 }
 
-form > input[type="submit"] {
-  background-color: $header;
-  border-radius: 5px;
-  border: 1px solid #132f52;
-  color: $text;
-  height: 40px;
-  display: block;
-  width: 100%;
-  font-size: 24px;
-  font-weight: 200;
-  outline: none;
-  margin-top: 10px;
-  line-height: 1;
+form>input[type="submit"] {
+	background-color: $header;
+	border-radius: 5px;
+	border: 1px solid #132f52;
+	color: $text;
+	height: 40px;
+	display: block;
+	width: 100%;
+	font-size: 24px;
+	font-weight: 200;
+	outline: none;
+	margin-top: 10px;
+	line-height: 1;
 }
 
-form > input[type="submit"]:hover {
-  color: $hovertext;
+form>input[type="submit"]:hover {
+	color: $hovertext;
 }
 
 input[type="file"] {
-  margin-bottom: 20px;
+	margin-bottom: 20px;
 }
 
 form[enctype="multipart/form-data"] {
-  padding: 20px;
+	padding: 20px;
 }
 
 /*---- Center ----*/
 
-.center { 
-  grid-area: center; 
-  background-color: $sidebar;
-  height: 760px;
-  border: 1px solid #485366;
-  border-radius: 3px;
-  margin: 20px 0px 0px 20px;
-  text-align: center;
-  overflow: hidden;
-  color: $text;
-  font-size: 1.15em;
+.center {
+	grid-area: center;
+	background-color: $sidebar;
+	height: 760px;
+	border: 1px solid #485366;
+	border-radius: 3px;
+	margin: 20px 0px 0px 20px;
+	text-align: center;
+	overflow: hidden;
+	color: $text;
+	font-size: 1.15em;
 }
 
 .center-content {
-  height: 95%;
-  background-color: white;
-  color: $header;
-  width: 100%;
-  padding-bottom: 10px;
-  overflow-x: scroll;
+	height: 95%;
+	background-color: white;
+	color: $header;
+	width: 100%;
+	padding-bottom: 10px;
+	overflow-x: scroll;
 }
 
 .agents-table {
-  overflow-y: scroll;
-  overflow-x: hidden;
-  height: 95%;
-  background-color: white;
-  color: $header;
-  width: 1050px;
-  padding-bottom: 20px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	height: 95%;
+	background-color: white;
+	color: $header;
+	width: 1050px;
+	padding-bottom: 20px;
 }
 
-.grid-overflow > a {
-  margin: 10px 0px 0px 0px;
-  font-size: 1em;
-  color: grey;
+.grid-overflow>a {
+	margin: 10px 0px 0px 0px;
+	font-size: 1em;
+	color: grey;
 
 }
 
 /*------ Who is off ------*/
 .working-grid {
-  display: grid;
-  grid-template-areas:
-  'start05 start06 start07 start08 start09 start10 start11 start12 start13 start14 start15 start16 start17 start18 start19 start20 start21 start22 start23 start00';
-  height: 20px;
-  grid-template-columns: 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px;
-  overflow-x: visible;
-  width: 100%;
-  margin-bottom: 15px;
+	display: grid;
+	grid-template-areas:
+		'start05 start06 start07 start08 start09 start10 start11 start12 start13 start14 start15 start16 start17 start18 start19 start20 start21 start22 start23 start00';
+	height: 20px;
+	grid-template-columns: 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px;
+	overflow-x: visible;
+	width: 100%;
+	margin-bottom: 15px;
 }
 
 .off-header {
-  padding: 3px;
-  border-right: 1px solid black;
-  border-bottom: 1px solid black;
-  min-width: 50px;
+	padding: 3px;
+	border-right: 1px solid black;
+	border-bottom: 1px solid black;
+	min-width: 50px;
 }
 
 .grid-overflow {
-  white-space: nowrap;
-  padding: 3px 5px 3px 5px;
+	white-space: nowrap;
+	padding: 3px 5px 3px 5px;
 }
 
 .Black {
-  background-color: black;
-  color: $header;
-  color: $text;
+	background-color: black;
+	color: $header;
+	color: $text;
 }
 
 .Red {
-  background-color: rgb(214, 29, 29);
-  color: $text;
+	background-color: rgb(214, 29, 29);
+	color: $text;
 }
 
 .Blue {
-  background-color: #1DACD6;
-  color: $header;
+	background-color: #1DACD6;
+	color: $header;
 }
 
 .Orange {
-  background-color: #FFAA1D;
-  color: $text;
+	background-color: #FFAA1D;
+	color: $text;
 }
 
 .White {
-  background-color: #e5e2e2;
-  color: $header;
+	background-color: #e5e2e2;
+	color: $header;
 }
 
 .Green {
-  background-color: #8DD64F;
-  color: $text;
+	background-color: #8DD64F;
+	color: $text;
 }
 
 .Teal {
-  background-color: rgb(79, 214, 203);
-  color: $header;
+	background-color: rgb(79, 214, 203);
+	color: $header;
 }
 
 .Charcoal {
-  background-color: #323332;
-  color: $text;
+	background-color: #323332;
+	color: $text;
 }
 
 .Purple {
-  background-color: #643F90;
-  color: $text;
+	background-color: #643F90;
+	color: $text;
 }
 
 .Maroon {
-  background-color: #690b0b;
-  color: $text;
+	background-color: #690b0b;
+	color: $text;
 }
 
 .Yellow {
-  background-color: #FFF000;
-  color: $text;
+	background-color: #FFF000;
+	color: $text;
 }
 
 .offtoday {
-  white-space: nowrap;
-  background-color: $header;
-  color: $text;
-  animation: pulse 3s infinite;
+	white-space: nowrap;
+	background-color: $header;
+	color: $text;
+	animation: pulse 3s infinite;
 }
 
 @keyframes pulse {
-  0% {
-    background-color: $header
-  }
+	0% {
+		background-color: $header
+	}
 
-  100% {
-    background-color: white;
-  }
+	100% {
+		background-color: white;
+	}
 }
 
-.start-0000  { grid-area: start00; }
-.start-0100  { grid-area: start01; }
-.start-0200  { grid-area: start02; }
-.start-0300  { grid-area: start03; }
-.start-0400  { grid-area: start04; }
-.start-0500  { grid-area: start05; }
-.start-0600  { grid-area: start06; }
-.start-0700  { grid-area: start07; }
-.start-0800  { grid-area: start08; }
-.start-0900  { grid-area: start09; }
-.start-1000  { grid-area: start10; }
-.start-1100  { grid-area: start11; }
-.start-1200  { grid-area: start12; }
-.start-1300  { grid-area: start13; }
-.start-1400  { grid-area: start14; }
-.start-1500  { grid-area: start15; }
-.start-1600  { grid-area: start16; }
-.start-1700  { grid-area: start17; }
-.start-1800  { grid-area: start18; }
-.start-1900  { grid-area: start19; }
-.start-2000  { grid-area: start20; }
-.start-2100  { grid-area: start21; }
-.start-2200  { grid-area: start22; }
-.start-2300  { grid-area: start23; }
-.start-0030  { grid-area: start0030; }
-.start-0130  { grid-area: start0130; }
-.start-0230  { grid-area: start0230; }
-.start-0330  { grid-area: start0330; }
-.start-0430  { grid-area: start0430; }
-.start-0530  { grid-area: start0530; }
-.start-0630  { grid-area: start0630; }
-.start-0730  { grid-area: start0730; }
-.start-0830  { grid-area: start0830; }
-.start-0930  { grid-area: start0930; }
-.start-1030  { grid-area: start1030; }
-.start-1130  { grid-area: start1130; }
-.start-1230  { grid-area: start1230; }
-.start-1330  { grid-area: start1330; }
-.start-1430  { grid-area: start1430; }
-.start-1530  { grid-area: start1530; }
-.start-1630  { grid-area: start1630; }
-.start-1730  { grid-area: start1730; }
-.start-1830  { grid-area: start1830; }
-.start-1930  { grid-area: start1930; }
-.start-2030  { grid-area: start2030; }
-.start-2130  { grid-area: start2130; }
-.start-2230  { grid-area: start2230; }
-.start-2330  { grid-area: start2330; }
+.start-0000 {
+	grid-area: start00;
+}
+
+.start-0100 {
+	grid-area: start01;
+}
+
+.start-0200 {
+	grid-area: start02;
+}
+
+.start-0300 {
+	grid-area: start03;
+}
+
+.start-0400 {
+	grid-area: start04;
+}
+
+.start-0500 {
+	grid-area: start05;
+}
+
+.start-0600 {
+	grid-area: start06;
+}
+
+.start-0700 {
+	grid-area: start07;
+}
+
+.start-0800 {
+	grid-area: start08;
+}
+
+.start-0900 {
+	grid-area: start09;
+}
+
+.start-1000 {
+	grid-area: start10;
+}
+
+.start-1100 {
+	grid-area: start11;
+}
+
+.start-1200 {
+	grid-area: start12;
+}
+
+.start-1300 {
+	grid-area: start13;
+}
+
+.start-1400 {
+	grid-area: start14;
+}
+
+.start-1500 {
+	grid-area: start15;
+}
+
+.start-1600 {
+	grid-area: start16;
+}
+
+.start-1700 {
+	grid-area: start17;
+}
+
+.start-1800 {
+	grid-area: start18;
+}
+
+.start-1900 {
+	grid-area: start19;
+}
+
+.start-2000 {
+	grid-area: start20;
+}
+
+.start-2100 {
+	grid-area: start21;
+}
+
+.start-2200 {
+	grid-area: start22;
+}
+
+.start-2300 {
+	grid-area: start23;
+}
+
+.start-0030 {
+	grid-area: start0030;
+}
+
+.start-0130 {
+	grid-area: start0130;
+}
+
+.start-0230 {
+	grid-area: start0230;
+}
+
+.start-0330 {
+	grid-area: start0330;
+}
+
+.start-0430 {
+	grid-area: start0430;
+}
+
+.start-0530 {
+	grid-area: start0530;
+}
+
+.start-0630 {
+	grid-area: start0630;
+}
+
+.start-0730 {
+	grid-area: start0730;
+}
+
+.start-0830 {
+	grid-area: start0830;
+}
+
+.start-0930 {
+	grid-area: start0930;
+}
+
+.start-1030 {
+	grid-area: start1030;
+}
+
+.start-1130 {
+	grid-area: start1130;
+}
+
+.start-1230 {
+	grid-area: start1230;
+}
+
+.start-1330 {
+	grid-area: start1330;
+}
+
+.start-1430 {
+	grid-area: start1430;
+}
+
+.start-1530 {
+	grid-area: start1530;
+}
+
+.start-1630 {
+	grid-area: start1630;
+}
+
+.start-1730 {
+	grid-area: start1730;
+}
+
+.start-1830 {
+	grid-area: start1830;
+}
+
+.start-1930 {
+	grid-area: start1930;
+}
+
+.start-2030 {
+	grid-area: start2030;
+}
+
+.start-2130 {
+	grid-area: start2130;
+}
+
+.start-2230 {
+	grid-area: start2230;
+}
+
+.start-2330 {
+	grid-area: start2330;
+}
