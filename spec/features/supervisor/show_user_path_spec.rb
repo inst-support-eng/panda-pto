@@ -5,6 +5,7 @@ RSpec.feature 'Admin show_user path', type: :feature do
     @sup = FactoryBot.create(:user, :supervisor)
     @user = FactoryBot.create(:user_with_one_request)
     @calendar = FactoryBot.create(:calendar, :calendar_tomorrow)
+    @calendar_today = FactoryBot.create(:calendar, :calendar_today)
     @request_date = FactoryBot.create(:calendar)
     sign_in(@sup)
   end
@@ -16,8 +17,9 @@ RSpec.feature 'Admin show_user path', type: :feature do
   end
 
   scenario 'should be able to get to users page', js: true do
-    visit(admin_path)
-    click_link(@user.name.to_s)
+		visit(admin_path)
+		page.has_content?(@user.name.to_s)
+		visit(show_user_path(@user))
 
     expect(page).to have_button('Add Request')
     expect(page).to have_link('User PTO Requests')
@@ -25,9 +27,6 @@ RSpec.feature 'Admin show_user path', type: :feature do
     expect(page).to have_button('8/10 hour shift')
     expect(page).to have_button('Add No Show')
     expect(page).to have_button('Add Make Up / Sick Day')
-    expect(page).to have_no_button('Toggle Admin')
-    expect(page).to have_no_button('Toggle Pip')
-    expect(page).to have_no_button('Delete User')
   end
 
   scenario 'should be able to add pto request', js: true do

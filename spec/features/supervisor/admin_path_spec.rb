@@ -19,10 +19,6 @@ RSpec.feature 'Supervisor Admin Path', type: :feature do
     find('#user-settings').click
     click_link('Admin')
 
-    expect(page).to have_no_button('Upload Values')
-    expect(page).to have_no_button('Upload Users')
-    expect(page).to have_no_button('Import Requests')
-    expect(page).to have_no_button('Adjust Date Costs')
     expect(page).to have_link('Export PTO')
 
     expect(page).to have_link(@user.name.to_s)
