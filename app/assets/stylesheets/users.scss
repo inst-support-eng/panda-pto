@@ -135,12 +135,25 @@
 	margin-bottom: 10px;
 }
 
-.requests>tbody>tr>td {
+.requests>tbody>tr>th {
 	padding: 5px 20px 5px 0px;
 	border-bottom: 1px solid $header;
 	border-top: 1px solid $header;
 	min-width: 150px;
 	height: 60px;
+	font-weight: bold;
+	text-align: left;
+	padding-left: 10px;
+}
+
+.requests>tbody>tr>td {
+	padding: 5px 20px 5px 0px;
+	border-bottom: 1px solid $header;
+	border-top: 1px solid $header;
+	min-width: 150px;
+	width: 25%;
+	height: 60px;
+	padding-left: 10px;
 }
 
 .upcoming-requests-tab>h2,
@@ -149,11 +162,38 @@
 	margin-bottom: 10px;
 }
 
+.requests>tbody>tr:nth-child(even) {
+	background: #CCC;
+}
+
+.requests>tbody>tr:nth-child(odd) {
+	background: #FFF;
+}
+
+.requests>tbody>tr>td:nth-child(1) {
+	width: 10%;
+}
+
+.requests>tbody>tr>td:nth-child(2) {
+	width: 5%;
+}
+
+.requests>tbody>tr>td:nth-child(3) {
+	width : 40%;
+}
+
+.requests>tbody>tr>td:nth-child(4) {
+	width : 5%;
+}
 
 .requests>tbody>tr>td>form>input[type="submit"] {
 	max-width: 200px;
 	min-width: 200px;
 	float: right;
+}
+
+.requests>thead>tr>th {
+	text-align: left;
 }
 
 .profile-container>tbody>tr>td {
@@ -163,7 +203,6 @@
 .edit-user-buttons>a {
 	font-size: 1em;
 	color: $text;
-	vertical-align: top;
 	margin: auto;
 	display: block;
 	width: 100%;
