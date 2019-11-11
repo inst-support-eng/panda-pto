@@ -9,6 +9,7 @@ FactoryBot.define do
     sequence(:humanity_user_id) { |n| n }
     ten_hour_shift { false }
     position { 'L1' }
+    phone_number { '801-555-0100' }
     admin { false }
     on_pip { false }
     no_call_show { 0 }

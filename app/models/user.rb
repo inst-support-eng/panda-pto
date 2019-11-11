@@ -114,6 +114,7 @@ class User < ApplicationRecord
       agent.name = u['name']
       agent.position = 'L1'
       agent.admin = false
+      agent.phone_number = u['cell_phone']
       agent.start_date = u['work_start_date']
       agent.team = u['skills'].values[0] unless u['skills'].empty?
       start_time = u['custom']['35718']['value']
