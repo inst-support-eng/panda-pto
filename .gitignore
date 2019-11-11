@@ -30,3 +30,4 @@
 /config/master.key
 .vscode/settings.json
 config/google_credentials.json
+.github/*
