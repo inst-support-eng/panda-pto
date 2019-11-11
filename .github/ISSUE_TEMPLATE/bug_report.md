@@ -1,12 +1,3 @@
----
-name: Bug report
-about: Bug Template
-title: ''
-labels: ''
-assignees: ''
-
----
-
 **Description**
 A clear description of what the bug is.
 
