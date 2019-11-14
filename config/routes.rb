@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :messages
   authenticate :user, ->(u) { u.admin? } do
     get 'pto_requests/export' => 'pto_requests#export'
   end
@@ -37,7 +38,10 @@ Rails.application.routes.draw do
     # coverage JSON
     get 'admin/coverage' => 'admin#coverage'
     # access admin page
-    get 'admin' => 'admin#index'
+		get 'admin' => 'admin#index'
+		# batsignal stuff
+		get 'admin/bat_signal' => 'messages#bat_signal'
+		post 'messages/send_message' => 'messages#send_message', as: :send_batsignal
     resources :admin
     # view user profiles
     get 'users/index'

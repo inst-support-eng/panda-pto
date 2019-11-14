@@ -1,0 +1,118 @@
+<body>
+	<div class='layout'>
+		<div class='left'>
+			<button class="adminbutton" id="Back" onclick="history.back(-1)">Go Back</button>
+		</div> <!-- left -->
+		<div class="batsignal center">
+			<div class="last-message">Last Message sent <%= ENV['LAST_SIGNAL'] %></div>
+			<%= bootstrap_form_for(Message.new) do |f| %>
+			<%= f.hidden_field :author, value: current_user.id %>
+			<%= f.hidden_field :recipients, value: 'to-change'%>
+			<%= f.hidden_field :recipient_numbers, value: 'to-change' %>
+			<%= f.text_area :message,
+				max_length: 1000, 
+				cols: '70',
+				rows: '30',
+				class: 'form-control',
+				required: 'true' %>
+			<%= f.submit 'create message', class:'form-control' %>
+			<% end %>
+		</div> <!-- center -->
+		<div class='right'>
+			<div class="all-agents">
+				<table id="agent-table">
+					<select name="agent-select" id="agent-select">
+						<option value='agents-off-today'>agents off today</option>
+						<option value='agents-currently-not-working'>agents currently not working</option>
+						<option value='all-agents'>all agents</option>
+						<option value='agents-team'>agents team</option>
+					</select>
+					<div id='all-agents-counter'>Total agents to be messaged : 0</div>
+					<button class='adminbutton' id='agents-off-today-button'>test</button>
+					<tbody id="all-agents-list">
+						<% @agents.each do |agent| %>
+						<tr>
+							<td class='agent-row all-agents-row'> <input name='selected-agent' type='checkbox' value="<%= agent['phone_number'] %>_<%= agent['name']%>"> <%= agent['name'] %></td>
+						</tr>
+						<% end %>
+					</tbody>
+					<tbody id="agents-off-today-list">
+							<% @users_off_today.each do |agent| %>
+							<tr>
+								<td class='agent-row agents-off-today-row'> <input name='selected-agent' type='checkbox' value="<%= agent['phone_number'] %>_<%= agent['name'] %>"> <%= agent['name'] %></td>
+							</tr>
+							<% end %>
+					</tbody>
+					<tbody id="agents-currently-not-working-list">
+							<% @users_not_working.each do |agent| %>
+							<tr>
+								<td class='agent-row agents-currently-not-working-row'> <input name='selected-agent' type='checkbox' value="<%= agent['phone_number']%>_<%= agent['name'] %>"> <%= agent['name'] %></td>
+							</tr>
+							<% end %>
+					</tbody>
+					<tbody id="agents-team-list">
+							<% @users_team.each do |agent| %>
+							<tr>
+								<td class='agent-row agents-team-row'> <input name='selected-agent' type='checkbox' value="<%= agent['phone_number']%>_<%= agent['name'] %>"> <%= agent['name'] %></td>
+							</tr>
+							<% end %>
+					</tbody>
+				</table> <!-- agent-table -->
+			</div> <!-- all-agents -->
+		</div><!-- right -->
+	</div> <!-- layout-->
+</body>
+
+<script type="text/javascript">
+	$(document).ready(() => {
+		$('#agent-select').change(() => {
+			if ($('#agent-select').val() == 'all-agents') {
+				$('#all-agents-list').show();
+				$('#agents-off-today-list').hide();
+				$('#agents-currently-not-working-list').hide();
+				$('#agents-team-list').hide();
+			}
+			if($('#agent-select').val() == 'agents-off-today') {
+				$('#agents-off-today-list').show();
+				$('#all-agents-list').hide();
+				$('#agents-currently-not-working-list').hide();
+				$('#agents-team-list').hide();
+			}
+			if($('#agent-select').val() == 'agents-currently-not-working') {
+				$('#agents-currently-not-working-list').show();
+				$('#all-agents-list').hide();
+				$('#agents-off-today-list').hide();
+				$('#agents-team-list').hide();
+			}
+			if($('#agent-select').val() == 'agents-team') {
+				$('#agents-team-list').show();
+				$('#agents-currently-not-working-list').hide();
+				$('#all-agents-list').hide();
+				$('#agents-off-today-list').hide();
+			}
+		});
+		
+		$('input:checkbox[name=selected-agent]').change(() => {
+			agentList = [''];
+			agentPhoneList = [''];
+			count = 0;
+			checkboxes  = document.querySelectorAll('input[name=selected-agent]');
+			checkboxes.length;
+			checkboxes.forEach(el => {
+				if(el.checked) {
+					user = el.value.split('_');
+					pNum = user[0];
+					name = user[1];
+					agentList.push(name);
+					agentPhoneList.push(pNum);
+					count++;
+				}
+			});
+			$('#message_recipients').attr("value", [agentList,'']);
+			$('#message_recipient_numbers').attr("value", [agentPhoneList,'']);
+			document.getElementById('all-agents-counter').innerHTML = `Total agents to be messaged : ${count}`;
+		});
+		$('#agents-off-today-button').click(() => {
+		})
+	});
+</script>
