@@ -98,7 +98,6 @@ input[title="Filter by name"] {
 
 #agent-table {
 	width: 300px;
-
 }
 
 .agent-table>td,
@@ -274,6 +273,12 @@ form[enctype="multipart/form-data"] {
 	padding: 3px 5px 3px 5px;
 }
 
+/*------ BatSignal Box ------*/
+.batsignal {
+	overflow-y: scroll;
+}
+
+/*------ Team Colors ------*/
 .Black {
 	background-color: black;
 	color: $header;
