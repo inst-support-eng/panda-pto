@@ -1,10 +1,12 @@
-<body>
+<body class="<%= controller_name %> <%= action_name %>">
 	<div class='layout'>
 		<div class='left'>
 			<button class="adminbutton" id="Back" onclick="history.back(-1)">Go Back</button>
 		</div> <!-- left -->
 		<div class="batsignal center">
-			<div class="last-message">Last Message sent <%= ENV['LAST_SIGNAL'] %></div>
+			<div class="last-message">Last Message sent on 
+				<%= @last_message.created_at.in_time_zone("Mountain Time (US & Canada)") %>
+			</div>
 			<%= bootstrap_form_for(Message.new) do |f| %>
 			<%= f.hidden_field :author, value: current_user.id %>
 			<%= f.hidden_field :recipients, value: 'to-change'%>
@@ -22,40 +24,58 @@
 			<div class="all-agents">
 				<table id="agent-table">
 					<select name="agent-select" id="agent-select">
-						<option value='agents-off-today'>agents off today</option>
-						<option value='agents-currently-not-working'>agents currently not working</option>
-						<option value='all-agents'>all agents</option>
-						<option value='agents-team'>agents team</option>
+						<option value='agents-off-today'>Agents off today</option>
+						<option value='agents-currently-not-working'>Agents currently not working</option>
+						<option value='all-agents'>All agents</option>
+						<option value='agents-team'>Agents team</option>
 					</select>
 					<div id='all-agents-counter'>Total agents to be messaged : 0</div>
-					<button class='adminbutton' id='agents-off-today-button'>test</button>
+					<div id="searchbar">
+						<input type="text" id="search" onkeyup="filter()" placeholder="Filter by name.." title="Filter by name"> 
+					</div> <!-- searchbar -->
+					<button class='adminbutton' id='agents-off-today-button'>Check All</button>
+					<button class='adminbutton' id='agents-currently-not-working-button'>Check All</button>
+					<button class='adminbutton' id='all-agents-button'>Check All</button>
+					<button class='adminbutton' id='agents-team-button'>Check All</button>
 					<tbody id="all-agents-list">
 						<% @agents.each do |agent| %>
 						<tr>
-							<td class='agent-row all-agents-row'> <input name='selected-agent' type='checkbox' value="<%= agent['phone_number'] %>_<%= agent['name']%>"> <%= agent['name'] %></td>
+							<td class='agent-row'> <input class='all-agents-row' name='selected-agent' type='checkbox'
+									value="<%= agent['phone_number'] %>_<%= agent['name']%>">
+								<%= agent['name'] %>
+							</td>
 						</tr>
 						<% end %>
 					</tbody>
 					<tbody id="agents-off-today-list">
-							<% @users_off_today.each do |agent| %>
-							<tr>
-								<td class='agent-row agents-off-today-row'> <input name='selected-agent' type='checkbox' value="<%= agent['phone_number'] %>_<%= agent['name'] %>"> <%= agent['name'] %></td>
-							</tr>
-							<% end %>
+						<% @users_off_today.each do |agent| %>
+						<tr>
+							<td class='agent-row'> <input class='agents-off-today-row' name='selected-agent' type='checkbox'
+									value="<%= agent['phone_number'] %>_<%= agent['name'] %>">
+								<%= agent['name'] %>
+							</td>
+						</tr>
+						<% end %>
 					</tbody>
 					<tbody id="agents-currently-not-working-list">
-							<% @users_not_working.each do |agent| %>
-							<tr>
-								<td class='agent-row agents-currently-not-working-row'> <input name='selected-agent' type='checkbox' value="<%= agent['phone_number']%>_<%= agent['name'] %>"> <%= agent['name'] %></td>
-							</tr>
-							<% end %>
+						<% @users_not_working.each do |agent| %>
+						<tr>
+							<td class='agent-row'> <input class='agents-currently-not-working-row' name='selected-agent'
+									type='checkbox' value="<%= agent['phone_number']%>_<%= agent['name'] %>">
+								<%= agent['name'] %>
+							</td>
+						</tr>
+						<% end %>
 					</tbody>
 					<tbody id="agents-team-list">
-							<% @users_team.each do |agent| %>
-							<tr>
-								<td class='agent-row agents-team-row'> <input name='selected-agent' type='checkbox' value="<%= agent['phone_number']%>_<%= agent['name'] %>"> <%= agent['name'] %></td>
-							</tr>
-							<% end %>
+						<% @users_team.each do |agent| %>
+						<tr>
+							<td class='agent-row'> <input class='agents-team-row' name='selected-agent' type='checkbox'
+									value="<%= agent['phone_number']%>_<%= agent['name'] %>">
+								<%= agent['name'] %>
+							</td>
+						</tr>
+						<% end %>
 					</tbody>
 				</table> <!-- agent-table -->
 			</div> <!-- all-agents -->
@@ -64,55 +84,22 @@
 </body>
 
 <script type="text/javascript">
-	$(document).ready(() => {
-		$('#agent-select').change(() => {
-			if ($('#agent-select').val() == 'all-agents') {
-				$('#all-agents-list').show();
-				$('#agents-off-today-list').hide();
-				$('#agents-currently-not-working-list').hide();
-				$('#agents-team-list').hide();
-			}
-			if($('#agent-select').val() == 'agents-off-today') {
-				$('#agents-off-today-list').show();
-				$('#all-agents-list').hide();
-				$('#agents-currently-not-working-list').hide();
-				$('#agents-team-list').hide();
-			}
-			if($('#agent-select').val() == 'agents-currently-not-working') {
-				$('#agents-currently-not-working-list').show();
-				$('#all-agents-list').hide();
-				$('#agents-off-today-list').hide();
-				$('#agents-team-list').hide();
-			}
-			if($('#agent-select').val() == 'agents-team') {
-				$('#agents-team-list').show();
-				$('#agents-currently-not-working-list').hide();
-				$('#all-agents-list').hide();
-				$('#agents-off-today-list').hide();
-			}
-		});
-		
-		$('input:checkbox[name=selected-agent]').change(() => {
-			agentList = [''];
-			agentPhoneList = [''];
-			count = 0;
-			checkboxes  = document.querySelectorAll('input[name=selected-agent]');
-			checkboxes.length;
-			checkboxes.forEach(el => {
-				if(el.checked) {
-					user = el.value.split('_');
-					pNum = user[0];
-					name = user[1];
-					agentList.push(name);
-					agentPhoneList.push(pNum);
-					count++;
+	let filter = () => {
+		let input, filter, table, tr, td, i, ii;
+		input = document.getElementById("search");
+		filter = input.value.toUpperCase();
+		table = document.getElementById("agent-table");
+		tr = table.querySelectorAll("tbody tr");
+		for (i = 0; i < tr.length; i++) {
+			let tds = tr[i].getElementsByTagName("td");
+			let found = false;
+			for (ii = 0; ii < tds.length && !found; ii++) {
+				if (tds[ii].textContent.toUpperCase().indexOf(filter) > -1) {
+					found = true;
+					break;
 				}
-			});
-			$('#message_recipients').attr("value", [agentList,'']);
-			$('#message_recipient_numbers').attr("value", [agentPhoneList,'']);
-			document.getElementById('all-agents-counter').innerHTML = `Total agents to be messaged : ${count}`;
-		});
-		$('#agents-off-today-button').click(() => {
-		})
-	});
+			}
+			tr[i].style.display = found ? "" : "none";
+		}
+	}
 </script>
