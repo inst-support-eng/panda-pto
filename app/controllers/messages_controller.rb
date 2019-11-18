@@ -1,3 +1,5 @@
+##
+# Messages Controller
 class MessagesController < ApplicationController
   before_action :login_required
   before_action :set_message, only: %i[show edit update destroy]
@@ -17,44 +19,19 @@ class MessagesController < ApplicationController
     @message = Message.new
   end
 
-  # GET /messages/1/edit
-  def edit; end
-
   # POST /messages
   # POST /messages.json
   def create
-		@message = Message.new(message_params)
-		
-		if @message.save
-			SharpenAPI.send_sms(@message.message, @message.recipient_numbers)
-      redirect_to admin_bat_signal_path, notice: 'Message was successfully send.'
+    @message = Message.new(message_params)
+
+    if @message.save
+      SharpenAPI.send_sms(@message.message, @message.recipient_numbers)
+      redirect_to admin_bat_signal_path, notice: 'Message was successfully sent'
     else
       format.html { render :new }
-      format.json { render json: @message.errors, status: :unprocessable_entity }
-    end
-  end
-
-  # PATCH/PUT /messages/1
-  # PATCH/PUT /messages/1.json
-  def update
-    respond_to do |format|
-      if @message.update(message_params)
-        format.html { redirect_to @message, notice: 'Message was successfully updated.' }
-        format.json { render :show, status: :ok, location: @message }
-      else
-        format.html { render :edit }
-        format.json { render json: @message.errors, status: :unprocessable_entity }
+      format.json do
+        render json: @message.errors, status: :unprocessable_entity
       end
-    end
-  end
-
-  # DELETE /messages/1
-  # DELETE /messages/1.json
-  def destroy
-    @message.destroy
-    respond_to do |format|
-      format.html { redirect_to messages_url, notice: 'Message was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 
@@ -75,7 +52,12 @@ class MessagesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def message_params
-    params.require(:message).permit(:message, :author, :recipients, :recipient_numbers)
+    params.require(:message).permit(
+      :message,
+      :author,
+      :recipients,
+      :recipient_numbers
+    )
   end
 
   def users_off_today
