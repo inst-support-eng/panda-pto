@@ -8,6 +8,7 @@
 		<!-- <button class="adminbutton" id="adjust-calendar-cost-btn">Adjust Date Costs</button> -->
 		<% end %>
 		<%= link_to "Export PTO", pto_requests_export_path(format: :csv), class: 'adminlink', method: :get %>
+		<%= link_to "Batsignal", admin_bat_signal_path, class: 'adminlink', method: :get %>
 	</div>
 	<div class="right">
 		<div id="searchbar">

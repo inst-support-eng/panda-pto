@@ -1,6 +1,7 @@
 <body class="<%= controller_name %> <%= action_name %>">
 	<div class='layout'>
 		<div class='left'>
+			<%= link_to "Export Messages", messages_export_path(format: :csv), class: 'adminlink', method: :get %>
 			<button class="adminbutton" id="Back" onclick="history.back(-1)">Go Back</button>
 		</div> <!-- left -->
 		<div class="batsignal center">

@@ -1,8 +1,18 @@
 ##
 # Messages Controller
 class MessagesController < ApplicationController
+  require 'csv'
   before_action :login_required
   before_action :set_message, only: %i[show edit update destroy]
+
+  def export
+    @messages = Message.all
+    respond_to do |format|
+      format.csv do
+        send_data @messages.to_csv
+      end
+    end
+  end
 
   # GET /messages
   # GET /messages.json
@@ -22,9 +32,15 @@ class MessagesController < ApplicationController
   # POST /messages
   # POST /messages.json
   def create
+    # disallow regular users from deleting pto requests they don't own
+    # unless current_user.admin == false || current_user.position != 'Sup'
+    #   return redirect_back(fallback_location: root_path),
+    #     alert: 'You do not have sufficent privlages to delete this request.'
+    # end
     @message = Message.new(message_params)
 
     if @message.save
+      puts 'control' + @message.inspect
       SharpenAPI.send_sms(@message.message, @message.recipient_numbers)
       redirect_to admin_bat_signal_path, notice: 'Message was successfully sent'
     else
@@ -36,6 +52,11 @@ class MessagesController < ApplicationController
   end
 
   def bat_signal
+    # disallow regular users from deleting pto requests they don't own
+    unless current_user.admin == false || current_user.position != 'Sup' || @user != current_user
+      return redirect_back(fallback_location: root_path),
+        alert: 'You do not have sufficent privlages to delete this request.'
+    end
     @agents = User.all
     @users_team = users_by_team
     @users_off_today = users_off_today
