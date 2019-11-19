@@ -37,7 +37,10 @@ class MessagesController < ApplicationController
     #   return redirect_back(fallback_location: root_path),
     #     alert: 'You do not have sufficent privlages to delete this request.'
     # end
-    @message = Message.new(message_params)
+		@message = Message.new(message_params)
+		
+		@message.recipients = @message.recipients.uniq
+		@message.recipient_numbers = @message.recipient_numbers.uniq
 
     if @message.save
       puts 'control' + @message.inspect
