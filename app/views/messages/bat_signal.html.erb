@@ -6,7 +6,11 @@
 		</div> <!-- left -->
 		<div class="batsignal center">
 			<div class="last-message">Last Message sent on 
+				<% if @last_message %>
 				<%= @last_message.created_at.in_time_zone("Mountain Time (US & Canada)") %>
+				<% else %> 
+				No messages have been sent yet.
+				<% end %>
 			</div>
 			<%= bootstrap_form_for(Message.new) do |f| %>
 			<%= f.hidden_field :author, value: current_user.id %>
