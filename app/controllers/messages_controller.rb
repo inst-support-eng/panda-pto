@@ -37,14 +37,14 @@ class MessagesController < ApplicationController
     @message.recipients = @message.recipients.uniq
     @message.recipient_numbers = @message.recipient_numbers.uniq
 
-    if @message.save
-      SharpenAPI.send_sms(@message.message, @message.recipient_numbers)
+    @message.save
+			
+		res = SharpenAPI.send_sms(@message.message, @message.recipient_numbers)
+
+		if res == 1
       redirect_to admin_bat_signal_path, notice: 'Message was successfully sent'
     else
-      format.html { render :new }
-      format.json do
-        render json: @message.errors, status: :unprocessable_entity
-      end
+			redirect_to admin_bat_signal_path, alert: 'Message was not sucessful'
     end
   end
 

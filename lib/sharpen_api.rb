@@ -30,9 +30,9 @@ class SharpenAPI
     response = JSON.parse(response)
 
     unless response['status'] == 'Complete'
-      raise 'SMS message did not send correctly'
+      return 0
     end
 
-    response['description']
+    return 1
   end
 end
