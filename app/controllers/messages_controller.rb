@@ -32,18 +32,12 @@ class MessagesController < ApplicationController
   # POST /messages
   # POST /messages.json
   def create
-    # disallow regular users from deleting pto requests they don't own
-    # unless current_user.admin == false || current_user.position != 'Sup'
-    #   return redirect_back(fallback_location: root_path),
-    #     alert: 'You do not have sufficent privlages to delete this request.'
-    # end
-		@message = Message.new(message_params)
-		
-		@message.recipients = @message.recipients.uniq
-		@message.recipient_numbers = @message.recipient_numbers.uniq
+    @message = Message.new(message_params)
+
+    @message.recipients = @message.recipients.uniq
+    @message.recipient_numbers = @message.recipient_numbers.uniq
 
     if @message.save
-      puts 'control' + @message.inspect
       SharpenAPI.send_sms(@message.message, @message.recipient_numbers)
       redirect_to admin_bat_signal_path, notice: 'Message was successfully sent'
     else
