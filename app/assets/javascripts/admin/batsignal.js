@@ -72,6 +72,7 @@ $(document).ready(() => {
 		});
 		$('#message_recipients').attr("value", [agentList, '']);
 		$('#message_recipient_numbers').attr("value", [agentPhoneList, '']);
+		$('#submit-message').attr('data-confirm', `You are about to text ${count}. Are you sure?`)
 		document.getElementById('all-agents-counter').innerHTML = `Total agents to be messaged : ${count}`;
 	});
 
