@@ -26,29 +26,29 @@ RSpec.describe MessagesController, type: :controller do
 
         @new_message = {
           author: @admin.id,
-          recipients: 'Thor',
-          recipient_numbers: '123-123-1234',
-					message: 'spec test'
-        }
-
-        post :create, {params: @new_message}
-        puts response
-        expect(Message.count).to be(1)
-      end
-
-      it 'stays on page and gives notice' do
-        sign_in(@admin, scope: :user)
-        @new_message = {
-          author: @admin.id,
           recipients: [@user.name],
           recipient_numbers: [@user.phone_number],
           message: 'test'
         }
 
         post :create, params: { message: @new_message }
-        expect(Message.count).to be(1)
-        expect(response).to render_template(admin_bat_signal_path)
-        expect(:alert).to be_present
+        expect(Message.count).to be(2)
+      end
+
+      it 'should not include duplicates' do
+        sign_in(@admin, scope: :user)
+
+        @new_message = {
+          author: @admin.id,
+          recipients: [@user.name, @user.name],
+          recipient_numbers: [@user.phone_number, @user.phone_number],
+          message: 'test'
+        }
+
+        post :create, params: { message: @new_message }
+        expect(@message.recipients.count).to eq(1)
+        expect(@message.recipient_numbers.count).to eq(1)
+        expect(Message.count).to be(2)
       end
     end
   end
