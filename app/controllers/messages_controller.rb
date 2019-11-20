@@ -37,9 +37,11 @@ class MessagesController < ApplicationController
     @message.recipients = @message.recipients.uniq
     @message.recipient_numbers = @message.recipient_numbers.uniq
 
-    @message.save
-
     res = SharpenAPI.send_sms(@message.message, @message.recipient_numbers)
+
+    @message.status = (res ? 'success' : 'failure')
+
+    @message.save
 
     if res == 1
       redirect_to admin_bat_signal_path, notice: 'Message was successfully sent'

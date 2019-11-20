@@ -6,7 +6,7 @@ class Message < ApplicationRecord
     all_messages = Message.all
 
     CSV.generate do |csv|
-      data = %w[author recipients message created_at]
+      data = %w[author recipients message status created_at]
       csv << data.map(&:humanize)
       all_messages.each do |m|
         csv << m.attributes.values_at(*data)
