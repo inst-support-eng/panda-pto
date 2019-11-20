@@ -9,7 +9,7 @@ FactoryBot.define do
     sequence(:humanity_user_id) { |n| n }
     ten_hour_shift { false }
     position { 'L1' }
-    phone_number { '801-555-0100' }
+    phone_number { '123-123-1234' }
     admin { false }
     on_pip { false }
     no_call_show { 0 }
@@ -39,7 +39,11 @@ FactoryBot.define do
     trait :new_hire do
       on_pip { true }
       start_date { 3.months.ago }
-    end
+		end
+		
+		trait :no_phone do
+			phone_number { nil }
+		end
 
     factory :user_with_requests do
       transient do
