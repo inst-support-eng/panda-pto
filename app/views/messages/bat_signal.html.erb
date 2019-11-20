@@ -5,9 +5,9 @@
 			<button class="adminbutton" id="Back" onclick="history.back(-1)">Go Back</button>
 		</div> <!-- left -->
 		<div class="batsignal center">
-			<div class="last-message">Last Message sent on 
+			<div class="last-message">
 				<% if @last_message %>
-				<%= @last_message.created_at.in_time_zone("Mountain Time (US & Canada)") %>
+				Last Message sent on  <%= @last_message.created_at.in_time_zone("Mountain Time (US & Canada)") %>
 				<% else %> 
 				No messages have been sent yet.
 				<% end %>
@@ -44,42 +44,78 @@
 					<button class='adminbutton' id='agents-team-button'>Check All</button>
 					<tbody id="all-agents-list">
 						<% @agents.each do |agent| %>
-						<tr>
-							<td class='agent-row'> <input class='all-agents-row' name='selected-agent' type='checkbox'
-									value="<%= agent['phone_number'] %>_<%= agent['name']%>">
-								<%= agent['name'] %>
-							</td>
-						</tr>
+						<% if agent.phone_number.nil? %>
+						 <tr>
+								<td class='agent-row no-ph-num'> <input class='all-agents-row' name='selected-agent' type='checkbox'
+										value="<%= agent['phone_number'] %>_<%= agent['name']%>">
+									<%= agent['name'] %>
+								</td>
+							</tr>
+						 <% else %>
+						 <tr>
+								<td class='agent-row'> <input class='all-agents-row' name='selected-agent' type='checkbox'
+										value="<%= agent['phone_number'] %>_<%= agent['name']%>">
+									<%= agent['name'] %>
+								</td>
+						 </tr>
+						 <% end %>
 						<% end %>
 					</tbody>
 					<tbody id="agents-off-today-list">
 						<% @users_off_today.each do |agent| %>
-						<tr>
-							<td class='agent-row'> <input class='agents-off-today-row' name='selected-agent' type='checkbox'
-									value="<%= agent['phone_number'] %>_<%= agent['name'] %>">
-								<%= agent['name'] %>
-							</td>
-						</tr>
+							<% if agent.phone_number.nil? %>
+								<tr>
+									<td class='agent-row no-ph-num'> <input class='agents-off-today-row' name='selected-agent' type='checkbox'
+											value="<%= agent['phone_number'] %>_<%= agent['name'] %>">
+										<%= agent['name'] %>
+									</td>
+								</tr>
+							<% else %>
+								<tr>
+									<td class='agent-row'> <input class='agents-off-today-row' name='selected-agent' type='checkbox'
+											value="<%= agent['phone_number'] %>_<%= agent['name'] %>">
+										<%= agent['name'] %>
+									</td>
+								</tr>
+							<% end %>
 						<% end %>
 					</tbody>
 					<tbody id="agents-currently-not-working-list">
 						<% @users_not_working.each do |agent| %>
-						<tr>
-							<td class='agent-row'> <input class='agents-currently-not-working-row' name='selected-agent'
-									type='checkbox' value="<%= agent['phone_number']%>_<%= agent['name'] %>">
-								<%= agent['name'] %>
-							</td>
-						</tr>
+							<% if agent.phone_number.nil?%>
+								<tr>
+									<td class='agent-row no-ph-num'> <input class='agents-currently-not-working-row' name='selected-agent'
+											type='checkbox' value="<%= agent['phone_number']%>_<%= agent['name'] %>">
+										<%= agent['name'] %>
+									</td>
+								</tr>
+							<% else %>
+								<tr>
+									<td class='agent-row'> <input class='agents-currently-not-working-row' name='selected-agent'
+											type='checkbox' value="<%= agent['phone_number']%>_<%= agent['name'] %>">
+										<%= agent['name'] %>
+									</td>
+								</tr>
+							<% end %>
 						<% end %>
 					</tbody>
 					<tbody id="agents-team-list">
 						<% @users_team.each do |agent| %>
-						<tr>
-							<td class='agent-row'> <input class='agents-team-row' name='selected-agent' type='checkbox'
-									value="<%= agent['phone_number']%>_<%= agent['name'] %>">
-								<%= agent['name'] %>
-							</td>
-						</tr>
+							<% if agent.phone_number.nil? %>
+								<tr>
+									<td class='agent-row no-ph-num'> <input class='agents-team-row' name='selected-agent' type='checkbox'
+											value="<%= agent['phone_number']%>_<%= agent['name'] %>">
+										<%= agent['name'] %>
+									</td>
+								</tr>
+							<% else %>
+								<tr>
+									<td class='agent-row'> <input class='agents-team-row' name='selected-agent' type='checkbox'
+											value="<%= agent['phone_number']%>_<%= agent['name'] %>">
+										<%= agent['name'] %>
+									</td>
+								</tr>
+							<% end %>
 						<% end %>
 					</tbody>
 				</table> <!-- agent-table -->
