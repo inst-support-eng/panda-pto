@@ -103,6 +103,7 @@ class MessagesController < ApplicationController
 				SELECT
 					USERS.ID,
 					USERS.NAME,
+					USERS.PHONE_NUMBER,
 					CURRENT_TIME
 				FROM USERS
 				WHERE NOT (
