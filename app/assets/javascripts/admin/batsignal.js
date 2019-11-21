@@ -54,22 +54,37 @@ $(document).ready(() => {
 		}
 	});
 
-	$('input:checkbox[name=selected-agent]').change(() => {
-		agentList = [''];
-		agentPhoneList = [''];
-		count = 0;
-		checkboxes = document.querySelectorAll('input[name=selected-agent]');
-		checkboxes.length;
-		checkboxes.forEach(el => {
-			if (el.checked) {
-				user = el.value.split('_');
-				pNum = user[0];
-				name = user[1];
+	agentList = [''];
+	agentPhoneList = [''];
+	count = 0;
+
+	$('input:checkbox[name=selected-agent]').change(event => {
+		target = event.target;
+
+			user = target.value.split('_');
+			pNum = user[0];
+			name = user[1];
+		if (target.checked) {
+			$(`:checkbox[value='${target.value}']`).attr('checked', target.checked);
+			if (agentList.indexOf(name) < 0) {
 				agentList.push(name);
-				agentPhoneList.push(pNum);
-				count++;
 			}
-		});
+			if (agentPhoneList.indexOf(pNum) < 0) {
+				agentPhoneList.push(pNum);
+			}
+		} else {
+			$(`:checkbox[value='${target.value}']`).attr('checked', target.checked);
+			if (agentList.indexOf(name) > -1) {
+				val = agentList.indexOf(name);
+				agentList.splice(val, 1);
+			}
+			if (agentPhoneList.indexOf(pNum) > -1) {
+				val = agentPhoneList.indexOf(pNum);
+				agentPhoneList.splice(val, 1);
+			}
+		}
+
+		count = agentList.length - 1;
 		$('#message_recipients').attr("value", [agentList, '']);
 		$('#message_recipient_numbers').attr("value", [agentPhoneList, '']);
 		$('#submit-message').attr('data-confirm', `You are about to text ${count}. Are you sure?`);
