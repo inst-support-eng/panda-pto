@@ -11,9 +11,14 @@
 #agents-currently-not-working-list, #agents-currently-not-working-button,
 #agents-team-list, #agents-team-button {
 	display : none;
+	overflow: scroll;
 }
 
 .no-ph-num {
 	background-color: salmon;
 	color: black;
+}
+
+.batsignal-container {
+	height: 550px;
 }

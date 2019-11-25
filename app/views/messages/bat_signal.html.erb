@@ -26,22 +26,22 @@
 			<% end %>
 		</div> <!-- center -->
 		<div class='right'>
-			<div class="all-agents">
+			<select name="agent-select" id="agent-select">
+				<option value='agents-off-today'>Agents off today</option>
+				<option value='agents-currently-not-working'>Agents currently not working</option>
+				<option value='all-agents'>All agents</option>
+				<option value='agents-team'>My team</option>
+			</select>
+			<div id='all-agents-counter'>Total agents to be messaged : 0</div>
+			<div id="searchbar">
+				<input type="text" id="search" onkeyup="filter()" placeholder="Filter by name.." title="Filter by name"> 
+			</div> <!-- searchbar -->
+			<button class='adminbutton' id='agents-off-today-button'>Check All</button>
+			<button class='adminbutton' id='agents-currently-not-working-button'>Check All</button>
+			<button class='adminbutton' id='all-agents-button'>Check All</button>
+			<button class='adminbutton' id='agents-team-button'>Check All</button>
+			<div class="all-agents batsignal-container">
 				<table id="agent-table">
-					<select name="agent-select" id="agent-select">
-						<option value='agents-off-today'>Agents off today</option>
-						<option value='agents-currently-not-working'>Agents currently not working</option>
-						<option value='all-agents'>All agents</option>
-						<option value='agents-team'>Agents team</option>
-					</select>
-					<div id='all-agents-counter'>Total agents to be messaged : 0</div>
-					<div id="searchbar">
-						<input type="text" id="search" onkeyup="filter()" placeholder="Filter by name.." title="Filter by name"> 
-					</div> <!-- searchbar -->
-					<button class='adminbutton' id='agents-off-today-button'>Check All</button>
-					<button class='adminbutton' id='agents-currently-not-working-button'>Check All</button>
-					<button class='adminbutton' id='all-agents-button'>Check All</button>
-					<button class='adminbutton' id='agents-team-button'>Check All</button>
 					<tbody id="all-agents-list">
 						<% @agents.each do |agent| %>
 						<% if agent['phone_number'].nil? %>

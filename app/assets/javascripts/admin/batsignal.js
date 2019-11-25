@@ -107,7 +107,7 @@ $(document).ready(() => {
 		checked = $(this).data();
 		arr = $('.agents-currently-not-working-row');
 
-		for (el in arr) {
+		for (el of arr) {
 			if($(el).prop('checked') == checked.checked) {
 				$(el).click();
 			}
@@ -119,7 +119,7 @@ $(document).ready(() => {
 		checked = $(this).data();
 		arr = $('.all-agents-row');
 
-		for (el in arr) {
+		for (el of arr) {
 			if($(el).prop('checked') == checked.checked) {
 				$(el).click();
 			}
@@ -132,7 +132,7 @@ $(document).ready(() => {
 		checked = $(this).data();
 		arr = $('.agents-team-row');
 
-		for (el in arr) {
+		for (el of arr) {
 			if($(el).prop('checked') == checked.checked) {
 				$(el).click();
 			}
