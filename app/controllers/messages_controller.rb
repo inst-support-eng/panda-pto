@@ -51,10 +51,10 @@ class MessagesController < ApplicationController
   end
 
   def bat_signal
-    # disallow regular users from deleting pto requests they don't own
+    # disallow regular users from sending sms messages to other users
     unless current_user.admin == false || current_user.position != 'Sup' || @user != current_user
       return redirect_back(fallback_location: root_path),
-        alert: 'You do not have sufficent privlages to delete this request.'
+        alert: 'You do not have sufficent privlages to access this.'
     end
     @agents = User.all
     @users_team = users_by_team
