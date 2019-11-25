@@ -93,25 +93,51 @@ $(document).ready(() => {
 
 	$('#agents-off-today-button').click(() => {
 		checked = $(this).data();
-		$('.agents-off-today-row').click();
+		arr = $('.agents-off-today-row');
+
+		for(el of arr) {
+			if($(el).prop('checked') == checked.checked) {
+				$(el).click();
+			}
+		}
 		checked.checked = !checked.checked;
 	});
 
 	$('#agents-currently-not-working-button').click(() => {
 		checked = $(this).data();
-		$('.agents-currently-not-working-row').click();
+		arr = $('.agents-currently-not-working-row');
+
+		for (el in arr) {
+			if($(el).prop('checked') == checked.checked) {
+				$(el).click();
+			}
+		}
 		checked.checked = !checked.checked;
 	});
 
 	$('#all-agents-button').click(() => {
 		checked = $(this).data();
-		$('.all-agents-row').click();
+		arr = $('.all-agents-row');
+
+		for (el in arr) {
+			if($(el).prop('checked') == checked.checked) {
+				$(el).click();
+			}
+		}
+
 		checked.checked = !checked.checked;
 	});
 
 	$('#agents-team-button').click(() => {
 		checked = $(this).data();
-		$('.agents-team-row').click();
+		arr = $('.agents-team-row');
+
+		for (el in arr) {
+			if($(el).prop('checked') == checked.checked) {
+				$(el).click();
+			}
+		}
+		
 		checked.checked = !checked.checked;
 	});
 });
