@@ -24,6 +24,7 @@ All scheduled and recurring actions are currently written as rake tasks, and are
 - To enable a nigtly sync of agents from a Google Sheet, add `rake sync_agents` as a daily job in scheduler
     - you will need to create an enviromental variable for AGENT_MASTER_SHEET and set it to the file id of the google sheet you want to sync from
     - see the Google API set up section for more information
+- For checking long requests and to send mailers add `rake check_long_requests` to the scheduler as a daily job 
 
 
 #### Google API set up
