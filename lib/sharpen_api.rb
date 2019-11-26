@@ -30,9 +30,9 @@ class SharpenAPI
     response = JSON.parse(response)
 
     unless response['status'] == 'Complete'
-      return 0
+      return false
     end
 
-    return 1
+    return true
   end
 end
