@@ -37,7 +37,7 @@ class User < ApplicationRecord
         agent.humanity_user_id = HumanityAPI.set_humanity_id(row[:email], response)
         agent.on_pip = true
         agent.no_call_show = 0
-        agent.is_deleted = FALSE
+        agent.is_deleted = 0
       end
       # should always update on import
       unless row[:email].nil? || row[:name].nil?
@@ -157,7 +157,8 @@ class User < ApplicationRecord
 
       agent.work_days = work_days unless work_days.nil?
       agent.humanity_user_id = u['id']
-      agent.on_pip = 0 if agent.on_pip.nil?
+			agent.on_pip = 0 if agent.on_pip.nil?
+			agent.is_deleted = 0 if agent.is_deleted.nil?
 
       agent.ten_hour_shift = if shift_difference == 10 || work_days.count == 4
                                true

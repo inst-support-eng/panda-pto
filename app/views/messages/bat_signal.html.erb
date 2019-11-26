@@ -43,7 +43,9 @@
 			<div class="all-agents batsignal-container">
 				<table id="agent-table">
 					<tbody id="all-agents-list">
-						<% @agents.each do |agent| %>
+						<% @agents.each do |agent| 
+								if agent.is_deleted?
+                else %>
 						<% if agent['phone_number'].nil? %>
 						 <tr>
 								<td class='agent-row no-ph-num'> <input class='all-agents-row' name='selected-agent' type='checkbox'
@@ -60,9 +62,12 @@
 						 </tr>
 						 <% end %>
 						<% end %>
+						<% end %> 
 					</tbody>
 					<tbody id="agents-off-today-list">
-						<% @users_off_today.each do |agent| %>
+							<% @agents.each do |agent| 
+									if agent.is_deleted?
+									else %>
 							<% if agent['phone_number'].nil? %>
 								<tr>
 									<td class='agent-row no-ph-num'> <input class='agents-off-today-row' name='selected-agent' type='checkbox'
@@ -79,9 +84,12 @@
 								</tr>
 							<% end %>
 						<% end %>
+						<% end %>
 					</tbody>
 					<tbody id="agents-currently-not-working-list">
-						<% @users_not_working.each do |agent| %>
+							<% @agents.each do |agent| 
+									if agent.is_deleted?
+									else %>
 							<% if agent['phone_number'].nil? %>
 								<tr>
 									<td class='agent-row no-ph-num'> <input class='agents-currently-not-working-row' name='selected-agent'
@@ -98,9 +106,12 @@
 								</tr>
 							<% end %>
 						<% end %>
+						<% end %>
 					</tbody>
 					<tbody id="agents-team-list">
-						<% @users_team.each do |agent| %>
+							<% @agents.each do |agent| 
+									if agent.is_deleted?
+									else %>
 							<% if agent['phone_number'].nil? %>
 								<tr>
 									<td class='agent-row no-ph-num'> <input class='agents-team-row' name='selected-agent' type='checkbox'
@@ -116,6 +127,7 @@
 									</td>
 								</tr>
 							<% end %>
+						<% end %>
 						<% end %>
 					</tbody>
 				</table> <!-- agent-table -->
