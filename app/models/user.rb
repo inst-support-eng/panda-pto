@@ -120,7 +120,7 @@ class User < ApplicationRecord
       start_time = u['custom']['35718']['value']
       end_time = u['custom']['35719']['value']
 
-      unless start_time.nil?
+      unless start_time.nil? || start_time == ""
         Time.zone = 'Mountain Time (US & Canada)'
         time = Time.zone.parse(start_time).in_time_zone('UTC')
         hour = time.hour
@@ -131,7 +131,7 @@ class User < ApplicationRecord
                      end
       end
 
-      unless end_time.nil?
+      unless end_time.nil? || end_time == ""
         Time.zone = 'Mountain Time (US & Canada)'
         time = Time.zone.parse(end_time).in_time_zone('UTC')
         hour = time.hour
