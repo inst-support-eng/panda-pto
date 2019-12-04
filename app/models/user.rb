@@ -83,14 +83,25 @@ class User < ApplicationRecord
   def self.humanity_import
     humanity_users = HumanityAPI.get_employees
     deleted_users = HumanityAPI.get_deleted_employees
-
+    # 1836499: L1 Phones
+    # 1836500: L1 Chats
+    # 1836501: L1 Queues
+    # 1554756: Supervisor
+    # 1554754: L2
+    # 1554755: L3
+    # 1599385: Portuguese
+    # 1562466: Spanish
+    # 2186526: L1 ST Phones (parttime)
     humanity_users.each do |u|
-      unless u['schedules'].any? && (u['schedules']['1836499'] || u['schedules']['1836500'] || u['schedules']['1836501'])
+      unless u['schedules'].any? && (u['schedules']['1836499'] || u['schedules']['1836500'] || u['schedules']['1836501'] || u['schedules']['1554756'])
         next
       end
 
       agent = find_by(email: u['email']) || new
       if agent.new_record?
+        # safegaurd: there shouldn't be a scenerio where a *new* user account is created as a sup
+        next if u['schedules']['1554756']
+
         if Date.parse(u['work_start_date']).year == Date.today.year
           # this math is for figuring out the users pto balance for their start year
           bank_value = 180 - (180 * (Date.parse(u['work_start_date']).yday.to_f / Date.new(y = Date.today.year, m = 12, d = 31).yday.to_f))
@@ -112,7 +123,11 @@ class User < ApplicationRecord
       end
 
       agent.name = u['name']
-      agent.position = 'L1'
+      if u['schedules']['1554756']
+        agent.position = 'Sup'
+      else
+        agent.position = 'L1'
+      end
       agent.admin = false
       agent.phone_number = u['cell_phone']
       agent.start_date = u['work_start_date']
