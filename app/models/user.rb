@@ -86,34 +86,44 @@ class User < ApplicationRecord
     # 1836499: L1 Phones
     # 1836500: L1 Chats
     # 1836501: L1 Queues
-    # 1554756: Supervisor
-    # 1554754: L2
-    # 1554755: L3
-    # 1599385: Portuguese
-    # 1562466: Spanish
-    # 2186526: L1 ST Phones (parttime)
+    # 1554756: Supervisor 
+    # 1554754: L2                       [no access users]
+    # 1554755: L3                       [no access users]
+    # 1599385: Portuguese               [no access users]
+    # 1562466: Spanish                  [no access users]
+    # 2186526: L1 ST Phones (parttime)  [no access users]
+    valid_schedules = ['1836499', '1836500', '1836501', '1554756', '1554754', '1554755', '1599385', '1562466', '2186526']
+    limited_schedules = ['1554754', '1554755', '1599385', '1562466', '2186526']
     humanity_users.each do |u|
-      unless u['schedules'].any? && (u['schedules']['1836499'] || u['schedules']['1836500'] || u['schedules']['1836501'] || u['schedules']['1554756'])
+      unless u['schedules'].any? { |k,v| valid_schedules.include? k }
         next
       end
 
+      limited_account = false
+      limited_account = true if u['schedules'].any? { |k,v| limited_schedules.include? k }
+      
       agent = find_by(email: u['email']) || new
       if agent.new_record?
-        # safegaurd: there shouldn't be a scenerio where a *new* user account is created as a sup
+        # should not be a scenerio where a *new* user account is created as a sup
         next if u['schedules']['1554756']
-
-        if Date.parse(u['work_start_date']).year == Date.today.year
-          # this math is for figuring out the users pto balance for their start year
-          bank_value = 180 - (180 * (Date.parse(u['work_start_date']).yday.to_f / Date.new(y = Date.today.year, m = 12, d = 31).yday.to_f))
-          # this math gives users balance for the year following their hire date
-          # minus 45 is due to q1 does not vest for new users if that is their hire quarter
-          # they would just get the points for the year and then start vesting with everyone else the following year
-          bank_value += (Legalizer.quarter(Date.today) * 45) - 45
-        else
-          bank_value = 180
-          bank_value += (Legalizer.quarter(Date.today) * 45) - 45
+        # 0 bank value & disabled email address for limited accounts
+        if limited_account?
+          bank_value = 0
+          agent.email = "#{u['email']}.limited_user_account"
+        else # proceed with normal account creation
+          if Date.parse(u['work_start_date']).year == Date.today.year
+            # this math is for figuring out the users pto balance for their start year
+            bank_value = 180 - (180 * (Date.parse(u['work_start_date']).yday.to_f / Date.new(y = Date.today.year, m = 12, d = 31).yday.to_f))
+            # this math gives users balance for the year following their hire date
+            # minus 45 is due to q1 does not vest for new users if that is their hire quarter
+            # they would just get the points for the year and then start vesting with everyone else the following year
+            bank_value += (Legalizer.quarter(Date.today) * 45) - 45
+          else
+            bank_value = 180
+            bank_value += (Legalizer.quarter(Date.today) * 45) - 45
+          end
+          agent.email = u['email']
         end
-        agent.email = u['email']
         generated_password = Devise.friendly_token.first(12)
         agent.password = generated_password
         agent.bank_value = bank_value
@@ -123,12 +133,24 @@ class User < ApplicationRecord
       end
 
       agent.name = u['name']
+
       if u['schedules']['1554756']
         agent.position = 'Sup'
+      elsif u['schedules']['1554754']
+        agent.position = 'L2'
+      elsif u['schedules']['1554755']
+        agent.position = 'l3'
+      elsif u['schedules']['1599385']
+        agent.position = 'Portuguese'
+      elsif u['schedules']['1562466']
+        agent.position = 'Spanish'
+      elsif u['schedules']['2186526']
+        agent.position = 'Part-time'
       else
         agent.position = 'L1'
       end
-      agent.admin = false
+
+      agent.admin = false if agent.new_record?
       agent.phone_number = u['cell_phone']
       agent.start_date = u['work_start_date']
       agent.team = u['skills'].values[0] unless u['skills'].empty?
@@ -181,7 +203,7 @@ class User < ApplicationRecord
                                false
                              end
 
-      if agent.new_record?
+      if agent.new_record? && agent.position == 'L1' && limited_account == false
         RegistrationMailer.with(user: agent, password: generated_password).registration_email.deliver_now
         RegistrationMailer.with(user: agent).new_employee_email.deliver_now
       end
