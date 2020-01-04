@@ -52,18 +52,27 @@ class PagesController < ApplicationController
     # calculate avalible balance for q1 of current year
     @q1_balance = if @bank_split[0] < (45 - q1)
                     @bank_split[0]
+                  # a quarter's balence is 'negitive' when points from a later quarter are borrowed
+                  # to complete a request. this is reflected in the borrowed quarter's balence, so
+                  # should not be reflected as negive value in the borrower's quarter.
+                  elsif (45 - q1) < 0
+                    0
                   else
                     45 - q1
                   end
     # calculate avalible balance for q2 of current year
     @q2_balance = if @bank_split[0] < (90 - (q1 + q2))
                     @bank_split[0]
+                  elsif (90 - (q1 + q2)) < 0
+                    0
                   else
-                    45 - (q1 + q2)
+                    90 - (q1 + q2)
                   end
     # calculate avalible balance for q3 of current year
     @q3_balance = if @bank_split[0] < (135 - (q1 + q2 + q3))
                     @bank_split[0]
+                  elsif (135 - (q1 + q2 + q3)) < 0
+                    0
                   else
                     135 - (q1 + q2 + q3)
                   end
@@ -72,20 +81,26 @@ class PagesController < ApplicationController
     # calculate avalible balance for q1 of next year
     @q1_next_balance = if @bank_split[1] < (45 - q1_next)
                          @bank_split[0]
-                       else
-                         45 - q1_next
+                       elsif 45 - q1_next < 0
+                         0
+                       else 
+                        45 - q1_next
                        end
     # calculate avalible balance for q2 of next year
     @q2_next_balance = if @bank_split[1] < (90 - (q1_next + q2_next))
                          @bank_split[0]
+                       elsif (90 - (q1_next + q2_next)) < 0
+                        0
                        else
                          (90 - (q1_next + q2_next))
                        end
     # calculate avalible balance for q3 of next year
     @q3_next_balance = if @bank_split[1] < (135 - (q1_next + q2_next + q3_next))
                          @bank_split[0]
+                       elsif (135 - (q1_next + q2_next + q3_next)) < 0
+                         0
                        else
-                         (135 - (q1_next + q2_next + q3_next))
+                        (135 - (q1_next + q2_next + q3_next))
                        end
     # calculate avalible balance for q4 of next year
     @q4_next_balence = @bank_split[1]
