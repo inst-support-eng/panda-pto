@@ -219,4 +219,44 @@ class User < ApplicationRecord
       agent.update(is_deleted: 1, password: SecureRandom.hex)
     end
   end
+
+  filterrific(
+    default_filter_params: {},
+    available_filters: [
+      :with_team,
+      :working_today,
+    ]
+  )
+  self.per_page = 1000
+
+  scope :with_team, ->(teams) {
+    where(:team => [*teams])
+  }
+  scope :working_today, ->(working) {
+    if [*working].include? 'True'
+      where('work_days @> ARRAY[?]::integer[]', Date.today.wday)
+    elsif [*working].include? 'False'
+      where.not('work_days @> ARRAY[?]::integer[]', Date.today.wday)
+    else
+      all
+    end
+  }
+
+  scope :search_query, ->(query) {
+    return nil  if query.blank?
+    terms = query.downcase.split(/\s+/)
+    terms = terms.map { |e|
+    (e.tr("*", "%") + "%").gsub(/%+/, "%")
+    }
+    where("LOWER(users.name) LIKE ?", terms)
+  }
+
+  def self.options_for_team
+    teams = User.distinct.pluck(:team)
+  end
+
+  def self.options_for_working
+    working = ['True', 'False']
+  end
+
 end

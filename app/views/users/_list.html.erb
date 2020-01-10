@@ -1,0 +1,32 @@
+
+<div id='filterrific_results'>
+  <table class='table' id='roster-table' style='table.th.text-align: left;'>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Team</th>
+      <th>Position</th>
+      <th>Schedule</th>
+    </tr>
+    <% users.each do |agent| %>
+      <tr>
+        <td><%= agent.name %></td>
+        <td><%= agent.email %></td>
+        <td><%= agent.team %></td>
+        <td><%= agent.position %></td>
+        <% shift_start = Time.parse(agent.start_time).in_time_zone('Mountain Time (US & Canada)').strftime('%I:%M %p') %>
+        <% shift_end = Time.parse(agent.end_time).in_time_zone('Mountain Time (US & Canada)').strftime('%I:%M %p') %>
+        <td><div class="strong"><%= shift_start %> - <%= shift_end %></div> 
+        <% agent.work_days.each do |day| %>
+        <%= "#{Date::ABBR_DAYNAMES[day]} " %>
+        <% end %>
+        </td>
+        
+      </tr>
+    <% end %>
+  </table>
+  <%= will_paginate users %>
+</div>
+
+
+

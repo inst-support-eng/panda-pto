@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get 'current' => 'users#current'
   get 'users/:id' => 'users#show', as: :show_user
   post 'users/:id/restore_user' => 'users#restore_user', as: :restore_user
+  get 'roster' => 'users#roster'
 
   # fetch dates calendar methods
   get 'calendars/fetch_dates' => 'calendars#fetch_dates'

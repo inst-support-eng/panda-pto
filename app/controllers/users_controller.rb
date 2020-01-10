@@ -46,6 +46,30 @@ class UsersController < ApplicationController
     end
   end
 
+  def roster
+    @filterrific = initialize_filterrific(
+      User.where.not(:is_deleted => true),
+      params[:filterrific],
+      select_options: {
+        with_team: User.options_for_team,
+        working_today: User.options_for_working,
+      },
+      persistence_id: "shared_key",
+      # default_filter_params: {},
+      available_filters: [:with_team, :working_today],
+      sanitize_params: true,
+    ) or return
+    @users = @filterrific.find.page(params[:page])
+ 
+    respond_to do |format|
+      format.html
+      format.js
+    end
+
+
+  end
+
+  
   # returns current user as json
   def current
     # mynamejeff = current_user.as_json(:methods => [user_requests])
