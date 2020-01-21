@@ -78,6 +78,11 @@ class PagesController < ApplicationController
                   end
     # calculate avalible balance for q4 of current year
     @q4_balance = @bank_split[0]
+    # account for large requests in future quarters
+    # that 'barrow' from an earlier quarter
+    @q3_balance = @q4_balance if @q3_balance > @q4_balance
+    @q2_balance = @q3_balance if @q2_balance > @q3_balance
+    @q1_balance = @q2_balance if @q1_balance > @q2_balance
     # calculate avalible balance for q1 of next year
     @q1_next_balance = if @bank_split[1] < (45 - q1_next)
                          @bank_split[0]
@@ -104,5 +109,10 @@ class PagesController < ApplicationController
                        end
     # calculate avalible balance for q4 of next year
     @q4_next_balence = @bank_split[1]
+    # account for large requests in future quarters
+    # that 'barrow' from an earlier quarter
+    @q3_next_balence = @q4_next_balence if @q3_next_balance > @q4_next_balence
+    @q2_next_balance = @q3_next_balance if @q2_next_balance > @q3_next_balance
+    @q1_next_balance = @q2_next_balance if @q1_next_balance > @q2_next_balance
   end
 end
