@@ -107,7 +107,7 @@ class User < ApplicationRecord
         # should not be a scenerio where a *new* user account is created as a sup
         next if u['schedules']['1554756']
         # 0 bank value & disabled email address for limited accounts
-        if limited_account?
+        if limited_account == true
           bank_value = 0
           agent.email = "#{u['email']}.limited_user_account"
         else # proceed with normal account creation
