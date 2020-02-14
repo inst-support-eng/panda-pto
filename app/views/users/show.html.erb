@@ -36,7 +36,7 @@
 		<% end %>
 		<button class="edit-user-buttons" id="Back" onclick="history.back(-1)">Go Back</button>
 	</div>
-	#logic for showing banner if user is deleted
+	<!-- #logic for showing banner if user is deleted -->
 	<% if @user.is_deleted? %>
 	<div class="right-edit-user users-right-alert">
 
@@ -86,11 +86,15 @@
 						<td>Make Up Days:</td>
 						<td><%=@user.make_up_days %></td>
 					</tr>
+					<tr<>
+						<td>Phone Number:</td>
+						<td><%= @user.phone_number %></td>
+						<td>No Call/ No Shows:</td>
+						<td><%= @user.no_call_show%></td>
+					</tr>
 					<tr>
 						<td>Restricted PTO:</td>
 						<td><%= @user.on_pip%></td>
-						<td>No Call/ No Shows:</td>
-						<td><%= @user.no_call_show%></td>
 					</tr>
 				</table>
 			</div>

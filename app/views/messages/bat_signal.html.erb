@@ -1,11 +1,16 @@
 <body class="<%= controller_name %> <%= action_name %>">
 	<div class='layout'>
 		<div class='left'>
+			<%= link_to "Export Messages", messages_export_path(format: :csv), class: 'adminlink', method: :get %>
 			<button class="adminbutton" id="Back" onclick="history.back(-1)">Go Back</button>
 		</div> <!-- left -->
 		<div class="batsignal center">
-			<div class="last-message">Last Message sent on 
-				<%= @last_message.created_at.in_time_zone("Mountain Time (US & Canada)") %>
+			<div class="last-message">
+				<% if @last_message %>
+				Last Message sent on  <%= @last_message.created_at.in_time_zone("Mountain Time (US & Canada)") %>
+				<% else %> 
+				No messages have been sent yet.
+				<% end %>
 			</div>
 			<%= bootstrap_form_for(Message.new) do |f| %>
 			<%= f.hidden_field :author, value: current_user.id %>
@@ -17,64 +22,112 @@
 				rows: '30',
 				class: 'form-control',
 				required: 'true' %>
-			<%= f.submit 'create message', class:'form-control' %>
+			<%= f.submit 'create message', class:'form-control', id:'submit-message', data:{confirm: 'to-change'} %>
 			<% end %>
 		</div> <!-- center -->
 		<div class='right'>
-			<div class="all-agents">
+			<select name="agent-select" id="agent-select">
+				<option value='agents-off-today'>Agents off today</option>
+				<option value='agents-currently-not-working'>Agents currently not working</option>
+				<option value='all-agents'>All agents</option>
+				<option value='agents-team'>My team</option>
+			</select>
+			<div id='all-agents-counter'>Total agents to be messaged : 0</div>
+			<div id="searchbar">
+				<input type="text" id="search" onkeyup="filter()" placeholder="Filter by name.." title="Filter by name"> 
+			</div> <!-- searchbar -->
+			<button class='adminbutton' id='agents-off-today-button'>Check All</button>
+			<button class='adminbutton' id='agents-currently-not-working-button'>Check All</button>
+			<button class='adminbutton' id='all-agents-button'>Check All</button>
+			<button class='adminbutton' id='agents-team-button'>Check All</button>
+			<div class="all-agents batsignal-container">
 				<table id="agent-table">
-					<select name="agent-select" id="agent-select">
-						<option value='agents-off-today'>Agents off today</option>
-						<option value='agents-currently-not-working'>Agents currently not working</option>
-						<option value='all-agents'>All agents</option>
-						<option value='agents-team'>Agents team</option>
-					</select>
-					<div id='all-agents-counter'>Total agents to be messaged : 0</div>
-					<div id="searchbar">
-						<input type="text" id="search" onkeyup="filter()" placeholder="Filter by name.." title="Filter by name"> 
-					</div> <!-- searchbar -->
-					<button class='adminbutton' id='agents-off-today-button'>Check All</button>
-					<button class='adminbutton' id='agents-currently-not-working-button'>Check All</button>
-					<button class='adminbutton' id='all-agents-button'>Check All</button>
-					<button class='adminbutton' id='agents-team-button'>Check All</button>
 					<tbody id="all-agents-list">
-						<% @agents.each do |agent| %>
-						<tr>
-							<td class='agent-row'> <input class='all-agents-row' name='selected-agent' type='checkbox'
-									value="<%= agent['phone_number'] %>_<%= agent['name']%>">
-								<%= agent['name'] %>
-							</td>
-						</tr>
+						<% @agents.each do |agent| 
+								if agent.is_deleted?
+                else %>
+						<% if agent['phone_number'].nil? %>
+						 <tr>
+								<td class='agent-row no-ph-num'> <input class='all-agents-row' name='selected-agent' type='checkbox'
+										value="<%= agent['phone_number'] %>_<%= agent['name']%>">
+									<%= agent['name'] %>
+								</td>
+							</tr>
+						 <% else %>
+						 <tr>
+								<td class='agent-row'> <input class='all-agents-row' name='selected-agent' type='checkbox'
+										value="<%= agent['phone_number'] %>_<%= agent['name']%>">
+									<%= agent['name'] %>
+								</td>
+						 </tr>
+						 <% end %>
 						<% end %>
+						<% end %> 
 					</tbody>
 					<tbody id="agents-off-today-list">
-						<% @users_off_today.each do |agent| %>
-						<tr>
-							<td class='agent-row'> <input class='agents-off-today-row' name='selected-agent' type='checkbox'
-									value="<%= agent['phone_number'] %>_<%= agent['name'] %>">
-								<%= agent['name'] %>
-							</td>
-						</tr>
+							<% @agents.each do |agent| 
+									if agent.is_deleted?
+									else %>
+							<% if agent['phone_number'].nil? %>
+								<tr>
+									<td class='agent-row no-ph-num'> <input class='agents-off-today-row' name='selected-agent' type='checkbox'
+											value="<%= agent['phone_number'] %>_<%= agent['name'] %>">
+										<%= agent['name'] %>
+									</td>
+								</tr>
+							<% else %>
+								<tr>
+									<td class='agent-row'> <input class='agents-off-today-row' name='selected-agent' type='checkbox'
+											value="<%= agent['phone_number'] %>_<%= agent['name'] %>">
+										<%= agent['name'] %>
+									</td>
+								</tr>
+							<% end %>
+						<% end %>
 						<% end %>
 					</tbody>
 					<tbody id="agents-currently-not-working-list">
-						<% @users_not_working.each do |agent| %>
-						<tr>
-							<td class='agent-row'> <input class='agents-currently-not-working-row' name='selected-agent'
-									type='checkbox' value="<%= agent['phone_number']%>_<%= agent['name'] %>">
-								<%= agent['name'] %>
-							</td>
-						</tr>
+							<% @agents.each do |agent| 
+									if agent.is_deleted?
+									else %>
+							<% if agent['phone_number'].nil? %>
+								<tr>
+									<td class='agent-row no-ph-num'> <input class='agents-currently-not-working-row' name='selected-agent'
+											type='checkbox' value="<%= agent['phone_number']%>_<%= agent['name'] %>">
+										<%= agent['name'] %>
+									</td>
+								</tr>
+							<% else %>
+								<tr>
+									<td class='agent-row'> <input class='agents-currently-not-working-row' name='selected-agent'
+											type='checkbox' value="<%= agent['phone_number']%>_<%= agent['name'] %>">
+										<%= agent['name'] %>
+									</td>
+								</tr>
+							<% end %>
+						<% end %>
 						<% end %>
 					</tbody>
 					<tbody id="agents-team-list">
-						<% @users_team.each do |agent| %>
-						<tr>
-							<td class='agent-row'> <input class='agents-team-row' name='selected-agent' type='checkbox'
-									value="<%= agent['phone_number']%>_<%= agent['name'] %>">
-								<%= agent['name'] %>
-							</td>
-						</tr>
+							<% @agents.each do |agent| 
+									if agent.is_deleted?
+									else %>
+							<% if agent['phone_number'].nil? %>
+								<tr>
+									<td class='agent-row no-ph-num'> <input class='agents-team-row' name='selected-agent' type='checkbox'
+											value="<%= agent['phone_number']%>_<%= agent['name'] %>">
+										<%= agent['name'] %>
+									</td>
+								</tr>
+							<% else %>
+								<tr>
+									<td class='agent-row'> <input class='agents-team-row' name='selected-agent' type='checkbox'
+											value="<%= agent['phone_number']%>_<%= agent['name'] %>">
+										<%= agent['name'] %>
+									</td>
+								</tr>
+							<% end %>
+						<% end %>
 						<% end %>
 					</tbody>
 				</table> <!-- agent-table -->

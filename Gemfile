@@ -13,6 +13,7 @@ gem 'puma', '~> 3.11'
 gem 'bootstrap-sass'
 gem 'bootstrap_form'
 gem 'sassc-rails'
+gem 'bootstrap', '~> 4.4.1'
 
 # gem for http requests
 gem 'httparty'
@@ -56,6 +57,10 @@ gem 'devise', '>= 4.7.1'
 
 # google api
 gem 'google-api-client'
+
+# used for batsignal & roster
+gem 'filterrific'
+gem 'will_paginate'
 
 # rails_12factor helps with heroku deploys
 gem 'rails_12factor', group: %i[production development]

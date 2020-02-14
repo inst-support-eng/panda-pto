@@ -3,14 +3,14 @@ require 'spec_helper'
 
 describe 'Sharpen API' do
   it 'should send a sms and give a Complete response' do
-    response = SharpenAPI.send_sms('rspec', ENV['TEST_PH_NUM'])
-    expect(response).to eq('A total of 1 messages have been sent.')
+    response = SharpenAPI.send_sms('rspec', ['123-123-1234'])
+    expect(response).to eq(1)
   end
 
   it 'should send multiple sms and give a Complete response' do
     response = SharpenAPI.send_sms(
-      'rspec', [ENV['TEST_PH_NUM'], ENV['TEST_PH_NUM']]
+      'rspec', %w[123-123-1234 123-123-1234]
     )
-    expect(response).to eq('A total of 2 messages have been sent.')
+    expect(response).to eq(1)
   end
 end

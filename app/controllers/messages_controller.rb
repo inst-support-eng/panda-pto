@@ -1,8 +1,18 @@
 ##
 # Messages Controller
 class MessagesController < ApplicationController
+  require 'csv'
   before_action :login_required
   before_action :set_message, only: %i[show edit update destroy]
+
+  def export
+    @messages = Message.all
+    respond_to do |format|
+      format.csv do
+        send_data @messages.to_csv
+      end
+    end
+  end
 
   # GET /messages
   # GET /messages.json
@@ -24,18 +34,28 @@ class MessagesController < ApplicationController
   def create
     @message = Message.new(message_params)
 
-    if @message.save
-      SharpenAPI.send_sms(@message.message, @message.recipient_numbers)
+    @message.recipients = @message.recipients.uniq
+    @message.recipient_numbers = @message.recipient_numbers.uniq
+
+    res = SharpenAPI.send_sms(@message.message, @message.recipient_numbers)
+
+    @message.status = (res ? 'success' : 'failure')
+
+    @message.save
+
+    if res == 1
       redirect_to admin_bat_signal_path, notice: 'Message was successfully sent'
     else
-      format.html { render :new }
-      format.json do
-        render json: @message.errors, status: :unprocessable_entity
-      end
+      redirect_to admin_bat_signal_path, alert: 'Message was not sucessful'
     end
   end
 
   def bat_signal
+    # disallow regular users from sending sms messages to other users
+    unless current_user.admin == false || current_user.position != 'Sup' || @user != current_user
+      return redirect_back(fallback_location: root_path),
+        alert: 'You do not have sufficent privlages to access this.'
+    end
     @agents = User.all
     @users_team = users_by_team
     @users_off_today = users_off_today
@@ -83,6 +103,7 @@ class MessagesController < ApplicationController
 				SELECT
 					USERS.ID,
 					USERS.NAME,
+					USERS.PHONE_NUMBER,
 					CURRENT_TIME
 				FROM USERS
 				WHERE NOT (

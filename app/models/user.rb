@@ -37,7 +37,7 @@ class User < ApplicationRecord
         agent.humanity_user_id = HumanityAPI.set_humanity_id(row[:email], response)
         agent.on_pip = true
         agent.no_call_show = 0
-        agent.is_deleted = FALSE
+        agent.is_deleted = 0
       end
       # should always update on import
       unless row[:email].nil? || row[:name].nil?
@@ -83,26 +83,47 @@ class User < ApplicationRecord
   def self.humanity_import
     humanity_users = HumanityAPI.get_employees
     deleted_users = HumanityAPI.get_deleted_employees
-
+    # 1836499: L1 Phones
+    # 1836500: L1 Chats
+    # 1836501: L1 Queues
+    # 1554756: Supervisor 
+    # 1554754: L2                       [no access users]
+    # 1554755: L3                       [no access users]
+    # 1599385: Portuguese               [no access users]
+    # 1562466: Spanish                  [no access users]
+    # 2186526: L1 ST Phones (parttime)  [no access users]
+    valid_schedules = ['1836499', '1836500', '1836501', '1554756', '1554754', '1554755', '1599385', '1562466', '2186526']
+    limited_schedules = ['1554754', '1554755', '1599385', '1562466', '2186526']
     humanity_users.each do |u|
-      unless u['schedules'].any? && (u['schedules']['1836499'] || u['schedules']['1836500'] || u['schedules']['1836501'])
+      unless u['schedules'].any? { |k,v| valid_schedules.include? k }
         next
       end
 
+      limited_account = false
+      limited_account = true if u['schedules'].any? { |k,v| limited_schedules.include? k }
+      
       agent = find_by(email: u['email']) || new
       if agent.new_record?
-        if Date.parse(u['work_start_date']).year == Date.today.year
-          # this math is for figuring out the users pto balance for their start year
-          bank_value = 180 - (180 * (Date.parse(u['work_start_date']).yday.to_f / Date.new(y = Date.today.year, m = 12, d = 31).yday.to_f))
-          # this math gives users balance for the year following their hire date
-          # minus 45 is due to q1 does not vest for new users if that is their hire quarter
-          # they would just get the points for the year and then start vesting with everyone else the following year
-          bank_value += (Legalizer.quarter(Date.today) * 45) - 45
-        else
-          bank_value = 180
-          bank_value += (Legalizer.quarter(Date.today) * 45) - 45
+        # should not be a scenerio where a *new* user account is created as a sup
+        next if u['schedules']['1554756']
+        # 0 bank value & disabled email address for limited accounts
+        if limited_account == true
+          bank_value = 0
+          agent.email = "#{u['email']}.limited_user_account"
+        else # proceed with normal account creation
+          if Date.parse(u['work_start_date']).year == Date.today.year
+            # this math is for figuring out the users pto balance for their start year
+            bank_value = 180 - (180 * (Date.parse(u['work_start_date']).yday.to_f / Date.new(y = Date.today.year, m = 12, d = 31).yday.to_f))
+            # this math gives users balance for the year following their hire date
+            # minus 45 is due to q1 does not vest for new users if that is their hire quarter
+            # they would just get the points for the year and then start vesting with everyone else the following year
+            bank_value += (Legalizer.quarter(Date.today) * 45) - 45
+          else
+            bank_value = 180
+            bank_value += (Legalizer.quarter(Date.today) * 45) - 45
+          end
+          agent.email = u['email']
         end
-        agent.email = u['email']
         generated_password = Devise.friendly_token.first(12)
         agent.password = generated_password
         agent.bank_value = bank_value
@@ -112,15 +133,31 @@ class User < ApplicationRecord
       end
 
       agent.name = u['name']
-      agent.position = 'L1'
-      agent.admin = false
+
+      if u['schedules']['1554756']
+        agent.position = 'Sup'
+      elsif u['schedules']['1554754']
+        agent.position = 'L2'
+      elsif u['schedules']['1554755']
+        agent.position = 'l3'
+      elsif u['schedules']['1599385']
+        agent.position = 'Portuguese'
+      elsif u['schedules']['1562466']
+        agent.position = 'Spanish'
+      elsif u['schedules']['2186526']
+        agent.position = 'Part-time'
+      else
+        agent.position = 'L1'
+      end
+
+      agent.admin = false if agent.new_record?
       agent.phone_number = u['cell_phone']
       agent.start_date = u['work_start_date']
       agent.team = u['skills'].values[0] unless u['skills'].empty?
       start_time = u['custom']['35718']['value']
       end_time = u['custom']['35719']['value']
 
-      unless start_time.nil?
+      unless start_time.nil? || start_time == ""
         Time.zone = 'Mountain Time (US & Canada)'
         time = Time.zone.parse(start_time).in_time_zone('UTC')
         hour = time.hour
@@ -131,7 +168,7 @@ class User < ApplicationRecord
                      end
       end
 
-      unless end_time.nil?
+      unless end_time.nil? || end_time == ""
         Time.zone = 'Mountain Time (US & Canada)'
         time = Time.zone.parse(end_time).in_time_zone('UTC')
         hour = time.hour
@@ -157,7 +194,8 @@ class User < ApplicationRecord
 
       agent.work_days = work_days unless work_days.nil?
       agent.humanity_user_id = u['id']
-      agent.on_pip = 0 if agent.on_pip.nil?
+			agent.on_pip = 0 if agent.on_pip.nil?
+			agent.is_deleted = 0 if agent.is_deleted.nil?
 
       agent.ten_hour_shift = if shift_difference == 10 || work_days.count == 4
                                true
@@ -165,7 +203,7 @@ class User < ApplicationRecord
                                false
                              end
 
-      if agent.new_record?
+      if agent.new_record? && agent.position == 'L1' && limited_account == false
         RegistrationMailer.with(user: agent, password: generated_password).registration_email.deliver_now
         RegistrationMailer.with(user: agent).new_employee_email.deliver_now
       end
@@ -181,4 +219,44 @@ class User < ApplicationRecord
       agent.update(is_deleted: 1, password: SecureRandom.hex)
     end
   end
+
+  filterrific(
+    default_filter_params: {},
+    available_filters: [
+      :with_team,
+      :working_today,
+    ]
+  )
+  self.per_page = 1000
+
+  scope :with_team, ->(teams) {
+    where(:team => [*teams])
+  }
+  scope :working_today, ->(working) {
+    if [*working].include? 'True'
+      where('work_days @> ARRAY[?]::integer[]', Date.today.wday)
+    elsif [*working].include? 'False'
+      where.not('work_days @> ARRAY[?]::integer[]', Date.today.wday)
+    else
+      all
+    end
+  }
+
+  scope :search_query, ->(query) {
+    return nil  if query.blank?
+    terms = query.downcase.split(/\s+/)
+    terms = terms.map { |e|
+    (e.tr("*", "%") + "%").gsub(/%+/, "%")
+    }
+    where("LOWER(users.name) LIKE ?", terms)
+  }
+
+  def self.options_for_team
+    teams = User.distinct.pluck(:team)
+  end
+
+  def self.options_for_working
+    working = ['True', 'False']
+  end
+
 end
