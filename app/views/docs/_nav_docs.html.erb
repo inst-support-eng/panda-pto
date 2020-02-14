@@ -1,0 +1,4 @@
+<h2> Functions </h2>
+<% @files.each do |file| %>
+    <%= button_to File.basename(file, '.md'), file_path(file), method: :get %>
+<% end %>
