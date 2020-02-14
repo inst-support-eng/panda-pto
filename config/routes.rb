@@ -38,7 +38,11 @@ Rails.application.routes.draw do
     # coverage JSON
     get 'admin/coverage' => 'admin#coverage'
     # access admin page
-		get 'admin' => 'admin#index'
+    get 'admin' => 'admin#index'
+    
+    # render documentation
+    get 'docs/:file' => 'docs#show', as: :file
+    get 'docs' => 'docs#index'
 		# batsignal stuff
 		get 'admin/bat_signal' => 'messages#bat_signal'
 		post 'messages/send_message' => 'messages#send_message', as: :send_batsignal

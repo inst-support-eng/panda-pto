@@ -57,6 +57,9 @@ gem 'devise', '>= 4.7.1'
 # google api
 gem 'google-api-client'
 
+#redcarpet for docs
+gem 'redcarpet'
+
 # rails_12factor helps with heroku deploys
 gem 'rails_12factor', group: %i[production development]
 
