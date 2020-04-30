@@ -14,16 +14,22 @@ class UsersController < ApplicationController
       @user.work_days.each do |day|
         @workdays << "#{Date::DAYNAMES[day]}, "
       end
-      unless @user.start_time.nil?
+      #unless @user.start_time.nil?
+      begin
         @shift_start = Time.parse(@user.start_time)
                            .in_time_zone('Mountain Time (US & Canada)')
                            .strftime('%I:%M %p')
-      end
-      unless @user.end_time.nil?
+      rescue ArgumentError
+        @shift_start = "-"                   
+    end
+      #unless @user.end_time.nil?
+      begin
         @shift_end = Time.parse(@user.end_time)
                          .in_time_zone('Mountain Time (US & Canada)')
                          .strftime('%I:%M %p')
-      end
+        rescue ArgumentError
+          @shift_end = "-"
+    end
 
       @bank_split = Legalizer.split_year(@user)
 
