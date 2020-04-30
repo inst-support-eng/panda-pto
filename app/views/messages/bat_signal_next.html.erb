@@ -1,0 +1,94 @@
+<div class='container'>
+  <div class='row'>
+    <div class='col-md-4' style='height: 30px;'>
+      <div id='message-form'>
+        <%= bootstrap_form_for(Message.new) do |f| %>
+        <%= f.hidden_field :author, value: current_user.id %>
+        <%= f.hidden_field :source, value: 'bat-signal-next' %>
+        <%= f.text_area :message,
+          max_length: 160, 
+          cols: '70',
+          rows: '30',
+          class: 'form-control',
+          required: 'true' %>
+        <%= f.submit 'Send Text', class:'btn-sm btn-primary', id:'submit-message', data:{confirm: 'to-change'} %>
+        <br>
+          <% end %>
+
+        <%= link_to "Export Messages", messages_export_path(format: :csv), class: 'btn-sm btn-primary', method: :get %>
+      </div>
+    </div>
+
+    <div class='col-md-8'>
+    <% puts @filterrific.inspect %>
+    <%= form_for_filterrific @filterrific do |u| %>
+
+      <div class='col-md-3'>
+        <div class='form-group'>
+          <label>Search</label>
+         			<input type="text" id="search" onkeyup="filter()" placeholder="Search" class='form-control'>
+        </div>
+      </div>
+    <div class='col-md-3'>
+      <div class='form-group'>
+        <label>Team</label>
+        <%= u.select(
+          :with_team,
+          @filterrific.select_options[:with_team],
+          { include_blank: '- All -' },
+          { :onchange=>'this.form.submit();', :class => 'form-control' },
+          ) %>
+      </div>
+    </div>
+    <div class='col-md-3'>
+      <div class='form-group'>
+        <label>Working Today</label>
+        <%= u.select(
+          :working_today,
+          @filterrific.select_options[:working_today],
+          { include_blank: '---' },
+          { :onchange=>'this.form.submit();', :class => 'form-control' },
+          ) %>
+      </div>
+    </div>
+    <div class='col-md-3'>
+        <div class='form-group'>
+          <label>⠀</label>
+         			<input type="button" id="seelct-all" value="Select All" onclick="" class='form-control btn-primary'>
+        </div>
+      </div>
+    <br>
+    <%= render(
+      partial: 'users/batsignal',
+      locals: { users: @users }
+    ) %>
+  </div>
+  <% end %>
+     
+      </div>
+    </div>
+  
+  </div>
+</div>
+
+<script type='text/javascript'>
+	let filter = () => {
+		let input, filter, table, tr, td, i, ii;
+		input = document.getElementById('search');
+		filter = input.value.toUpperCase();
+		table = document.getElementById('roster-table');
+		tr = table.querySelectorAll('tbody tr');
+		for (i = 0; i < tr.length; i++) {
+			let tds = tr[i].getElementsByTagName('td');
+			let found = false;
+			for (ii = 0; ii < tds.length && !found; ii++) {
+				if (tds[ii].textContent.toUpperCase().indexOf(filter) > -1) {
+					found = true;
+					break;
+				}
+			}
+			tr[i].style.display = found ? '' : 'none';
+		}
+	}
+</script>
+

@@ -42,6 +42,7 @@ Rails.application.routes.draw do
     # batsignal stuff
     get 'messages/export' => 'messages#export'
     get 'admin/bat_signal' => 'messages#bat_signal'
+    get 'admin/bat_signal_next' => 'messages#bat_signal_next'
     post 'messages/create' => 'messages#create', as: :send_batsignal
 
     resources :messages

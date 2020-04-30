@@ -29,24 +29,74 @@ class MessagesController < ApplicationController
     @message = Message.new
   end
 
+  def batsignal_next()
+    author = message_params[:author]
+    message = message_params[:message]
+    agents = message_params[:recipients].split(',')
+    numbers = []
+    names = []
+
+    agents.each do |a|
+      u = User.find(a)
+      numbers.push(u.phone_number) unless u.phone_number.nil?
+      names.push(u.name)
+    end
+
+    @message = Message.new
+    @message.message = message
+    @message.recipients = names
+    @message.recipient_numbers = numbers
+
+    batch = numbers.each_slice(10).to_a
+    responses = []
+
+    batch.each do |b|
+      # res = SharpenAPI.send_sms(@message.message, b)
+      responses.push(res)
+    end
+
+    if responses.uniq.size == 1 || responses.uniq.size == 0
+      @message.status = responses[0]
+    else
+      @message.status = responses.zip(batch)
+    end
+    yeet.fleet
+    @message.save
+
+    render json: {
+      author: author,
+      message: message,
+      agents: agents,
+      numbers: numbers,
+      names: names
+    }
+
+  end
+
   # POST /messages
   # POST /messages.json
   def create
-    @message = Message.new(message_params)
-
-    @message.recipients = @message.recipients.uniq
-    @message.recipient_numbers = @message.recipient_numbers.uniq
-
-    res = SharpenAPI.send_sms(@message.message, @message.recipient_numbers)
-
-    @message.status = (res ? 'success' : 'failure')
-
-    @message.save
-
-    if res == 1
-      redirect_to admin_bat_signal_path, notice: 'Message was successfully sent'
+    if message_params[:source] == "bat-signal-next"
+      batsignal_next()
     else
-      redirect_to admin_bat_signal_path, alert: 'Message was not sucessful'
+
+      @message = Message.new(message_params)
+      
+      @message.recipients = @message.recipients.uniq
+      @message.recipient_numbers = @message.recipient_numbers.uniq
+
+      res = SharpenAPI.send_sms(@message.message, @message.recipient_numbers)
+
+      @message.status = (res ? 'success' : 'failure')
+
+      @message.save
+
+      # !todo this does not work
+      if res == 1
+        redirect_to admin_bat_signal_path, notice: 'Message was successfully sent'
+      else
+        redirect_to admin_bat_signal_path, alert: 'Message was not sucessful'
+      end
     end
   end
 
@@ -63,6 +113,40 @@ class MessagesController < ApplicationController
     @last_message = Message.last
   end
 
+  def bat_signal_next
+    unless current_user.admin == false || current_user.position != 'Sup' || @user != current_user
+      return redirect_back(fallback_location: root_path),
+        alert: 'You do not have sufficent privlages to access this.'
+    end
+    # things that aren't needed
+    @agents = User.where.not(:is_deleted => true)
+    @users_team = users_by_team
+    @users_off_today = users_off_today
+    @users_not_working = users_not_working
+
+    @last_message = Message.last
+
+    @filterrific = initialize_filterrific(
+      User.where.not(:is_deleted => true),
+      params[:filterrific],
+      select_options: {
+        with_team: User.options_for_team,
+        working_today: User.options_for_working,
+      },
+      persistence_id: "shared_key",
+      # default_filter_params: {},
+      available_filters: [:with_team, :working_today],
+      sanitize_params: true,
+    ) or return
+    @users = @filterrific.find.page(params[:page])
+ 
+    respond_to do |format|
+      format.html
+      format.js
+    end
+
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -76,7 +160,8 @@ class MessagesController < ApplicationController
       :message,
       :author,
       :recipients,
-      :recipient_numbers
+      :recipient_numbers,
+      :source
     )
   end
 
